@@ -128,3 +128,28 @@
   color: #d0ccc7;
   z-index: 1;
 }
+
+/* Waitlist */
+.waitlist-form { text-align: left; }
+.waitlist-icon { font-size: 36px; text-align: center; margin-bottom: 12px; }
+.waitlist-title { font-family: 'DM Serif Display', serif; font-size: 22px; color: #111; margin-bottom: 8px; font-weight: 400; text-align: center; }
+.waitlist-subtitle { font-size: 13px; color: #888; line-height: 1.6; margin-bottom: 20px; text-align: center; }
+.waitlist-subtitle strong { color: #ff6a00; }
+.waitlist-field { margin-bottom: 14px; }
+.waitlist-field label { display: block; font-size: 12px; font-weight: 600; color: #666; margin-bottom: 6px; text-transform: uppercase; letter-spacing: .4px; }
+.waitlist-input { width: 100%; border: 0.5px solid #e0dbd4; border-radius: 8px; padding: 10px 14px; font-size: 14px; color: #111; background: #f7f4f0; font-family: 'DM Sans', sans-serif; transition: border-color .15s; }
+.waitlist-input:focus { border-color: #ff6a00; outline: none; background: #fff; }
+.waitlist-textarea { width: 100%; border: 0.5px solid #e0dbd4; border-radius: 8px; padding: 10px 14px; font-size: 14px; color: #111; background: #f7f4f0; font-family: 'DM Sans', sans-serif; resize: none; transition: border-color .15s; }
+.waitlist-textarea:focus { border-color: #ff6a00; outline: none; background: #fff; }
+.waitlist-submit-btn { width: 100%; background: #ff6a00; color: #fff; border: none; border-radius: 10px; padding: 13px; font-size: 14px; font-weight: 600; cursor: pointer; transition: background .15s; margin-bottom: 10px; font-family: 'DM Sans', sans-serif; }
+.waitlist-submit-btn:hover { background: #e05e00; }
+.waitlist-submit-btn:disabled { background: #f0ede8; color: #bbb; cursor: not-allowed; }
+.waitlist-back-btn { width: 100%; background: none; border: 0.5px solid #e0dbd4; border-radius: 10px; padding: 11px; font-size: 13px; color: #888; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all .15s; }
+.waitlist-back-btn:hover { border-color: #ff6a00; color: #ff6a00; }
+
+/* Waitlist success */
+.waitlist-success { text-align: center; padding: 10px 0; }
+.waitlist-success-icon { font-size: 48px; margin-bottom: 16px; }
+.waitlist-success-title { font-family: 'DM Serif Display', serif; font-size: 24px; color: #111; margin-bottom: 10px; font-weight: 400; }
+.waitlist-success-text { font-size: 14px; color: #888; line-height: 1.7; margin-bottom: 24px; }
+
