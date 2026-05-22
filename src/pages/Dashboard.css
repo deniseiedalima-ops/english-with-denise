@@ -123,6 +123,25 @@
 .stat-label { color: #999; }
 .stat-value { font-weight: 600; color: #111; }
 
+/* Website card */
+.website-card { display: block; text-decoration: none; transition: transform .15s, box-shadow .15s; cursor: pointer; }
+.website-card:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(255,106,0,0.12); border-color: #ff6a00; }
+.website-card-inner { display: flex; align-items: center; gap: 12px; }
+.website-icon { font-size: 24px; flex-shrink: 0; }
+.website-text { flex: 1; }
+.website-title { font-size: 14px; font-weight: 600; color: #111; margin-bottom: 2px; }
+.website-sub { font-size: 12px; color: #888; }
+.website-arrow { font-size: 18px; color: #ff6a00; font-weight: 600; }
+
+/* Reposições card */
+.reposicoes-card { }
+.reposicoes-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+.reposicoes-synced { font-size: 11px; color: #bbb; }
+.reposicoes-body { display: flex; align-items: baseline; gap: 8px; margin-bottom: 8px; }
+.reposicoes-num { font-family: 'DM Serif Display', serif; font-size: 48px; color: #ff6a00; line-height: 1; }
+.reposicoes-label { font-size: 14px; color: #888; }
+.reposicoes-note { font-size: 12px; color: #bbb; border-top: 0.5px solid #f0ede8; padding-top: 10px; margin-top: 4px; }
+
 @media (max-width: 768px) {
   .skills-grid { grid-template-columns: repeat(2, 1fr); }
   .challenges-row { flex-direction: column; }

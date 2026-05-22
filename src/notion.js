@@ -48,6 +48,7 @@ export async function getStudentByEmail(email) {
     codigo: props['Código']?.number || null,
     dataProximaAula: props['Data da Próxima Aula']?.date?.start || null,
     tarefaPersonalizada: props['Tarefa Personalizada']?.rich_text?.[0]?.plain_text || '',
+    reposicoes: props['Reposições']?.number ?? null,
     proximaAula,
   };
 }

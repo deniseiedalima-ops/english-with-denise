@@ -233,6 +233,18 @@ export default function Dashboard({ user, student, onLogout }) {
                 ))}
               </div>
             </div>
+
+            {/* Website link card */}
+            <a href="https://www.englishwithdenise.com.br/" target="_blank" rel="noreferrer" className="card website-card">
+              <div className="website-card-inner">
+                <div className="website-icon">🌐</div>
+                <div className="website-text">
+                  <div className="website-title">Explore more resources</div>
+                  <div className="website-sub">Guided Immersion & 30-Day Challenge</div>
+                </div>
+                <div className="website-arrow">↗</div>
+              </div>
+            </a>
           </div>
 
           {/* Right col */}
@@ -254,6 +266,19 @@ export default function Dashboard({ user, student, onLogout }) {
                 ))
               )}
             </div>
+            {/* Reposições card */}
+            <div className="card reposicoes-card">
+              <div className="reposicoes-header">
+                <div className="card-title">🔄 Make-up Classes</div>
+                <span className="reposicoes-synced">↻ Notion</span>
+              </div>
+              <div className="reposicoes-body">
+                <div className="reposicoes-num">{student?.reposicoes ?? '—'}</div>
+                <div className="reposicoes-label">available {student?.reposicoes === 1 ? 'make-up' : 'make-ups'}</div>
+              </div>
+              <div className="reposicoes-note">Contact Denise to schedule yours 💬</div>
+            </div>
+
             <div className="card stats-card">
               <div className="card-title" style={{ marginBottom: 12 }}>Your stats</div>
               {[
