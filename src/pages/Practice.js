@@ -64,16 +64,19 @@ const SKILLS = {
         ]
       },
       {
-        id: 'l2', title: 'First Meeting — Listen & Answer', level: 'A1',
-        type: 'multiple_choice',
+        id: 'l2', title: 'Meet Sarah!', level: 'A1',
+        type: 'listening_video',
         lesson: 'THE GREETINGS',
-        youtubeLink: null,
-        audioText: `Sarah: Hi! Good morning! My name is Sarah. What's your name?\nTom: Good morning, Sarah! I'm Tom. Nice to meet you!\nSarah: Nice to meet you too, Tom! How do you spell your name?\nTom: T-O-M. Short and simple! How about you? How do you spell Sarah?\nSarah: S-A-R-A-H. Are you from here?\nTom: No, I'm from London. And you?\nSarah: I'm from New York! How are you today?\nTom: I'm great, thanks! A little tired, but good. And you?\nSarah: I'm fantastic! It's a beautiful day!\nTom: Yes! Well, I have to go now. Have a good day, Sarah!\nSarah: You too! Take care, Tom! See you later!\nTom: Bye bye!`,
+        youtubeId: 'fLYzVdpseSA',
+        startTime: 0,
+        endTime: 60,
+        instruction: 'Listen to Sarah introducing herself. Pay attention to how she spells her name, where she is from, her age, and how she is feeling. Then answer the questions below!',
+        audioText: `Sarah: Hi! Good morning! My name is Sarah, and it's spelled S-A-R-A-H. Nice to meet you!\nSarah: I'm from New York, but now I live in a different city for work and study. I'm 22 years old, and I really enjoy music, coffee, and meeting new people.\nSarah: Today I'm feeling great, just a little tired because I woke up early this morning.\nSarah: People usually say my name is easy to remember, but I still like spelling it when I meet someone new. What about you? What's your name, and how do you spell it?`,
         questions: [
-          { q: 'Where is Tom from?', options: ['New York', 'Paris', 'London', 'Sydney'], answer: 2 },
-          { q: 'How does Tom spell his name?', options: ['T-O-M-M', 'T-O-M', 'T-U-M', 'T-H-O-M'], answer: 1 },
-          { q: 'How does Tom feel today?', options: ['Bad and sick', 'Great, a little tired', 'Fantastic and energetic', 'Nervous and worried'], answer: 1 },
-          { q: 'How does Sarah say goodbye?', options: ['Goodbye forever!', 'Good night!', 'Take care! See you later!', 'Have a good morning!'], answer: 2 },
+          { q: 'How does Sarah spell her name?', options: ['S-E-R-A-H', 'S-A-R-A-H', 'S-A-R-R-A-H', 'S-A-R-A'], answer: 1 },
+          { q: 'Where is Sarah originally from?', options: ['Los Angeles', 'London', 'New York', 'Chicago'], answer: 2 },
+          { q: 'How old is Sarah?', options: ['20 years old', '21 years old', '23 years old', '22 years old'], answer: 3 },
+          { q: 'How is Sarah feeling today?', options: ['Sick and tired', 'Great, a little tired', 'Nervous and excited', 'Bored and sleepy'], answer: 1 },
         ]
       },
       {
@@ -339,6 +342,25 @@ export default function Practice({ user, student, onLogout }) {
 
   const wordCount = writingText.trim().split(/\s+/).filter(Boolean).length;
 
+  // Helper: renders dialogue text with bold character names
+  const renderDialogue = (text) => {
+    if (!text) return null;
+    return text.split('\n').map((line, i) => {
+      const colonIdx = line.indexOf(':');
+      if (colonIdx > 0 && colonIdx < 25 && !line.startsWith('http')) {
+        const name = line.substring(0, colonIdx).trim();
+        const speech = line.substring(colonIdx + 1).trim();
+        return (
+          <div key={i} className="dialogue-line">
+            <span className="dialogue-name">{name}:</span>
+            <span className="dialogue-speech"> {speech}</span>
+          </div>
+        );
+      }
+      return line ? <div key={i} className="dialogue-narration">{line}</div> : <div key={i} style={{height: 8}} />;
+    });
+  };
+
   return (
     <div className="practice-page">
       <Navbar user={user} student={student} onLogout={onLogout} />
@@ -383,7 +405,7 @@ export default function Practice({ user, student, onLogout }) {
           {/* Reading activity */}
           {activity.type === 'multiple_choice' && skill === 'reading' && (
             <div className="reading-section">
-              <div className="reading-text">{activity.text}</div>
+              <div className="reading-text">{renderDialogue(activity.text)}</div>
               <div className="questions-section">
                 {activity.questions.map((q, qi) => (
                   <div key={qi} className="question-block">
@@ -430,6 +452,19 @@ export default function Practice({ user, student, onLogout }) {
                   allowFullScreen
                 />
               </div>
+              {activity.audioText && (
+                <div className="transcript-toggle-wrap">
+                  <button className="transcript-toggle-btn" onClick={() => setShowAudio(!showAudio)}>
+                    {showAudio ? '🙈 Hide transcript' : '📄 Show transcript'}
+                  </button>
+                  {showAudio && (
+                    <div className="transcript-box" style={{ marginTop: 12 }}>
+                      <div className="transcript-header">📝 Transcript</div>
+                      {renderDialogue(activity.audioText)}
+                    </div>
+                  )}
+                </div>
+              )}
               <div className="questions-section">
                 {activity.questions.map((q, qi) => (
                   <div key={qi} className="question-block">
@@ -469,9 +504,7 @@ export default function Practice({ user, student, onLogout }) {
               </div>
               {showAudio && (
                 <div className="transcript-box">
-                  {activity.audioText.split('\n').map((line, i) => (
-                    <p key={i} className="transcript-line">{line}</p>
-                  ))}
+                  {renderDialogue(activity.audioText)}
                 </div>
               )}
               <div className="questions-section">
