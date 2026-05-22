@@ -8,61 +8,196 @@ const SKILLS = {
     label: 'Reading', icon: '📖', color: '#1d9e75',
     activities: [
       {
-        id: 'r1', title: 'Daily Routines', level: 'A1→A2',
+        id: 'r1', title: 'The Greetings — Mark & Julia', level: 'A1',
         type: 'multiple_choice',
-        text: `Maria wakes up every day at 7:00 AM. She brushes her teeth and takes a shower. After that, she eats breakfast — usually toast and coffee. She goes to work by bus. She works from 9 AM to 6 PM. In the evening, she watches TV or reads a book. She goes to bed at 10:30 PM.`,
+        lesson: 'THE GREETINGS',
+        text: `Mark: Good afternoon!\nJulia: Good afternoon!\nMark: Hi, what's your name?\nJulia: I'm Julia. And you?\nMark: I'm Mark. Nice to meet you!\nJulia: Nice to meet you too! How do you spell your name?\nMark: It's M-A-R-K. How do you spell yours?\nJulia: J-U-L-I-A.\nMark: Great! How are you?\nJulia: I'm good, thanks. How about you?\nMark: Fine, thanks!\nJulia: Alright, then! But I have to go now!\nMark: Okay, no problem. Have a good day!\nJulia: Thanks, you too! See you later!\nMark: Take care! Bye bye!`,
         questions: [
-          { q: 'What time does Maria wake up?', options: ['6:00 AM', '7:00 AM', '8:00 AM', '9:00 AM'], answer: 1 },
-          { q: 'How does Maria go to work?', options: ['By car', 'By train', 'By bus', 'On foot'], answer: 2 },
-          { q: 'What does Maria eat for breakfast?', options: ['Eggs and juice', 'Toast and coffee', 'Cereal and milk', 'Fruit and tea'], answer: 1 },
-          { q: 'What does Maria do in the evening?', options: ['Goes to the gym', 'Cooks dinner', 'Watches TV or reads', 'Calls friends'], answer: 2 },
+          { q: 'What time of day does the conversation happen?', options: ['Morning', 'Afternoon', 'Evening', 'Night'], answer: 1 },
+          { q: 'How does Julia spell her name?', options: ['J-U-L-I-E', 'J-O-O-L-I-A', 'J-U-L-I-A', 'G-U-L-I-A'], answer: 2 },
+          { q: 'How is Julia feeling?', options: ['Tired', 'Bad', 'Good', 'Nervous'], answer: 2 },
+          { q: 'What does Mark say when Julia leaves?', options: ['Goodbye forever!', 'See you tomorrow!', 'Have a good day! Take care!', 'Come back soon!'], answer: 2 },
         ]
-      }
+      },
+      {
+        id: 'r2', title: 'The Greetings — Vocabulary Match', level: 'A1',
+        type: 'multiple_choice',
+        lesson: 'THE GREETINGS',
+        text: `Study these greetings from your class:\n\n🌅 MORNING: "Good morning!" / "Morning!"\n☀️ AFTERNOON: "Good afternoon!" / "Afternoon, people!"\n🌙 EVENING/ARRIVAL: "Good evening!"\n🌛 LEAVING AT NIGHT: "Good night!"\n\nHow to ask how someone is:\n"How are you?" → "I'm good, thanks!"\n"What's up?" → "Not much! And you?"\n"How's it going?" → "Pretty good! And you?"\n"You good?" → "Yeah, all good!"\n\nSaying goodbye:\n"See you later!" / "Take care!" / "Have a good day!"`,
+        questions: [
+          { q: 'You arrive at a party at 8 PM. What do you say?', options: ['Good morning!', 'Good night!', 'Good evening!', 'Goodbye!'], answer: 2 },
+          { q: 'Someone asks "What\'s up?" — what is the best answer?', options: ['I\'m Julia.', 'Not much! And you?', 'Good afternoon!', 'Take care!'], answer: 1 },
+          { q: 'You are leaving work late at night. What do you say?', options: ['Good morning!', 'Good evening!', 'Good night!', 'See you!'], answer: 2 },
+          { q: 'Which greeting is INFORMAL?', options: ['Good afternoon.', 'How do you do?', 'Morning!', 'Good evening, sir.'], answer: 2 },
+        ]
+      },
+      {
+        id: 'r3', title: 'The Greetings — Verb To Be', level: 'A1',
+        type: 'multiple_choice',
+        lesson: 'THE GREETINGS',
+        text: `From your class material, review the verb TO BE:\n\nI am → eu sou / eu estou\nYou are → você é / você está\nHe is → ele é / ele está\nShe is → ela é / ela está\nIt is → a coisa é / está\nThey are → eles/elas são/estão\n\nExamples in greetings:\n"I'm Julia." (I am Julia)\n"I'm good, thanks!" (I am good)\n"I'm from New York." (I am from New York)\n"She is the assistant editor." (She is = ela é)`,
+        questions: [
+          { q: 'Complete: "___ Mark. Nice to meet you!"', options: ['He am', 'I\'m', 'She is', 'They are'], answer: 1 },
+          { q: 'Complete: "How ___ you?"', options: ['am', 'is', 'are', 'be'], answer: 2 },
+          { q: '"I\'m good" is a short form of...', options: ['I were good', 'I is good', 'I am good', 'I be good'], answer: 2 },
+          { q: 'Which sentence is CORRECT?', options: ['She am happy.', 'They is fine.', 'He are Mark.', 'I am Julia.'], answer: 3 },
+        ]
+      },
     ]
   },
   listening: {
     label: 'Listening', icon: '🎧', color: '#378add',
     activities: [
       {
-        id: 'l1', title: 'At the Café', level: 'A1→A2',
-        type: 'multiple_choice',
-        audioText: `Waiter: Good morning! Welcome to Sunny Café. What can I get for you today? \nCustomer: Hi! I'd like a large coffee, please. And do you have any sandwiches? \nWaiter: Yes, we have chicken, tuna, and cheese sandwiches. \nCustomer: I'll have the chicken sandwich, please. How much is that? \nWaiter: The coffee is $3.50 and the sandwich is $6.00. That's $9.50 total. \nCustomer: Here you go. Thank you! \nWaiter: Thank you! Your order will be ready in 5 minutes.`,
+        id: 'l1', title: 'Jenny at the Hotel', level: 'A1',
+        type: 'listening_video',
+        lesson: 'THE GREETINGS',
+        youtubeId: 'EflkHGJbxnA',
+        startTime: 56,
+        endTime: 286,
+        instruction: 'Watch the video from 0:56 to 4:46. Pay attention to how Jenny greets the receptionist, spells her name, and checks in. Then answer the questions below!',
         questions: [
-          { q: 'What does the customer order to drink?', options: ['Tea', 'Orange juice', 'Large coffee', 'Small coffee'], answer: 2 },
-          { q: 'What type of sandwich does the customer order?', options: ['Tuna', 'Cheese', 'Vegetable', 'Chicken'], answer: 3 },
-          { q: 'How much does the customer pay in total?', options: ['$6.00', '$3.50', '$9.50', '$10.00'], answer: 2 },
-          { q: 'How long will the order take?', options: ['2 minutes', '5 minutes', '10 minutes', '15 minutes'], answer: 1 },
+          { q: 'What is Jenny\'s last name?', options: ['Zelinski', 'Zielinski', 'Zielinsky', 'Zielinksi'], answer: 1 },
+          { q: 'How many nights is Jenny staying?', options: ['3 nights', '4 nights', '5 nights', '6 nights'], answer: 2 },
+          { q: 'What room does Jenny get?', options: ['Room 306', 'Room 360', 'Room 603', 'Room 316'], answer: 0 },
+          { q: 'What does "lift" mean?', options: ['Stairs', 'Reception', 'Elevator', 'Exit'], answer: 2 },
         ]
-      }
+      },
+      {
+        id: 'l2', title: 'First Meeting — Listen & Answer', level: 'A1',
+        type: 'multiple_choice',
+        lesson: 'THE GREETINGS',
+        youtubeLink: null,
+        audioText: `Sarah: Hi! Good morning! My name is Sarah. What's your name?\nTom: Good morning, Sarah! I'm Tom. Nice to meet you!\nSarah: Nice to meet you too, Tom! How do you spell your name?\nTom: T-O-M. Short and simple! How about you? How do you spell Sarah?\nSarah: S-A-R-A-H. Are you from here?\nTom: No, I'm from London. And you?\nSarah: I'm from New York! How are you today?\nTom: I'm great, thanks! A little tired, but good. And you?\nSarah: I'm fantastic! It's a beautiful day!\nTom: Yes! Well, I have to go now. Have a good day, Sarah!\nSarah: You too! Take care, Tom! See you later!\nTom: Bye bye!`,
+        questions: [
+          { q: 'Where is Tom from?', options: ['New York', 'Paris', 'London', 'Sydney'], answer: 2 },
+          { q: 'How does Tom spell his name?', options: ['T-O-M-M', 'T-O-M', 'T-U-M', 'T-H-O-M'], answer: 1 },
+          { q: 'How does Tom feel today?', options: ['Bad and sick', 'Great, a little tired', 'Fantastic and energetic', 'Nervous and worried'], answer: 1 },
+          { q: 'How does Sarah say goodbye?', options: ['Goodbye forever!', 'Good night!', 'Take care! See you later!', 'Have a good morning!'], answer: 2 },
+        ]
+      },
+      {
+        id: 'l3', title: 'Formal vs Informal — Spot the Difference', level: 'A1',
+        type: 'multiple_choice',
+        lesson: 'THE GREETINGS',
+        youtubeLink: null,
+        audioText: `Listen to these two conversations:\n\n🎩 CONVERSATION 1 — FORMAL (Job Interview):\nMr. Brown: Good morning. How do you do?\nMs. Lee: Good morning, Mr. Brown. I'm very well, thank you. And you?\nMr. Brown: Fine, thank you. Please, have a seat.\nMs. Lee: Thank you very much.\nMr. Brown: It's a pleasure to meet you, Ms. Lee.\nMs. Lee: The pleasure is mine.\n\n👋 CONVERSATION 2 — INFORMAL (Friends at school):\nAlex: Hey! What's up?\nBia: Not much! You good?\nAlex: Yeah, all good! How's everything?\nBia: Pretty good! Oh, I gotta go — see ya!\nAlex: Later! Take care!`,
+        questions: [
+          { q: 'In the formal conversation, how does Mr. Brown greet Ms. Lee?', options: ['Hey! What\'s up?', 'Good morning. How do you do?', 'You good?', 'How\'s everything?'], answer: 1 },
+          { q: 'Which phrase is INFORMAL?', options: ['How do you do?', 'It\'s a pleasure to meet you.', 'What\'s up?', 'Good morning.'], answer: 2 },
+          { q: 'In the informal conversation, how does Bia say goodbye?', options: ['Goodbye, have a nice day.', 'See ya! Take care!', 'It was a pleasure.', 'Good night.'], answer: 1 },
+          { q: '"I gotta go" means...', options: ['I want to stay', 'I have to go', 'I am going to eat', 'I got the ball'], answer: 1 },
+        ]
+      },
     ]
   },
   writing: {
     label: 'Writing', icon: '✏️', color: '#7f77dd',
     activities: [
       {
-        id: 'w1', title: 'Introduce Yourself', level: 'A1→A2',
+        id: 'w1', title: 'Write Your Own Greeting Dialogue', level: 'A1',
         type: 'writing',
-        prompt: 'Write a short paragraph introducing yourself. Include: your name, where you are from, your age, your job or what you study, and one hobby you have.',
+        lesson: 'THE GREETINGS',
+        prompt: 'Write a short dialogue (conversation) between two people meeting for the first time. Include: a greeting, asking and saying names, spelling at least one name, asking how they are, and saying goodbye. Use vocabulary from The Greetings class!',
         minWords: 40,
-        tips: ['Use "My name is..." to start', 'Use "I am from..." for your country', 'Use "I work as..." or "I study..."', 'Use "In my free time, I like to..."'],
+        tips: [
+          'Start with a greeting: "Good morning!" / "Hi!" / "Hey!"',
+          'Ask the name: "What\'s your name?" → "I\'m ___."',
+          'Spell a name: "How do you spell that?" → "It\'s M-A-R-K."',
+          'Ask how they are: "How are you?" → "I\'m good, thanks!"',
+          'Say goodbye: "See you later!" / "Take care!" / "Have a good day!"'
+        ],
         feedback: {
-          excellent: "Excellent! Your introduction is clear, complete, and uses great vocabulary. Well done! 🌟",
-          good: "Good job! Your introduction covers the main points. Try to add more details next time!",
-          needsWork: "Nice start! Make sure to include all the required information and write at least 40 words."
+          excellent: "Excellent dialogue! You used greetings, introductions and farewells perfectly. Your English is growing! 🌟",
+          good: "Good job! Your dialogue flows naturally. Try to add more expressions from class next time!",
+          needsWork: "Nice start! Make sure to include a greeting, name exchange, and goodbye. Check your class material for ideas!"
         }
-      }
+      },
+      {
+        id: 'w2', title: 'How Are You? — Write Your Answers', level: 'A1',
+        type: 'writing',
+        lesson: 'THE GREETINGS',
+        prompt: 'Someone asks you these 3 questions. Write a natural answer for each one using expressions from your class:\n1. "How are you today?"\n2. "What\'s up?"\n3. "How\'s everything?"\n\nThen write 2 more sentences about your day using "I am" or "I\'m".',
+        minWords: 35,
+        tips: [
+          'Use different answers — don\'t repeat the same one!',
+          'For "How are you?" try: "I\'m good, thanks! And you?"',
+          'For "What\'s up?" try: "Not much! Pretty good day!"',
+          'Add details: "I\'m a little tired but happy!"',
+          'Remember: I am = I\'m (contraction)'
+        ],
+        feedback: {
+          excellent: "Wonderful! You used a great variety of expressions and the verb TO BE correctly. Keep it up! 🌟",
+          good: "Good work! You answered naturally. Try to vary your expressions even more next time!",
+          needsWork: "Good try! Remember to answer each of the 3 questions and use I'm/I am in your sentences."
+        }
+      },
+      {
+        id: 'w3', title: 'Formal or Informal? — Rewrite It!', level: 'A1',
+        type: 'writing',
+        lesson: 'THE GREETINGS',
+        prompt: 'Rewrite these sentences. Make them the OPPOSITE style:\n\n1. INFORMAL → make it FORMAL:\n"Hey! What\'s up? You good?"\n\n2. FORMAL → make it INFORMAL:\n"Good morning. How do you do? It is a pleasure to meet you."\n\n3. Write 3 sentences to say goodbye — 1 formal, 1 informal, 1 your choice!',
+        minWords: 30,
+        tips: [
+          'FORMAL: "Good morning", "How do you do?", "It\'s a pleasure"',
+          'INFORMAL: "Hey!", "What\'s up?", "You good?", "Later!", "See ya!"',
+          'Formal goodbye: "Have a good day. Goodbye."',
+          'Informal goodbye: "Later! Take care! See ya!"',
+          'Think about WHERE you use each — office vs. friends'
+        ],
+        feedback: {
+          excellent: "Excellent! You perfectly understand the difference between formal and informal English. This is so important! 🌟",
+          good: "Good job! You're getting the hang of formal vs informal. Practice more to make it feel natural!",
+          needsWork: "Good try! Remember: formal = complete sentences and polite words. Informal = short, casual, relaxed!"
+        }
+      },
     ]
   },
   speaking: {
     label: 'Speaking', icon: '🎙️', color: '#d4537e',
     activities: [
       {
-        id: 's1', title: 'Talk About Your Day', level: 'A1→A2',
+        id: 's1', title: 'Introduce Yourself!', level: 'A1',
         type: 'speaking',
-        prompt: 'Record yourself talking about your typical day. Include what time you wake up, what you eat, how you go to work or school, and what you do in the evening.',
-        tips: ['Speak clearly and at a natural pace', 'Use time expressions: first, then, after that, finally', 'Try to speak for at least 30 seconds', 'Don\'t worry about being perfect — practice makes perfect!'],
-        phrases: ['I usually wake up at...', 'For breakfast, I have...', 'I go to work/school by...', 'In the evening, I...']
-      }
+        lesson: 'THE GREETINGS',
+        prompt: 'Imagine you are meeting someone new. Record yourself doing a complete greeting: say hello, give your name, spell it, say where you are from, ask how they are, and say goodbye. Speak naturally — like in the Mark & Julia dialogue from class!',
+        tips: [
+          'Start with a greeting: "Good morning!" or "Hi!"',
+          'Say your name: "My name is ___ / I\'m ___"',
+          'Spell it: "It\'s spelled ___"',
+          'Ask: "How are you?" and answer back',
+          'End with: "Nice to meet you! Have a good day!"'
+        ],
+        phrases: ['Good morning! My name is...', 'It\'s spelled...', 'Nice to meet you!', 'How are you?', 'I\'m good, thanks! And you?', 'Have a good day! Take care!']
+      },
+      {
+        id: 's2', title: 'How Are You? — 5 Different Ways!', level: 'A1',
+        type: 'speaking',
+        lesson: 'THE GREETINGS',
+        prompt: 'Record yourself saying 5 different ways to ask "how are you?" and 5 different ways to answer. Use the vocabulary from your class! Try to sound natural — not like you\'re reading a list. Imagine you\'re texting a friend, then talking to your boss!',
+        tips: [
+          'Formal ways: "How are you today?" / "How have you been?"',
+          'Informal ways: "What\'s up?" / "You good?" / "All good?"',
+          'Formal answers: "I\'m well, thank you. And you?"',
+          'Informal answers: "Not bad!" / "Pretty good!" / "All good!"',
+          'Try to sound natural — smile while you speak!'
+        ],
+        phrases: ['How are you today?', 'What\'s up?', 'How\'s everything?', 'I\'m good, thanks!', 'Pretty good! And you?', 'Not much! You?', 'All good!', 'Doing well, thanks!']
+      },
+      {
+        id: 's3', title: 'Role Play — Checking In at a Hotel', level: 'A1',
+        type: 'speaking',
+        lesson: 'THE GREETINGS',
+        prompt: 'You are Jenny from the listening exercise. You are checking into a hotel. Record yourself playing Jenny\'s part in the conversation: greet the receptionist, say your name, spell it, confirm your reservation, and thank them. Use "here you are", "that\'s right", and "thank you"!',
+        tips: [
+          'Start with: "Hello! Good evening."',
+          'Say: "I have a reservation. My name is ___."',
+          'Spell your name letter by letter',
+          'Confirm details: "Yes, that\'s right."',
+          'Be polite: "Here you are." / "Thank you very much!"'
+        ],
+        phrases: ['Hello! Good evening.', 'I have a reservation.', 'My name is... it\'s spelled...', 'Yes, that\'s right.', 'Here you are.', 'Thank you very much!', 'Have a good evening!']
+      },
     ]
   }
 };
@@ -71,7 +206,8 @@ export default function Practice({ user, student, onLogout }) {
   const { skill } = useParams();
   const navigate = useNavigate();
   const skillData = SKILLS[skill] || SKILLS.reading;
-  const activity = skillData.activities[0];
+  const [activityIndex, setActivityIndex] = useState(0);
+  const activity = skillData.activities[activityIndex];
 
   const [answers, setAnswers] = useState({});
   const [submitted, setSubmitted] = useState(false);
@@ -176,7 +312,7 @@ export default function Practice({ user, student, onLogout }) {
   };
 
   const handleSubmit = () => {
-    if (activity.type === 'multiple_choice') {
+    if (activity.type === 'multiple_choice' || activity.type === 'listening_video') {
       const correct = activity.questions.filter((q, i) => answers[i] === q.answer).length;
       const pct = Math.round((correct / activity.questions.length) * 100);
       setScore(pct);
@@ -211,10 +347,24 @@ export default function Practice({ user, student, onLogout }) {
         <div className="skill-tabs">
           {Object.entries(SKILLS).map(([key, s]) => (
             <div key={key} className={`skill-tab ${skill === key ? 'active' : ''}`}
-              onClick={() => { navigate(`/practice/${key}`); setSubmitted(false); setAnswers({}); setWritingText(''); }}>
+              onClick={() => { navigate(`/practice/${key}`); setSubmitted(false); setAnswers({}); setWritingText(''); setTranscript(''); setSpeakingFeedback(null); setRecordingTime(0); setActivityIndex(0); }}>
               {s.icon} {s.label}
             </div>
           ))}
+        </div>
+
+        {/* Activity selector */}
+        <div className="activity-selector">
+          <div className="activity-lesson-tag">📚 {activity.lesson}</div>
+          <div className="activity-tabs">
+            {skillData.activities.map((a, i) => (
+              <div key={i}
+                className={`activity-tab ${activityIndex === i ? 'active' : ''}`}
+                onClick={() => { setActivityIndex(i); setSubmitted(false); setAnswers({}); setWritingText(''); setTranscript(''); setSpeakingFeedback(null); setRecordingTime(0); }}>
+                Activity {i + 1}
+              </div>
+            ))}
+          </div>
         </div>
 
         <div className="practice-card fade-up fade-up-1">
@@ -258,7 +408,53 @@ export default function Practice({ user, student, onLogout }) {
             </div>
           )}
 
-          {/* Listening activity */}
+          {/* Listening with YouTube video */}
+          {activity.type === 'listening_video' && (
+            <div className="listening-section">
+              <div className="video-instruction">
+                <span className="video-instruction-icon">🎬</span>
+                <div>
+                  <div className="video-instruction-title">Watch & Listen</div>
+                  <div className="video-instruction-text">{activity.instruction}</div>
+                </div>
+              </div>
+              <div className="video-timestamp-badge">
+                ▶ {Math.floor(activity.startTime/60)}:{String(activity.startTime%60).padStart(2,'0')} → {Math.floor(activity.endTime/60)}:{String(activity.endTime%60).padStart(2,'0')}
+              </div>
+              <div className="youtube-wrap">
+                <iframe
+                  className="youtube-iframe"
+                  src={`https://www.youtube.com/embed/${activity.youtubeId}?start=${activity.startTime}&end=${activity.endTime}&rel=0&modestbranding=1`}
+                  title="Listening activity"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                />
+              </div>
+              <div className="questions-section">
+                {activity.questions.map((q, qi) => (
+                  <div key={qi} className="question-block">
+                    <div className="question-text">{qi + 1}. {q.q}</div>
+                    <div className="options-grid">
+                      {q.options.map((opt, ai) => {
+                        let cls = 'option';
+                        if (submitted) {
+                          if (ai === q.answer) cls += ' correct';
+                          else if (answers[qi] === ai && ai !== q.answer) cls += ' wrong';
+                        } else if (answers[qi] === ai) cls += ' selected';
+                        return (
+                          <div key={ai} className={cls} onClick={() => handleAnswer(qi, ai)}>
+                            <span className="option-letter">{['A','B','C','D'][ai]}</span> {opt}
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Listening with transcript */}
           {activity.type === 'multiple_choice' && skill === 'listening' && (
             <div className="listening-section">
               <div className="audio-prompt">
@@ -388,7 +584,7 @@ export default function Practice({ user, student, onLogout }) {
           {/* Submit / Feedback */}
           {!submitted ? (
             <button className="submit-btn" onClick={handleSubmit}
-              disabled={activity.type === 'multiple_choice' && Object.keys(answers).length < activity.questions?.length}>
+              disabled={( activity.type === 'multiple_choice' || activity.type === 'listening_video') && Object.keys(answers).length < activity.questions?.length}>
               Submit answers ✓
             </button>
           ) : (

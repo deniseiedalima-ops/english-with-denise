@@ -114,6 +114,22 @@
 .fb-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; margin-bottom: 4px; color: #888; }
 .fb-text { font-size: 14px; color: #333; line-height: 1.6; }
 
+/* YouTube video */
+.video-instruction { display: flex; align-items: flex-start; gap: 12px; background: #f0f5ff; border-radius: 12px; padding: 14px 16px; margin-bottom: 12px; }
+.video-instruction-icon { font-size: 24px; flex-shrink: 0; }
+.video-instruction-title { font-size: 13px; font-weight: 600; color: #111; margin-bottom: 3px; }
+.video-instruction-text { font-size: 13px; color: #555; line-height: 1.6; }
+.video-timestamp-badge { display: inline-flex; align-items: center; gap: 6px; background: #111; color: #fff; font-size: 12px; font-weight: 600; padding: 5px 12px; border-radius: 6px; margin-bottom: 14px; letter-spacing: .3px; }
+.youtube-wrap { position: relative; width: 100%; padding-bottom: 56.25%; border-radius: 12px; overflow: hidden; background: #000; margin-bottom: 24px; }
+.youtube-iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
+
+.activity-selector { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+.activity-lesson-tag { font-size: 11px; font-weight: 600; color: #ff6a00; background: #fff1e8; padding: 4px 10px; border-radius: 20px; letter-spacing: .3px; }
+.activity-tabs { display: flex; gap: 6px; }
+.activity-tab { font-size: 12px; font-weight: 500; padding: 5px 14px; border-radius: 20px; border: 0.5px solid #e0dbd4; background: #fff; color: #888; cursor: pointer; transition: all .15s; }
+.activity-tab:hover { border-color: #ff6a00; color: #ff6a00; }
+.activity-tab.active { background: #ff6a00; color: #fff; border-color: #ff6a00; }
+
 @media (max-width: 600px) {
   .options-grid { grid-template-columns: 1fr; }
   .skill-tabs { gap: 6px; }
