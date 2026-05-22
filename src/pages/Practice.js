@@ -80,16 +80,19 @@ const SKILLS = {
         ]
       },
       {
-        id: 'l3', title: 'Formal vs Informal — Spot the Difference', level: 'A1',
-        type: 'multiple_choice',
+        id: 'l3', title: 'Where Are You From?', level: 'A1',
+        type: 'listening_video',
         lesson: 'THE GREETINGS',
-        youtubeLink: null,
-        audioText: `Listen to these two conversations:\n\n🎩 CONVERSATION 1 — FORMAL (Job Interview):\nMr. Brown: Good morning. How do you do?\nMs. Lee: Good morning, Mr. Brown. I'm very well, thank you. And you?\nMr. Brown: Fine, thank you. Please, have a seat.\nMs. Lee: Thank you very much.\nMr. Brown: It's a pleasure to meet you, Ms. Lee.\nMs. Lee: The pleasure is mine.\n\n👋 CONVERSATION 2 — INFORMAL (Friends at school):\nAlex: Hey! What's up?\nBia: Not much! You good?\nAlex: Yeah, all good! How's everything?\nBia: Pretty good! Oh, I gotta go — see ya!\nAlex: Later! Take care!`,
+        youtubeId: '31y2Bq1RYQA',
+        startTime: 60,
+        endTime: 297,
+        instruction: 'Watch Tim, Sian, Buli and Georgie talk about where they are from and where they live. Pay attention to the names, cities and how they describe their homes. Then answer the questions!',
+        audioText: `Tim: Hi, I'm Tim. I'm from Oxford.\nSian: I'm from Swansea.\nBuli: I'm from Beijing.\nGeorgie: I'm from Petworth.\nTim: I live in a house in London. And I live with my housemates.\nSian: I live in a house in Brighton. I live with my family.\nBuli: I live in a flat in Cambridge. I live on my own.\nGeorgie: I live in a flat in London. I live with my flatmates.`,
         questions: [
-          { q: 'In the formal conversation, how does Mr. Brown greet Ms. Lee?', options: ['Hey! What\'s up?', 'Good morning. How do you do?', 'You good?', 'How\'s everything?'], answer: 1 },
-          { q: 'Which phrase is INFORMAL?', options: ['How do you do?', 'It\'s a pleasure to meet you.', 'What\'s up?', 'Good morning.'], answer: 2 },
-          { q: 'In the informal conversation, how does Bia say goodbye?', options: ['Goodbye, have a nice day.', 'See ya! Take care!', 'It was a pleasure.', 'Good night.'], answer: 1 },
-          { q: '"I gotta go" means...', options: ['I want to stay', 'I have to go', 'I am going to eat', 'I got the ball'], answer: 1 },
+          { q: 'Where is Sian from originally?', options: ['Oxford', 'Beijing', 'Swansea', 'Petworth'], answer: 2 },
+          { q: 'Where does Buli live now?', options: ['London', 'Brighton', 'Oxford', 'Cambridge'], answer: 3 },
+          { q: 'Who lives in a flat?', options: ['Tim and Sian', 'Sian and Georgie', 'Buli and Georgie', 'Tim and Buli'], answer: 2 },
+          { q: 'Who does Sian live with?', options: ['Her flatmates', 'On her own', 'Her housemates', 'Her family'], answer: 3 },
         ]
       },
     ]
