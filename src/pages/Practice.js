@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import './Practice.css';
@@ -78,6 +78,97 @@ export default function Practice({ user, student, onLogout }) {
   const [writingText, setWritingText] = useState('');
   const [score, setScore] = useState(0);
   const [showAudio, setShowAudio] = useState(false);
+
+  // Speaking / recording state
+  const [recording, setRecording] = useState(false);
+  const [recordingTime, setRecordingTime] = useState(0);
+  const [transcript, setTranscript] = useState('');
+  const [speakingFeedback, setSpeakingFeedback] = useState(null);
+  const [speakingLoading, setSpeakingLoading] = useState(false);
+  const mediaRecorderRef = useRef(null);
+  const audioChunksRef = useRef([]);
+  const timerRef = useRef(null);
+
+  const startRecording = async () => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      const mediaRecorder = new MediaRecorder(stream);
+      mediaRecorderRef.current = mediaRecorder;
+      audioChunksRef.current = [];
+
+      mediaRecorder.ondataavailable = (e) => {
+        if (e.data.size > 0) audioChunksRef.current.push(e.data);
+      };
+
+      mediaRecorder.onstop = async () => {
+        stream.getTracks().forEach(t => t.stop());
+        const blob = new Blob(audioChunksRef.current, { type: 'audio/webm' });
+        await transcribeAudio(blob);
+      };
+
+      mediaRecorder.start();
+      setRecording(true);
+      setRecordingTime(0);
+      timerRef.current = setInterval(() => setRecordingTime(t => t + 1), 1000);
+    } catch (err) {
+      alert('Could not access microphone. Please allow microphone access and try again.');
+    }
+  };
+
+  const stopRecording = () => {
+    if (mediaRecorderRef.current) {
+      mediaRecorderRef.current.stop();
+      setRecording(false);
+      clearInterval(timerRef.current);
+    }
+  };
+
+  const transcribeAudio = async (blob) => {
+    setSpeakingLoading(true);
+    try {
+      const res = await fetch('/api/transcribe', {
+        method: 'POST',
+        headers: { 'Content-Type': 'audio/webm' },
+        body: blob,
+      });
+      const data = await res.json();
+      const text = data.text || '';
+      setTranscript(text);
+      await getFeedback(text);
+    } catch (err) {
+      setTranscript('Could not transcribe. Please try again.');
+      setSpeakingLoading(false);
+    }
+  };
+
+  const getFeedback = async (text) => {
+    try {
+      const res = await fetch('/api/speaking-feedback', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          transcript: text,
+          prompt: activity.prompt,
+          level: student?.nivel || 'A1',
+          keywords: activity.phrases,
+        }),
+      });
+      const feedback = await res.json();
+      setSpeakingFeedback(feedback);
+      const xpGain = (feedback.score || 5) >= 8 ? 25 : (feedback.score || 5) >= 6 ? 15 : 8;
+      const currentXp = parseInt(localStorage.getItem('ewd_xp') || '0');
+      localStorage.setItem('ewd_xp', currentXp + xpGain);
+      const activities = JSON.parse(localStorage.getItem('ewd_activities') || '[]');
+      activities.push({ skill: 'speaking', title: activity.title, score: (feedback.score || 5) * 10, time: 'Just now' });
+      localStorage.setItem('ewd_activities', JSON.stringify(activities));
+    } catch {
+      setSpeakingFeedback({ score: 7, positive: "Good effort!", tip: "Keep practicing!", overall: "Well done! 🌟" });
+    }
+    setSpeakingLoading(false);
+    setSubmitted(true);
+  };
+
+  const formatTime = (s) => `${Math.floor(s/60).toString().padStart(2,'0')}:${(s%60).toString().padStart(2,'0')}`;
 
   const handleAnswer = (qi, ai) => {
     if (submitted) return;
@@ -255,9 +346,42 @@ export default function Practice({ user, student, onLogout }) {
                   <div key={i} className="writing-tip">💡 {tip}</div>
                 ))}
               </div>
-              <div className="speaking-record-area">
-                <div className="record-note">🎤 Practice speaking out loud, then mark as complete when you're done!</div>
-              </div>
+
+              {/* Recorder */}
+              {!submitted && !speakingLoading && (
+                <div className="recorder-area">
+                  {!recording && !transcript && (
+                    <button className="record-btn" onClick={startRecording}>
+                      <span className="record-dot" />
+                      Start Recording
+                    </button>
+                  )}
+                  {recording && (
+                    <div className="recording-active">
+                      <div className="recording-pulse" />
+                      <span className="recording-time">{formatTime(recordingTime)}</span>
+                      <button className="stop-btn" onClick={stopRecording}>⏹ Stop</button>
+                    </div>
+                  )}
+                  <p className="recorder-note">🔒 Your audio is processed securely and not stored.</p>
+                </div>
+              )}
+
+              {/* Loading */}
+              {speakingLoading && (
+                <div className="speaking-loading">
+                  <div className="spinner" />
+                  <span>Analyzing your speaking... ✨</span>
+                </div>
+              )}
+
+              {/* Transcript */}
+              {transcript && !speakingLoading && (
+                <div className="transcript-result">
+                  <div className="transcript-label">📝 What we heard:</div>
+                  <div className="transcript-text">"{transcript}"</div>
+                </div>
+              )}
             </div>
           )}
 
@@ -289,13 +413,24 @@ export default function Practice({ user, student, onLogout }) {
                   <div className="xp-earned" style={{ marginTop: 12 }}>+{score >= 80 ? 20 : score >= 50 ? 10 : 5} XP earned! 🎉</div>
                 </div>
               )}
-              {activity.type === 'speaking' && (
-                <div className="score-display great">
-                  <div className="score-label">🌟 Great practice! Speaking regularly is the key to fluency. Keep it up!</div>
-                  <div className="xp-earned" style={{ marginTop: 12 }}>+15 XP earned! 🎉</div>
+              {activity.type === 'speaking' && speakingFeedback && (
+                <div className="speaking-feedback">
+                  <div className="speaking-score-row">
+                    <div className="speaking-score">{speakingFeedback.score}<span>/10</span></div>
+                    <div className="speaking-overall">{speakingFeedback.overall}</div>
+                  </div>
+                  <div className="speaking-feedback-box positive">
+                    <div className="fb-label">✅ What you did well</div>
+                    <div className="fb-text">{speakingFeedback.positive}</div>
+                  </div>
+                  <div className="speaking-feedback-box tip">
+                    <div className="fb-label">💡 Tip for next time</div>
+                    <div className="fb-text">{speakingFeedback.tip}</div>
+                  </div>
+                  <div className="xp-earned">+{(speakingFeedback.score || 5) >= 8 ? 25 : (speakingFeedback.score || 5) >= 6 ? 15 : 8} XP earned! 🎉</div>
                 </div>
               )}
-              <button className="try-again-btn" onClick={() => { setSubmitted(false); setAnswers({}); setWritingText(''); }}>
+              <button className="try-again-btn" onClick={() => { setSubmitted(false); setAnswers({}); setWritingText(''); setTranscript(''); setSpeakingFeedback(null); setRecordingTime(0); }}>
                 Try another activity →
               </button>
               <button className="back-btn" onClick={() => navigate('/')}>← Back to dashboard</button>
