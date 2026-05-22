@@ -133,34 +133,7 @@ export default function Dashboard({ user, student, onLogout }) {
           ))}
         </div>
 
-        {/* Challenges */}
-        <div className="section-title fade-up fade-up-4">Today's challenges</div>
-        <div className="challenges-card fade-up fade-up-4">
-          <div className="challenges-header">
-            <div className="challenges-title">⚡ Today's challenges</div>
-            <div className="challenges-sub">0 of 3 completed</div>
-          </div>
-          <div className="challenges-row">
-            {[
-              { icon: '📖', name: 'Deep Reader', desc: 'Complete a reading passage', xp: 20, goal: 1 },
-              { icon: '🎯', name: 'Well Rounded', desc: 'Practice 2 different skills today', xp: 30, goal: 2 },
-              { icon: '👑', name: 'Consistency King', desc: 'Score 80%+ on 2 tasks', xp: 50, goal: 2 },
-            ].map((c, i) => (
-              <div key={i} className="challenge-item">
-                <div className="ch-top">
-                  <span className="ch-icon">{c.icon}</span>
-                  <span className="ch-xp">+{c.xp} XP</span>
-                </div>
-                <div className="ch-name">{c.name}</div>
-                <div className="ch-desc">{c.desc}</div>
-                <div className="ch-progress-row"><span>0/{c.goal}</span><span>0%</span></div>
-                <div className="ch-bar"><div className="ch-bar-fill" style={{ width: '0%' }} /></div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Agenda */}
+        {/* Agenda — moved up */}
         <div className="section-title fade-up fade-up-4">Agenda</div>
         <div className="agenda-card fade-up fade-up-4">
           <div className="agenda-header">
@@ -245,6 +218,36 @@ export default function Dashboard({ user, student, onLogout }) {
                 <div className="website-arrow">↗</div>
               </div>
             </a>
+
+            {/* Today's Challenges — moved to bottom left */}
+            <div className="challenges-card">
+              <div className="challenges-header">
+                <div className="challenges-title">⚡ Today's challenges</div>
+                <div className="challenges-sub">0 of 3 completed</div>
+              </div>
+              <div className="challenges-col">
+                {[
+                  { icon: '📖', name: 'Deep Reader', desc: 'Complete a reading passage', xp: 20, goal: 1 },
+                  { icon: '🎯', name: 'Well Rounded', desc: 'Practice 2 different skills today', xp: 30, goal: 2 },
+                  { icon: '👑', name: 'Consistency King', desc: 'Score 80%+ on 2 tasks', xp: 50, goal: 2 },
+                ].map((c, i) => (
+                  <div key={i} className="challenge-item-sm">
+                    <div className="ch-top">
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                        <span className="ch-icon">{c.icon}</span>
+                        <div>
+                          <div className="ch-name">{c.name}</div>
+                          <div className="ch-desc">{c.desc}</div>
+                        </div>
+                      </div>
+                      <span className="ch-xp">+{c.xp} XP</span>
+                    </div>
+                    <div className="ch-progress-row"><span>0/{c.goal}</span><span>0%</span></div>
+                    <div className="ch-bar"><div className="ch-bar-fill" style={{ width: '0%' }} /></div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
 
           {/* Right col */}
@@ -266,7 +269,8 @@ export default function Dashboard({ user, student, onLogout }) {
                 ))
               )}
             </div>
-            {/* Reposições card */}
+
+            {/* Reposições card — updated description */}
             <div className="card reposicoes-card">
               <div className="reposicoes-header">
                 <div className="card-title">🔄 Make-up Classes</div>
@@ -274,9 +278,10 @@ export default function Dashboard({ user, student, onLogout }) {
               </div>
               <div className="reposicoes-body">
                 <div className="reposicoes-num">{student?.reposicoes ?? '—'}</div>
-                <div className="reposicoes-label">available {student?.reposicoes === 1 ? 'make-up' : 'make-ups'}</div>
+                <div className="reposicoes-label">aula{student?.reposicoes === 1 ? '' : 's'} para repor</div>
               </div>
-              <div className="reposicoes-note">Contact Denise to schedule yours 💬</div>
+              <div className="reposicoes-desc">Essa é a quantidade de aulas que você precisa repor.</div>
+              <div className="reposicoes-note">Entre em contato com a Denise para agendar um horário 💬</div>
             </div>
 
             <div className="card stats-card">

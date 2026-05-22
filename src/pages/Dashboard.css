@@ -123,6 +123,13 @@
 .stat-label { color: #999; }
 .stat-value { font-weight: 600; color: #111; }
 
+.reposicoes-desc { font-size: 13px; color: #555; margin-bottom: 6px; line-height: 1.5; }
+.reposicoes-note { font-size: 12px; color: #bbb; border-top: 0.5px solid #f0ede8; padding-top: 10px; margin-top: 4px; }
+
+.challenges-col { display: flex; flex-direction: column; gap: 8px; }
+.challenge-item-sm { background: #f7f4f0; border-radius: 10px; padding: 10px 12px; border-left: 3px solid #ff6a00; }
+.challenge-item-sm .ch-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 6px; }
+
 /* Website card */
 .website-card { display: block; text-decoration: none; transition: transform .15s, box-shadow .15s; cursor: pointer; }
 .website-card:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(255,106,0,0.12); border-color: #ff6a00; }
