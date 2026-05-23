@@ -130,19 +130,6 @@
 .challenge-item-sm { background: #f7f4f0; border-radius: 10px; padding: 10px 12px; border-left: 3px solid #ff6a00; }
 .challenge-item-sm .ch-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 6px; }
 
-.classroom-desc-box { margin-top: 10px; display: flex; flex-direction: column; gap: 6px; }
-.classroom-desc-item { font-size: 12px; color: #777; display: flex; align-items: center; gap: 6px; }
-
-/* Manual cards */
-.manual-card { display: block; text-decoration: none; transition: transform .15s, box-shadow .15s; cursor: pointer; }
-.manual-card:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.06); border-color: #ff6a00; }
-.manual-card-inner { display: flex; align-items: center; gap: 12px; }
-.manual-icon-wrap { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
-.manual-text { flex: 1; }
-.manual-title { font-size: 14px; font-weight: 600; color: #111; margin-bottom: 2px; }
-.manual-sub { font-size: 12px; color: #999; }
-.manual-arrow { font-size: 16px; color: #ff6a00; font-weight: 600; }
-
 /* Website card */
 .website-card { display: block; text-decoration: none; transition: transform .15s, box-shadow .15s; cursor: pointer; }
 .website-card:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(255,106,0,0.12); border-color: #ff6a00; }
