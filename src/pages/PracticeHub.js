@@ -29,9 +29,32 @@ const LESSONS = [
       ],
     }
   },
+  {
+    num: 4, code: 'L4', title: 'The Introductions', level: 'A1',
+    activities: {
+      reading: [
+        { code: 'L4-R1', title: 'Molly & Peter at School', type: 'Multiple Choice', activityIndex: 3 },
+        { code: 'L4-R2', title: 'Verb To Be — Introductions', type: 'Multiple Choice', activityIndex: 4 },
+        { code: 'L4-R3', title: 'A/AN — Articles', type: 'Multiple Choice', activityIndex: 5 },
+      ],
+      listening: [
+        { code: 'L4-L1', title: 'Friends Cast — Introductions', type: 'Transcript + Questions', activityIndex: 3 },
+        { code: 'L4-L2', title: 'Molly & Peter — Listen & Follow', type: 'Transcript + Questions', activityIndex: 4 },
+        { code: 'L4-L3', title: 'A or AN? — Listen & Choose', type: 'Transcript + Questions', activityIndex: 5 },
+      ],
+      writing: [
+        { code: 'L4-W1', title: 'School Introduction Dialogue', type: 'Open Writing', activityIndex: 3 },
+        { code: 'L4-W2', title: 'Verb To Be — Complete & Create', type: 'Open Writing', activityIndex: 4 },
+        { code: 'L4-W3', title: 'A or AN? — Write Your Own', type: 'Open Writing', activityIndex: 5 },
+      ],
+      speaking: [
+        { code: 'L4-S1', title: 'Introduce Yourself at School', type: 'AI Speaking', activityIndex: 3 },
+        { code: 'L4-S2', title: 'Role Play — Meeting a Classmate', type: 'AI Speaking', activityIndex: 4 },
+        { code: 'L4-S3', title: 'Correct the Teacher!', type: 'AI Speaking', activityIndex: 5 },
+      ],
+    }
+  },
 ];
-
-const SKILLS = [
   { key: 'reading',   label: 'Reading',   icon: '📖', color: '#1d9e75', bg: '#e1f5ee', code: 'R' },
   { key: 'listening', label: 'Listening', icon: '🎧', color: '#378add', bg: '#e6f1fb', code: 'L' },
   { key: 'writing',   label: 'Writing',   icon: '✏️', color: '#7f77dd', bg: '#eeedfe', code: 'W' },

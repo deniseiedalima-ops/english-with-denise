@@ -43,6 +43,43 @@ const SKILLS = {
           { q: 'Which sentence is CORRECT?', options: ['She am happy.', 'They is fine.', 'He are Mark.', 'I am Julia.'], answer: 3 },
         ]
       },
+      // ─── L4: THE INTRODUCTIONS ───────────────────────────────────────
+      {
+        id: 'r4', title: 'Molly & Peter at School', level: 'A1',
+        type: 'multiple_choice',
+        lesson: 'THE INTRODUCTIONS',
+        text: `Molly: Excuse me, hi, my name is Molly. What's your name?\nPeter: I'm Peter! My friends call me Pete.\nMolly: My friends call me… Molly! Haha. Hi Pete, it's nice to meet you!\nPeter: It's nice to meet you too.\nMolly: Are you a student here?\nPeter: Yes, I am! My class is at 9 o'clock with Miss Taylor.\nMolly: Miss Taylor! She is my teacher! You are in my class!\nPeter: Great!\nMolly: Where is our class?\nPeter: It's over there…\nPeter: Hi! I'm Peter. Peter Crumb! I'm in your class!\nMs. Smith: Hi Peter, nice to meet you! Hello, what's your name?\nMolly: I'm Molly! I'm in your class too!\nMs. Smith: Hello, Holly! Is that H-O-L-L-Y?\nMolly: No, it's Molly, M-O-L-L-Y.\nMs. Smith: M-O-L-L-Y, Molly! What's your last name Molly?\nMolly: LIN! L-I-N.\nPeter: Excuse me… are you Miss Taylor?\nMs. Smith: No I'm not! I'm Miss Smith. Miss Taylor is in room 203 over there.\nPeter: Oh, thanks! Goodbye!\nMs. Smith: Have a good day!`,
+        questions: [
+          { q: 'What does Peter\'s friends call him?', options: ['Peter', 'Pete', 'Pat', 'Pierre'], answer: 1 },
+          { q: 'What time is Peter\'s class?', options: ['8 o\'clock', '10 o\'clock', '9 o\'clock', '11 o\'clock'], answer: 2 },
+          { q: 'How does Molly spell her last name?', options: ['L-Y-N', 'L-I-N-N', 'L-I-N', 'L-E-N'], answer: 2 },
+          { q: 'Who is Miss Smith?', options: ['Molly\'s teacher', 'Peter\'s sister', 'Not their teacher — wrong room!', 'The school principal'], answer: 2 },
+        ]
+      },
+      {
+        id: 'r5', title: 'Verb To Be — Introductions Context', level: 'A1',
+        type: 'multiple_choice',
+        lesson: 'THE INTRODUCTIONS',
+        text: `From your class material — Verb TO BE used in introductions:\n\nAffirmative:\nI am a student. / She is my teacher. / He is Peter Crumb.\nThey are in my class. / We are students.\n\nNegative:\nI am not late. / She is not Miss Taylor — she is Miss Smith!\nHe is not a doctor. He is a professor.\nThey are not ready.\n\nQuestions:\nAre you a student here? → Yes, I am! / No, I'm not.\nIs she your teacher? → Yes, she is! / No, she isn't.\nWhere is our class? → It's over there!\nWhat is your last name? → It's LIN.\n\nWith names:\nMy name is → meu nome é\nHer name is → o nome dela é\nHis name is → o nome dele é`,
+        questions: [
+          { q: 'Complete: "___ you a student here?" — Peter asks Molly.', options: ['Am', 'Is', 'Are', 'Be'], answer: 2 },
+          { q: 'Ms. Smith said "Hello, Holly!" — Molly corrected her. What did Molly say?', options: ['"I am not Holly. I is Molly."', '"No, it\'s Molly, M-O-L-L-Y."', '"My name are Molly."', '"She is Molly!"'], answer: 1 },
+          { q: 'Complete: "Miss Taylor ___ in room 203 over there."', options: ['am', 'are', 'be', 'is'], answer: 3 },
+          { q: 'Which sentence is CORRECT?', options: ['He am a student.', 'They is happy.', 'We are in your class!', 'She are my teacher.'], answer: 2 },
+        ]
+      },
+      {
+        id: 'r6', title: 'A/An — Articles in Introductions', level: 'A1',
+        type: 'multiple_choice',
+        lesson: 'THE INTRODUCTIONS',
+        text: `From your class — when to use A or AN:\n\nUse A before consonant sounds:\n• a teacher → uma professora\n• a doctor → um médico\n• a nurse → uma enfermeira\n• a process → um processo\n• a student → um estudante\n\nUse AN before vowel sounds:\n• an actor → um ator\n• an artist → um artista\n• an engineer → um engenheiro\n• an astronaut → um astronauta\n• an apple → uma maçã\n\nFrom the dialogue:\n"I'm an actor. I have a process." — Phoebe\n"I'm not an actor. I'm a professor of paleontology." — Ross`,
+        questions: [
+          { q: 'Choose the correct article: "She is ___ engineer."', options: ['a', 'an', 'the', 'no article'], answer: 1 },
+          { q: 'Choose the correct article: "He is ___ doctor."', options: ['an', 'the', 'a', 'no article'], answer: 2 },
+          { q: 'Phoebe says "I\'m ___ actor." Which is correct?', options: ['a', 'an', 'the', 'one'], answer: 1 },
+          { q: 'Which sentence is CORRECT?', options: ['She is a artist.', 'He is an nurse.', 'I am an astronaut.', 'We are a engineers.'], answer: 2 },
+        ]
+      },
     ]
   },
   listening: {
@@ -93,6 +130,46 @@ const SKILLS = {
           { q: 'Where does Buli live now?', options: ['London', 'Brighton', 'Oxford', 'Cambridge'], answer: 3 },
           { q: 'Who lives in a flat?', options: ['Tim and Sian', 'Sian and Georgie', 'Buli and Georgie', 'Tim and Buli'], answer: 2 },
           { q: 'Who does Sian live with?', options: ['Her flatmates', 'On her own', 'Her housemates', 'Her family'], answer: 3 },
+        ]
+      },
+      // ─── L4: THE INTRODUCTIONS ───────────────────────────────────────
+      {
+        id: 'l4', title: 'Friends Cast — Introductions', level: 'A1',
+        type: 'multiple_choice',
+        lesson: 'THE INTRODUCTIONS',
+        audioText: `Phoebe: I can't do that. I'm an actor. I have a process.\nPessoa 1: Nice to meet you! So, what show are you on?\nRoss: Oh, I'm not an actor. I'm a professor of paleontology.\nMonica: I hope you're hungry.\nPessoa 2: So, who are you?\nChandler: Well, our names really are Monica and Chandler. We're from New York.\nJulie: Thank you. I'm from New York!\nPessoa 3: Forget it. We're just hungry. We haven't had lunch.\nPessoa 4: Are you hungry? How about that sushi place you love?`,
+        instruction: 'Read the transcript from your Listening 3 class material. Pay attention to how the characters introduce themselves and describe their professions. Then answer the questions!',
+        questions: [
+          { q: 'What is Phoebe\'s profession?', options: ['A professor', 'A doctor', 'An actor', 'A nurse'], answer: 2 },
+          { q: 'What does Ross do?', options: ['He is an actor', 'He is a professor of paleontology', 'He is a doctor', 'He is a chef'], answer: 1 },
+          { q: 'Where are Monica and Chandler from?', options: ['Los Angeles', 'Chicago', 'Boston', 'New York'], answer: 3 },
+          { q: 'What does "How about that sushi place you love?" mean?', options: ['Do you like sushi?', 'Shall we go to your favourite sushi restaurant?', 'Where is the sushi place?', 'I love sushi too!'], answer: 1 },
+        ]
+      },
+      {
+        id: 'l5', title: 'Molly & Peter — Listen & Follow', level: 'A1',
+        type: 'multiple_choice',
+        lesson: 'THE INTRODUCTIONS',
+        audioText: `Molly: Excuse me, hi, my name is Molly. What's your name?\nPeter: I'm Peter! My friends call me Pete.\nMolly: Hi Pete, it's nice to meet you!\nPeter: It's nice to meet you too.\nMolly: Are you a student here?\nPeter: Yes, I am! My class is at 9 o'clock with Miss Taylor.\nMolly: Miss Taylor! She is my teacher! You are in my class!\nMs. Smith: Hello, what's your name?\nMolly: I'm Molly! I'm in your class too!\nMs. Smith: Hello, Holly! Is that H-O-L-L-Y?\nMolly: No, it's Molly, M-O-L-L-Y. My last name is LIN. L-I-N.\nPeter: Excuse me… are you Miss Taylor?\nMs. Smith: No I'm not! I'm Miss Smith. Miss Taylor is in room 203 over there.`,
+        instruction: 'Read this transcript from The Introductions class. Focus on how Molly and Peter introduce themselves, spell names, and find their classroom. Then answer the questions!',
+        questions: [
+          { q: 'How does Peter prefer to be called?', options: ['Peter', 'Pete', 'Pat', 'PJ'], answer: 1 },
+          { q: 'The teacher called Molly "Holly". How did Molly correct her?', options: ['"I am not Holly."', '"No, it\'s Molly, M-O-L-L-Y."', '"My name are Molly."', '"Call me Mol!"'], answer: 1 },
+          { q: 'Where is Miss Taylor\'s classroom?', options: ['Room 102', 'Room 302', 'Room 230', 'Room 203'], answer: 3 },
+          { q: 'What does "It\'s over there" mean?', options: ['It\'s very far away', 'It\'s finished', 'It\'s in that direction', 'It\'s above us'], answer: 2 },
+        ]
+      },
+      {
+        id: 'l6', title: 'A or AN? — Listen & Choose', level: 'A1',
+        type: 'multiple_choice',
+        lesson: 'THE INTRODUCTIONS',
+        audioText: `From your class vocabulary:\n\nWith A (consonant sound):\nShe is a teacher.\nHe is a doctor.\nShe is a nurse.\nIt is a process.\nHe is a student.\nIt is a sushi place.\n\nWith AN (vowel sound):\nShe is an actor.\nHe is an artist.\nShe is an engineer.\nHe is an astronaut.\nIt is an apple.\n\nFrom Friends:\nPhoebe: "I'm an actor. I have a process."\nRoss: "I'm not an actor. I'm a professor."`,
+        instruction: 'Study the A/AN rules from your class material. Listen to how native speakers use them naturally. Then choose the correct article for each sentence!',
+        questions: [
+          { q: 'Complete: "She is ___ artist from New York."', options: ['a', 'an', 'the', 'one'], answer: 1 },
+          { q: 'Complete: "I\'m ___ student. My class is at 9."', options: ['an', 'the', 'a', 'one'], answer: 2 },
+          { q: 'Complete: "Ross is ___ professor, not ___ actor."', options: ['a / an', 'an / a', 'a / a', 'an / an'], answer: 0 },
+          { q: 'Which is CORRECT?', options: ['"She\'s a engineer."', '"He\'s an doctor."', '"I\'m an astronaut."', '"We\'re a artists."'], answer: 2 },
         ]
       },
     ]
@@ -157,6 +234,63 @@ const SKILLS = {
           needsWork: "Good try! Remember: formal = complete sentences and polite words. Informal = short, casual, relaxed!"
         }
       },
+      // ─── L4: THE INTRODUCTIONS ───────────────────────────────────────
+      {
+        id: 'w4', title: 'Write a School Introduction Dialogue', level: 'A1',
+        type: 'writing',
+        lesson: 'THE INTRODUCTIONS',
+        prompt: 'Write a dialogue between two students meeting at school for the first time. Include: names and nicknames, spelling of at least one name, asking if they\'re in the same class, the teacher\'s name, and where the classroom is. Use vocabulary from The Introductions class! Minimum 50 words.',
+        minWords: 50,
+        tips: [
+          '"Excuse me, hi! My name is ___."',
+          '"My friends call me ___." — add a nickname!',
+          '"Are you a student here? / Yes, I am!"',
+          '"She is my teacher too! You are in my class!"',
+          '"Where is our class?" / "It\'s over there!"'
+        ],
+        feedback: {
+          excellent: "Excellent! Your dialogue sounds natural and includes all the key vocabulary. You're making great progress! 🌟",
+          good: "Good job! Your dialogue has good structure. Try to add more details like spelling names or asking about the classroom!",
+          needsWork: "Good start! Remember to include: names, class info, and where the classroom is. Use the Molly & Peter dialogue as a model!"
+        }
+      },
+      {
+        id: 'w5', title: 'Verb To Be — Complete & Create', level: 'A1',
+        type: 'writing',
+        lesson: 'THE INTRODUCTIONS',
+        prompt: 'Complete these sentences with the correct form of TO BE (am/is/are), then make them negative. Finally, write 4 original sentences about yourself using TO BE:\n\n1. She ___ a doctor.\n2. They ___ very happy today.\n3. I ___ at home right now.\n4. He ___ from Brazil.\n\nNow make sentences 1-4 negative. Then write 4 sentences about yourself!',
+        minWords: 45,
+        tips: [
+          'I → am / She/He/It → is / You/We/They → are',
+          'Negative: am not / isn\'t / aren\'t',
+          '"She is a doctor." → "She is not a doctor." / "She isn\'t a doctor."',
+          'For yourself: "I am a student." / "I am from ___." / "I am not tired."'
+        ],
+        feedback: {
+          excellent: "Perfect! You mastered the verb TO BE in affirmative and negative. Your personal sentences are creative! 🌟",
+          good: "Good work! Check your negatives — remember: isn\'t = is not, aren\'t = are not. Keep practicing!",
+          needsWork: "Good try! Remember: I=am, He/She/It=is, You/We/They=are. Try again with the negatives!"
+        }
+      },
+      {
+        id: 'w6', title: 'A or AN? — Write Your Own Sentences', level: 'A1',
+        type: 'writing',
+        lesson: 'THE INTRODUCTIONS',
+        prompt: 'Write 8 sentences using A or AN correctly. Use professions and nouns from your class:\n\nProfessions to use: teacher, doctor, actor, nurse, engineer, astronaut, artist, student\n\nExample: "She is a teacher." / "He is an actor."\n\nThen write 3 sentences about people you know using "His/Her name is ___ and he/she is ___."',
+        minWords: 40,
+        tips: [
+          'A + consonant sound: a teacher, a doctor, a nurse, a student',
+          'AN + vowel sound: an actor, an artist, an engineer, an astronaut',
+          '"His name is João and he is a doctor."',
+          '"Her name is Ana and she is an engineer."',
+          'Check: does the next word start with a vowel sound (a,e,i,o,u)?'
+        ],
+        feedback: {
+          excellent: "Excellent! You used A and AN perfectly. Your sentences about people you know are wonderful! 🌟",
+          good: "Good job! Check your A/AN choices — remember it\'s about the SOUND, not just the letter. Keep it up!",
+          needsWork: "Good try! Remember: use AN before vowel sounds (actor, artist, engineer). Use A before consonant sounds (teacher, doctor)."
+        }
+      },
     ]
   },
   speaking: {
@@ -203,6 +337,47 @@ const SKILLS = {
           'Be polite: "Here you are." / "Thank you very much!"'
         ],
         phrases: ['Hello! Good evening.', 'I have a reservation.', 'My name is... it\'s spelled...', 'Yes, that\'s right.', 'Here you are.', 'Thank you very much!', 'Have a good evening!']
+      },
+
+      // ─── L4: THE INTRODUCTIONS ───────────────────────────────────────
+      {
+        id: 's4', title: 'Introduce Yourself at School', level: 'A1',
+        type: 'speaking',
+        lesson: 'THE INTRODUCTIONS',
+        prompt: 'You are a new student arriving at school. Record yourself introducing yourself to your teacher: say your name, spell your last name, say what class you are in, and greet your teacher politely. Use the Molly & Peter dialogue as inspiration!',
+        tips: [
+          'Start with: "Excuse me, hi! My name is ___."',
+          'Spell your last name: "My last name is ___, it\'s spelled ___."',
+          'Use: "I\'m in your class!" or "Nice to meet you!"',
+          'End politely: "Thank you! Have a good day!"'
+        ],
+        phrases: ['Excuse me, hi! My name is...', 'My last name is... spelled...', 'I\'m in your class!', 'Nice to meet you!', 'Thank you! Have a good day!']
+      },
+      {
+        id: 's5', title: 'Role Play — Meeting a Classmate', level: 'A1',
+        type: 'speaking',
+        lesson: 'THE INTRODUCTIONS',
+        prompt: 'Record yourself playing both parts of a conversation between two students meeting for the first time. Use: name, nickname, class, teacher\'s name, and where the classroom is. Be creative — add your own details!',
+        tips: [
+          'Use: "My friends call me ___" for nickname',
+          'Ask: "Are you a student here?"',
+          'Say: "She is my teacher too! You are in my class!"',
+          'Use: "It\'s over there!" / "Here you are!"'
+        ],
+        phrases: ['My friends call me...', 'Are you a student here?', 'My class is at ___ o\'clock.', 'She is my teacher!', 'It\'s over there.', 'Nice to meet you too!']
+      },
+      {
+        id: 's6', title: 'Correct the Teacher!', level: 'A1',
+        type: 'speaking',
+        lesson: 'THE INTRODUCTIONS',
+        prompt: 'The teacher got your name wrong! Record yourself politely correcting her — just like Molly did with Ms. Smith. Say your name, spell it clearly, and give your last name too. Then say a complete sentence using "My name is" and "I am in your class".',
+        tips: [
+          'Be polite: "No, it\'s ___, not ___."',
+          'Spell clearly: "M-O-L-L-Y — Molly!"',
+          'Give last name: "My last name is ___. L-I-N."',
+          'Confirm: "I am in your class!"'
+        ],
+        phrases: ['No, it\'s ___, not ___.', 'It\'s spelled...', 'My last name is...', 'I am in your class!', 'Nice to meet you, Miss ___!']
       },
     ]
   }
