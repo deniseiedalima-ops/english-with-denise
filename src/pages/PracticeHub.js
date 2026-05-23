@@ -3,9 +3,14 @@ import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import './PracticeHub.css';
 
+// ─── LESSON CATALOG ─────────────────────────────────────────────────────────
+// Format: lessonNumber (L3 = aula 3), code prefix, activities per skill
 const LESSONS = [
   {
-    num: 3, code: 'L3', title: 'The Greetings', level: 'A1',
+    num: 3,
+    code: 'L3',
+    title: 'The Greetings',
+    level: 'A1',
     activities: {
       reading: [
         { code: 'L3-R1', title: 'Mark & Julia — Dialogue', type: 'Multiple Choice', activityIndex: 0 },
@@ -29,6 +34,7 @@ const LESSONS = [
       ],
     }
   },
+  // Add more lessons here as you go!
 ];
 
 const SKILLS = [
@@ -45,45 +51,18 @@ const TYPE_ICONS = {
   'AI Speaking': '🤖',
 };
 
-const TOTAL_PER_LESSON = 12;
-
-const WEEKLY_BADGES = [
-  { min: 0,  max: 3,  label: 'Getting started',   icon: '🌱', color: '#aaa' },
-  { min: 4,  max: 6,  label: 'On the right path!', icon: '🔥', color: '#ff6a00' },
-  { min: 7,  max: 9,  label: 'Almost there!',      icon: '⭐', color: '#ba7517' },
-  { min: 10, max: 11, label: 'So close!',           icon: '🚀', color: '#378add' },
-  { min: 12, max: 12, label: 'Week completed!',     icon: '🏆', color: '#1d9e75' },
-];
-
 export default function PracticeHub({ user, student, onLogout }) {
   const navigate = useNavigate();
   const [selectedSkill, setSelectedSkill] = useState(null);
   const [expandedLesson, setExpandedLesson] = useState('L3');
-  const [completedCodes, setCompletedCodes] = useState(() => {
-    try { return JSON.parse(localStorage.getItem('ewd_completed_codes') || '[]'); }
-    catch { return []; }
-  });
 
-  const currentLesson = LESSONS[0];
-  const allCodes = Object.values(currentLesson.activities).flat().map(a => a.code);
-  const completedThisLesson = completedCodes.filter(c => allCodes.includes(c)).length;
-  const progressPct = Math.round((completedThisLesson / TOTAL_PER_LESSON) * 100);
-  const badge = WEEKLY_BADGES.find(b => completedThisLesson >= b.min && completedThisLesson <= b.max) || WEEKLY_BADGES[0];
-
-  const handleStartActivity = (skill, activityIndex, code) => {
-    if (!completedCodes.includes(code)) {
-      const updated = [...completedCodes, code];
-      setCompletedCodes(updated);
-      localStorage.setItem('ewd_completed_codes', JSON.stringify(updated));
-      const xp = parseInt(localStorage.getItem('ewd_xp') || '0');
-      localStorage.setItem('ewd_xp', xp + 10);
-    }
-    navigate('/practice/' + skill + '?activity=' + activityIndex);
+  const handleStartActivity = (skill, activityIndex) => {
+    navigate(`/practice/${skill}?activity=${activityIndex}`);
   };
 
   const stars = Array.from({ length: 6 }, (_, i) => ({
-    top: [6,88,35,72,15,92][i] + '%',
-    left: [4,91,97,2,50,87][i] + '%',
+    top: `${[6,88,35,72,15,92][i]}%`,
+    left: `${[4,91,97,2,50,87][i]}%`,
     size: [3,2,3.5,2,1.5,3][i],
     op: [0.35,0.25,0.4,0.3,0.15,0.3][i],
     d: ['3.5s','4s','5s','3s','5s','3s'][i],
@@ -93,128 +72,75 @@ export default function PracticeHub({ user, student, onLogout }) {
   return (
     <div className="hub-page">
       {stars.map((s, i) => (
-        <div key={i} className="star" style={{ top: s.top, left: s.left, width: s.size, height: s.size, '--op': s.op, '--d': s.d, '--delay': s.delay }} />
+        <div key={i} className="star" style={{
+          top: s.top, left: s.left, width: s.size, height: s.size,
+          '--op': s.op, '--d': s.d, '--delay': s.delay,
+        }} />
       ))}
+
       <Navbar user={user} student={student} onLogout={onLogout} />
+
       <main className="hub-content">
 
+        {/* Header */}
         <div className="hub-header">
-          <h1 className="hub-title">Practice Hub</h1>
-          <p className="hub-sub">Choose a skill and dive into your lesson activities ✦</p>
-          <div className="hub-legend">
-            <div className="hub-legend-title">How to read the activity codes:</div>
-            <div className="hub-legend-items">
-              <div className="hub-legend-item">
-                <span className="hub-legend-code">L3</span>
-                <span className="hub-legend-desc">Lesson number <em>(ex: L3 = Lesson 3 — The Greetings)</em></span>
-              </div>
-              <div className="hub-legend-item">
-                <span className="hub-legend-code reading">R1</span>
-                <span className="hub-legend-desc">📖 <strong>R</strong> = Reading activity + number <em>(R1, R2, R3)</em></span>
-              </div>
-              <div className="hub-legend-item">
-                <span className="hub-legend-code listening">L1</span>
-                <span className="hub-legend-desc">🎧 <strong>L</strong> = Listening activity + number <em>(L1, L2, L3)</em></span>
-              </div>
-              <div className="hub-legend-item">
-                <span className="hub-legend-code writing">W1</span>
-                <span className="hub-legend-desc">✏️ <strong>W</strong> = Writing activity + number <em>(W1, W2, W3)</em></span>
-              </div>
-              <div className="hub-legend-item">
-                <span className="hub-legend-code speaking">S1</span>
-                <span className="hub-legend-desc">🎙️ <strong>S</strong> = Speaking activity + number <em>(S1, S2, S3)</em></span>
-              </div>
-            </div>
-            <div className="hub-legend-example">
-              Example: <strong>L3-R2</strong> = Lesson 3 · Reading · Activity 2
-            </div>
+          <div>
+            <h1 className="hub-title">Practice Hub</h1>
+            <p className="hub-sub">Choose a skill and dive into your lesson activities ✦</p>
           </div>
         </div>
 
-        {/* Tip banner */}
-        <div className="hub-tip-banner">
-          <div className="hub-tip-icon">💡</div>
-          <div className="hub-tip-text">
-            <strong>Tip from Denise:</strong> Complete the activities <strong>before and after each class</strong> — this prevents content from piling up and helps you retain much more. <em>Consistency is the key to fluency!</em>
-          </div>
-        </div>
-
-        {/* Weekly progress */}
-        <div className="hub-weekly-card">
-          <div className="hub-weekly-top">
-            <div className="hub-weekly-left">
-              <div className="hub-weekly-badge-icon">{badge.icon}</div>
-              <div>
-                <div className="hub-weekly-title">Weekly Progress — {currentLesson.code}: {currentLesson.title}</div>
-                <div className="hub-weekly-status" style={{ color: badge.color }}>{badge.label}</div>
-              </div>
-            </div>
-            <div className="hub-weekly-count">
-              <span className="hub-weekly-done" style={{ color: badge.color }}>{completedThisLesson}</span>
-              <span className="hub-weekly-total">/{TOTAL_PER_LESSON}</span>
-            </div>
-          </div>
-          <div className="hub-weekly-bar-wrap">
-            <div className="hub-weekly-bar">
-              <div className="hub-weekly-fill" style={{ width: progressPct + '%', background: badge.color }} />
-            </div>
-            <span className="hub-weekly-pct">{progressPct}%</span>
-          </div>
-          <div className="hub-weekly-skills">
-            {SKILLS.map(s => {
-              const codes = (currentLesson.activities[s.key] || []).map(a => a.code);
-              const done = codes.filter(c => completedCodes.includes(c)).length;
-              return (
-                <div key={s.key} className="hub-weekly-skill-chip" style={{ '--chip-color': s.color }}>
-                  {s.icon} {done}/{codes.length}
-                </div>
-              );
-            })}
-          </div>
-          {completedThisLesson === TOTAL_PER_LESSON && (
-            <div className="hub-weekly-congrats">
-              Amazing! You completed all 12 activities this week! You have earned +120 XP and a trophy! Keep it up!
-            </div>
-          )}
-        </div>
-
+        {/* Skill selector */}
         {!selectedSkill ? (
           <>
             <div className="hub-skills-grid">
-              {SKILLS.map(s => {
-                const codes = (currentLesson.activities[s.key] || []).map(a => a.code);
-                const done = codes.filter(c => completedCodes.includes(c)).length;
-                const total = LESSONS.reduce((acc, l) => acc + (l.activities[s.key] ? l.activities[s.key].length : 0), 0);
-                return (
-                  <div key={s.key} className="hub-skill-card" onClick={() => setSelectedSkill(s.key)} style={{ '--skill-color': s.color, '--skill-bg': s.bg }}>
-                    <div className="hub-skill-icon">{s.icon}</div>
-                    <div className="hub-skill-label">{s.label}</div>
-                    <div className="hub-skill-count">{total} activities</div>
-                    <div className="hub-skill-mini-bar">
-                      <div className="hub-skill-mini-fill" style={{ width: Math.round((done/3)*100) + '%', background: s.color }} />
-                    </div>
-                    <div className="hub-skill-progress-text" style={{ color: s.color }}>{done}/3 this week</div>
-                    <div className="hub-skill-arrow" style={{ color: s.color }}>→</div>
+              {SKILLS.map(s => (
+                <div key={s.key} className="hub-skill-card" onClick={() => setSelectedSkill(s.key)}
+                  style={{ '--skill-color': s.color, '--skill-bg': s.bg }}>
+                  <div className="hub-skill-icon">{s.icon}</div>
+                  <div className="hub-skill-label">{s.label}</div>
+                  <div className="hub-skill-count">
+                    {LESSONS.reduce((acc, l) => acc + (l.activities[s.key]?.length || 0), 0)} activities
                   </div>
-                );
-              })}
+                  <div className="hub-skill-arrow">→</div>
+                </div>
+              ))}
             </div>
+
+            {/* Quick stats */}
             <div className="hub-stats-row">
-              <div className="hub-stat"><div className="hub-stat-num">{LESSONS.length}</div><div className="hub-stat-label">lessons available</div></div>
-              <div className="hub-stat"><div className="hub-stat-num">{LESSONS.reduce((acc, l) => acc + Object.values(l.activities).flat().length, 0)}</div><div className="hub-stat-label">total activities</div></div>
-              <div className="hub-stat"><div className="hub-stat-num">4</div><div className="hub-stat-label">skills covered</div></div>
-              <div className="hub-stat"><div className="hub-stat-num">AI</div><div className="hub-stat-label">powered feedback</div></div>
+              <div className="hub-stat">
+                <div className="hub-stat-num">{LESSONS.length}</div>
+                <div className="hub-stat-label">lessons available</div>
+              </div>
+              <div className="hub-stat">
+                <div className="hub-stat-num">{LESSONS.reduce((acc, l) => acc + Object.values(l.activities).flat().length, 0)}</div>
+                <div className="hub-stat-label">total activities</div>
+              </div>
+              <div className="hub-stat">
+                <div className="hub-stat-num">4</div>
+                <div className="hub-stat-label">skills covered</div>
+              </div>
+              <div className="hub-stat">
+                <div className="hub-stat-num">AI</div>
+                <div className="hub-stat-label">powered feedback</div>
+              </div>
             </div>
           </>
         ) : (
           <>
+            {/* Back + skill header */}
             <div className="hub-skill-header">
-              <button className="hub-back-btn" onClick={() => setSelectedSkill(null)}>← Back</button>
+              <button className="hub-back-btn" onClick={() => setSelectedSkill(null)}>
+                ← Back
+              </button>
               <div className="hub-skill-title-row">
-                <span>{SKILLS.find(s => s.key === selectedSkill)?.icon}</span>
+                {SKILLS.find(s => s.key === selectedSkill)?.icon}
                 <h2 className="hub-skill-title">{SKILLS.find(s => s.key === selectedSkill)?.label}</h2>
               </div>
             </div>
+
+            {/* Lessons list */}
             <div className="hub-lessons">
               {LESSONS.map(lesson => {
                 const acts = lesson.activities[selectedSkill] || [];
@@ -232,28 +158,29 @@ export default function PracticeHub({ user, student, onLogout }) {
                           </div>
                         </div>
                       </div>
-                      <div className={'hub-chevron' + (isOpen ? ' open' : '')}>▾</div>
+                      <div className={`hub-chevron ${isOpen ? 'open' : ''}`}>▾</div>
                     </div>
+
                     {isOpen && (
                       <div className="hub-activities-list">
-                        {acts.map((act, i) => {
-                          const done = completedCodes.includes(act.code);
-                          return (
-                            <div key={act.code} className={'hub-activity-row' + (done ? ' done' : '')} onClick={() => handleStartActivity(selectedSkill, act.activityIndex, act.code)}>
-                              <div className="hub-activity-left">
-                                <div className={'hub-activity-num' + (done ? ' done' : '')}>{done ? '✓' : i + 1}</div>
-                                <div>
-                                  <div className="hub-activity-code">{act.code}</div>
-                                  <div className="hub-activity-title">{act.title}</div>
-                                </div>
-                              </div>
-                              <div className="hub-activity-right">
-                                <span className="hub-type-badge">{TYPE_ICONS[act.type]} {act.type}</span>
-                                <button className={'hub-start-btn' + (done ? ' done' : '')}>{done ? 'Redo ↺' : 'Start →'}</button>
+                        {acts.map((act, i) => (
+                          <div key={act.code} className="hub-activity-row"
+                            onClick={() => handleStartActivity(selectedSkill, act.activityIndex)}>
+                            <div className="hub-activity-left">
+                              <div className="hub-activity-num">{i + 1}</div>
+                              <div>
+                                <div className="hub-activity-code">{act.code}</div>
+                                <div className="hub-activity-title">{act.title}</div>
                               </div>
                             </div>
-                          );
-                        })}
+                            <div className="hub-activity-right">
+                              <span className="hub-type-badge">
+                                {TYPE_ICONS[act.type]} {act.type}
+                              </span>
+                              <button className="hub-start-btn">Start →</button>
+                            </div>
+                          </div>
+                        ))}
                       </div>
                     )}
                   </div>
