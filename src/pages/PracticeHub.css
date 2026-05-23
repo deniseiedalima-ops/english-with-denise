@@ -1,3 +1,85 @@
+/* Legend */
+.hub-legend {
+  background: #fff; border: 0.5px solid #e0dbd4;
+  border-radius: 12px; padding: 14px 16px; margin-top: 16px;
+}
+.hub-legend-title { font-size: 11px; font-weight: 700; color: #aaa; text-transform: uppercase; letter-spacing: .6px; margin-bottom: 10px; }
+.hub-legend-items { display: flex; flex-direction: column; gap: 6px; margin-bottom: 12px; }
+.hub-legend-item { display: flex; align-items: center; gap: 10px; }
+.hub-legend-code {
+  font-size: 11px; font-weight: 700; letter-spacing: .5px;
+  background: #111; color: #fff;
+  padding: 3px 9px; border-radius: 5px;
+  min-width: 36px; text-align: center; flex-shrink: 0;
+}
+.hub-legend-code.reading  { background: #1d9e75; }
+.hub-legend-code.listening { background: #378add; }
+.hub-legend-code.writing  { background: #7f77dd; }
+.hub-legend-code.speaking { background: #d4537e; }
+.hub-legend-desc { font-size: 12px; color: #666; }
+.hub-legend-desc strong { color: #111; }
+.hub-legend-desc em { color: #aaa; font-style: normal; }
+.hub-legend-example {
+  font-size: 12px; color: #888;
+  background: #f7f4f0; border-radius: 8px;
+  padding: 8px 12px; border-left: 3px solid #ff6a00;
+}
+.hub-legend-example strong { color: #ff6a00; }
+
+/* Tip banner */
+.hub-tip-banner {
+  display: flex; align-items: flex-start; gap: 12px;
+  background: #fff; border: 0.5px solid #e0dbd4;
+  border-left: 4px solid #ff6a00;
+  border-radius: 12px; padding: 14px 16px;
+  margin-bottom: 16px; font-size: 13px; color: #555; line-height: 1.6;
+}
+.hub-tip-icon { font-size: 20px; flex-shrink: 0; margin-top: 1px; }
+.hub-tip-text strong { color: #111; }
+.hub-tip-text em { color: #ff6a00; font-style: normal; font-weight: 500; }
+
+/* Weekly progress */
+.hub-weekly-card {
+  background: #fff; border: 0.5px solid #e0dbd4;
+  border-radius: 14px; padding: 18px 20px;
+  margin-bottom: 24px;
+}
+.hub-weekly-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+.hub-weekly-left { display: flex; align-items: center; gap: 12px; }
+.hub-weekly-badge-icon { font-size: 28px; }
+.hub-weekly-title { font-size: 14px; font-weight: 600; color: #111; margin-bottom: 2px; }
+.hub-weekly-status { font-size: 12px; font-weight: 600; }
+.hub-weekly-count { text-align: right; }
+.hub-weekly-done { font-family: 'DM Serif Display', serif; font-size: 32px; font-weight: 400; }
+.hub-weekly-total { font-size: 16px; color: #aaa; }
+.hub-weekly-bar-wrap { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+.hub-weekly-bar { flex: 1; height: 10px; background: #f0ede8; border-radius: 5px; overflow: hidden; }
+.hub-weekly-fill { height: 100%; border-radius: 5px; transition: width 1s ease; }
+.hub-weekly-pct { font-size: 12px; font-weight: 600; color: #888; min-width: 36px; text-align: right; }
+.hub-weekly-skills { display: flex; gap: 8px; flex-wrap: wrap; }
+.hub-weekly-skill-chip {
+  font-size: 12px; font-weight: 500;
+  background: #f7f4f0; border: 0.5px solid #e0dbd4;
+  border-radius: 20px; padding: 4px 12px;
+  color: var(--chip-color);
+}
+.hub-weekly-congrats {
+  margin-top: 14px; background: #e1f5ee;
+  border: 0.5px solid #9fe1cb; border-radius: 10px;
+  padding: 12px 14px; font-size: 13px; color: #0f6e56; line-height: 1.6;
+}
+
+/* Skill card mini progress bar */
+.hub-skill-mini-bar { height: 3px; background: #f0ede8; border-radius: 2px; margin: 8px 0 4px; }
+.hub-skill-mini-fill { height: 100%; border-radius: 2px; transition: width .5s; }
+.hub-skill-progress-text { font-size: 11px; font-weight: 600; margin-bottom: 8px; }
+
+/* Activity done state */
+.hub-activity-row.done { background: #fafff9; }
+.hub-activity-num.done { background: #e1f5ee; color: #1d9e75; font-size: 14px; }
+.hub-start-btn.done { background: #f0ede8; color: #888; }
+.hub-start-btn.done:hover { background: #e0dbd4; }
+
 .hub-page { min-height: 100vh; background: #f0ede8; position: relative; }
 .hub-content { max-width: 860px; margin: 0 auto; padding: 32px 24px 64px; position: relative; z-index: 2; }
 
@@ -80,3 +162,54 @@
   .hub-activity-right { flex-direction: column; gap: 6px; }
   .hub-type-badge { display: none; }
 }
+
+/* Legend */
+.hub-legend { background: #fff; border: 0.5px solid #e0dbd4; border-radius: 12px; padding: 14px 16px; margin-top: 16px; }
+.hub-legend-title { font-size: 11px; font-weight: 700; color: #aaa; text-transform: uppercase; letter-spacing: .6px; margin-bottom: 10px; }
+.hub-legend-items { display: flex; flex-direction: column; gap: 6px; margin-bottom: 12px; }
+.hub-legend-item { display: flex; align-items: center; gap: 10px; }
+.hub-legend-code { font-size: 11px; font-weight: 700; letter-spacing: .5px; background: #111; color: #fff; padding: 3px 9px; border-radius: 5px; min-width: 36px; text-align: center; flex-shrink: 0; }
+.hub-legend-code.reading  { background: #1d9e75; }
+.hub-legend-code.listening { background: #378add; }
+.hub-legend-code.writing  { background: #7f77dd; }
+.hub-legend-code.speaking { background: #d4537e; }
+.hub-legend-desc { font-size: 12px; color: #666; }
+.hub-legend-desc strong { color: #111; }
+.hub-legend-desc em { color: #aaa; font-style: normal; }
+.hub-legend-example { font-size: 12px; color: #888; background: #f7f4f0; border-radius: 8px; padding: 8px 12px; border-left: 3px solid #ff6a00; }
+.hub-legend-example strong { color: #ff6a00; }
+
+/* Tip banner */
+.hub-tip-banner { display: flex; align-items: flex-start; gap: 12px; background: #fff; border: 0.5px solid #e0dbd4; border-left: 4px solid #ff6a00; border-radius: 12px; padding: 14px 16px; margin-bottom: 16px; font-size: 13px; color: #555; line-height: 1.6; }
+.hub-tip-icon { font-size: 20px; flex-shrink: 0; margin-top: 1px; }
+.hub-tip-text strong { color: #111; }
+.hub-tip-text em { color: #ff6a00; font-style: normal; font-weight: 500; }
+
+/* Weekly progress */
+.hub-weekly-card { background: #fff; border: 0.5px solid #e0dbd4; border-radius: 14px; padding: 18px 20px; margin-bottom: 24px; }
+.hub-weekly-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+.hub-weekly-left { display: flex; align-items: center; gap: 12px; }
+.hub-weekly-badge-icon { font-size: 28px; }
+.hub-weekly-title { font-size: 14px; font-weight: 600; color: #111; margin-bottom: 2px; }
+.hub-weekly-status { font-size: 12px; font-weight: 600; }
+.hub-weekly-count { text-align: right; }
+.hub-weekly-done { font-family: 'DM Serif Display', serif; font-size: 32px; font-weight: 400; }
+.hub-weekly-total { font-size: 16px; color: #aaa; }
+.hub-weekly-bar-wrap { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+.hub-weekly-bar { flex: 1; height: 10px; background: #f0ede8; border-radius: 5px; overflow: hidden; }
+.hub-weekly-fill { height: 100%; border-radius: 5px; transition: width 1s ease; }
+.hub-weekly-pct { font-size: 12px; font-weight: 600; color: #888; min-width: 36px; text-align: right; }
+.hub-weekly-skills { display: flex; gap: 8px; flex-wrap: wrap; }
+.hub-weekly-skill-chip { font-size: 12px; font-weight: 500; background: #f7f4f0; border: 0.5px solid #e0dbd4; border-radius: 20px; padding: 4px 12px; color: var(--chip-color); }
+.hub-weekly-congrats { margin-top: 14px; background: #e1f5ee; border: 0.5px solid #9fe1cb; border-radius: 10px; padding: 12px 14px; font-size: 13px; color: #0f6e56; line-height: 1.6; }
+
+/* Skill card mini bar */
+.hub-skill-mini-bar { height: 3px; background: #f0ede8; border-radius: 2px; margin: 8px 0 4px; }
+.hub-skill-mini-fill { height: 100%; border-radius: 2px; transition: width .5s; }
+.hub-skill-progress-text { font-size: 11px; font-weight: 600; margin-bottom: 8px; }
+
+/* Activity done */
+.hub-activity-row.done { background: #fafff9; }
+.hub-activity-num.done { background: #e1f5ee; color: #1d9e75; font-size: 14px; }
+.hub-start-btn.done { background: #f0ede8; color: #888; }
+.hub-start-btn.done:hover { background: #e0dbd4; }

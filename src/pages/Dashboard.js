@@ -23,7 +23,6 @@ export default function Dashboard({ user, student, onLogout }) {
   const agenda = student?.proximaAula;
   const dataAula = student?.dataProximaAula || agenda?.dataAula;
 
-  // Format date
   const formatDate = (dateStr) => {
     if (!dateStr) return null;
     const d = new Date(dateStr + 'T12:00:00');
@@ -36,10 +35,10 @@ export default function Dashboard({ user, student, onLogout }) {
   const date = formatDate(dataAula);
 
   const skills = [
-    { key: 'writing', label: 'Writing', icon: '✏️', score: 0, done: 0 },
-    { key: 'speaking', label: 'Speaking', icon: '🎙️', score: 0, done: 0 },
-    { key: 'reading', label: 'Reading', icon: '📖', score: 0, done: 0 },
-    { key: 'listening', label: 'Listening', icon: '🎧', score: 0, done: 0 },
+    { key: 'writing',   label: 'Writing',   icon: '✏️' },
+    { key: 'speaking',  label: 'Speaking',  icon: '🎙️' },
+    { key: 'reading',   label: 'Reading',   icon: '📖' },
+    { key: 'listening', label: 'Listening', icon: '🎧' },
   ].map(s => {
     const acts = activities.filter(a => a.skill === s.key);
     const avgScore = acts.length ? (acts.reduce((acc, a) => acc + a.score, 0) / acts.length).toFixed(1) : '—';
@@ -47,8 +46,8 @@ export default function Dashboard({ user, student, onLogout }) {
   });
 
   const stars = Array.from({ length: 8 }, (_, i) => ({
-    top: `${[6,12,38,62,75,89,93,25][i]}%`,
-    left: `${[4,91,97,1.5,96,6,87,50][i]}%`,
+    top: [6,12,38,62,75,89,93,25][i] + '%',
+    left: [4,91,97,1.5,96,6,87,50][i] + '%',
     size: [3,2,3.5,2,2.5,2,3,1.5][i],
     op: [0.35,0.25,0.4,0.3,0.35,0.2,0.3,0.15][i],
     d: ['3.5s','4s','5s','3s','4.5s','6s','3s','5s'][i],
@@ -58,14 +57,9 @@ export default function Dashboard({ user, student, onLogout }) {
   return (
     <div className="dashboard-page">
       {stars.map((s, i) => (
-        <div key={i} className="star" style={{
-          top: s.top, left: s.left, width: s.size, height: s.size,
-          '--op': s.op, '--d': s.d, '--delay': s.delay,
-        }} />
+        <div key={i} className="star" style={{ top: s.top, left: s.left, width: s.size, height: s.size, '--op': s.op, '--d': s.d, '--delay': s.delay }} />
       ))}
-
       <Navbar user={user} student={student} onLogout={onLogout} />
-
       <main className="dashboard-content">
 
         {/* Welcome */}
@@ -73,7 +67,7 @@ export default function Dashboard({ user, student, onLogout }) {
           <div>
             <p className="welcome-label">Welcome back,</p>
             <h1 className="welcome-name">{student?.nome?.split(' ')[0] || user?.name?.split(' ')[0]} <span className="welcome-star">✦</span></h1>
-            <p className="welcome-streak">{streak > 0 ? `🔥 ${streak} day streak! Keep going!` : "Start your streak today!"}</p>
+            <p className="welcome-streak">{streak > 0 ? '🔥 ' + streak + ' day streak! Keep going!' : 'Start your streak today!'}</p>
           </div>
         </div>
 
@@ -87,13 +81,11 @@ export default function Dashboard({ user, student, onLogout }) {
             </div>
           </div>
           <div className="level-track">
-            {['A1','A2','B1','B2'].map((l, i) => {
+            {['A1','A2','B1','B2'].map(l => {
               const levelMap = { 'A1': 0, 'A2': 2, 'B1': 4, 'B2': 5 };
               const isDone = levelIndex > levelMap[l];
               const isCurrent = (l === 'A1' && levelIndex <= 1) || (l === 'A2' && levelIndex === 2) || (l === 'B1' && (levelIndex === 3 || levelIndex === 4)) || (l === 'B2' && levelIndex === 5);
-              return (
-                <div key={l} className={`level-dot ${isDone ? 'done' : ''} ${isCurrent ? 'current' : ''}`}>{l}</div>
-              );
+              return <div key={l} className={'level-dot' + (isDone ? ' done' : '') + (isCurrent ? ' current' : '')}>{l}</div>;
             })}
           </div>
         </div>
@@ -103,18 +95,12 @@ export default function Dashboard({ user, student, onLogout }) {
           <div className="xp-badge">LV. {levelNum}</div>
           <div className="xp-num">{xp} <span className="xp-label">XP</span></div>
           <div className="xp-bar-wrap">
-            <div className="xp-bar-label">
-              <span>Progress to next level</span>
-              <span>{xpProgress} / {XP_PER_LEVEL} XP</span>
-            </div>
-            <div className="xp-bar"><div className="xp-fill" style={{ width: `${xpProgress}%` }} /></div>
+            <div className="xp-bar-label"><span>Progress to next level</span><span>{xpProgress} / {XP_PER_LEVEL} XP</span></div>
+            <div className="xp-bar"><div className="xp-fill" style={{ width: xpProgress + '%' }} /></div>
           </div>
           <div className="streak-box">
             <span className="streak-fire">🔥</span>
-            <div>
-              <div className="streak-num">{streak}</div>
-              <div className="streak-lbl">day streak</div>
-            </div>
+            <div><div className="streak-num">{streak}</div><div className="streak-lbl">day streak</div></div>
           </div>
         </div>
 
@@ -122,18 +108,18 @@ export default function Dashboard({ user, student, onLogout }) {
         <div className="section-title fade-up fade-up-3">Your skills</div>
         <div className="skills-grid fade-up fade-up-3">
           {skills.map(s => (
-            <div key={s.key} className="skill-card" onClick={() => navigate(`/practice/${s.key}`)}>
+            <div key={s.key} className="skill-card" onClick={() => navigate('/practice/' + s.key)}>
               <div className="skill-icon">{s.icon}</div>
               <div className="skill-score">{s.score} <span className="skill-avg">avg</span></div>
               <div className="skill-name">{s.label}</div>
               <div className="skill-sub">{s.done} {s.done === 1 ? 'activity' : 'activities'} done</div>
-              <div className="skill-bar"><div className="skill-bar-fill" style={{ width: `${Math.min(s.done * 10, 100)}%` }} /></div>
+              <div className="skill-bar"><div className="skill-bar-fill" style={{ width: Math.min(s.done * 10, 100) + '%' }} /></div>
               <div className="practice-btn">Practice →</div>
             </div>
           ))}
         </div>
 
-        {/* Agenda — moved up */}
+        {/* Agenda */}
         <div className="section-title fade-up fade-up-4">Agenda</div>
         <div className="agenda-card fade-up fade-up-4">
           <div className="agenda-header">
@@ -144,7 +130,6 @@ export default function Dashboard({ user, student, onLogout }) {
             </div>
             <span className="agenda-synced">↻ Synced with Notion</span>
           </div>
-
           {agenda ? (
             <div className="agenda-body">
               {date && (
@@ -170,7 +155,6 @@ export default function Dashboard({ user, student, onLogout }) {
               <p>No class scheduled yet. Denise will update your agenda soon!</p>
             </div>
           )}
-
           <div className="agenda-footer">
             <span className="agenda-level-pill">{nivel}</span>
             <span className="agenda-updated">Updated by Denise</span>
@@ -179,17 +163,25 @@ export default function Dashboard({ user, student, onLogout }) {
 
         {/* Bottom grid */}
         <div className="bottom-grid fade-up fade-up-5">
-          {/* Left col */}
+
+          {/* LEFT COL */}
           <div className="bottom-col">
+
+            {/* Google Classroom */}
             {student?.classroomLink && (
               <div className="card classroom-card">
                 <div className="card-title">🎓 Google Classroom</div>
                 <a href={student.classroomLink} target="_blank" rel="noreferrer" className="classroom-btn">
                   Open my Classroom ↗
                 </a>
-                <p className="classroom-note">Linked to your Google account</p>
+                <div className="classroom-desc-box">
+                  <div className="classroom-desc-item">📄 PDF do material para imprimir ou usar no tablet</div>
+                  <div className="classroom-desc-item">🎥 Gravações das aulas</div>
+                </div>
               </div>
             )}
+
+            {/* Achievements */}
             <div className="card achievements-card">
               <div className="card-header-row">
                 <div className="card-title">✨ Achievements <span className="ach-count">0/37</span></div>
@@ -197,7 +189,7 @@ export default function Dashboard({ user, student, onLogout }) {
               </div>
               <div className="ach-empty">Complete activities to unlock achievements! 🏅</div>
               <div className="ach-progress-row">
-                {[['Bronze','#cd7f32'], ['Silver','#999'], ['Gold','#ff6a00'], ['Platinum','#7f77dd']].map(([label, color]) => (
+                {[['Bronze','#cd7f32'],['Silver','#999'],['Gold','#ff6a00'],['Platinum','#7f77dd']].map(([label, color]) => (
                   <div key={label} className="ach-prog">
                     <div className="ach-prog-label" style={{ color }}>{label}</div>
                     <div className="ach-prog-counts">0/5</div>
@@ -207,7 +199,7 @@ export default function Dashboard({ user, student, onLogout }) {
               </div>
             </div>
 
-            {/* Website link card */}
+            {/* Explore more resources */}
             <a href="https://www.englishwithdenise.com.br/" target="_blank" rel="noreferrer" className="card website-card">
               <div className="website-card-inner">
                 <div className="website-icon">🌐</div>
@@ -218,10 +210,36 @@ export default function Dashboard({ user, student, onLogout }) {
                 <div className="website-arrow">↗</div>
               </div>
             </a>
+
+            {/* Manual de Estudo Independente */}
+            <a href="https://polydactyl-melon-224.notion.site/MANUAL-DE-COMO-APRENDER-INGL-S-POR-CONTA-PR-PRIA-32d628bb387c80698ddfd1c290166b32" target="_blank" rel="noreferrer" className="card manual-card">
+              <div className="manual-card-inner">
+                <div className="manual-icon-wrap" style={{ background: '#fff1e8' }}>📘</div>
+                <div className="manual-text">
+                  <div className="manual-title">Manual de Estudo Independente</div>
+                  <div className="manual-sub">Como aprender inglês por conta própria</div>
+                </div>
+                <div className="manual-arrow">↗</div>
+              </div>
+            </a>
+
+            {/* Manual do Aluno */}
+            <a href="https://polydactyl-melon-224.notion.site/Manual-do-Aluno-353628bb387c81199971fa266ed66a26" target="_blank" rel="noreferrer" className="card manual-card">
+              <div className="manual-card-inner">
+                <div className="manual-icon-wrap" style={{ background: '#eeedfe' }}>📙</div>
+                <div className="manual-text">
+                  <div className="manual-title">Manual do Aluno</div>
+                  <div className="manual-sub">English with Denise — guia completo</div>
+                </div>
+                <div className="manual-arrow">↗</div>
+              </div>
+            </a>
           </div>
 
-          {/* Right col */}
+          {/* RIGHT COL */}
           <div className="bottom-col">
+
+            {/* Recent activity */}
             <div className="card activity-card">
               <div className="card-header-row">
                 <div className="card-title">Recent activity</div>
@@ -240,7 +258,7 @@ export default function Dashboard({ user, student, onLogout }) {
               )}
             </div>
 
-            {/* Reposições card — updated description */}
+            {/* Make-up Classes */}
             <div className="card reposicoes-card">
               <div className="reposicoes-header">
                 <div className="card-title">🔄 Make-up Classes</div>
@@ -258,11 +276,12 @@ export default function Dashboard({ user, student, onLogout }) {
               <div className="reposicoes-note">Entre em contato com a Denise para agendar um horário 💬</div>
             </div>
 
+            {/* Your stats */}
             <div className="card stats-card">
               <div className="card-title" style={{ marginBottom: 12 }}>Your stats</div>
               {[
                 ['Total practices', activities.length],
-                ['Best streak', `${streak} days`],
+                ['Best streak', streak + ' days'],
                 ['Total XP', xp],
                 ['Current level', LEVEL_DISPLAY[nivel] || nivel],
               ].map(([label, val]) => (
