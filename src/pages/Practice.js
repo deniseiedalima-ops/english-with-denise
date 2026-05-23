@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, useSearchParams } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import './Practice.css';
 
@@ -211,8 +211,12 @@ const SKILLS = {
 export default function Practice({ user, student, onLogout }) {
   const { skill } = useParams();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const skillData = SKILLS[skill] || SKILLS.reading;
-  const [activityIndex, setActivityIndex] = useState(0);
+  const [activityIndex, setActivityIndex] = useState(() => {
+    const idx = parseInt(searchParams.get('activity') || '0');
+    return isNaN(idx) ? 0 : idx;
+  });
   const activity = skillData.activities[activityIndex];
 
   const [answers, setAnswers] = useState({});
@@ -267,19 +271,58 @@ export default function Practice({ user, student, onLogout }) {
 
   const transcribeAudio = async (blob) => {
     setSpeakingLoading(true);
+    console.log('Audio blob size:', blob.size, 'type:', blob.type);
+    
     try {
+      if (blob.size < 1000) {
+        setTranscript('');
+        setSpeakingFeedback({ 
+          score: 0, 
+          positive: '🎤 Audio not captured!', 
+          tip: 'Make sure your microphone is allowed in the browser. Click the 🔒 icon in the address bar and allow microphone access, then try again!', 
+          overall: 'Microphone issue — please check your settings!' 
+        });
+        setSpeakingLoading(false);
+        setSubmitted(true);
+        return;
+      }
+
       const res = await fetch('/api/transcribe', {
         method: 'POST',
-        headers: { 'Content-Type': 'audio/webm' },
+        headers: { 'Content-Type': blob.type || 'audio/webm' },
         body: blob,
       });
       const data = await res.json();
+      console.log('Transcription result:', data);
+      
       const text = data.text || '';
+      
+      if (!text || text.trim().length < 2) {
+        setTranscript('');
+        setSpeakingFeedback({ 
+          score: 0, 
+          positive: '🎤 We could not hear anything!', 
+          tip: 'Speak louder and closer to the microphone. Make sure there is no background noise. Try again!', 
+          overall: 'No speech detected — give it another try! 💪' 
+        });
+        setSpeakingLoading(false);
+        setSubmitted(true);
+        return;
+      }
+
       setTranscript(text);
       await getFeedback(text);
     } catch (err) {
-      setTranscript('Could not transcribe. Please try again.');
+      console.error('Transcription error:', err);
+      setTranscript('');
+      setSpeakingFeedback({ 
+        score: 0, 
+        positive: 'Connection error.', 
+        tip: 'Check your internet connection and try again.', 
+        overall: 'Something went wrong — please try again! 🔄' 
+      });
       setSpeakingLoading(false);
+      setSubmitted(true);
     }
   };
 
@@ -665,7 +708,7 @@ export default function Practice({ user, student, onLogout }) {
               <button className="try-again-btn" onClick={() => { setSubmitted(false); setAnswers({}); setWritingText(''); setTranscript(''); setSpeakingFeedback(null); setRecordingTime(0); }}>
                 Try another activity →
               </button>
-              <button className="back-btn" onClick={() => navigate('/')}>← Back to dashboard</button>
+              <button className="back-btn" onClick={() => navigate('/hub')}>← Back to Practice Hub</button>
             </div>
           )}
         </div>

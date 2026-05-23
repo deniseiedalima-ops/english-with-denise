@@ -1,14 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
 import Practice from './pages/Practice';
-
-// ─── NOTION CONFIG ──────────────────────────────────────────
-// Paste your Notion Integration Token in .env as REACT_APP_NOTION_TOKEN
-// Students DB ID: 368628bb387c80259882da13d7e2ed1d
-// Agenda DB ID:   20d1f53be0104838a9e452246edfa737
-// ────────────────────────────────────────────────────────────
+import PracticeHub from './pages/PracticeHub';
 
 export const NOTION_TOKEN = process.env.REACT_APP_NOTION_TOKEN || '';
 export const STUDENTS_DB  = '368628bb387c80259882da13d7e2ed1d';
@@ -46,6 +41,9 @@ export default function App() {
         } />
         <Route path="/" element={
           user ? <Dashboard user={user} student={student} onLogout={handleLogout} /> : <Navigate to="/login" replace />
+        } />
+        <Route path="/hub" element={
+          user ? <PracticeHub user={user} student={student} onLogout={handleLogout} /> : <Navigate to="/login" replace />
         } />
         <Route path="/practice/:skill" element={
           user ? <Practice user={user} student={student} onLogout={handleLogout} /> : <Navigate to="/login" replace />

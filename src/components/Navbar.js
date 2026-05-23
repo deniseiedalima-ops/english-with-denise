@@ -20,7 +20,7 @@ export default function Navbar({ user, student, onLogout }) {
         <div className="navbar-links">
           {[
             { label: 'Dashboard', path: '/' },
-            { label: 'Practice Hub', path: '/practice/reading' },
+            { label: 'Practice Hub', path: '/hub' },
           ].map(l => (
             <div
               key={l.path}

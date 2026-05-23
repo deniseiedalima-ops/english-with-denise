@@ -277,10 +277,14 @@ export default function Dashboard({ user, student, onLogout }) {
                 <span className="reposicoes-synced">↻ Notion</span>
               </div>
               <div className="reposicoes-body">
-                <div className="reposicoes-num">{student?.reposicoes ?? '—'}</div>
-                <div className="reposicoes-label">aula{student?.reposicoes === 1 ? '' : 's'} para repor</div>
+                <div className="reposicoes-num-wrap">
+                  <div className="reposicoes-num">{student?.reposicoes ?? '—'}</div>
+                </div>
+                <div className="reposicoes-text">
+                  <div className="reposicoes-label">{student?.reposicoes === 1 ? 'aula' : 'aulas'} para repor</div>
+                  <div className="reposicoes-desc">Essa é a quantidade de aulas que você precisa repor.</div>
+                </div>
               </div>
-              <div className="reposicoes-desc">Essa é a quantidade de aulas que você precisa repor.</div>
               <div className="reposicoes-note">Entre em contato com a Denise para agendar um horário 💬</div>
             </div>
 
