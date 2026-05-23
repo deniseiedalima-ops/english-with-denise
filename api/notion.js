@@ -8,20 +8,14 @@ const headers = {
 };
 
 export default async function handler(req, res) {
-  // CORS headers
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-
-  if (req.method === 'OPTIONS') {
-    return res.status(200).end();
-  }
+  if (req.method === 'OPTIONS') return res.status(200).end();
 
   const { action, ...body } = req.body || {};
 
   try {
-    let data;
-
     if (action === 'getStudentByEmail') {
       const { email } = body;
       const response = await fetch(`${NOTION_API}/databases/368628bb387c80259882da13d7e2ed1d/query`, {
@@ -33,7 +27,6 @@ export default async function handler(req, res) {
       });
       const result = await response.json();
       const pages = result.results || [];
-
       if (!pages.length) return res.json({ student: null });
 
       const page = pages[0];
@@ -43,7 +36,6 @@ export default async function handler(req, res) {
       const proximaAulaRelation = props['Próxima Aula']?.relation || [];
       let proximaAula = null;
       if (proximaAulaRelation.length > 0) {
-        const aulaId = proximaAulaRelation[0].id.replace(/-/g, '');
         const aulaRes = await fetch(`${NOTION_API}/pages/${proximaAulaRelation[0].id}`, { headers });
         const aulaPage = await aulaRes.json();
         const ap = aulaPage.properties;
@@ -64,9 +56,8 @@ export default async function handler(req, res) {
         email: props['E-mail']?.email || '',
         nivel: props['Nível']?.select?.name || '',
         genero: props['Gênero']?.select?.name || '',
-        genero: props['Gênero']?.select?.name || '',
-      meetLink: props['Link Google Meet']?.url || '',
-      classroomLink: props['Link Classroom']?.url || '',
+        classroomLink: props['Link Classroom']?.url || '',
+        meetLink: props['Link Google Meet']?.url || '',
         codigo: props['Código']?.number || null,
         dataProximaAula: props['Data da Próxima Aula']?.date?.start || null,
         tarefaPersonalizada: props['Tarefa Personalizada']?.rich_text?.[0]?.plain_text || '',
@@ -98,7 +89,6 @@ export default async function handler(req, res) {
     }
 
     return res.status(400).json({ error: 'Unknown action' });
-
   } catch (err) {
     console.error(err);
     return res.status(500).json({ error: err.message });

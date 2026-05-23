@@ -47,8 +47,7 @@ export default function Dashboard({ user, student, onLogout }) {
 
   const firstName = student?.nome?.split(' ')[0] || user?.name?.split(' ')[0] || '';
   const genero = student?.genero || '';
-  const crown = genero === 'M' ? '👑 King' : genero === 'F' ? '👑 Queen' : '';
-  const welcomeDisplay = crown ? `${crown} ${firstName}` : firstName;
+  const title = genero === 'M' ? 'King' : genero === 'F' ? 'Queen' : null;
 
   const stars = Array.from({ length: 8 }, (_, i) => ({
     top: [6,12,38,62,75,89,93,25][i] + '%',
@@ -71,7 +70,8 @@ export default function Dashboard({ user, student, onLogout }) {
         <div className="welcome-row fade-up fade-up-1">
           <div>
             <p className="welcome-label">Welcome back,</p>
-            <h1 className="welcome-name">{welcomeDisplay} <span className="welcome-star">✦</span></h1>
+            {title && <div className="welcome-title-badge">{title === 'Queen' ? '👑' : '👑'} {title}</div>}
+            <h1 className="welcome-name">{firstName} <span className="welcome-star">✦</span></h1>
             <p className="welcome-streak">{streak > 0 ? '🔥 ' + streak + ' day streak! Keep going!' : 'Start your streak today!'}</p>
           </div>
         </div>
