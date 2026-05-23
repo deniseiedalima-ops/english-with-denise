@@ -218,36 +218,6 @@ export default function Dashboard({ user, student, onLogout }) {
                 <div className="website-arrow">↗</div>
               </div>
             </a>
-
-            {/* Today's Challenges — moved to bottom left */}
-            <div className="challenges-card">
-              <div className="challenges-header">
-                <div className="challenges-title">⚡ Today's challenges</div>
-                <div className="challenges-sub">0 of 3 completed</div>
-              </div>
-              <div className="challenges-col">
-                {[
-                  { icon: '📖', name: 'Deep Reader', desc: 'Complete a reading passage', xp: 20, goal: 1 },
-                  { icon: '🎯', name: 'Well Rounded', desc: 'Practice 2 different skills today', xp: 30, goal: 2 },
-                  { icon: '👑', name: 'Consistency King', desc: 'Score 80%+ on 2 tasks', xp: 50, goal: 2 },
-                ].map((c, i) => (
-                  <div key={i} className="challenge-item-sm">
-                    <div className="ch-top">
-                      <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                        <span className="ch-icon">{c.icon}</span>
-                        <div>
-                          <div className="ch-name">{c.name}</div>
-                          <div className="ch-desc">{c.desc}</div>
-                        </div>
-                      </div>
-                      <span className="ch-xp">+{c.xp} XP</span>
-                    </div>
-                    <div className="ch-progress-row"><span>0/{c.goal}</span><span>0%</span></div>
-                    <div className="ch-bar"><div className="ch-bar-fill" style={{ width: '0%' }} /></div>
-                  </div>
-                ))}
-              </div>
-            </div>
           </div>
 
           {/* Right col */}
@@ -281,7 +251,7 @@ export default function Dashboard({ user, student, onLogout }) {
                   <div className="reposicoes-num">{student?.reposicoes ?? '—'}</div>
                 </div>
                 <div className="reposicoes-text">
-                  <div className="reposicoes-label">{student?.reposicoes === 1 ? 'aula' : 'aulas'} para repor</div>
+                  <div className="reposicoes-label">{student?.reposicoes === 1 ? 'Aula' : 'Aulas'} para Repor</div>
                   <div className="reposicoes-desc">Essa é a quantidade de aulas que você precisa repor.</div>
                 </div>
               </div>
