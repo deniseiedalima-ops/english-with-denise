@@ -94,7 +94,7 @@ export default function PracticeHub({ user, student, onLogout }) {
   const progressPct = Math.round((completedThisLesson / TOTAL_PER_LESSON) * 100);
   const badge = WEEKLY_BADGES.find(b => completedThisLesson >= b.min && completedThisLesson <= b.max) || WEEKLY_BADGES[0];
 
-  const handleStartActivity = (skill, activityIndex, code) => {
+  const handleStartActivity = (skill, activityIndex, code, lessonTitle) => {
     if (!completedCodes.includes(code)) {
       const updated = [...completedCodes, code];
       setCompletedCodes(updated);
@@ -102,7 +102,7 @@ export default function PracticeHub({ user, student, onLogout }) {
       const xp = parseInt(localStorage.getItem('ewd_xp') || '0');
       localStorage.setItem('ewd_xp', xp + 10);
     }
-    navigate('/practice/' + skill + '?activity=' + activityIndex);
+    navigate(`/practice/${skill}?lesson=${encodeURIComponent(lessonTitle)}&activity=${activityIndex}`);
   };
 
   const stars = Array.from({ length: 6 }, (_, i) => ({
@@ -274,7 +274,7 @@ export default function PracticeHub({ user, student, onLogout }) {
                         {acts.map((act, i) => {
                           const done = completedCodes.includes(act.code);
                           return (
-                            <div key={act.code} className={'hub-activity-row' + (done ? ' done' : '')} onClick={() => handleStartActivity(selectedSkill, act.activityIndex, act.code)}>
+                            <div key={act.code} className={'hub-activity-row' + (done ? ' done' : '')} onClick={() => handleStartActivity(selectedSkill, act.activityIndex, act.code, lesson.title)}>
                               <div className="hub-activity-left">
                                 <div className={'hub-activity-num' + (done ? ' done' : '')}>{done ? '✓' : i + 1}</div>
                                 <div>

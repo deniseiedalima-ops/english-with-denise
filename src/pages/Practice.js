@@ -388,11 +388,26 @@ export default function Practice({ user, student, onLogout }) {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const skillData = SKILLS[skill] || SKILLS.reading;
+
+  // Filter activities by lesson if provided
+  const lessonParam = searchParams.get('lesson') || null;
+  const filteredActivities = lessonParam
+    ? skillData.activities.filter(a => a.lesson === lessonParam)
+    : skillData.activities;
+
   const [activityIndex, setActivityIndex] = useState(() => {
     const idx = parseInt(searchParams.get('activity') || '0');
+    // Find index within filtered activities
+    if (lessonParam) {
+      const allIdx = isNaN(idx) ? 0 : idx;
+      const filtered = skillData.activities.filter(a => a.lesson === lessonParam);
+      const pos = filtered.findIndex((_, i) => skillData.activities.indexOf(filtered[i]) === allIdx);
+      return pos >= 0 ? pos : 0;
+    }
     return isNaN(idx) ? 0 : idx;
   });
-  const activity = skillData.activities[activityIndex];
+
+  const activity = filteredActivities[activityIndex] || filteredActivities[0];
 
   const [answers, setAnswers] = useState({});
   const [submitted, setSubmitted] = useState(false);
@@ -516,11 +531,7 @@ export default function Practice({ user, student, onLogout }) {
       const feedback = await res.json();
       setSpeakingFeedback(feedback);
       const xpGain = (feedback.score || 5) >= 8 ? 25 : (feedback.score || 5) >= 6 ? 15 : 8;
-      const currentXp = parseInt(localStorage.getItem('ewd_xp') || '0');
-      localStorage.setItem('ewd_xp', currentXp + xpGain);
-      const activities = JSON.parse(localStorage.getItem('ewd_activities') || '[]');
-      activities.push({ skill: 'speaking', title: activity.title, score: (feedback.score || 5) * 10, time: 'Just now' });
-      localStorage.setItem('ewd_activities', JSON.stringify(activities));
+      saveProgress('speaking', activity.title, (feedback.score || 5) * 10, xpGain);
     } catch {
       setSpeakingFeedback({ score: 7, positive: "Good effort!", tip: "Keep practicing!", overall: "Well done! 🌟" });
     }
@@ -529,6 +540,32 @@ export default function Practice({ user, student, onLogout }) {
   };
 
   const formatTime = (s) => `${Math.floor(s/60).toString().padStart(2,'0')}:${(s%60).toString().padStart(2,'0')}`;
+
+  // Central function: saves XP, activity, updates streak, fires storage event
+  const saveProgress = (skillKey, title, score, xpGain) => {
+    const currentXp = parseInt(localStorage.getItem('ewd_xp') || '0');
+    localStorage.setItem('ewd_xp', currentXp + xpGain);
+
+    const acts = JSON.parse(localStorage.getItem('ewd_activities') || '[]');
+    acts.push({ skill: skillKey, title, score, time: 'Just now' });
+    localStorage.setItem('ewd_activities', JSON.stringify(acts));
+
+    // Update streak
+    const today = new Date().toDateString();
+    const yesterday = new Date(Date.now() - 86400000).toDateString();
+    const lastActive = localStorage.getItem('ewd_last_active') || '';
+    let streak = parseInt(localStorage.getItem('ewd_streak') || '0');
+    if (lastActive !== today) {
+      streak = lastActive === yesterday ? streak + 1 : 1;
+      const best = parseInt(localStorage.getItem('ewd_best_streak') || '0');
+      if (streak > best) localStorage.setItem('ewd_best_streak', streak);
+      localStorage.setItem('ewd_streak', streak);
+      localStorage.setItem('ewd_last_active', today);
+    }
+
+    // Fire storage event so Dashboard updates reactively
+    window.dispatchEvent(new Event('storage'));
+  };
 
   const handleAnswer = (qi, ai) => {
     if (submitted) return;
@@ -543,15 +580,8 @@ export default function Practice({ user, student, onLogout }) {
       const pct = Math.round((correct / activity.questions.length) * 100);
       setScore(pct);
 
-      // Save XP
       const xpGain = pct >= 80 ? 20 : pct >= 50 ? 10 : 5;
-      const currentXp = parseInt(localStorage.getItem('ewd_xp') || '0');
-      localStorage.setItem('ewd_xp', currentXp + xpGain);
-
-      // Save activity
-      const activities = JSON.parse(localStorage.getItem('ewd_activities') || '[]');
-      activities.push({ skill, title: activity.title, score: pct, time: 'Just now' });
-      localStorage.setItem('ewd_activities', JSON.stringify(activities));
+      saveProgress(skill, activity.title, pct, xpGain);
     } else if (activity.type === 'writing') {
       const words = writingText.trim().split(/\s+/).filter(Boolean).length;
       if (words < activity.minWords) {
@@ -571,10 +601,7 @@ export default function Practice({ user, student, onLogout }) {
         const pct = (fb.score || 5) * 10;
         setScore(pct);
         const xpGain = pct >= 80 ? 20 : pct >= 50 ? 10 : 5;
-        localStorage.setItem('ewd_xp', parseInt(localStorage.getItem('ewd_xp') || '0') + xpGain);
-        const acts = JSON.parse(localStorage.getItem('ewd_activities') || '[]');
-        acts.push({ skill, title: activity.title, score: pct, time: 'Just now' });
-        localStorage.setItem('ewd_activities', JSON.stringify(acts));
+        saveProgress(skill, activity.title, pct, xpGain);
       } catch {
         setWritingFeedback({ score: 7, positive: 'Good writing effort!', tip: 'Keep practicing!', corrections: [], suggestions: ['Write every day', 'Read your text aloud', 'Check your grammar'], overall: 'Well done! 🌟' });
         setScore(70);
@@ -612,7 +639,13 @@ export default function Practice({ user, student, onLogout }) {
         <div className="skill-tabs">
           {Object.entries(SKILLS).map(([key, s]) => (
             <div key={key} className={`skill-tab ${skill === key ? 'active' : ''}`}
-              onClick={() => { navigate(`/practice/${key}`); setSubmitted(false); setAnswers({}); setWritingText(''); setTranscript(''); setSpeakingFeedback(null); setRecordingTime(0); setActivityIndex(0); }}>
+              onClick={() => {
+                const params = lessonParam ? `?lesson=${encodeURIComponent(lessonParam)}` : '';
+                navigate(`/practice/${key}${params}`);
+                setSubmitted(false); setAnswers({}); setWritingText('');
+                setTranscript(''); setSpeakingFeedback(null); setWritingFeedback(null);
+                setRecordingTime(0); setActivityIndex(0);
+              }}>
               {s.icon} {s.label}
             </div>
           ))}
@@ -620,12 +653,17 @@ export default function Practice({ user, student, onLogout }) {
 
         {/* Activity selector */}
         <div className="activity-selector">
-          <div className="activity-lesson-tag">📚 {activity.lesson}</div>
+          <div className="activity-lesson-tag">📚 {activity?.lesson || lessonParam}</div>
           <div className="activity-tabs">
-            {skillData.activities.map((a, i) => (
+            {filteredActivities.map((a, i) => (
               <div key={i}
                 className={`activity-tab ${activityIndex === i ? 'active' : ''}`}
-                onClick={() => { setActivityIndex(i); setSubmitted(false); setAnswers({}); setWritingText(''); setTranscript(''); setSpeakingFeedback(null); setRecordingTime(0); }}>
+                onClick={() => {
+                  setActivityIndex(i);
+                  setSubmitted(false); setAnswers({}); setWritingText('');
+                  setTranscript(''); setSpeakingFeedback(null); setWritingFeedback(null);
+                  setRecordingTime(0);
+                }}>
                 Activity {i + 1}
               </div>
             ))}
@@ -933,7 +971,7 @@ export default function Practice({ user, student, onLogout }) {
               <button className="try-again-btn" onClick={() => { setSubmitted(false); setAnswers({}); setWritingText(''); setTranscript(''); setSpeakingFeedback(null); setWritingFeedback(null); setRecordingTime(0); }}>
                 Try another activity →
               </button>
-              <button className="back-btn" onClick={() => navigate('/hub')}>← Back to Practice Hub</button>
+              <button className="back-btn" onClick={() => navigate(`/hub?skill=${skill}`)}>← Back to Practice Hub</button>
             </div>
           )}
         </div>
