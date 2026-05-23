@@ -55,6 +55,8 @@ const LESSONS = [
     }
   },
 ];
+
+const SKILLS = [
   { key: 'reading',   label: 'Reading',   icon: '📖', color: '#1d9e75', bg: '#e1f5ee', code: 'R' },
   { key: 'listening', label: 'Listening', icon: '🎧', color: '#378add', bg: '#e6f1fb', code: 'L' },
   { key: 'writing',   label: 'Writing',   icon: '✏️', color: '#7f77dd', bg: '#eeedfe', code: 'W' },
