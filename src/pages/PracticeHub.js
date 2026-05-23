@@ -82,16 +82,27 @@ export default function PracticeHub({ user, student, onLogout }) {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const [selectedSkill, setSelectedSkill] = useState(() => searchParams.get('skill') || null);
-  const [expandedLesson, setExpandedLesson] = useState('L3');
   const [completedCodes, setCompletedCodes] = useState(() => {
     try { return JSON.parse(localStorage.getItem('ewd_completed_codes') || '[]'); }
     catch { return []; }
   });
 
-  const currentLesson = LESSONS[0];
+  // Auto-detect current lesson: find first lesson not 100% completed
+  const currentLesson = (() => {
+    for (const lesson of LESSONS) {
+      const codes = Object.values(lesson.activities).flat().map(a => a.code);
+      const done = codes.filter(c => completedCodes.includes(c)).length;
+      if (done < codes.length) return lesson;
+    }
+    return LESSONS[LESSONS.length - 1];
+  })();
+
+  const [expandedLesson, setExpandedLesson] = useState(currentLesson?.code || 'L3');
+
   const allCodes = Object.values(currentLesson.activities).flat().map(a => a.code);
-  const completedThisLesson = completedCodes.filter(c => allCodes.includes(c)).length;
-  const progressPct = Math.round((completedThisLesson / TOTAL_PER_LESSON) * 100);
+  const completedThisLesson = allCodes.filter(c => completedCodes.includes(c)).length;
+  const lessonTotal = allCodes.length;
+  const progressPct = Math.round((completedThisLesson / lessonTotal) * 100);
   const badge = WEEKLY_BADGES.find(b => completedThisLesson >= b.min && completedThisLesson <= b.max) || WEEKLY_BADGES[0];
 
   const handleStartActivity = (skill, activityIndex, code, lessonTitle) => {
@@ -203,9 +214,9 @@ export default function PracticeHub({ user, student, onLogout }) {
                 );
               })}
             </div>
-            {completedThisLesson === TOTAL_PER_LESSON && (
+            {completedThisLesson === lessonTotal && (
               <div className="hub-weekly-congrats">
-                🎉 All 8 done! +80 XP 🏆 Want more? Try Guided Immersion!
+                🎉 All {lessonTotal} done! +{lessonTotal * 10} XP 🏆 Want more? Try Guided Immersion!
               </div>
             )}
           </div>

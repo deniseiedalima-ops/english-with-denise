@@ -278,20 +278,22 @@ export default function Dashboard({ user, student, onLogout }) {
         </div>
 
         {/* Google Meet */}
-        {student?.meetLink && (
-          <div className="meet-card fade-up fade-up-5">
-            <div className="meet-card-left">
-              <div className="meet-icon">📹</div>
-              <div>
-                <div className="meet-title">Google Meet — Aula ao Vivo</div>
-                <div className="meet-sub">Clique para entrar na sua aula com a Denise</div>
-              </div>
+        <div className="meet-card fade-up fade-up-5">
+          <div className="meet-card-left">
+            <div className="meet-icon">📹</div>
+            <div>
+              <div className="meet-title">Google Meet — Aula ao Vivo</div>
+              <div className="meet-sub">{student?.meetLink ? 'Clique para entrar na sua aula com a Denise' : 'Link da aula será adicionado pela Denise em breve'}</div>
             </div>
+          </div>
+          {student?.meetLink ? (
             <a href={student.meetLink} target="_blank" rel="noreferrer" className="meet-btn">
               Entrar na Aula ↗
             </a>
-          </div>
-        )}
+          ) : (
+            <div className="meet-btn-disabled">Em breve</div>
+          )}
+        </div>
 
         {/* Bottom grid */}
         <div className="bottom-grid fade-up fade-up-5">
