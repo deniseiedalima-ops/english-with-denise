@@ -14,7 +14,7 @@ export default function Navbar({ user, student, onLogout }) {
       <div className="navbar-inner">
         <div className="navbar-logo" onClick={() => navigate('/')}>
           <span className="navbar-star">✦</span>
-          <span className="navbar-brand">English <span>with Denise</span></span>
+          <span className="navbar-brand">English <span>With Denise</span></span>
         </div>
 
         <div className="navbar-links">

@@ -1,8 +1,8 @@
 .navbar { background: #fff; border-bottom: 0.5px solid #e0dbd4; position: sticky; top: 0; z-index: 100; }
 .navbar-inner { max-width: 980px; margin: 0 auto; padding: 0 24px; height: 58px; display: flex; align-items: center; justify-content: space-between; }
 .navbar-logo { display: flex; align-items: center; gap: 8px; cursor: pointer; }
-.navbar-star { font-size: 18px; color: #ff6a00; }
-.navbar-brand { font-size: 15px; font-weight: 500; color: #111; }
+.navbar-star { font-size: 20px; color: #ff6a00; }
+.navbar-brand { font-size: 17px; font-weight: 500; color: #111; }
 .navbar-brand span { color: #ff6a00; }
 .navbar-links { display: flex; align-items: center; gap: 4px; }
 .navbar-link { font-size: 13px; color: #888; padding: 6px 12px; border-radius: 8px; cursor: pointer; transition: all .15s; }

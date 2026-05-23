@@ -160,7 +160,14 @@ export default function PracticeHub({ user, student, onLogout }) {
           <div className="hub-tip-banner">
             <div className="hub-tip-icon">💡</div>
             <div className="hub-tip-text">
-              <strong>Tip from Denise:</strong><br/>Do <strong>4 activities before class</strong> (📚 Pré-aula) and <strong>4 after class</strong> (✅ Pós-aula) to retain more. Want extra practice? Check <em>Guided Immersion</em> in the dashboard!<br/><br/><em>Consistency is the key to fluency!</em>
+              <strong>Tip From the Teacher</strong>
+              <ul className="hub-tip-list">
+                <li>Faça <strong>4 atividades antes da aula</strong> (📚 Pré-aula) para chegar preparado</li>
+                <li>Faça <strong>4 atividades após a aula</strong> (✅ Pós-aula) para consolidar o aprendizado</li>
+                <li>Isso evita o acúmulo de conteúdo e aumenta sua retenção</li>
+                <li>Quer praticar mais? Acesse o <strong>Guided Immersion</strong> no dashboard</li>
+              </ul>
+              <em>Consistency is the key to fluency!</em>
             </div>
           </div>
 

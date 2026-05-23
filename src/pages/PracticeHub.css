@@ -186,8 +186,11 @@
 /* Tip banner */
 .hub-tip-banner { display: flex; align-items: flex-start; gap: 12px; background: #fff; border: 0.5px solid #e0dbd4; border-left: 4px solid #ff6a00; border-radius: 12px; padding: 14px 16px; margin-bottom: 16px; font-size: 13px; color: #555; line-height: 1.6; }
 .hub-tip-icon { font-size: 20px; flex-shrink: 0; margin-top: 1px; }
-.hub-tip-text strong { color: #111; }
-.hub-tip-text em { color: #ff6a00; font-style: normal; font-weight: 500; }
+.hub-tip-text strong:first-child { display: block; font-size: 13px; font-weight: 700; color: #111; margin-bottom: 8px; }
+.hub-tip-list { margin: 0; padding-left: 18px; display: flex; flex-direction: column; gap: 0; }
+.hub-tip-list li { line-height: 1.35; margin-bottom: 6px; color: #555; font-size: 12px; }
+.hub-tip-list li strong { color: #111; }
+.hub-tip-text em { display: block; margin-top: 8px; color: #e05e00; font-style: normal; font-weight: 600; font-size: 12px; }
 
 /* Weekly progress */
 .hub-weekly-card { background: #fff; border: 0.5px solid #e0dbd4; border-radius: 14px; padding: 18px 20px; margin-bottom: 24px; }
