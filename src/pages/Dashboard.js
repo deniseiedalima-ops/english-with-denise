@@ -187,7 +187,10 @@ export default function Dashboard({ user, student, onLogout }) {
                 <a href={student.classroomLink} target="_blank" rel="noreferrer" className="classroom-btn">
                   Open my Classroom ↗
                 </a>
-                <p className="classroom-note">Linked to your Google account</p>
+                <div className="classroom-desc-box">
+                  <div className="classroom-desc-item">📄 PDF do material para imprimir ou usar no tablet</div>
+                  <div className="classroom-desc-item">🎥 Gravações das aulas</div>
+                </div>
               </div>
             )}
             <div className="card achievements-card">
@@ -216,6 +219,34 @@ export default function Dashboard({ user, student, onLogout }) {
                   <div className="website-sub">Guided Immersion & 30-Day Challenge</div>
                 </div>
                 <div className="website-arrow">↗</div>
+              </div>
+            </a>
+
+            {/* Manual do Estudo Independente */}
+            <a href="https://polydactyl-melon-224.notion.site/MANUAL-DE-COMO-APRENDER-INGL-S-POR-CONTA-PR-PRIA-32d628bb387c80698ddfd1c290166b32" target="_blank" rel="noreferrer" className="card manual-card">
+              <div className="manual-card-inner">
+                <div className="manual-icon-wrap" style={{ background: '#fff1e8' }}>
+                  <span>📘</span>
+                </div>
+                <div className="manual-text">
+                  <div className="manual-title">Manual de Estudo Independente</div>
+                  <div className="manual-sub">Como aprender inglês por conta própria</div>
+                </div>
+                <div className="manual-arrow">↗</div>
+              </div>
+            </a>
+
+            {/* Manual do Aluno */}
+            <a href="https://polydactyl-melon-224.notion.site/Manual-do-Aluno-353628bb387c81199971fa266ed66a26" target="_blank" rel="noreferrer" className="card manual-card">
+              <div className="manual-card-inner">
+                <div className="manual-icon-wrap" style={{ background: '#eeedfe' }}>
+                  <span>📙</span>
+                </div>
+                <div className="manual-text">
+                  <div className="manual-title">Manual do Aluno</div>
+                  <div className="manual-sub">English with Denise — guia completo</div>
+                </div>
+                <div className="manual-arrow">↗</div>
               </div>
             </a>
           </div>
