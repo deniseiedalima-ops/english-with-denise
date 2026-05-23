@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import './PracticeHub.css';
 
@@ -33,24 +33,20 @@ const LESSONS = [
     num: 4, code: 'L4', title: 'The Introductions', level: 'A1',
     activities: {
       reading: [
-        { code: 'L4-R1', title: 'Molly & Peter at School', type: 'Multiple Choice', activityIndex: 3 },
-        { code: 'L4-R2', title: 'Verb To Be — Introductions', type: 'Multiple Choice', activityIndex: 4 },
-        { code: 'L4-R3', title: 'A/AN — Articles', type: 'Multiple Choice', activityIndex: 5 },
+        { code: 'L4-R1', title: 'Molly & Peter at School', type: 'Multiple Choice', activityIndex: 3, phase: 'pre' },
+        { code: 'L4-R2', title: 'Verb To Be — Introductions', type: 'Multiple Choice', activityIndex: 4, phase: 'post' },
       ],
       listening: [
-        { code: 'L4-L1', title: 'Friends Cast — Introductions', type: 'Transcript + Questions', activityIndex: 3 },
-        { code: 'L4-L2', title: 'Molly & Peter — Listen & Follow', type: 'Transcript + Questions', activityIndex: 4 },
-        { code: 'L4-L3', title: 'A or AN? — Listen & Choose', type: 'Transcript + Questions', activityIndex: 5 },
+        { code: 'L4-L1', title: 'Friends Cast — Introductions', type: 'Transcript + Questions', activityIndex: 3, phase: 'pre' },
+        { code: 'L4-L2', title: 'Molly & Peter — Listen & Follow', type: 'Transcript + Questions', activityIndex: 4, phase: 'post' },
       ],
       writing: [
-        { code: 'L4-W1', title: 'School Introduction Dialogue', type: 'Open Writing', activityIndex: 3 },
-        { code: 'L4-W2', title: 'Verb To Be — Complete & Create', type: 'Open Writing', activityIndex: 4 },
-        { code: 'L4-W3', title: 'A or AN? — Write Your Own', type: 'Open Writing', activityIndex: 5 },
+        { code: 'L4-W1', title: 'School Introduction Dialogue', type: 'Open Writing', activityIndex: 3, phase: 'pre' },
+        { code: 'L4-W2', title: 'Verb To Be — Complete & Create', type: 'Open Writing', activityIndex: 4, phase: 'post' },
       ],
       speaking: [
-        { code: 'L4-S1', title: 'Introduce Yourself at School', type: 'AI Speaking', activityIndex: 3 },
-        { code: 'L4-S2', title: 'Role Play — Meeting a Classmate', type: 'AI Speaking', activityIndex: 4 },
-        { code: 'L4-S3', title: 'Correct the Teacher!', type: 'AI Speaking', activityIndex: 5 },
+        { code: 'L4-S1', title: 'Introduce Yourself at School', type: 'AI Speaking', activityIndex: 3, phase: 'pre' },
+        { code: 'L4-S2', title: 'Correct the Teacher!', type: 'AI Speaking', activityIndex: 5, phase: 'post' },
       ],
     }
   },
@@ -70,7 +66,9 @@ const TYPE_ICONS = {
   'AI Speaking': '🤖',
 };
 
-const TOTAL_PER_LESSON = 12;
+const TOTAL_PER_LESSON = 8;
+const PRE_CLASS = 4;
+const POST_CLASS = 4;
 
 const WEEKLY_BADGES = [
   { min: 0,  max: 3,  label: 'Getting started',   icon: '🌱', color: '#aaa' },
@@ -82,7 +80,8 @@ const WEEKLY_BADGES = [
 
 export default function PracticeHub({ user, student, onLogout }) {
   const navigate = useNavigate();
-  const [selectedSkill, setSelectedSkill] = useState(null);
+  const [searchParams] = useSearchParams();
+  const [selectedSkill, setSelectedSkill] = useState(() => searchParams.get('skill') || null);
   const [expandedLesson, setExpandedLesson] = useState('L3');
   const [completedCodes, setCompletedCodes] = useState(() => {
     try { return JSON.parse(localStorage.getItem('ewd_completed_codes') || '[]'); }
@@ -161,7 +160,7 @@ export default function PracticeHub({ user, student, onLogout }) {
           <div className="hub-tip-banner">
             <div className="hub-tip-icon">💡</div>
             <div className="hub-tip-text">
-              <strong>Tip from Denise:</strong><br/>Complete activities <strong>before and after each class</strong> to prevent content from piling up. Each lesson has <strong>12 activities</strong> — 3 per skill.<br/><br/><em>Consistency is the key to fluency!</em>
+              <strong>Tip from Denise:</strong><br/>Do <strong>4 activities before class</strong> (📚 Pré-aula) and <strong>4 after class</strong> (✅ Pós-aula) to retain more. Want extra practice? Check <em>Guided Immersion</em> in the dashboard!<br/><br/><em>Consistency is the key to fluency!</em>
             </div>
           </div>
 
@@ -199,7 +198,7 @@ export default function PracticeHub({ user, student, onLogout }) {
             </div>
             {completedThisLesson === TOTAL_PER_LESSON && (
               <div className="hub-weekly-congrats">
-                🎉 All 12 done! +120 XP 🏆
+                🎉 All 8 done! +80 XP 🏆 Want more? Try Guided Immersion!
               </div>
             )}
           </div>
@@ -272,7 +271,10 @@ export default function PracticeHub({ user, student, onLogout }) {
                               <div className="hub-activity-left">
                                 <div className={'hub-activity-num' + (done ? ' done' : '')}>{done ? '✓' : i + 1}</div>
                                 <div>
-                                  <div className="hub-activity-code">{act.code}</div>
+                                  <div className="hub-activity-code-row">
+                                    <span className="hub-activity-code">{act.code}</span>
+                                    {act.phase && <span className={'hub-phase-badge ' + act.phase}>{act.phase === 'pre' ? '📚 Pré-aula' : '✅ Pós-aula'}</span>}
+                                  </div>
                                   <div className="hub-activity-title">{act.title}</div>
                                 </div>
                               </div>

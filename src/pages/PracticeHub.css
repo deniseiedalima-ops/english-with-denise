@@ -217,3 +217,9 @@
 .hub-activity-num.done { background: #e1f5ee; color: #1d9e75; font-size: 14px; }
 .hub-start-btn.done { background: #f0ede8; color: #888; }
 .hub-start-btn.done:hover { background: #e0dbd4; }
+
+/* Phase badges */
+.hub-activity-code-row { display: flex; align-items: center; gap: 6px; margin-bottom: 2px; }
+.hub-phase-badge { font-size: 10px; font-weight: 600; padding: 2px 7px; border-radius: 4px; }
+.hub-phase-badge.pre { background: #e6f1fb; color: #378add; }
+.hub-phase-badge.post { background: #e1f5ee; color: #1d9e75; }

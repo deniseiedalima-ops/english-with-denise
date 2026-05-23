@@ -202,3 +202,24 @@
 .reposicoes-text { flex: 1; }
 .reposicoes-label { font-size: 15px; font-weight: 500; color: #111; margin-bottom: 2px; }
 .reposicoes-desc { font-size: 12px; color: #888; line-height: 1.5; }
+
+/* Google Meet card */
+.meet-card {
+  display: flex; align-items: center; justify-content: space-between;
+  background: #fff; border: 0.5px solid #e0dbd4;
+  border-left: 4px solid #1a73e8;
+  border-radius: 14px; padding: 16px 20px;
+  margin-bottom: 20px;
+}
+.meet-card-left { display: flex; align-items: center; gap: 14px; }
+.meet-icon { font-size: 28px; }
+.meet-title { font-size: 15px; font-weight: 600; color: #111; margin-bottom: 2px; }
+.meet-sub { font-size: 12px; color: #888; }
+.meet-btn {
+  background: #1a73e8; color: #fff;
+  border-radius: 10px; padding: 10px 20px;
+  font-size: 13px; font-weight: 600;
+  text-decoration: none; white-space: nowrap;
+  transition: background .15s;
+}
+.meet-btn:hover { background: #1557b0; }

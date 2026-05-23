@@ -108,7 +108,7 @@ export default function Dashboard({ user, student, onLogout }) {
         <div className="section-title fade-up fade-up-3">Your skills</div>
         <div className="skills-grid fade-up fade-up-3">
           {skills.map(s => (
-            <div key={s.key} className="skill-card" onClick={() => navigate('/practice/' + s.key)}>
+            <div key={s.key} className="skill-card" onClick={() => navigate('/hub?skill=' + s.key)}>
               <div className="skill-icon">{s.icon}</div>
               <div className="skill-score">{s.score} <span className="skill-avg">avg</span></div>
               <div className="skill-name">{s.label}</div>
@@ -160,6 +160,22 @@ export default function Dashboard({ user, student, onLogout }) {
             <span className="agenda-updated">Updated by Denise</span>
           </div>
         </div>
+
+        {/* Google Meet */}
+        {student?.meetLink && (
+          <div className="meet-card fade-up fade-up-5">
+            <div className="meet-card-left">
+              <div className="meet-icon">📹</div>
+              <div>
+                <div className="meet-title">Google Meet — Aula ao Vivo</div>
+                <div className="meet-sub">Clique para entrar na sua aula com a Denise</div>
+              </div>
+            </div>
+            <a href={student.meetLink} target="_blank" rel="noreferrer" className="meet-btn">
+              Entrar na Aula ↗
+            </a>
+          </div>
+        )}
 
         {/* Bottom grid */}
         <div className="bottom-grid fade-up fade-up-5">

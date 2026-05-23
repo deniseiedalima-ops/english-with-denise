@@ -4,11 +4,44 @@ export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
   if (req.method === 'OPTIONS') return res.status(200).end();
 
-  const { transcript, prompt, level, keywords } = req.body;
+  const { transcript, prompt, level, keywords, skill } = req.body;
 
   if (!transcript || transcript.trim().length < 3) {
-    return res.json({ score: 5, positive: "We couldn't hear you clearly.", tip: "Try speaking louder and closer to the microphone!", overall: "Give it another try! 🎙️" });
+    return res.json({
+      score: 0,
+      positive: '🎤 We could not hear you clearly.',
+      tip: 'Speak louder and closer to the microphone. Make sure there is no background noise.',
+      suggestions: ['Try again in a quieter place', 'Hold the microphone closer', 'Speak more slowly and clearly'],
+      overall: 'No speech detected — give it another try! 💪'
+    });
   }
+
+  const systemPrompt = `You are Denise, a warm and encouraging English teacher with 10+ years of experience teaching Brazilian students from A1 to B2. 
+
+Your feedback must be:
+1. SPECIFIC — point to exact words/sounds the student used
+2. ACTIONABLE — give concrete daily practice exercises
+3. LEVEL-APPROPRIATE — for ${level || 'A1'} students
+4. ENCOURAGING — always celebrate what they did well first
+
+For ${skill === 'speaking' ? 'speaking' : 'writing'} feedback, always include:
+- What they did well (specific example from their response)
+- 3 specific, actionable suggestions with daily practice routines
+- If pronunciation issues detected, suggest specific tongue twisters and word lists
+- A score from 0-10
+
+IMPORTANT: Respond ONLY with valid JSON. No markdown. No extra text. Use this exact format:
+{
+  "score": 7,
+  "positive": "Great job using 'Nice to meet you!' naturally — that shows real progress!",
+  "tip": "Your main area to improve is...",
+  "suggestions": [
+    "🗣️ Practice the /r/ sound for 30 seconds daily: try these tongue twisters: 'Red lorry, yellow lorry' / 'Around the rough and rugged rock the ragged rascal ran' / 'She sells seashells'. Record yourself and compare!",
+    "📝 Every day for 5 days, say these 5 words aloud focusing on the American /r/: right, really, ready, ride, ring. The American /r/ is made with your tongue NOT touching anything — curl it back slightly.",
+    "🎬 Watch 2 minutes of an American TV show and repeat 3 sentences out loud immediately after (shadowing technique)."
+  ],
+  "overall": "You're making great progress! Keep going! 🌟"
+}`;
 
   try {
     const response = await fetch('https://api.openai.com/v1/chat/completions', {
@@ -19,20 +52,17 @@ export default async function handler(req, res) {
       },
       body: JSON.stringify({
         model: 'gpt-4o-mini',
-        max_tokens: 400,
+        max_tokens: 600,
         messages: [
-          {
-            role: 'system',
-            content: `You are a friendly English teacher giving feedback to a ${level || 'A1'} level student. Always respond ONLY with a valid JSON object, no markdown, no explanation outside the JSON. Use this exact format:
-{"score": 7, "positive": "You used good vocabulary!", "tip": "Try to use more complete sentences.", "overall": "Good effort! Keep practicing! 🌟"}`
-          },
+          { role: 'system', content: systemPrompt },
           {
             role: 'user',
             content: `Task given to student: "${prompt}"
-What the student said: "${transcript}"
-Expected keywords: ${keywords?.join(', ') || 'natural English'}
+Student's response: "${transcript}"
+Level: ${level || 'A1'}
+Expected vocabulary/keywords: ${keywords?.join(', ') || 'natural English greetings and introductions'}
 
-Evaluate and return ONLY the JSON object.`
+Analyze their response carefully. Give specific, actionable feedback with daily practice routines. Return ONLY valid JSON.`
           }
         ]
       })
@@ -40,15 +70,12 @@ Evaluate and return ONLY the JSON object.`
 
     const data = await response.json();
     const raw = data.choices?.[0]?.message?.content || '';
-    
-    // Try multiple parsing strategies
+
     let feedback;
     try {
-      // Remove markdown if present
       const cleaned = raw.replace(/```json/g, '').replace(/```/g, '').trim();
       feedback = JSON.parse(cleaned);
     } catch {
-      // Try to extract JSON from text
       const match = raw.match(/\{[\s\S]*\}/);
       if (match) {
         try { feedback = JSON.parse(match[0]); } catch { feedback = null; }
@@ -56,22 +83,28 @@ Evaluate and return ONLY the JSON object.`
     }
 
     if (!feedback || !feedback.score) {
-      feedback = { 
-        score: 7, 
-        positive: "Good effort on your speaking practice!", 
-        tip: "Keep practicing to build more confidence.", 
-        overall: "Well done! Every practice session makes you better! 🌟" 
+      feedback = {
+        score: 7,
+        positive: 'Good effort on your speaking practice!',
+        tip: 'Keep practicing to build more confidence.',
+        suggestions: [
+          '🗣️ Practice speaking for 5 minutes every day',
+          '📝 Record yourself and listen back to find areas to improve',
+          '🎬 Watch English videos and repeat phrases out loud (shadowing)'
+        ],
+        overall: 'Well done! Every practice session makes you better! 🌟'
       };
     }
 
     return res.json(feedback);
   } catch (err) {
     console.error(err);
-    return res.status(500).json({ 
-      score: 6, 
-      positive: "You completed the speaking exercise!", 
-      tip: "Keep practicing regularly.", 
-      overall: "Great job showing up to practice! 🌟" 
+    return res.status(500).json({
+      score: 6,
+      positive: 'You completed the speaking exercise!',
+      tip: 'Keep practicing regularly.',
+      suggestions: ['Practice every day', 'Record yourself', 'Watch English videos'],
+      overall: 'Great job showing up to practice! 🌟'
     });
   }
 }

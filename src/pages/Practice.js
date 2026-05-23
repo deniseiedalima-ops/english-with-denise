@@ -535,7 +535,9 @@ export default function Practice({ user, student, onLogout }) {
     setAnswers(prev => ({ ...prev, [qi]: ai }));
   };
 
-  const handleSubmit = () => {
+  const [writingFeedback, setWritingFeedback] = useState(null);
+
+  const handleSubmit = async () => {
     if (activity.type === 'multiple_choice' || activity.type === 'listening_video') {
       const correct = activity.questions.filter((q, i) => answers[i] === q.answer).length;
       const pct = Math.round((correct / activity.questions.length) * 100);
@@ -552,11 +554,31 @@ export default function Practice({ user, student, onLogout }) {
       localStorage.setItem('ewd_activities', JSON.stringify(activities));
     } else if (activity.type === 'writing') {
       const words = writingText.trim().split(/\s+/).filter(Boolean).length;
-      const pct = words >= activity.minWords ? (words >= activity.minWords * 1.5 ? 100 : 75) : 40;
-      setScore(pct);
-      const xpGain = pct >= 80 ? 20 : pct >= 50 ? 10 : 5;
-      const currentXp = parseInt(localStorage.getItem('ewd_xp') || '0');
-      localStorage.setItem('ewd_xp', currentXp + xpGain);
+      if (words < activity.minWords) {
+        setScore(30);
+        setWritingFeedback({ score: 3, positive: 'Good start!', tip: `Write at least ${activity.minWords} words to get full AI feedback.`, corrections: [], suggestions: ['Add more details to your response', 'Use vocabulary from your class material', 'Expand your ideas with examples'], overall: 'Keep writing! ✍️' });
+        setSubmitted(true);
+        return;
+      }
+      try {
+        const fbRes = await fetch('/api/writing-feedback', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ text: writingText, prompt: activity.prompt, level: student?.nivel || 'A1' })
+        });
+        const fb = await fbRes.json();
+        setWritingFeedback(fb);
+        const pct = (fb.score || 5) * 10;
+        setScore(pct);
+        const xpGain = pct >= 80 ? 20 : pct >= 50 ? 10 : 5;
+        localStorage.setItem('ewd_xp', parseInt(localStorage.getItem('ewd_xp') || '0') + xpGain);
+        const acts = JSON.parse(localStorage.getItem('ewd_activities') || '[]');
+        acts.push({ skill, title: activity.title, score: pct, time: 'Just now' });
+        localStorage.setItem('ewd_activities', JSON.stringify(acts));
+      } catch {
+        setWritingFeedback({ score: 7, positive: 'Good writing effort!', tip: 'Keep practicing!', corrections: [], suggestions: ['Write every day', 'Read your text aloud', 'Check your grammar'], overall: 'Well done! 🌟' });
+        setScore(70);
+      }
     }
     setSubmitted(true);
   };
@@ -857,10 +879,30 @@ export default function Practice({ user, student, onLogout }) {
               )}
               {activity.type === 'writing' && (
                 <div className={`score-display ${score >= 80 ? 'great' : score >= 50 ? 'ok' : 'low'}`}>
-                  <div className="score-label">
-                    {score >= 80 ? activity.feedback.excellent : score >= 50 ? activity.feedback.good : activity.feedback.needsWork}
-                  </div>
-                  <div className="xp-earned" style={{ marginTop: 12 }}>+{score >= 80 ? 20 : score >= 50 ? 10 : 5} XP earned! 🎉</div>
+                  {writingFeedback ? (
+                    <>
+                      <div className="score-num">{writingFeedback.score}<span style={{fontSize:20,color:'#aaa'}}>/10</span></div>
+                      <div className="fb-box positive" style={{textAlign:'left',marginTop:12}}>
+                        <div className="fb-label">✅ What you did well</div>
+                        <div className="fb-text">{writingFeedback.positive}</div>
+                      </div>
+                      {writingFeedback.corrections?.length > 0 && (
+                        <div className="fb-box tip" style={{textAlign:'left',marginTop:8}}>
+                          <div className="fb-label">🔧 Corrections</div>
+                          {writingFeedback.corrections.map((c,i) => <div key={i} className="fb-text" style={{fontFamily:'monospace',fontSize:12,marginTop:4}}>{c}</div>)}
+                        </div>
+                      )}
+                      {writingFeedback.suggestions?.length > 0 && (
+                        <div className="speaking-suggestions" style={{marginTop:8}}>
+                          <div className="fb-label" style={{marginBottom:8}}>🎯 Your 3 practice exercises</div>
+                          {writingFeedback.suggestions.map((s,i) => <div key={i} className="suggestion-item">{s}</div>)}
+                        </div>
+                      )}
+                      <div className="xp-earned" style={{marginTop:12}}>{writingFeedback.overall}</div>
+                    </>
+                  ) : (
+                    <div className="score-label">{score >= 80 ? activity.feedback?.excellent : score >= 50 ? activity.feedback?.good : activity.feedback?.needsWork}</div>
+                  )}
                 </div>
               )}
               {activity.type === 'speaking' && speakingFeedback && (
@@ -874,13 +916,21 @@ export default function Practice({ user, student, onLogout }) {
                     <div className="fb-text">{speakingFeedback.positive}</div>
                   </div>
                   <div className="speaking-feedback-box tip">
-                    <div className="fb-label">💡 Tip for next time</div>
+                    <div className="fb-label">💡 Main area to improve</div>
                     <div className="fb-text">{speakingFeedback.tip}</div>
                   </div>
+                  {speakingFeedback.suggestions?.length > 0 && (
+                    <div className="speaking-suggestions">
+                      <div className="fb-label" style={{ marginBottom: 10 }}>🎯 Your 3 practice exercises</div>
+                      {speakingFeedback.suggestions.map((s, i) => (
+                        <div key={i} className="suggestion-item">{s}</div>
+                      ))}
+                    </div>
+                  )}
                   <div className="xp-earned">+{(speakingFeedback.score || 5) >= 8 ? 25 : (speakingFeedback.score || 5) >= 6 ? 15 : 8} XP earned! 🎉</div>
                 </div>
               )}
-              <button className="try-again-btn" onClick={() => { setSubmitted(false); setAnswers({}); setWritingText(''); setTranscript(''); setSpeakingFeedback(null); setRecordingTime(0); }}>
+              <button className="try-again-btn" onClick={() => { setSubmitted(false); setAnswers({}); setWritingText(''); setTranscript(''); setSpeakingFeedback(null); setWritingFeedback(null); setRecordingTime(0); }}>
                 Try another activity →
               </button>
               <button className="back-btn" onClick={() => navigate('/hub')}>← Back to Practice Hub</button>
