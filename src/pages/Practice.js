@@ -43,41 +43,29 @@ const SKILLS = {
           { q: 'Which sentence is CORRECT?', options: ['She am happy.', 'They is fine.', 'He are Mark.', 'I am Julia.'], answer: 3 },
         ]
       },
-      // ─── L4: THE INTRODUCTIONS ───────────────────────────────────────
+      // ─── L3: THE INTRODUCTIONS ───────────────────────────────────────
       {
-        id: 'r4', title: 'Molly & Peter at School', level: 'A1',
+        id: 'r4', title: 'Meet Elizabeth & John', level: 'A1',
         type: 'multiple_choice',
         lesson: 'The Introductions',
-        text: `Molly: Excuse me, hi, my name is Molly. What's your name?\nPeter: I'm Peter! My friends call me Pete.\nMolly: My friends call me… Molly! Haha. Hi Pete, it's nice to meet you!\nPeter: It's nice to meet you too.\nMolly: Are you a student here?\nPeter: Yes, I am! My class is at 9 o'clock with Miss Taylor.\nMolly: Miss Taylor! She is my teacher! You are in my class!\nPeter: Great!\nMolly: Where is our class?\nPeter: It's over there…\nPeter: Hi! I'm Peter. Peter Crumb! I'm in your class!\nMs. Smith: Hi Peter, nice to meet you! Hello, what's your name?\nMolly: I'm Molly! I'm in your class too!\nMs. Smith: Hello, Holly! Is that H-O-L-L-Y?\nMolly: No, it's Molly, M-O-L-L-Y.\nMs. Smith: M-O-L-L-Y, Molly! What's your last name Molly?\nMolly: LIN! L-I-N.\nPeter: Excuse me… are you Miss Taylor?\nMs. Smith: No I'm not! I'm Miss Smith. Miss Taylor is in room 203 over there.\nPeter: Oh, thanks! Goodbye!\nMs. Smith: Have a good day!`,
+        text: `Elizabeth: Hello! My name is Elizabeth. Nice to meet you!\nJohn: Nice to meet you too! I'm John. Where are you from, Elizabeth?\nElizabeth: I'm from Spain. My teacher is over there — her name is Ms. Garcia.\nJohn: Oh, is that her bag on the desk here?\nElizabeth: Yes! That's her bag. And his name is Carlos — he's a student too.\nJohn: Where is the classroom?\nElizabeth: It's over there, on the left. You're welcome to sit here!\nJohn: Thank you! His name is Carlos, you said? And her name is Ms. Garcia?\nElizabeth: That's right! Welcome to our class, John!`,
         questions: [
-          { q: 'What does Peter\'s friends call him?', options: ['Peter', 'Pete', 'Pat', 'Pierre'], answer: 1 },
-          { q: 'What time is Peter\'s class?', options: ['8 o\'clock', '10 o\'clock', '9 o\'clock', '11 o\'clock'], answer: 2 },
-          { q: 'How does Molly spell her last name?', options: ['L-Y-N', 'L-I-N-N', 'L-I-N', 'L-E-N'], answer: 2 },
-          { q: 'Who is Miss Smith?', options: ['Molly\'s teacher', 'Peter\'s sister', 'Not their teacher — wrong room!', 'The school principal'], answer: 2 },
+          { q: 'Where is Elizabeth from?', options: ['Brazil', 'Spain', 'France', 'The USA'], answer: 1 },
+          { q: '"Her name is Ms. Garcia" — what does HER mean here?', options: ['The student\'s (male)', 'The teacher\'s (female)', 'John\'s', 'Elizabeth\'s brother\'s'], answer: 1 },
+          { q: 'What does "It\'s over there" mean?', options: ['It\'s very close', 'It\'s in that direction (far)', 'It\'s here with us', 'It\'s lost'], answer: 1 },
+          { q: '"You\'re welcome to sit here" — what does HERE mean?', options: ['Far away', 'In this place, close to me', 'Somewhere else', 'Outside the classroom'], answer: 1 },
         ]
       },
       {
-        id: 'r5', title: 'Verb To Be — Introductions Context', level: 'A1',
+        id: 'r5', title: 'Here, There & Whose? — Grammar Focus', level: 'A1',
         type: 'multiple_choice',
         lesson: 'The Introductions',
-        text: `From your class material — Verb TO BE used in introductions:\n\nAffirmative:\nI am a student. / She is my teacher. / He is Peter Crumb.\nThey are in my class. / We are students.\n\nNegative:\nI am not late. / She is not Miss Taylor — she is Miss Smith!\nHe is not a doctor. He is a professor.\nThey are not ready.\n\nQuestions:\nAre you a student here? → Yes, I am! / No, I'm not.\nIs she your teacher? → Yes, she is! / No, she isn't.\nWhere is our class? → It's over there!\nWhat is your last name? → It's LIN.\n\nWith names:\nMy name is → meu nome é\nHer name is → o nome dela é\nHis name is → o nome dele é`,
+        text: `FROM YOUR CLASS — Key vocabulary:\n\nHERE = aqui (close to the speaker)\nTHERE / OVER THERE = lá, ali (far from the speaker)\nWHERE = onde (question word)\n\nHIS = dele (for men/boys)\nHER = dela (for women/girls)\n\nExamples:\nHer name is Elizabeth. (the girl's name)\nHis name is John. (the boy's name)\nThe classroom is over there. (pointing far)\nCome here! (pointing close)\nWhere are you from? (asking location)\n\nYou're welcome = de nada (response to "thank you")`,
         questions: [
-          { q: 'Complete: "___ you a student here?" — Peter asks Molly.', options: ['Am', 'Is', 'Are', 'Be'], answer: 2 },
-          { q: 'Ms. Smith said "Hello, Holly!" — Molly corrected her. What did Molly say?', options: ['"I am not Holly. I is Molly."', '"No, it\'s Molly, M-O-L-L-Y."', '"My name are Molly."', '"She is Molly!"'], answer: 1 },
-          { q: 'Complete: "Miss Taylor ___ in room 203 over there."', options: ['am', 'are', 'be', 'is'], answer: 3 },
-          { q: 'Which sentence is CORRECT?', options: ['He am a student.', 'They is happy.', 'We are in your class!', 'She are my teacher.'], answer: 2 },
-        ]
-      },
-      {
-        id: 'r6', title: 'A/An — Articles in Introductions', level: 'A1',
-        type: 'multiple_choice',
-        lesson: 'The Introductions',
-        text: `From your class — when to use A or AN:\n\nUse A before consonant sounds:\n• a teacher → uma professora\n• a doctor → um médico\n• a nurse → uma enfermeira\n• a process → um processo\n• a student → um estudante\n\nUse AN before vowel sounds:\n• an actor → um ator\n• an artist → um artista\n• an engineer → um engenheiro\n• an astronaut → um astronauta\n• an apple → uma maçã\n\nFrom the dialogue:\n"I'm an actor. I have a process." — Phoebe\n"I'm not an actor. I'm a professor of paleontology." — Ross`,
-        questions: [
-          { q: 'Choose the correct article: "She is ___ engineer."', options: ['a', 'an', 'the', 'no article'], answer: 1 },
-          { q: 'Choose the correct article: "He is ___ doctor."', options: ['an', 'the', 'a', 'no article'], answer: 2 },
-          { q: 'Phoebe says "I\'m ___ actor." Which is correct?', options: ['a', 'an', 'the', 'one'], answer: 1 },
-          { q: 'Which sentence is CORRECT?', options: ['She is a artist.', 'He is an nurse.', 'I am an astronaut.', 'We are a engineers.'], answer: 2 },
+          { q: 'Complete: "___ name is Carlos. He\'s a student."', options: ['Her', 'Their', 'His', 'Where'], answer: 2 },
+          { q: 'Complete: "The bathroom is ___ , at the end of the hall."', options: ['here', 'over there', 'welcome', 'his'], answer: 1 },
+          { q: '"Where are you from?" — what kind of word is WHERE?', options: ['A name', 'A question word', 'A pronoun', 'An article'], answer: 1 },
+          { q: '"Thank you so much!" — "___!"', options: ['Here you are', 'Over there', 'You\'re welcome', 'His name'], answer: 2 },
         ]
       },
     ]
@@ -132,44 +120,37 @@ const SKILLS = {
           { q: 'Who does Sian live with?', options: ['Her flatmates', 'On her own', 'Her housemates', 'Her family'], answer: 3 },
         ]
       },
-      // ─── L4: THE INTRODUCTIONS ───────────────────────────────────────
+      // ─── L3: THE INTRODUCTIONS ───────────────────────────────────────
       {
-        id: 'l4', title: 'Friends Cast — Introductions', level: 'A1',
-        type: 'multiple_choice',
+        id: 'l4', title: 'Elizabeth & John — Full Introduction', level: 'A1',
+        type: 'listening_video',
         lesson: 'The Introductions',
-        audioText: `Phoebe: I can't do that. I'm an actor. I have a process.\nPessoa 1: Nice to meet you! So, what show are you on?\nRoss: Oh, I'm not an actor. I'm a professor of paleontology.\nMonica: I hope you're hungry.\nPessoa 2: So, who are you?\nChandler: Well, our names really are Monica and Chandler. We're from New York.\nJulie: Thank you. I'm from New York!\nPessoa 3: Forget it. We're just hungry. We haven't had lunch.\nPessoa 4: Are you hungry? How about that sushi place you love?`,
-        instruction: 'Read the transcript from your Listening 3 class material. Pay attention to how the characters introduce themselves and describe their professions. Then answer the questions!',
+        youtubeId: 'YGTEXtptvGM',
+        startTime: 0,
+        endTime: 182,
+        instruction: 'Watch Elizabeth and John introduce themselves. Pay attention to their names, ages, countries, jobs and hobbies. Then answer the questions!',
+        audioText: `Elizabeth: Hello hello!\nJohn: Hello hello!\nElizabeth: How are you?\nJohn: I am fine thanks. What about you?\nElizabeth: I am okay! What's your name?\nJohn: My name is John. What is your name?\nElizabeth: My name is Elizabeth. Nice to meet you, John!\nJohn: Nice to meet you too, Elizabeth! How old are you?\nElizabeth: I am 21 years old. What about you?\nJohn: I am 23 years old. Where are you from, Elizabeth?\nElizabeth: I am from Spain. I am Spanish. I live in Madrid. What about you?\nJohn: I am from the United States of America. I am an American. I live in New York.\nElizabeth: Do you speak Spanish?\nJohn: No, I don't speak Spanish. I speak English and French. Do you speak French?\nElizabeth: Really? I also speak French!\nJohn: I am a businessman. What about you?\nElizabeth: I am a teacher. I teach Spanish in a high school. What's your favorite sport?\nJohn: I like football. I am a big fan of Real Madrid football club. What about you?\nElizabeth: My favorite sport is baseball. I am a big fan of New York Yankees. I also play baseball with my friends on weekends.\nJohn: That sounds nice! It has been a pleasure to meet you, Elizabeth!\nElizabeth: I am also glad to meet you. I hope to see you soon! Bye!\nJohn: See you later! Bye!`,
         questions: [
-          { q: 'What is Phoebe\'s profession?', options: ['A professor', 'A doctor', 'An actor', 'A nurse'], answer: 2 },
-          { q: 'What does Ross do?', options: ['He is an actor', 'He is a professor of paleontology', 'He is a doctor', 'He is a chef'], answer: 1 },
-          { q: 'Where are Monica and Chandler from?', options: ['Los Angeles', 'Chicago', 'Boston', 'New York'], answer: 3 },
-          { q: 'What does "How about that sushi place you love?" mean?', options: ['Do you like sushi?', 'Shall we go to your favourite sushi restaurant?', 'Where is the sushi place?', 'I love sushi too!'], answer: 1 },
+          { q: 'How old is Elizabeth?', options: ['19 years old', '21 years old', '23 years old', '25 years old'], answer: 1 },
+          { q: 'Where is John from?', options: ['Spain', 'France', 'The United States', 'England'], answer: 2 },
+          { q: 'What is Elizabeth\'s job?', options: ['A businesswoman', 'A doctor', 'A teacher', 'A student'], answer: 2 },
+          { q: 'What is John\'s favorite sport?', options: ['Baseball', 'Football', 'Basketball', 'Tennis'], answer: 1 },
         ]
       },
       {
-        id: 'l5', title: 'Molly & Peter — Listen & Follow', level: 'A1',
-        type: 'multiple_choice',
+        id: 'l5', title: 'Introducing Yourself — ESL Practice', level: 'A1',
+        type: 'listening_video',
         lesson: 'The Introductions',
-        audioText: `Molly: Excuse me, hi, my name is Molly. What's your name?\nPeter: I'm Peter! My friends call me Pete.\nMolly: Hi Pete, it's nice to meet you!\nPeter: It's nice to meet you too.\nMolly: Are you a student here?\nPeter: Yes, I am! My class is at 9 o'clock with Miss Taylor.\nMolly: Miss Taylor! She is my teacher! You are in my class!\nMs. Smith: Hello, what's your name?\nMolly: I'm Molly! I'm in your class too!\nMs. Smith: Hello, Holly! Is that H-O-L-L-Y?\nMolly: No, it's Molly, M-O-L-L-Y. My last name is LIN. L-I-N.\nPeter: Excuse me… are you Miss Taylor?\nMs. Smith: No I'm not! I'm Miss Smith. Miss Taylor is in room 203 over there.`,
-        instruction: 'Read this transcript from The Introductions class. Focus on how Molly and Peter introduce themselves, spell names, and find their classroom. Then answer the questions!',
+        youtubeId: 'P3VcHnECgbs',
+        startTime: 0,
+        endTime: 75,
+        instruction: 'Watch this ESL video about introducing yourself. Pay attention to the key phrases and expressions used. Then answer the questions!',
+        audioText: `Narrator: How do you introduce yourself in English?\nSpeaker 1: Hi! My name is Anna. Nice to meet you!\nSpeaker 2: Hello! I'm David. Where are you from, Anna?\nAnna: I'm from Brazil. And you?\nDavid: I'm from Canada. What do you do?\nAnna: I'm a student. What about you?\nDavid: I'm an engineer. It's great to meet you!\nAnna: You too! See you around!`,
         questions: [
-          { q: 'How does Peter prefer to be called?', options: ['Peter', 'Pete', 'Pat', 'PJ'], answer: 1 },
-          { q: 'The teacher called Molly "Holly". How did Molly correct her?', options: ['"I am not Holly."', '"No, it\'s Molly, M-O-L-L-Y."', '"My name are Molly."', '"Call me Mol!"'], answer: 1 },
-          { q: 'Where is Miss Taylor\'s classroom?', options: ['Room 102', 'Room 302', 'Room 230', 'Room 203'], answer: 3 },
-          { q: 'What does "It\'s over there" mean?', options: ['It\'s very far away', 'It\'s finished', 'It\'s in that direction', 'It\'s above us'], answer: 2 },
-        ]
-      },
-      {
-        id: 'l6', title: 'A or AN? — Listen & Choose', level: 'A1',
-        type: 'multiple_choice',
-        lesson: 'The Introductions',
-        audioText: `From your class vocabulary:\n\nWith A (consonant sound):\nShe is a teacher.\nHe is a doctor.\nShe is a nurse.\nIt is a process.\nHe is a student.\nIt is a sushi place.\n\nWith AN (vowel sound):\nShe is an actor.\nHe is an artist.\nShe is an engineer.\nHe is an astronaut.\nIt is an apple.\n\nFrom Friends:\nPhoebe: "I'm an actor. I have a process."\nRoss: "I'm not an actor. I'm a professor."`,
-        instruction: 'Study the A/AN rules from your class material. Listen to how native speakers use them naturally. Then choose the correct article for each sentence!',
-        questions: [
-          { q: 'Complete: "She is ___ artist from New York."', options: ['a', 'an', 'the', 'one'], answer: 1 },
-          { q: 'Complete: "I\'m ___ student. My class is at 9."', options: ['an', 'the', 'a', 'one'], answer: 2 },
-          { q: 'Complete: "Ross is ___ professor, not ___ actor."', options: ['a / an', 'an / a', 'a / a', 'an / an'], answer: 0 },
-          { q: 'Which is CORRECT?', options: ['"She\'s a engineer."', '"He\'s an doctor."', '"I\'m an astronaut."', '"We\'re a artists."'], answer: 2 },
+          { q: 'What phrase means the same as "Nice to meet you"?', options: ['See you later!', 'It\'s great to meet you!', 'How are you?', 'Where are you from?'], answer: 1 },
+          { q: 'What does "What do you do?" mean?', options: ['What are you doing right now?', 'What is your hobby?', 'What is your job?', 'What did you do yesterday?'], answer: 2 },
+          { q: '"I\'m a student" uses the article "a" because...', options: ['Student starts with "s"', 'Student is a consonant sound', 'Student is a vowel sound', 'There is no rule'], answer: 1 },
+          { q: 'What is the correct way to ask where someone is from?', options: ['"Where you are from?"', '"Where are from you?"', '"Where are you from?"', '"You are from where?"'], answer: 2 },
         ]
       },
     ]
@@ -234,11 +215,73 @@ const SKILLS = {
           needsWork: "Good try! Remember: formal = complete sentences and polite words. Informal = short, casual, relaxed!"
         }
       },
-      // ─── L4: THE INTRODUCTIONS ───────────────────────────────────────
+      // ─── L3: THE INTRODUCTIONS ───────────────────────────────────────
       {
-        id: 'w4', title: 'Write a School Introduction Dialogue', level: 'A1',
+        id: 'w4', title: 'Introduce Yourself in Writing', level: 'A1',
         type: 'writing',
         lesson: 'The Introductions',
+        prompt: 'Write a short self-introduction in English! Include:\n• Your name\n• Where you are from\n• Your age\n• What you do (job or study)\n• One thing you like\n\nUse the words from class: here, where, his/her name is. Minimum 15 words.',
+        minWords: 15,
+        tips: [
+          '"My name is ___. Nice to meet you!"',
+          '"I am from ___. I live in ___."',
+          '"I am ___ years old."',
+          '"I am a student / teacher / ___."',
+          '"I like ___ and ___."',
+        ],
+        feedback: {
+          excellent: "Fantastic introduction! You used the vocabulary perfectly and your sentences are clear and natural! 🌟",
+          good: "Good job! Your introduction is clear. Try to add more details using 'here', 'where' and 'his/her name is'!",
+          needsWork: "Good start! Remember to include your name, where you're from, your age and what you do. Check the tips!"
+        }
+      },
+      {
+        id: 'w5', title: 'Describe Someone You Know', level: 'A1',
+        type: 'writing',
+        lesson: 'The Introductions',
+        prompt: 'Write about someone you know — a friend, family member or classmate. Use:\n• His name is / Her name is\n• He is / She is (age, job, where from)\n• He lives / She lives\n• He likes / She likes\n\nMinimum 20 words. Try to use "here", "where" and "there" in your sentences!',
+        minWords: 20,
+        tips: [
+          '"Her name is Ana. She is my friend."',
+          '"His name is Carlos. He is 25 years old."',
+          '"She is from Rio. She lives here in São Paulo."',
+          '"He works over there, near the school."',
+          '"Where is she from? She is from ___."',
+        ],
+        feedback: {
+          excellent: "Excellent! You used his/her, here/there perfectly and your description is vivid and clear! 🌟",
+          good: "Good work! Try to include 'here', 'there' or 'where' to practice the target vocabulary from class!",
+          needsWork: "Good try! Remember: use 'His name is' for men and 'Her name is' for women. Add where they are from!"
+        }
+      },
+          '"I am a student / teacher / doctor..."',
+          '"I like / I enjoy ___."',
+        ],
+        feedback: {
+          excellent: 'Excellent introduction! You used vocabulary from class naturally. 🌟',
+          good: 'Good job! Try to add more details — where are you from? What do you like?',
+          needsWork: 'Good start! Remember to include your name, where you\'re from, and something about yourself.',
+        }
+      },
+      {
+        id: 'w5', title: 'His, Her & Where — Write It Right', level: 'A1',
+        type: 'writing',
+        lesson: 'The Introductions',
+        prompt: 'Write 4 sentences using HIS and HER correctly, then write 2 sentences using HERE and OVER THERE. Finally, write a short dialogue where someone asks WHERE you are from and you answer. Minimum 20 words.\n\nExample:\n"Her name is Ana. His name is Pedro.\nThe book is here. The door is over there.\nA: Where are you from? B: I\'m from Brazil!"',
+        minWords: 20,
+        tips: [
+          'HIS = for men/boys: "His name is John."',
+          'HER = for women/girls: "Her name is Maria."',
+          'HERE = close to you: "The pen is here."',
+          'OVER THERE = far: "The board is over there."',
+          'WHERE = question: "Where are you from?"',
+        ],
+        feedback: {
+          excellent: 'Perfect! You used his/her, here/there and where correctly. Great work! 🌟',
+          good: 'Good! Check your his/her — remember: HIS for men, HER for women.',
+          needsWork: 'Keep practicing! HIS = dele, HER = dela, HERE = aqui, THERE = lá.',
+        }
+      },
         prompt: 'Write a dialogue between two students meeting at school for the first time. Include: names and nicknames, spelling of at least one name, asking if they\'re in the same class, the teacher\'s name, and where the classroom is. Use vocabulary from The Introductions class! Minimum 50 words.',
         minWords: 50,
         tips: [
@@ -339,45 +382,39 @@ const SKILLS = {
         phrases: ['Hello! Good evening.', 'I have a reservation.', 'My name is... it\'s spelled...', 'Yes, that\'s right.', 'Here you are.', 'Thank you very much!', 'Have a good evening!']
       },
 
-      // ─── L4: THE INTRODUCTIONS ───────────────────────────────────────
+      // ─── L3: THE INTRODUCTIONS ───────────────────────────────────────
       {
-        id: 's4', title: 'Introduce Yourself at School', level: 'A1',
+        id: 's4', title: 'Introduce Yourself!', level: 'A1',
         type: 'speaking',
         lesson: 'The Introductions',
-        prompt: 'You are a new student arriving at school. Record yourself introducing yourself to your teacher: say your name, spell your last name, say what class you are in, and greet your teacher politely. Use the Molly & Peter dialogue as inspiration!',
+        prompt: 'Record yourself doing a complete self-introduction in English — just like John and Elizabeth in the video! Say your name, where you are from, your age, what you do, and one thing you like. Speak for at least 30 seconds. Try to sound natural!',
         tips: [
-          'Start with: "Excuse me, hi! My name is ___."',
-          'Spell your last name: "My last name is ___, it\'s spelled ___."',
-          'Use: "I\'m in your class!" or "Nice to meet you!"',
-          'End politely: "Thank you! Have a good day!"'
+          '"Hi! My name is ___. Nice to meet you!"',
+          '"I am from ___. I live in ___."',
+          '"I am ___ years old."',
+          '"I am a student / I work as a ___."',
+          '"I like ___ a lot. What about you?"',
         ],
-        phrases: ['Excuse me, hi! My name is...', 'My last name is... spelled...', 'I\'m in your class!', 'Nice to meet you!', 'Thank you! Have a good day!']
+        phrases: ['My name is...', 'I am from...', 'I live in...', 'I am ___ years old.', 'I am a student.', 'Nice to meet you!', 'It has been a pleasure!']
       },
       {
-        id: 's5', title: 'Role Play — Meeting a Classmate', level: 'A1',
+        id: 's5', title: 'Where Are You From?', level: 'A1',
         type: 'speaking',
         lesson: 'The Introductions',
-        prompt: 'Record yourself playing both parts of a conversation between two students meeting for the first time. Use: name, nickname, class, teacher\'s name, and where the classroom is. Be creative — add your own details!',
+        prompt: 'Practice the key vocabulary from class! Record yourself using each of these words in a sentence:\n\n1. HERE — say where something is\n2. OVER THERE — point to something far\n3. WHERE — ask a question\n4. HIS NAME IS — talk about a man you know\n5. HER NAME IS — talk about a woman you know\n6. YOU\'RE WELCOME — respond to a thank you\n\nSpeak clearly and try to create real, natural sentences!',
         tips: [
-          'Use: "My friends call me ___" for nickname',
-          'Ask: "Are you a student here?"',
-          'Say: "She is my teacher too! You are in my class!"',
-          'Use: "It\'s over there!" / "Here you are!"'
+          '"My bag is here. The door is over there."',
+          '"Where are you from? Where do you live?"',
+          '"His name is ___ . He is my friend."',
+          '"Her name is ___. She is my teacher."',
+          '"Thank you!" → "You\'re welcome!"',
         ],
-        phrases: ['My friends call me...', 'Are you a student here?', 'My class is at ___ o\'clock.', 'She is my teacher!', 'It\'s over there.', 'Nice to meet you too!']
+        phrases: ['Here!', 'Over there!', 'Where are you from?', 'His name is...', 'Her name is...', 'You\'re welcome!', 'It\'s right here!', 'It\'s over there!']
       },
-      {
-        id: 's6', title: 'Correct the Teacher!', level: 'A1',
-        type: 'speaking',
-        lesson: 'The Introductions',
-        prompt: 'The teacher got your name wrong! Record yourself politely correcting her — just like Molly did with Ms. Smith. Say your name, spell it clearly, and give your last name too. Then say a complete sentence using "My name is" and "I am in your class".',
-        tips: [
-          'Be polite: "No, it\'s ___, not ___."',
-          'Spell clearly: "M-O-L-L-Y — Molly!"',
-          'Give last name: "My last name is ___. L-I-N."',
-          'Confirm: "I am in your class!"'
+          'HER = about a woman or girl you know',
+          'Speak slowly and clearly!',
         ],
-        phrases: ['No, it\'s ___, not ___.', 'It\'s spelled...', 'My last name is...', 'I am in your class!', 'Nice to meet you, Miss ___!']
+        phrases: ['___ is here.', '___ is over there.', 'His name is...', 'Her name is...', 'Where is the ___?', 'It\'s over there!']
       },
     ]
   }

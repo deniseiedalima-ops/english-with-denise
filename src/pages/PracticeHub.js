@@ -33,20 +33,20 @@ const LESSONS = [
     num: 3, code: 'L3', title: 'The Introductions', level: 'A1',
     activities: {
       reading: [
-        { code: 'L3-R1', title: 'Molly & Peter at School', type: 'Multiple Choice', activityIndex: 3, phase: 'pre' },
-        { code: 'L3-R2', title: 'Verb To Be — Introductions', type: 'Multiple Choice', activityIndex: 4, phase: 'post' },
+        { code: 'L3-R1', title: 'Meet Elizabeth & John', type: 'Multiple Choice', activityIndex: 3, phase: 'pre' },
+        { code: 'L3-R2', title: 'Here, There & Whose? — Grammar Focus', type: 'Multiple Choice', activityIndex: 4, phase: 'post' },
       ],
       listening: [
-        { code: 'L3-L1', title: 'Friends Cast — Introductions', type: 'Transcript + Questions', activityIndex: 3, phase: 'pre' },
-        { code: 'L3-L2', title: 'Molly & Peter — Listen & Follow', type: 'Transcript + Questions', activityIndex: 4, phase: 'post' },
+        { code: 'L3-L1', title: 'Elizabeth & John — Full Introduction', type: 'Video + Questions', activityIndex: 3, phase: 'pre' },
+        { code: 'L3-L2', title: 'Introducing Yourself — ESL Practice', type: 'Video + Questions', activityIndex: 4, phase: 'post' },
       ],
       writing: [
-        { code: 'L3-W1', title: 'School Introduction Dialogue', type: 'Open Writing', activityIndex: 3, phase: 'pre' },
-        { code: 'L3-W2', title: 'Verb To Be — Complete & Create', type: 'Open Writing', activityIndex: 4, phase: 'post' },
+        { code: 'L3-W1', title: 'Write Your Own Introduction', type: 'Open Writing', activityIndex: 3, phase: 'pre' },
+        { code: 'L3-W2', title: 'His, Her & Where — Write It Right', type: 'Open Writing', activityIndex: 4, phase: 'post' },
       ],
       speaking: [
-        { code: 'L3-S1', title: 'Introduce Yourself at School', type: 'AI Speaking', activityIndex: 3, phase: 'pre' },
-        { code: 'L3-S2', title: 'Correct the Teacher!', type: 'AI Speaking', activityIndex: 5, phase: 'post' },
+        { code: 'L3-S1', title: 'Introduce Yourself!', type: 'AI Speaking', activityIndex: 3, phase: 'pre' },
+        { code: 'L3-S2', title: 'Where Is It? Point & Say!', type: 'AI Speaking', activityIndex: 4, phase: 'post' },
       ],
     }
   },
