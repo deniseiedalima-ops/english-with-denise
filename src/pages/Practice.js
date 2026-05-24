@@ -254,15 +254,6 @@ const SKILLS = {
           needsWork: "Good try! Remember: use 'His name is' for men and 'Her name is' for women. Add where they are from!"
         }
       },
-          '"I am a student / teacher / doctor..."',
-          '"I like / I enjoy ___."',
-        ],
-        feedback: {
-          excellent: 'Excellent introduction! You used vocabulary from class naturally. 🌟',
-          good: 'Good job! Try to add more details — where are you from? What do you like?',
-          needsWork: 'Good start! Remember to include your name, where you\'re from, and something about yourself.',
-        }
-      },
       {
         id: 'w5', title: 'His, Her & Where — Write It Right', level: 'A1',
         type: 'writing',
@@ -282,23 +273,8 @@ const SKILLS = {
           needsWork: 'Keep practicing! HIS = dele, HER = dela, HERE = aqui, THERE = lá.',
         }
       },
-        prompt: 'Write a dialogue between two students meeting at school for the first time. Include: names and nicknames, spelling of at least one name, asking if they\'re in the same class, the teacher\'s name, and where the classroom is. Use vocabulary from The Introductions class! Minimum 50 words.',
-        minWords: 50,
-        tips: [
-          '"Excuse me, hi! My name is ___."',
-          '"My friends call me ___." — add a nickname!',
-          '"Are you a student here? / Yes, I am!"',
-          '"She is my teacher too! You are in my class!"',
-          '"Where is our class?" / "It\'s over there!"'
-        ],
-        feedback: {
-          excellent: "Excellent! Your dialogue sounds natural and includes all the key vocabulary. You're making great progress! 🌟",
-          good: "Good job! Your dialogue has good structure. Try to add more details like spelling names or asking about the classroom!",
-          needsWork: "Good start! Remember to include: names, class info, and where the classroom is. Use the Molly & Peter dialogue as a model!"
-        }
-      },
       {
-        id: 'w5', title: 'Verb To Be — Complete & Create', level: 'A1',
+        id: 'w6', title: 'Verb To Be — Complete & Create', level: 'A1',
         type: 'writing',
         lesson: 'The Introductions',
         prompt: 'Complete these sentences with the correct form of TO BE (am/is/are), then make them negative. Finally, write 4 original sentences about yourself using TO BE:\n\n1. She ___ a doctor.\n2. They ___ very happy today.\n3. I ___ at home right now.\n4. He ___ from Brazil.\n\nNow make sentences 1-4 negative. Then write 4 sentences about yourself!',
@@ -410,11 +386,6 @@ const SKILLS = {
           '"Thank you!" → "You\'re welcome!"',
         ],
         phrases: ['Here!', 'Over there!', 'Where are you from?', 'His name is...', 'Her name is...', 'You\'re welcome!', 'It\'s right here!', 'It\'s over there!']
-      },
-          'HER = about a woman or girl you know',
-          'Speak slowly and clearly!',
-        ],
-        phrases: ['___ is here.', '___ is over there.', 'His name is...', 'Her name is...', 'Where is the ___?', 'It\'s over there!']
       },
     ]
   }
