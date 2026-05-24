@@ -5,51 +5,61 @@ import './PracticeHub.css';
 
 const LESSONS = [
   {
-    num: 3, code: 'L3', title: 'The Greetings', level: 'A1',
+    num: 2, code: 'L2', title: 'The Greetings', level: 'A1',
     activities: {
       reading: [
-        { code: 'L3-R1', title: 'Mark & Julia — Dialogue', type: 'Multiple Choice', activityIndex: 0 },
-        { code: 'L3-R2', title: 'Vocabulary Match', type: 'Multiple Choice', activityIndex: 1 },
-        { code: 'L3-R3', title: 'Verb To Be in Context', type: 'Multiple Choice', activityIndex: 2 },
+        { code: 'L2-R1', title: 'Mark & Julia — Dialogue', type: 'Multiple Choice', activityIndex: 0, phase: 'pre' },
+        { code: 'L2-R2', title: 'Vocabulary Match', type: 'Multiple Choice', activityIndex: 1, phase: 'pre' },
+        { code: 'L2-R3', title: 'Verb To Be in Context', type: 'Multiple Choice', activityIndex: 2, phase: 'post' },
       ],
       listening: [
-        { code: 'L3-L1', title: 'Jenny at the Hotel', type: 'Video + Questions', activityIndex: 0 },
-        { code: 'L3-L2', title: 'Meet Sarah!', type: 'Video + Questions', activityIndex: 1 },
-        { code: 'L3-L3', title: 'Where Are You From?', type: 'Video + Questions', activityIndex: 2 },
+        { code: 'L2-L1', title: 'Jenny at the Hotel', type: 'Video + Questions', activityIndex: 0, phase: 'pre' },
+        { code: 'L2-L2', title: 'Meet Sarah!', type: 'Video + Questions', activityIndex: 1, phase: 'pre' },
+        { code: 'L2-L3', title: 'Where Are You From?', type: 'Video + Questions', activityIndex: 2, phase: 'post' },
       ],
       writing: [
-        { code: 'L3-W1', title: 'Write a Greeting Dialogue', type: 'Open Writing', activityIndex: 0 },
-        { code: 'L3-W2', title: 'How Are You? — 5 Ways', type: 'Open Writing', activityIndex: 1 },
-        { code: 'L3-W3', title: 'Formal or Informal? Rewrite!', type: 'Open Writing', activityIndex: 2 },
+        { code: 'L2-W1', title: 'Write a Greeting Dialogue', type: 'Open Writing', activityIndex: 0, phase: 'pre' },
+        { code: 'L2-W2', title: 'How Are You? — 5 Ways', type: 'Open Writing', activityIndex: 1, phase: 'pre' },
+        { code: 'L2-W3', title: 'Formal or Informal? Rewrite!', type: 'Open Writing', activityIndex: 2, phase: 'post' },
       ],
       speaking: [
-        { code: 'L3-S1', title: 'Introduce Yourself!', type: 'AI Speaking', activityIndex: 0 },
-        { code: 'L3-S2', title: 'How Are You? 5 Different Ways', type: 'AI Speaking', activityIndex: 1 },
-        { code: 'L3-S3', title: 'Role Play — Hotel Check-in', type: 'AI Speaking', activityIndex: 2 },
+        { code: 'L2-S1', title: 'Introduce Yourself!', type: 'AI Speaking', activityIndex: 0, phase: 'pre' },
+        { code: 'L2-S2', title: 'How Are You? 5 Different Ways', type: 'AI Speaking', activityIndex: 1, phase: 'pre' },
+        { code: 'L2-S3', title: 'Role Play — Hotel Check-in', type: 'AI Speaking', activityIndex: 2, phase: 'post' },
       ],
     }
   },
   {
-    num: 4, code: 'L4', title: 'The Introductions', level: 'A1',
+    num: 3, code: 'L3', title: 'The Introductions', level: 'A1',
     activities: {
       reading: [
-        { code: 'L4-R1', title: 'Molly & Peter at School', type: 'Multiple Choice', activityIndex: 3, phase: 'pre' },
-        { code: 'L4-R2', title: 'Verb To Be — Introductions', type: 'Multiple Choice', activityIndex: 4, phase: 'post' },
+        { code: 'L3-R1', title: 'Molly & Peter at School', type: 'Multiple Choice', activityIndex: 3, phase: 'pre' },
+        { code: 'L3-R2', title: 'Verb To Be — Introductions', type: 'Multiple Choice', activityIndex: 4, phase: 'post' },
       ],
       listening: [
-        { code: 'L4-L1', title: 'Friends Cast — Introductions', type: 'Transcript + Questions', activityIndex: 3, phase: 'pre' },
-        { code: 'L4-L2', title: 'Molly & Peter — Listen & Follow', type: 'Transcript + Questions', activityIndex: 4, phase: 'post' },
+        { code: 'L3-L1', title: 'Friends Cast — Introductions', type: 'Transcript + Questions', activityIndex: 3, phase: 'pre' },
+        { code: 'L3-L2', title: 'Molly & Peter — Listen & Follow', type: 'Transcript + Questions', activityIndex: 4, phase: 'post' },
       ],
       writing: [
-        { code: 'L4-W1', title: 'School Introduction Dialogue', type: 'Open Writing', activityIndex: 3, phase: 'pre' },
-        { code: 'L4-W2', title: 'Verb To Be — Complete & Create', type: 'Open Writing', activityIndex: 4, phase: 'post' },
+        { code: 'L3-W1', title: 'School Introduction Dialogue', type: 'Open Writing', activityIndex: 3, phase: 'pre' },
+        { code: 'L3-W2', title: 'Verb To Be — Complete & Create', type: 'Open Writing', activityIndex: 4, phase: 'post' },
       ],
       speaking: [
-        { code: 'L4-S1', title: 'Introduce Yourself at School', type: 'AI Speaking', activityIndex: 3, phase: 'pre' },
-        { code: 'L4-S2', title: 'Correct the Teacher!', type: 'AI Speaking', activityIndex: 5, phase: 'post' },
+        { code: 'L3-S1', title: 'Introduce Yourself at School', type: 'AI Speaking', activityIndex: 3, phase: 'pre' },
+        { code: 'L3-S2', title: 'Correct the Teacher!', type: 'AI Speaking', activityIndex: 5, phase: 'post' },
       ],
     }
   },
+  { num: 4,  code: 'L4',  title: 'Countries and Nationalities', level: 'A1', activities: { reading: [], listening: [], writing: [], speaking: [] } },
+  { num: 5,  code: 'L5',  title: 'The Occupations',             level: 'A1', activities: { reading: [], listening: [], writing: [], speaking: [] } },
+  { num: 6,  code: 'L6',  title: 'At the Café',                 level: 'A1', activities: { reading: [], listening: [], writing: [], speaking: [] } },
+  { num: 7,  code: 'L7',  title: 'The Places in the City',      level: 'A1', activities: { reading: [], listening: [], writing: [], speaking: [] } },
+  { num: 8,  code: 'L8',  title: 'The Family',                  level: 'A1', activities: { reading: [], listening: [], writing: [], speaking: [] } },
+  { num: 9,  code: 'L9',  title: 'You Are Going To…',           level: 'A1', activities: { reading: [], listening: [], writing: [], speaking: [] } },
+  { num: 10, code: 'L10', title: 'At the Travel Agency',        level: 'A1', activities: { reading: [], listening: [], writing: [], speaking: [] } },
+  { num: 11, code: 'L11', title: 'I Was So Nervous!',           level: 'A1', activities: { reading: [], listening: [], writing: [], speaking: [] } },
+  { num: 12, code: 'L12', title: 'Where Were You Yesterday?',   level: 'A1', activities: { reading: [], listening: [], writing: [], speaking: [] } },
+  { num: 13, code: 'L13', title: 'Final Review',                level: 'A1', activities: { reading: [], listening: [], writing: [], speaking: [] } },
 ];
 
 const SKILLS = [
@@ -97,7 +107,7 @@ export default function PracticeHub({ user, student, onLogout }) {
     return LESSONS[LESSONS.length - 1];
   })();
 
-  const [expandedLesson, setExpandedLesson] = useState(currentLesson?.code || 'L3');
+  const [expandedLesson, setExpandedLesson] = useState(currentLesson?.code || 'L2');
 
   const allCodes = Object.values(currentLesson.activities).flat().map(a => a.code);
   const completedThisLesson = allCodes.filter(c => completedCodes.includes(c)).length;

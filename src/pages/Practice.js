@@ -10,7 +10,7 @@ const SKILLS = {
       {
         id: 'r1', title: 'The Greetings — Mark & Julia', level: 'A1',
         type: 'multiple_choice',
-        lesson: 'THE GREETINGS',
+        lesson: 'The Greetings',
         text: `Mark: Good afternoon!\nJulia: Good afternoon!\nMark: Hi, what's your name?\nJulia: I'm Julia. And you?\nMark: I'm Mark. Nice to meet you!\nJulia: Nice to meet you too! How do you spell your name?\nMark: It's M-A-R-K. How do you spell yours?\nJulia: J-U-L-I-A.\nMark: Great! How are you?\nJulia: I'm good, thanks. How about you?\nMark: Fine, thanks!\nJulia: Alright, then! But I have to go now!\nMark: Okay, no problem. Have a good day!\nJulia: Thanks, you too! See you later!\nMark: Take care! Bye bye!`,
         questions: [
           { q: 'What time of day does the conversation happen?', options: ['Morning', 'Afternoon', 'Evening', 'Night'], answer: 1 },
@@ -22,7 +22,7 @@ const SKILLS = {
       {
         id: 'r2', title: 'The Greetings — Vocabulary Match', level: 'A1',
         type: 'multiple_choice',
-        lesson: 'THE GREETINGS',
+        lesson: 'The Greetings',
         text: `Study these greetings from your class:\n\n🌅 MORNING: "Good morning!" / "Morning!"\n☀️ AFTERNOON: "Good afternoon!" / "Afternoon, people!"\n🌙 EVENING/ARRIVAL: "Good evening!"\n🌛 LEAVING AT NIGHT: "Good night!"\n\nHow to ask how someone is:\n"How are you?" → "I'm good, thanks!"\n"What's up?" → "Not much! And you?"\n"How's it going?" → "Pretty good! And you?"\n"You good?" → "Yeah, all good!"\n\nSaying goodbye:\n"See you later!" / "Take care!" / "Have a good day!"`,
         questions: [
           { q: 'You arrive at a party at 8 PM. What do you say?', options: ['Good morning!', 'Good night!', 'Good evening!', 'Goodbye!'], answer: 2 },
@@ -34,7 +34,7 @@ const SKILLS = {
       {
         id: 'r3', title: 'The Greetings — Verb To Be', level: 'A1',
         type: 'multiple_choice',
-        lesson: 'THE GREETINGS',
+        lesson: 'The Greetings',
         text: `From your class material, review the verb TO BE:\n\nI am → eu sou / eu estou\nYou are → você é / você está\nHe is → ele é / ele está\nShe is → ela é / ela está\nIt is → a coisa é / está\nThey are → eles/elas são/estão\n\nExamples in greetings:\n"I'm Julia." (I am Julia)\n"I'm good, thanks!" (I am good)\n"I'm from New York." (I am from New York)\n"She is the assistant editor." (She is = ela é)`,
         questions: [
           { q: 'Complete: "___ Mark. Nice to meet you!"', options: ['He am', 'I\'m', 'She is', 'They are'], answer: 1 },
@@ -47,7 +47,7 @@ const SKILLS = {
       {
         id: 'r4', title: 'Molly & Peter at School', level: 'A1',
         type: 'multiple_choice',
-        lesson: 'THE INTRODUCTIONS',
+        lesson: 'The Introductions',
         text: `Molly: Excuse me, hi, my name is Molly. What's your name?\nPeter: I'm Peter! My friends call me Pete.\nMolly: My friends call me… Molly! Haha. Hi Pete, it's nice to meet you!\nPeter: It's nice to meet you too.\nMolly: Are you a student here?\nPeter: Yes, I am! My class is at 9 o'clock with Miss Taylor.\nMolly: Miss Taylor! She is my teacher! You are in my class!\nPeter: Great!\nMolly: Where is our class?\nPeter: It's over there…\nPeter: Hi! I'm Peter. Peter Crumb! I'm in your class!\nMs. Smith: Hi Peter, nice to meet you! Hello, what's your name?\nMolly: I'm Molly! I'm in your class too!\nMs. Smith: Hello, Holly! Is that H-O-L-L-Y?\nMolly: No, it's Molly, M-O-L-L-Y.\nMs. Smith: M-O-L-L-Y, Molly! What's your last name Molly?\nMolly: LIN! L-I-N.\nPeter: Excuse me… are you Miss Taylor?\nMs. Smith: No I'm not! I'm Miss Smith. Miss Taylor is in room 203 over there.\nPeter: Oh, thanks! Goodbye!\nMs. Smith: Have a good day!`,
         questions: [
           { q: 'What does Peter\'s friends call him?', options: ['Peter', 'Pete', 'Pat', 'Pierre'], answer: 1 },
@@ -59,7 +59,7 @@ const SKILLS = {
       {
         id: 'r5', title: 'Verb To Be — Introductions Context', level: 'A1',
         type: 'multiple_choice',
-        lesson: 'THE INTRODUCTIONS',
+        lesson: 'The Introductions',
         text: `From your class material — Verb TO BE used in introductions:\n\nAffirmative:\nI am a student. / She is my teacher. / He is Peter Crumb.\nThey are in my class. / We are students.\n\nNegative:\nI am not late. / She is not Miss Taylor — she is Miss Smith!\nHe is not a doctor. He is a professor.\nThey are not ready.\n\nQuestions:\nAre you a student here? → Yes, I am! / No, I'm not.\nIs she your teacher? → Yes, she is! / No, she isn't.\nWhere is our class? → It's over there!\nWhat is your last name? → It's LIN.\n\nWith names:\nMy name is → meu nome é\nHer name is → o nome dela é\nHis name is → o nome dele é`,
         questions: [
           { q: 'Complete: "___ you a student here?" — Peter asks Molly.', options: ['Am', 'Is', 'Are', 'Be'], answer: 2 },
@@ -71,7 +71,7 @@ const SKILLS = {
       {
         id: 'r6', title: 'A/An — Articles in Introductions', level: 'A1',
         type: 'multiple_choice',
-        lesson: 'THE INTRODUCTIONS',
+        lesson: 'The Introductions',
         text: `From your class — when to use A or AN:\n\nUse A before consonant sounds:\n• a teacher → uma professora\n• a doctor → um médico\n• a nurse → uma enfermeira\n• a process → um processo\n• a student → um estudante\n\nUse AN before vowel sounds:\n• an actor → um ator\n• an artist → um artista\n• an engineer → um engenheiro\n• an astronaut → um astronauta\n• an apple → uma maçã\n\nFrom the dialogue:\n"I'm an actor. I have a process." — Phoebe\n"I'm not an actor. I'm a professor of paleontology." — Ross`,
         questions: [
           { q: 'Choose the correct article: "She is ___ engineer."', options: ['a', 'an', 'the', 'no article'], answer: 1 },
@@ -88,7 +88,7 @@ const SKILLS = {
       {
         id: 'l1', title: 'Jenny at the Hotel', level: 'A1',
         type: 'listening_video',
-        lesson: 'THE GREETINGS',
+        lesson: 'The Greetings',
         youtubeId: 'EflkHGJbxnA',
         startTime: 56,
         endTime: 286,
@@ -103,7 +103,7 @@ const SKILLS = {
       {
         id: 'l2', title: 'Meet Sarah!', level: 'A1',
         type: 'listening_video',
-        lesson: 'THE GREETINGS',
+        lesson: 'The Greetings',
         youtubeId: 'fLYzVdpseSA',
         startTime: 0,
         endTime: 60,
@@ -119,7 +119,7 @@ const SKILLS = {
       {
         id: 'l3', title: 'Where Are You From?', level: 'A1',
         type: 'listening_video',
-        lesson: 'THE GREETINGS',
+        lesson: 'The Greetings',
         youtubeId: '31y2Bq1RYQA',
         startTime: 60,
         endTime: 297,
@@ -136,7 +136,7 @@ const SKILLS = {
       {
         id: 'l4', title: 'Friends Cast — Introductions', level: 'A1',
         type: 'multiple_choice',
-        lesson: 'THE INTRODUCTIONS',
+        lesson: 'The Introductions',
         audioText: `Phoebe: I can't do that. I'm an actor. I have a process.\nPessoa 1: Nice to meet you! So, what show are you on?\nRoss: Oh, I'm not an actor. I'm a professor of paleontology.\nMonica: I hope you're hungry.\nPessoa 2: So, who are you?\nChandler: Well, our names really are Monica and Chandler. We're from New York.\nJulie: Thank you. I'm from New York!\nPessoa 3: Forget it. We're just hungry. We haven't had lunch.\nPessoa 4: Are you hungry? How about that sushi place you love?`,
         instruction: 'Read the transcript from your Listening 3 class material. Pay attention to how the characters introduce themselves and describe their professions. Then answer the questions!',
         questions: [
@@ -149,7 +149,7 @@ const SKILLS = {
       {
         id: 'l5', title: 'Molly & Peter — Listen & Follow', level: 'A1',
         type: 'multiple_choice',
-        lesson: 'THE INTRODUCTIONS',
+        lesson: 'The Introductions',
         audioText: `Molly: Excuse me, hi, my name is Molly. What's your name?\nPeter: I'm Peter! My friends call me Pete.\nMolly: Hi Pete, it's nice to meet you!\nPeter: It's nice to meet you too.\nMolly: Are you a student here?\nPeter: Yes, I am! My class is at 9 o'clock with Miss Taylor.\nMolly: Miss Taylor! She is my teacher! You are in my class!\nMs. Smith: Hello, what's your name?\nMolly: I'm Molly! I'm in your class too!\nMs. Smith: Hello, Holly! Is that H-O-L-L-Y?\nMolly: No, it's Molly, M-O-L-L-Y. My last name is LIN. L-I-N.\nPeter: Excuse me… are you Miss Taylor?\nMs. Smith: No I'm not! I'm Miss Smith. Miss Taylor is in room 203 over there.`,
         instruction: 'Read this transcript from The Introductions class. Focus on how Molly and Peter introduce themselves, spell names, and find their classroom. Then answer the questions!',
         questions: [
@@ -162,7 +162,7 @@ const SKILLS = {
       {
         id: 'l6', title: 'A or AN? — Listen & Choose', level: 'A1',
         type: 'multiple_choice',
-        lesson: 'THE INTRODUCTIONS',
+        lesson: 'The Introductions',
         audioText: `From your class vocabulary:\n\nWith A (consonant sound):\nShe is a teacher.\nHe is a doctor.\nShe is a nurse.\nIt is a process.\nHe is a student.\nIt is a sushi place.\n\nWith AN (vowel sound):\nShe is an actor.\nHe is an artist.\nShe is an engineer.\nHe is an astronaut.\nIt is an apple.\n\nFrom Friends:\nPhoebe: "I'm an actor. I have a process."\nRoss: "I'm not an actor. I'm a professor."`,
         instruction: 'Study the A/AN rules from your class material. Listen to how native speakers use them naturally. Then choose the correct article for each sentence!',
         questions: [
@@ -180,7 +180,7 @@ const SKILLS = {
       {
         id: 'w1', title: 'Write Your Own Greeting Dialogue', level: 'A1',
         type: 'writing',
-        lesson: 'THE GREETINGS',
+        lesson: 'The Greetings',
         prompt: 'Write a short dialogue (conversation) between two people meeting for the first time. Include: a greeting, asking and saying names, spelling at least one name, asking how they are, and saying goodbye. Use vocabulary from The Greetings class!',
         minWords: 40,
         tips: [
@@ -199,7 +199,7 @@ const SKILLS = {
       {
         id: 'w2', title: 'How Are You? — Write Your Answers', level: 'A1',
         type: 'writing',
-        lesson: 'THE GREETINGS',
+        lesson: 'The Greetings',
         prompt: 'Someone asks you these 3 questions. Write a natural answer for each one using expressions from your class:\n1. "How are you today?"\n2. "What\'s up?"\n3. "How\'s everything?"\n\nThen write 2 more sentences about your day using "I am" or "I\'m".',
         minWords: 35,
         tips: [
@@ -218,7 +218,7 @@ const SKILLS = {
       {
         id: 'w3', title: 'Formal or Informal? — Rewrite It!', level: 'A1',
         type: 'writing',
-        lesson: 'THE GREETINGS',
+        lesson: 'The Greetings',
         prompt: 'Rewrite these sentences. Make them the OPPOSITE style:\n\n1. INFORMAL → make it FORMAL:\n"Hey! What\'s up? You good?"\n\n2. FORMAL → make it INFORMAL:\n"Good morning. How do you do? It is a pleasure to meet you."\n\n3. Write 3 sentences to say goodbye — 1 formal, 1 informal, 1 your choice!',
         minWords: 30,
         tips: [
@@ -238,7 +238,7 @@ const SKILLS = {
       {
         id: 'w4', title: 'Write a School Introduction Dialogue', level: 'A1',
         type: 'writing',
-        lesson: 'THE INTRODUCTIONS',
+        lesson: 'The Introductions',
         prompt: 'Write a dialogue between two students meeting at school for the first time. Include: names and nicknames, spelling of at least one name, asking if they\'re in the same class, the teacher\'s name, and where the classroom is. Use vocabulary from The Introductions class! Minimum 50 words.',
         minWords: 50,
         tips: [
@@ -257,7 +257,7 @@ const SKILLS = {
       {
         id: 'w5', title: 'Verb To Be — Complete & Create', level: 'A1',
         type: 'writing',
-        lesson: 'THE INTRODUCTIONS',
+        lesson: 'The Introductions',
         prompt: 'Complete these sentences with the correct form of TO BE (am/is/are), then make them negative. Finally, write 4 original sentences about yourself using TO BE:\n\n1. She ___ a doctor.\n2. They ___ very happy today.\n3. I ___ at home right now.\n4. He ___ from Brazil.\n\nNow make sentences 1-4 negative. Then write 4 sentences about yourself!',
         minWords: 45,
         tips: [
@@ -275,7 +275,7 @@ const SKILLS = {
       {
         id: 'w6', title: 'A or AN? — Write Your Own Sentences', level: 'A1',
         type: 'writing',
-        lesson: 'THE INTRODUCTIONS',
+        lesson: 'The Introductions',
         prompt: 'Write 8 sentences using A or AN correctly. Use professions and nouns from your class:\n\nProfessions to use: teacher, doctor, actor, nurse, engineer, astronaut, artist, student\n\nExample: "She is a teacher." / "He is an actor."\n\nThen write 3 sentences about people you know using "His/Her name is ___ and he/she is ___."',
         minWords: 40,
         tips: [
@@ -299,7 +299,7 @@ const SKILLS = {
       {
         id: 's1', title: 'Introduce Yourself!', level: 'A1',
         type: 'speaking',
-        lesson: 'THE GREETINGS',
+        lesson: 'The Greetings',
         prompt: 'Imagine you are meeting someone new. Record yourself doing a complete greeting: say hello, give your name, spell it, say where you are from, ask how they are, and say goodbye. Speak naturally — like in the Mark & Julia dialogue from class!',
         tips: [
           'Start with a greeting: "Good morning!" or "Hi!"',
@@ -313,7 +313,7 @@ const SKILLS = {
       {
         id: 's2', title: 'How Are You? — 5 Different Ways!', level: 'A1',
         type: 'speaking',
-        lesson: 'THE GREETINGS',
+        lesson: 'The Greetings',
         prompt: 'Record yourself saying 5 different ways to ask "how are you?" and 5 different ways to answer. Use the vocabulary from your class! Try to sound natural — not like you\'re reading a list. Imagine you\'re texting a friend, then talking to your boss!',
         tips: [
           'Formal ways: "How are you today?" / "How have you been?"',
@@ -327,7 +327,7 @@ const SKILLS = {
       {
         id: 's3', title: 'Role Play — Checking In at a Hotel', level: 'A1',
         type: 'speaking',
-        lesson: 'THE GREETINGS',
+        lesson: 'The Greetings',
         prompt: 'You are Jenny from the listening exercise. You are checking into a hotel. Record yourself playing Jenny\'s part in the conversation: greet the receptionist, say your name, spell it, confirm your reservation, and thank them. Use "here you are", "that\'s right", and "thank you"!',
         tips: [
           'Start with: "Hello! Good evening."',
@@ -343,7 +343,7 @@ const SKILLS = {
       {
         id: 's4', title: 'Introduce Yourself at School', level: 'A1',
         type: 'speaking',
-        lesson: 'THE INTRODUCTIONS',
+        lesson: 'The Introductions',
         prompt: 'You are a new student arriving at school. Record yourself introducing yourself to your teacher: say your name, spell your last name, say what class you are in, and greet your teacher politely. Use the Molly & Peter dialogue as inspiration!',
         tips: [
           'Start with: "Excuse me, hi! My name is ___."',
@@ -356,7 +356,7 @@ const SKILLS = {
       {
         id: 's5', title: 'Role Play — Meeting a Classmate', level: 'A1',
         type: 'speaking',
-        lesson: 'THE INTRODUCTIONS',
+        lesson: 'The Introductions',
         prompt: 'Record yourself playing both parts of a conversation between two students meeting for the first time. Use: name, nickname, class, teacher\'s name, and where the classroom is. Be creative — add your own details!',
         tips: [
           'Use: "My friends call me ___" for nickname',
@@ -369,7 +369,7 @@ const SKILLS = {
       {
         id: 's6', title: 'Correct the Teacher!', level: 'A1',
         type: 'speaking',
-        lesson: 'THE INTRODUCTIONS',
+        lesson: 'The Introductions',
         prompt: 'The teacher got your name wrong! Record yourself politely correcting her — just like Molly did with Ms. Smith. Say your name, spell it clearly, and give your last name too. Then say a complete sentence using "My name is" and "I am in your class".',
         tips: [
           'Be polite: "No, it\'s ___, not ___."',
