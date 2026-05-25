@@ -644,7 +644,32 @@ export default function Practice({ user, student, onLogout }) {
 
   const wordCount = writingText.trim().split(/\s+/).filter(Boolean).length;
 
-  // Helper: renders dialogue text with bold character names
+  // Renders prompt text with proper formatting — splits on \n and numbers lines starting with numbers
+  const renderPrompt = (text) => {
+    if (!text) return null;
+    return text.split('\n').map((line, i) => {
+      if (!line.trim()) return <div key={i} style={{ height: 8 }} />;
+      // Numbered item like "1. something"
+      if (/^\d+\.\s/.test(line.trim())) {
+        return (
+          <div key={i} className="prompt-numbered-item">
+            <span className="prompt-num">{line.match(/^(\d+)/)[1]}</span>
+            <span>{line.replace(/^\d+\.\s*/, '')}</span>
+          </div>
+        );
+      }
+      // Bullet with •
+      if (line.trim().startsWith('•') || line.trim().startsWith('-')) {
+        return (
+          <div key={i} className="prompt-bullet">
+            <span className="prompt-bullet-dot">•</span>
+            <span>{line.replace(/^[•\-]\s*/, '')}</span>
+          </div>
+        );
+      }
+      return <div key={i} className="prompt-line">{line}</div>;
+    });
+  };
   const renderDialogue = (text) => {
     if (!text) return null;
     return text.split('\n').map((line, i) => {
@@ -705,19 +730,35 @@ export default function Practice({ user, student, onLogout }) {
         <div className="practice-card fade-up fade-up-1">
           {/* Header */}
           <div className="practice-header">
-            <div>
+            <div className="practice-header-left">
               <div className="practice-skill-label" style={{ color: skillData.color }}>{skillData.icon} {skillData.label}</div>
               <h2 className="practice-title">{activity.title}</h2>
-              <span className="practice-level">{activity.level}</span>
+              <div className="practice-meta-row">
+                <span className="practice-level">{activity.level}</span>
+                {activity.phase && (
+                  <span className={`practice-phase ${activity.phase}`}>
+                    {activity.phase === 'pre' ? '📚 Pré-aula' : '✅ Pós-aula'}
+                  </span>
+                )}
+              </div>
             </div>
             {!submitted && (
-              <div className="practice-xp-preview">+20 XP</div>
+              <div className="practice-xp-preview">
+                +{skill === 'speaking' ? 25 : 20} XP
+              </div>
             )}
           </div>
 
           {/* Reading activity */}
           {activity.type === 'multiple_choice' && skill === 'reading' && (
             <div className="reading-section">
+              <div className="activity-instruction-box">
+                <span className="instr-icon">📖</span>
+                <div>
+                  <div className="instr-title">Read the text below</div>
+                  <div className="instr-sub">Then answer the questions at the bottom.</div>
+                </div>
+              </div>
               <div className="reading-text">{renderDialogue(activity.text)}</div>
               <div className="questions-section">
                 {activity.questions.map((q, qi) => (
@@ -847,13 +888,21 @@ export default function Practice({ user, student, onLogout }) {
           {/* Writing activity */}
           {activity.type === 'writing' && (
             <div className="writing-section">
+              <div className="activity-instruction-box">
+                <span className="instr-icon">✏️</span>
+                <div>
+                  <div className="instr-title">Write your answer below</div>
+                  <div className="instr-sub">Minimum {activity.minWords} words. AI will give you detailed feedback.</div>
+                </div>
+              </div>
               <div className="writing-prompt-box">
                 <div className="writing-prompt-label">📝 Your task</div>
-                <div className="writing-prompt-text">{activity.prompt}</div>
+                <div className="writing-prompt-text">{renderPrompt(activity.prompt)}</div>
               </div>
+              <div className="writing-tips-title">💡 Tips</div>
               <div className="writing-tips">
-                {activity.tips.map((tip, i) => (
-                  <div key={i} className="writing-tip">💡 {tip}</div>
+                {activity.tips?.map((tip, i) => (
+                  <div key={i} className="writing-tip">{tip}</div>
                 ))}
               </div>
               <textarea
@@ -873,21 +922,37 @@ export default function Practice({ user, student, onLogout }) {
           {/* Speaking activity */}
           {activity.type === 'speaking' && (
             <div className="speaking-section">
+              <div className="activity-instruction-box">
+                <span className="instr-icon">🎙️</span>
+                <div>
+                  <div className="instr-title">Record yourself speaking</div>
+                  <div className="instr-sub">Press Start, speak clearly, then Stop. AI will transcribe and give feedback.</div>
+                </div>
+              </div>
               <div className="speaking-prompt-box">
-                <div className="speaking-prompt-label">🎙️ Your task</div>
-                <div className="speaking-prompt-text">{activity.prompt}</div>
+                <div className="speaking-prompt-label">📋 Your task</div>
+                <div className="speaking-prompt-text">{renderPrompt(activity.prompt)}</div>
               </div>
-              <div className="speaking-phrases">
-                <div className="phrases-label">Useful phrases:</div>
-                {activity.phrases.map((p, i) => (
-                  <div key={i} className="phrase-item">"{p}"</div>
-                ))}
-              </div>
-              <div className="speaking-tips">
-                {activity.tips.map((tip, i) => (
-                  <div key={i} className="writing-tip">💡 {tip}</div>
-                ))}
-              </div>
+              {activity.tips?.length > 0 && (
+                <>
+                  <div className="speaking-tips-title">💡 Tips</div>
+                  <div className="speaking-tips-list">
+                    {activity.tips.map((tip, i) => (
+                      <div key={i} className="speaking-tip-item">{tip}</div>
+                    ))}
+                  </div>
+                </>
+              )}
+              {activity.phrases?.length > 0 && (
+                <div className="speaking-phrases-box">
+                  <div className="phrases-label">🗣️ Useful phrases</div>
+                  <div className="phrases-grid">
+                    {activity.phrases.map((p, i) => (
+                      <div key={i} className="phrase-chip">"{p}"</div>
+                    ))}
+                  </div>
+                </div>
+              )}
 
               {/* Recorder */}
               {!submitted && !speakingLoading && (
