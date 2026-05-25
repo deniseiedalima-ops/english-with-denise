@@ -415,7 +415,26 @@ export default function Dashboard({ user, student, onLogout }) {
                   <div className="reposicoes-desc">Essa é a quantidade de aulas que você precisa repor.</div>
                 </div>
               </div>
-              <div className="reposicoes-note">Entre em contato com a Denise para agendar um horário 💬</div>
+
+              {/* Show scheduled makeup class if date is set */}
+              {student?.reposicoes > 0 && student?.dataReposicao ? (
+                <div className="reposicoes-agendada">
+                  <div className="reposicoes-agendada-icon">📅</div>
+                  <div>
+                    <div className="reposicoes-agendada-label">Reposição agendada</div>
+                    <div className="reposicoes-agendada-data">
+                      {new Date(student.dataReposicao + 'T12:00:00').toLocaleDateString('pt-BR', {
+                        weekday: 'long', day: 'numeric', month: 'long'
+                      })}
+                      {student?.horarioReposicao && (
+                        <span className="reposicoes-agendada-hora"> · {student.horarioReposicao}</span>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              ) : student?.reposicoes > 0 ? (
+                <div className="reposicoes-note">Entre em contato com a Denise para agendar um horário 💬</div>
+              ) : null}
             </div>
 
             {/* Your stats */}

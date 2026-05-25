@@ -62,6 +62,8 @@ export default async function handler(req, res) {
         dataProximaAula: props['Data da Próxima Aula']?.date?.start || null,
         tarefaPersonalizada: props['Tarefa Personalizada']?.rich_text?.[0]?.plain_text || '',
         reposicoes: props['Reposições']?.number ?? null,
+        dataReposicao: props['Data Reposição']?.date?.start || null,
+        horarioReposicao: props['Horário Reposição']?.rich_text?.[0]?.plain_text || null,
         proximaAula,
       };
 

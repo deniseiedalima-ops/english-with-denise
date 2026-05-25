@@ -238,3 +238,14 @@
   .level-track { display: none; }
   .bottom-grid { grid-template-columns: 1fr; }
 }
+
+/* Reposição agendada */
+.reposicoes-agendada {
+  display: flex; align-items: flex-start; gap: 10px;
+  background: #e1f5ee; border: 0.5px solid #9fe1cb;
+  border-radius: 10px; padding: 11px 14px; margin-top: 10px;
+}
+.reposicoes-agendada-icon { font-size: 20px; flex-shrink: 0; }
+.reposicoes-agendada-label { font-size: 11px; font-weight: 700; color: #085041; text-transform: uppercase; letter-spacing: .4px; margin-bottom: 3px; }
+.reposicoes-agendada-data { font-size: 13px; font-weight: 500; color: #111; text-transform: capitalize; line-height: 1.4; }
+.reposicoes-agendada-hora { color: #ff6a00; font-weight: 600; }
