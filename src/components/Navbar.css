@@ -37,3 +37,34 @@
   .navbar-username { display: none; }
   .navbar-chevron { display: none; }
 }
+
+/* Notification bar */
+.navbar-wrapper { position: sticky; top: 0; z-index: 100; }
+.notif-bar { width: 100%; transition: all .3s; }
+.notif-bar-inner {
+  max-width: 980px; margin: 0 auto;
+  padding: 9px 16px;
+  display: flex; align-items: center; gap: 10px;
+  flex-wrap: wrap;
+}
+.notif-tipo { font-size: 12px; font-weight: 700; white-space: nowrap; flex-shrink: 0; }
+.notif-message { font-size: 13px; font-weight: 400; flex: 1; line-height: 1.4; }
+.notif-actions { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+.notif-count { font-size: 12px; font-weight: 500; display: flex; align-items: center; gap: 4px; }
+.notif-nav {
+  background: none; border: none; cursor: pointer;
+  font-size: 16px; font-weight: 700; padding: 0 2px;
+  opacity: .7; line-height: 1;
+}
+.notif-nav:hover { opacity: 1; }
+.notif-dismiss {
+  background: none; border: none; cursor: pointer;
+  font-size: 14px; font-weight: 600; padding: 0 4px;
+  opacity: .6; font-family: 'DM Sans', sans-serif;
+}
+.notif-dismiss:hover { opacity: 1; }
+
+@media (max-width: 480px) {
+  .notif-message { font-size: 12px; }
+  .notif-bar-inner { padding: 8px 12px; gap: 8px; }
+}
