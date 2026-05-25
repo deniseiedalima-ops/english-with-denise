@@ -7,10 +7,10 @@ const SKILLS = {
   reading: {
     label: 'Reading', icon: '📖', color: '#1d9e75',
     activities: [
+      // ── L2: THE GREETINGS ──────────────────────────────────────────────
       {
         id: 'r1', title: 'The Greetings — Mark & Julia', level: 'A1',
-        type: 'multiple_choice',
-        lesson: 'The Greetings',
+        type: 'multiple_choice', lesson: 'The Greetings', phase: 'pre',
         text: `Mark: Good afternoon!\nJulia: Good afternoon!\nMark: Hi, what's your name?\nJulia: I'm Julia. And you?\nMark: I'm Mark. Nice to meet you!\nJulia: Nice to meet you too! How do you spell your name?\nMark: It's M-A-R-K. How do you spell yours?\nJulia: J-U-L-I-A.\nMark: Great! How are you?\nJulia: I'm good, thanks. How about you?\nMark: Fine, thanks!\nJulia: Alright, then! But I have to go now!\nMark: Okay, no problem. Have a good day!\nJulia: Thanks, you too! See you later!\nMark: Take care! Bye bye!`,
         questions: [
           { q: 'What time of day does the conversation happen?', options: ['Morning', 'Afternoon', 'Evening', 'Night'], answer: 1 },
@@ -21,51 +21,70 @@ const SKILLS = {
       },
       {
         id: 'r2', title: 'The Greetings — Vocabulary Match', level: 'A1',
-        type: 'multiple_choice',
-        lesson: 'The Greetings',
+        type: 'multiple_choice', lesson: 'The Greetings', phase: 'pre',
         text: `Study these greetings from your class:\n\n🌅 MORNING: "Good morning!" / "Morning!"\n☀️ AFTERNOON: "Good afternoon!" / "Afternoon, people!"\n🌙 EVENING/ARRIVAL: "Good evening!"\n🌛 LEAVING AT NIGHT: "Good night!"\n\nHow to ask how someone is:\n"How are you?" → "I'm good, thanks!"\n"What's up?" → "Not much! And you?"\n"How's it going?" → "Pretty good! And you?"\n"You good?" → "Yeah, all good!"\n\nSaying goodbye:\n"See you later!" / "Take care!" / "Have a good day!"`,
         questions: [
           { q: 'You arrive at a party at 8 PM. What do you say?', options: ['Good morning!', 'Good night!', 'Good evening!', 'Goodbye!'], answer: 2 },
           { q: 'Someone asks "What\'s up?" — what is the best answer?', options: ['I\'m Julia.', 'Not much! And you?', 'Good afternoon!', 'Take care!'], answer: 1 },
           { q: 'You are leaving work late at night. What do you say?', options: ['Good morning!', 'Good evening!', 'Good night!', 'See you!'], answer: 2 },
-          { q: 'Which greeting is INFORMAL?', options: ['Good afternoon.', 'How do you do?', 'Morning!', 'Good evening, sir.'], answer: 2 },
+          { q: '"How\'s it going?" means the same as...', options: ['Where are you going?', 'How are you?', 'What are you doing?', 'When are you leaving?'], answer: 1 },
         ]
       },
       {
-        id: 'r3', title: 'The Greetings — Verb To Be', level: 'A1',
-        type: 'multiple_choice',
-        lesson: 'The Greetings',
-        text: `From your class material, review the verb TO BE:\n\nI am → eu sou / eu estou\nYou are → você é / você está\nHe is → ele é / ele está\nShe is → ela é / ela está\nIt is → a coisa é / está\nThey are → eles/elas são/estão\n\nExamples in greetings:\n"I'm Julia." (I am Julia)\n"I'm good, thanks!" (I am good)\n"I'm from New York." (I am from New York)\n"She is the assistant editor." (She is = ela é)`,
+        id: 'r3', title: 'Verb To Be — The Greetings', level: 'A1',
+        type: 'multiple_choice', lesson: 'The Greetings', phase: 'post',
+        text: `Verb TO BE — used in greetings:\n\nI AM → I'm fine. / I am Mark.\nYOU ARE → You are very kind!\nHE IS → He is my friend.\nSHE IS → She is from Brazil.\nIT IS → It is a good day!\nWE ARE → We are students.\nTHEY ARE → They are teachers.\n\nNEGATIVE:\nI am not tired. / She is not here.\nHe isn't late. / They aren't ready.\n\nQUESTIONS:\n"Are you okay?" → "Yes, I am!" / "No, I'm not."\n"Is she your friend?" → "Yes, she is!"\n"How are you?" → "I'm great, thanks!"`,
         questions: [
-          { q: 'Complete: "___ Mark. Nice to meet you!"', options: ['He am', 'I\'m', 'She is', 'They are'], answer: 1 },
-          { q: 'Complete: "How ___ you?"', options: ['am', 'is', 'are', 'be'], answer: 2 },
-          { q: '"I\'m good" is a short form of...', options: ['I were good', 'I is good', 'I am good', 'I be good'], answer: 2 },
-          { q: 'Which sentence is CORRECT?', options: ['She am happy.', 'They is fine.', 'He are Mark.', 'I am Julia.'], answer: 3 },
+          { q: 'Complete: "___ she your teacher?" — "Yes, ___ is!"', options: ['Is / she', 'Are / she', 'Am / she', 'Is / her'], answer: 0 },
+          { q: 'Which is CORRECT?', options: ['I are fine.', 'He am happy.', 'They is students.', 'We are friends.'], answer: 3 },
+          { q: 'Make negative: "I am tired."', options: ['I not am tired.', 'I am not tired.', 'I am no tired.', 'Am I not tired.'], answer: 1 },
+          { q: '"How are you?" — best answer:', options: ['"I am Mark."', '"She is fine."', '"I\'m great, thanks! And you?"', '"You are welcome."'], answer: 2 },
         ]
       },
-      // ─── L3: THE INTRODUCTIONS ───────────────────────────────────────
+      // ── L3: THE INTRODUCTIONS ─────────────────────────────────────────
       {
-        id: 'r4', title: 'Meet Elizabeth & John', level: 'A1',
-        type: 'multiple_choice',
-        lesson: 'The Introductions',
-        text: `Elizabeth: Hello! My name is Elizabeth. Nice to meet you!\nJohn: Nice to meet you too! I'm John. Where are you from, Elizabeth?\nElizabeth: I'm from Spain. My teacher is over there — her name is Ms. Garcia.\nJohn: Oh, is that her bag on the desk here?\nElizabeth: Yes! That's her bag. And his name is Carlos — he's a student too.\nJohn: Where is the classroom?\nElizabeth: It's over there, on the left. You're welcome to sit here!\nJohn: Thank you! His name is Carlos, you said? And her name is Ms. Garcia?\nElizabeth: That's right! Welcome to our class, John!`,
+        id: 'r4', title: 'Meet John & Elizabeth!', level: 'A1',
+        type: 'multiple_choice', lesson: 'The Introductions', phase: 'pre',
+        text: `John: Hello hello!\nElizabeth: Hello hello! How are you?\nJohn: I am fine thanks. What about you? I am okay! What's your name?\nElizabeth: My name is Elizabeth. What is your name?\nJohn: My name is John. Nice to meet you, Elizabeth!\nElizabeth: Nice to meet you too, John! How old are you?\nJohn: I am 23 years old. Where are you from, Elizabeth?\nElizabeth: I am from Spain. I am Spanish. I live in Madrid. What about you?\nJohn: I am from the United States of America. I am an American. I live in New York.\nElizabeth: Do you speak Spanish?\nJohn: No, I don't. I speak English and French. I am a businessman. What about you?\nElizabeth: I am a teacher. I teach Spanish in a high school. It has been a pleasure to meet you, John!\nJohn: I am also glad to meet you. I hope to see you soon! Bye!\nElizabeth: See you later! Bye!`,
         questions: [
-          { q: 'Where is Elizabeth from?', options: ['Brazil', 'Spain', 'France', 'The USA'], answer: 1 },
-          { q: '"Her name is Ms. Garcia" — what does HER mean here?', options: ['The student\'s (male)', 'The teacher\'s (female)', 'John\'s', 'Elizabeth\'s brother\'s'], answer: 1 },
-          { q: 'What does "It\'s over there" mean?', options: ['It\'s very close', 'It\'s in that direction (far)', 'It\'s here with us', 'It\'s lost'], answer: 1 },
-          { q: '"You\'re welcome to sit here" — what does HERE mean?', options: ['Far away', 'In this place, close to me', 'Somewhere else', 'Outside the classroom'], answer: 1 },
+          { q: 'Where is Elizabeth from?', options: ['The United States', 'France', 'Spain', 'England'], answer: 2 },
+          { q: 'What does John do?', options: ['He is a teacher', 'He is a businessman', 'He is a student', 'He is a doctor'], answer: 1 },
+          { q: 'Where does John live?', options: ['Madrid', 'Los Angeles', 'London', 'New York'], answer: 3 },
+          { q: '"It has been a pleasure to meet you" means:', options: ['I need to leave now', 'I am very happy to have met you', 'Where are you from?', 'See you tomorrow'], answer: 1 },
         ]
       },
       {
-        id: 'r5', title: 'Here, There & Whose? — Grammar Focus', level: 'A1',
-        type: 'multiple_choice',
-        lesson: 'The Introductions',
-        text: `FROM YOUR CLASS — Key vocabulary:\n\nHERE = aqui (close to the speaker)\nTHERE / OVER THERE = lá, ali (far from the speaker)\nWHERE = onde (question word)\n\nHIS = dele (for men/boys)\nHER = dela (for women/girls)\n\nExamples:\nHer name is Elizabeth. (the girl's name)\nHis name is John. (the boy's name)\nThe classroom is over there. (pointing far)\nCome here! (pointing close)\nWhere are you from? (asking location)\n\nYou're welcome = de nada (response to "thank you")`,
+        id: 'r5', title: 'Her, His, Here & There — Grammar Focus', level: 'A1',
+        type: 'multiple_choice', lesson: 'The Introductions', phase: 'post',
+        text: `Key vocabulary from class:\n\nHERE = aqui (perto de você)\n"My book is here." / "Come here!"\n\nOVER THERE = lá, ali (longe de você)\n"The bathroom is over there." / "He is over there!"\n\nWHERE = onde (pergunta)\n"Where are you from?" / "Where is my pen?"\n\nHER NAME IS = o nome dela é\n"Her name is Elizabeth. She is from Spain."\n\nHIS NAME IS = o nome dele é\n"His name is John. He is an American."\n\nYOU'RE WELCOME = de nada\n"Thank you!" → "You're welcome!"`,
         questions: [
-          { q: 'Complete: "___ name is Carlos. He\'s a student."', options: ['Her', 'Their', 'His', 'Where'], answer: 2 },
-          { q: 'Complete: "The bathroom is ___ , at the end of the hall."', options: ['here', 'over there', 'welcome', 'his'], answer: 1 },
-          { q: '"Where are you from?" — what kind of word is WHERE?', options: ['A name', 'A question word', 'A pronoun', 'An article'], answer: 1 },
+          { q: 'Someone is far away. You say: "He is ___ ."', options: ['here', 'where', 'over there', 'welcome'], answer: 2 },
+          { q: 'Your friend thanks you. You say:', options: ['"Thank you!"', '"You\'re welcome!"', '"Here you are!"', '"Over there!"'], answer: 1 },
+          { q: 'Fill in: "___ name is Maria. She is Brazilian."', options: ['His', 'Her', 'Where', 'Here'], answer: 1 },
           { q: '"Thank you so much!" — "___!"', options: ['Here you are', 'Over there', 'You\'re welcome', 'His name'], answer: 2 },
+        ]
+      },
+      // ── L4: COUNTRIES AND NATIONALITIES ──────────────────────────────
+      {
+        id: 'r6', title: 'Meet Giulia!', level: 'A1',
+        type: 'multiple_choice', lesson: 'Countries and Nationalities', phase: 'pre',
+        text: `Hi! My name is Giulia Rossi, and I'm from Florence, Italy. I'm Italian. I'm a teacher and I'm very happy with my job.\n\nNow I live in São Paulo, Brazil, and I love it here! I speak Italian, English and Portuguese. Portuguese is my favorite language, because my mother is from Brazil.\n\nI love Brazil because it is beautiful and the people are very friendly. But sometimes the city is too loud and very crowded!\n\nSee you!`,
+        questions: [
+          { q: 'Where is Giulia originally from?', options: ['São Paulo, Brazil', 'Rome, Italy', 'Florence, Italy', 'Lisbon, Portugal'], answer: 2 },
+          { q: 'What is Giulia\'s nationality?', options: ['Brazilian', 'Portuguese', 'Spanish', 'Italian'], answer: 3 },
+          { q: 'Why is Portuguese Giulia\'s favorite language?', options: ['She lives in Brazil', 'Her father is Brazilian', 'Her mother is from Brazil', 'She is a Portuguese teacher'], answer: 2 },
+          { q: 'What does Giulia DISLIKE about the city?', options: ['The food', 'The weather', 'The people', 'It is too loud and crowded'], answer: 3 },
+        ]
+      },
+      {
+        id: 'r7', title: 'Countries, Nationalities & Verbs', level: 'A1',
+        type: 'multiple_choice', lesson: 'Countries and Nationalities', phase: 'post',
+        text: `Meet Ana! She is from Brazil, so she is Brazilian. She speaks Portuguese a lot and a little English. She wants to learn more! She lives in Rio de Janeiro. She loves her city because it is beautiful. But she dislikes loud noise and dirty places.\n\nKey verbs from class:\nTo BE → I am / She is / He is\nTo LIVE → I live in... / She lives in...\nTo SPEAK → I speak... / She speaks...\nTo LOVE → I love... / She loves...\nTo DISLIKE → I dislike... / She dislikes...\n\nCountry → Nationality:\nBrazil → Brazilian\nItaly → Italian\nEngland → English\nFrance → French\nJapan → Japanese\nChina → Chinese\nSpain → Spanish`,
+        questions: [
+          { q: 'Complete: "Ana ___ from Rio de Janeiro."', options: ['am', 'are', 'is', 'be'], answer: 2 },
+          { q: 'What is the nationality of someone from Japan?', options: ['Japanian', 'Japanish', 'Japaneese', 'Japanese'], answer: 3 },
+          { q: 'Complete: "She ___ Portuguese a lot and a little English."', options: ['speak', 'speaks', 'speaking', 'spoke'], answer: 1 },
+          { q: 'Complete: "I ___ loud noise. I prefer quiet places."', options: ['love', 'want', 'dislike', 'speak'], answer: 2 },
         ]
       },
     ]
@@ -73,14 +92,13 @@ const SKILLS = {
   listening: {
     label: 'Listening', icon: '🎧', color: '#378add',
     activities: [
+      // ── L2: THE GREETINGS ──────────────────────────────────────────────
       {
         id: 'l1', title: 'Jenny at the Hotel', level: 'A1',
-        type: 'listening_video',
-        lesson: 'The Greetings',
-        youtubeId: 'EflkHGJbxnA',
-        startTime: 56,
-        endTime: 286,
+        type: 'listening_video', lesson: 'The Greetings', phase: 'pre',
+        youtubeId: 'EflkHGJbxnA', startTime: 56, endTime: 286,
         instruction: 'Watch the video from 0:56 to 4:46. Pay attention to how Jenny greets the receptionist, spells her name, and checks in. Then answer the questions below!',
+        audioText: `Jenny: Hello. I have a reservation. My name is Jennifer Zielinski.\nReceptionist: Can you spell that, please?\nJenny: Z-I-E-L-I-N-S-K-I.\nReceptionist: For five nights?\nJenny: Yes, that's right.\nReceptionist: Can I have your passport, please?\nJenny: Just a second… here you are.\nReceptionist: Thank you. Can you sign here, please?\nJenny: Sure. Thank you.\nReceptionist: Here's your key — it's room 306 on the third floor. The lift is over there.\nJenny: The lift — oh, the elevator!\nReceptionist: Yes, enjoy your stay, Ms. Zielinski.\nJenny: Thank you!`,
         questions: [
           { q: 'What is Jenny\'s last name?', options: ['Zelinski', 'Zielinski', 'Zielinsky', 'Zielinksi'], answer: 1 },
           { q: 'How many nights is Jenny staying?', options: ['3 nights', '4 nights', '5 nights', '6 nights'], answer: 2 },
@@ -90,11 +108,8 @@ const SKILLS = {
       },
       {
         id: 'l2', title: 'Meet Sarah!', level: 'A1',
-        type: 'listening_video',
-        lesson: 'The Greetings',
-        youtubeId: 'fLYzVdpseSA',
-        startTime: 0,
-        endTime: 60,
+        type: 'listening_video', lesson: 'The Greetings', phase: 'pre',
+        youtubeId: 'fLYzVdpseSA', startTime: 0, endTime: 60,
         instruction: 'Listen to Sarah introducing herself. Pay attention to how she spells her name, where she is from, her age, and how she is feeling. Then answer the questions below!',
         audioText: `Sarah: Hi! Good morning! My name is Sarah, and it's spelled S-A-R-A-H. Nice to meet you!\nSarah: I'm from New York, but now I live in a different city for work and study. I'm 22 years old, and I really enjoy music, coffee, and meeting new people.\nSarah: Today I'm feeling great, just a little tired because I woke up early this morning.\nSarah: People usually say my name is easy to remember, but I still like spelling it when I meet someone new. What about you? What's your name, and how do you spell it?`,
         questions: [
@@ -106,11 +121,8 @@ const SKILLS = {
       },
       {
         id: 'l3', title: 'Where Are You From?', level: 'A1',
-        type: 'listening_video',
-        lesson: 'The Greetings',
-        youtubeId: '31y2Bq1RYQA',
-        startTime: 60,
-        endTime: 297,
+        type: 'listening_video', lesson: 'The Greetings', phase: 'post',
+        youtubeId: '31y2Bq1RYQA', startTime: 60, endTime: 297,
         instruction: 'Watch Tim, Sian, Buli and Georgie talk about where they are from and where they live. Pay attention to the names, cities and how they describe their homes. Then answer the questions!',
         audioText: `Tim: Hi, I'm Tim. I'm from Oxford.\nSian: I'm from Swansea.\nBuli: I'm from Beijing.\nGeorgie: I'm from Petworth.\nTim: I live in a house in London. And I live with my housemates.\nSian: I live in a house in Brighton. I live with my family.\nBuli: I live in a flat in Cambridge. I live on my own.\nGeorgie: I live in a flat in London. I live with my flatmates.`,
         questions: [
@@ -120,37 +132,58 @@ const SKILLS = {
           { q: 'Who does Sian live with?', options: ['Her flatmates', 'On her own', 'Her housemates', 'Her family'], answer: 3 },
         ]
       },
-      // ─── L3: THE INTRODUCTIONS ───────────────────────────────────────
+      // ── L3: THE INTRODUCTIONS ─────────────────────────────────────────
       {
-        id: 'l4', title: 'Elizabeth & John — Full Introduction', level: 'A1',
-        type: 'listening_video',
-        lesson: 'The Introductions',
-        youtubeId: 'YGTEXtptvGM',
-        startTime: 0,
-        endTime: 182,
-        instruction: 'Watch Elizabeth and John introduce themselves. Pay attention to their names, ages, countries, jobs and hobbies. Then answer the questions!',
-        audioText: `Elizabeth: Hello hello!\nJohn: Hello hello!\nElizabeth: How are you?\nJohn: I am fine thanks. What about you?\nElizabeth: I am okay! What's your name?\nJohn: My name is John. What is your name?\nElizabeth: My name is Elizabeth. Nice to meet you, John!\nJohn: Nice to meet you too, Elizabeth! How old are you?\nElizabeth: I am 21 years old. What about you?\nJohn: I am 23 years old. Where are you from, Elizabeth?\nElizabeth: I am from Spain. I am Spanish. I live in Madrid. What about you?\nJohn: I am from the United States of America. I am an American. I live in New York.\nElizabeth: Do you speak Spanish?\nJohn: No, I don't speak Spanish. I speak English and French. Do you speak French?\nElizabeth: Really? I also speak French!\nJohn: I am a businessman. What about you?\nElizabeth: I am a teacher. I teach Spanish in a high school. What's your favorite sport?\nJohn: I like football. I am a big fan of Real Madrid football club. What about you?\nElizabeth: My favorite sport is baseball. I am a big fan of New York Yankees. I also play baseball with my friends on weekends.\nJohn: That sounds nice! It has been a pleasure to meet you, Elizabeth!\nElizabeth: I am also glad to meet you. I hope to see you soon! Bye!\nJohn: See you later! Bye!`,
+        id: 'l4', title: 'John & Elizabeth — First Meeting', level: 'A1',
+        type: 'listening_video', lesson: 'The Introductions', phase: 'pre',
+        youtubeId: 'YGTEXtptvGM', startTime: 0, endTime: 182,
+        instruction: 'Watch John and Elizabeth meeting for the first time. Pay attention to where they are from, what they do, and how they say goodbye. Then answer the questions!',
+        audioText: `John: Hello hello!\nElizabeth: Hello hello! How are you? I am okay! What's your name?\nJohn: My name is John. Nice to meet you, Elizabeth!\nElizabeth: Nice to meet you too! I am from Spain. I am Spanish. I live in Madrid.\nJohn: I am from the United States. I am an American. I live in New York.\nElizabeth: Do you speak Spanish?\nJohn: No, I don't. I speak English and French. I am a businessman.\nElizabeth: I am a teacher. It has been a pleasure to meet you, John!\nJohn: I am also glad to meet you. I hope to see you soon!`,
         questions: [
-          { q: 'How old is Elizabeth?', options: ['19 years old', '21 years old', '23 years old', '25 years old'], answer: 1 },
-          { q: 'Where is John from?', options: ['Spain', 'France', 'The United States', 'England'], answer: 2 },
-          { q: 'What is Elizabeth\'s job?', options: ['A businesswoman', 'A doctor', 'A teacher', 'A student'], answer: 2 },
-          { q: 'What is John\'s favorite sport?', options: ['Baseball', 'Football', 'Basketball', 'Tennis'], answer: 1 },
+          { q: 'Where is Elizabeth from?', options: ['The United States', 'France', 'Spain', 'England'], answer: 2 },
+          { q: 'What does John do?', options: ['He is a teacher', 'He is a businessman', 'He is a student', 'He is a doctor'], answer: 1 },
+          { q: 'What languages does John speak?', options: ['English and Spanish', 'Spanish and French', 'English and French', 'Italian and English'], answer: 2 },
+          { q: '"I am glad to meet you" means:', options: ['I am tired of meeting people', 'I am happy to meet you', 'I want to leave now', 'I do not know you'], answer: 1 },
         ]
       },
       {
-        id: 'l5', title: 'Introducing Yourself — ESL Practice', level: 'A1',
-        type: 'listening_video',
-        lesson: 'The Introductions',
-        youtubeId: 'P3VcHnECgbs',
-        startTime: 0,
-        endTime: 75,
-        instruction: 'Watch this ESL video about introducing yourself. Pay attention to the key phrases and expressions used. Then answer the questions!',
+        id: 'l5', title: 'Introducing Yourself', level: 'A1',
+        type: 'listening_video', lesson: 'The Introductions', phase: 'post',
+        youtubeId: 'P3VcHnECgbs', startTime: 0, endTime: 75,
+        instruction: 'Watch this ESL video about introducing yourself. Pay attention to the key phrases used. Then answer the questions!',
         audioText: `Narrator: How do you introduce yourself in English?\nSpeaker 1: Hi! My name is Anna. Nice to meet you!\nSpeaker 2: Hello! I'm David. Where are you from, Anna?\nAnna: I'm from Brazil. And you?\nDavid: I'm from Canada. What do you do?\nAnna: I'm a student. What about you?\nDavid: I'm an engineer. It's great to meet you!\nAnna: You too! See you around!`,
         questions: [
-          { q: 'What phrase means the same as "Nice to meet you"?', options: ['See you later!', 'It\'s great to meet you!', 'How are you?', 'Where are you from?'], answer: 1 },
-          { q: 'What does "What do you do?" mean?', options: ['What are you doing right now?', 'What is your hobby?', 'What is your job?', 'What did you do yesterday?'], answer: 2 },
-          { q: '"I\'m a student" uses the article "a" because...', options: ['Student starts with "s"', 'Student is a consonant sound', 'Student is a vowel sound', 'There is no rule'], answer: 1 },
-          { q: 'What is the correct way to ask where someone is from?', options: ['"Where you are from?"', '"Where are from you?"', '"Where are you from?"', '"You are from where?"'], answer: 2 },
+          { q: '"Nice to meet you" — same meaning:', options: ['See you later!', 'It\'s great to meet you!', 'How are you?', 'Where are you from?'], answer: 1 },
+          { q: '"What do you do?" means:', options: ['What are you doing now?', 'What is your hobby?', 'What is your job?', 'What did you do yesterday?'], answer: 2 },
+          { q: 'Where is Anna from?', options: ['Canada', 'The United States', 'Brazil', 'Australia'], answer: 2 },
+          { q: '"See you around!" means:', options: ['I will never see you again', 'We will probably see each other again', 'Look around you!', 'Let\'s go around'], answer: 1 },
+        ]
+      },
+      // ── L4: COUNTRIES AND NATIONALITIES ──────────────────────────────
+      {
+        id: 'l6', title: 'Street Interview — Where Are You From?', level: 'A1',
+        type: 'listening_video', lesson: 'Countries and Nationalities', phase: 'pre',
+        youtubeId: 'qaand6YZhc0', startTime: 0, endTime: 65,
+        instruction: 'Watch this real street interview! People talk about where they are from, spell their names, and share personal information. Then answer the questions!',
+        audioText: `Doug: Hi, I'm Doug.\nNatalie: Hi, I'm Natalie. This is my husband, Chris.\nChris: Hi, nice to meet you.\nInterviewer: Where are you from?\nNatalie: I'm from Oklahoma and I'm from Bristol in England.\nInterviewer: Hi. What's your name?\nDeepti: My name is Deepti Gupta.\nInterviewer: Could you spell it for me?\nDeepti: Yes. The first name is Deepti — D E E P T I. And the last name is Gupta — G U P T A.\nInterviewer: And are you from the United States?\nDeepti: No, I'm not. I'm from India.`,
+        questions: [
+          { q: 'Where is Natalie from?', options: ['Oklahoma only', 'Bristol only', 'Oklahoma and Bristol, England', 'India'], answer: 2 },
+          { q: 'How do you spell Deepti\'s last name?', options: ['G-U-P-T-A', 'G-O-O-P-T-A', 'G-U-P-T-E', 'G-A-P-T-A'], answer: 0 },
+          { q: 'Is Deepti from the United States?', options: ['Yes, she is.', 'No, she is from England.', 'No, she is from India.', 'No, she is from Canada.'], answer: 2 },
+          { q: 'Chris is Natalie\'s...', options: ['brother', 'friend', 'husband', 'teacher'], answer: 2 },
+        ]
+      },
+      {
+        id: 'l7', title: 'Countries & Nationalities — TV Show', level: 'A1',
+        type: 'listening_video', lesson: 'Countries and Nationalities', phase: 'post',
+        youtubeId: 'wYbTtiosCFE', startTime: 0, endTime: 112,
+        instruction: 'Watch this conversation about countries and nationalities. Pay attention to how they guess nationalities and talk about cities. Then answer the questions!',
+        audioText: `Jay: I am happy to introduce the new co-host of our show, Miss Kim Kamal.\nKim: Hello Kim. Good morning, Ray. Oh, I'm sorry, I mean Jay.\nJay: Well, you must be nervous to be next to a celebrity.\nKim: Yes, and I'm also nervous to be on TV. Millions of people watch Good Morning World!\nJay: So tell us about yourself. Where are you from?\nJay: Are you from Canada? Are you Canadian?\nKim: No, I'm not.\nJay: Are you from Brazil? Brazil is a beautiful country.\nKim: Yes it is, but no, I'm not Brazilian.\nJay: Are you from Turkey?\nKim: No, I'm not from Turkey. I'm from Jamaica!\nJay: Whereabouts in Jamaica are you from?\nKim: I'm from Kingston, the capital of Jamaica. It is a big and crowded city which makes it very noisy, but it is also very interesting!`,
+        questions: [
+          { q: 'Where is Kim from?', options: ['Canada', 'Brazil', 'Turkey', 'Jamaica'], answer: 3 },
+          { q: 'What is the capital of Jamaica?', options: ['Montego Bay', 'Kingston', 'Nassau', 'Havana'], answer: 1 },
+          { q: 'How does Kim describe Kingston?', options: ['Small and quiet', 'Big, crowded and noisy but interesting', 'Beautiful and peaceful', 'Old and boring'], answer: 1 },
+          { q: 'Kim is nervous because...', options: ['She forgot her lines', 'She doesn\'t like Jay', 'She is on TV with millions watching', 'She is from Jamaica'], answer: 2 },
         ]
       },
     ]
@@ -158,11 +191,11 @@ const SKILLS = {
   writing: {
     label: 'Writing', icon: '✏️', color: '#7f77dd',
     activities: [
+      // ── L2: THE GREETINGS ──────────────────────────────────────────────
       {
         id: 'w1', title: 'Write Your Own Greeting Dialogue', level: 'A1',
-        type: 'writing',
-        lesson: 'The Greetings',
-        prompt: 'Write a short dialogue (conversation) between two people meeting for the first time. Include: a greeting, asking and saying names, spelling at least one name, asking how they are, and saying goodbye. Use vocabulary from The Greetings class!',
+        type: 'writing', lesson: 'The Greetings', phase: 'pre',
+        prompt: 'Write a short dialogue (conversation) between two people meeting for the first time. Include:\n• A greeting\n• Asking and saying names\n• Spelling at least one name\n• Asking how they are\n• Saying goodbye\n\nUse vocabulary from The Greetings class!',
         minWords: 40,
         tips: [
           'Start with a greeting: "Good morning!" / "Hi!" / "Hey!"',
@@ -171,56 +204,39 @@ const SKILLS = {
           'Ask how they are: "How are you?" → "I\'m good, thanks!"',
           'Say goodbye: "See you later!" / "Take care!" / "Have a good day!"'
         ],
-        feedback: {
-          excellent: "Excellent dialogue! You used greetings, introductions and farewells perfectly. Your English is growing! 🌟",
-          good: "Good job! Your dialogue flows naturally. Try to add more expressions from class next time!",
-          needsWork: "Nice start! Make sure to include a greeting, name exchange, and goodbye. Check your class material for ideas!"
-        }
+        feedback: { excellent: "Excellent dialogue! 🌟", good: "Good job!", needsWork: "Nice start! Add more expressions." }
       },
       {
         id: 'w2', title: 'How Are You? — Write Your Answers', level: 'A1',
-        type: 'writing',
-        lesson: 'The Greetings',
-        prompt: 'Someone asks you these 3 questions. Write a natural answer for each one using expressions from your class:\n1. "How are you today?"\n2. "What\'s up?"\n3. "How\'s everything?"\n\nThen write 2 more sentences about your day using "I am" or "I\'m".',
+        type: 'writing', lesson: 'The Greetings', phase: 'pre',
+        prompt: 'Someone asks you these 3 questions. Write a natural answer for each one:\n\n1. "How are you today?"\n2. "What\'s up?"\n3. "How\'s everything?"\n\nThen write 2 more sentences about your day using "I am" or "I\'m".',
         minWords: 35,
         tips: [
-          'Use different answers — don\'t repeat the same one!',
+          'Use different answers for each question!',
           'For "How are you?" try: "I\'m good, thanks! And you?"',
           'For "What\'s up?" try: "Not much! Pretty good day!"',
           'Add details: "I\'m a little tired but happy!"',
-          'Remember: I am = I\'m (contraction)'
         ],
-        feedback: {
-          excellent: "Wonderful! You used a great variety of expressions and the verb TO BE correctly. Keep it up! 🌟",
-          good: "Good work! You answered naturally. Try to vary your expressions even more next time!",
-          needsWork: "Good try! Remember to answer each of the 3 questions and use I'm/I am in your sentences."
-        }
+        feedback: { excellent: "Wonderful! 🌟", good: "Good work!", needsWork: "Answer each of the 3 questions!" }
       },
       {
         id: 'w3', title: 'Formal or Informal? — Rewrite It!', level: 'A1',
-        type: 'writing',
-        lesson: 'The Greetings',
+        type: 'writing', lesson: 'The Greetings', phase: 'post',
         prompt: 'Rewrite these sentences. Make them the OPPOSITE style:\n\n1. INFORMAL → make it FORMAL:\n"Hey! What\'s up? You good?"\n\n2. FORMAL → make it INFORMAL:\n"Good morning. How do you do? It is a pleasure to meet you."\n\n3. Write 3 sentences to say goodbye — 1 formal, 1 informal, 1 your choice!',
-        minWords: 30,
+        minWords: 40,
         tips: [
-          'FORMAL: "Good morning", "How do you do?", "It\'s a pleasure"',
-          'INFORMAL: "Hey!", "What\'s up?", "You good?", "Later!", "See ya!"',
-          'Formal goodbye: "Have a good day. Goodbye."',
-          'Informal goodbye: "Later! Take care! See ya!"',
-          'Think about WHERE you use each — office vs. friends'
+          'Formal = professional, polite: "Good morning. How are you?"',
+          'Informal = relaxed, friendly: "Hey! What\'s up?"',
+          'Formal goodbye: "It was a pleasure. Have a wonderful day."',
+          'Informal goodbye: "See ya! Take care! Bye!"',
         ],
-        feedback: {
-          excellent: "Excellent! You perfectly understand the difference between formal and informal English. This is so important! 🌟",
-          good: "Good job! You're getting the hang of formal vs informal. Practice more to make it feel natural!",
-          needsWork: "Good try! Remember: formal = complete sentences and polite words. Informal = short, casual, relaxed!"
-        }
+        feedback: { excellent: "Perfect! 🌟", good: "Good!", needsWork: "Check the formal/informal difference!" }
       },
-      // ─── L3: THE INTRODUCTIONS ───────────────────────────────────────
+      // ── L3: THE INTRODUCTIONS ─────────────────────────────────────────
       {
         id: 'w4', title: 'Introduce Yourself in Writing', level: 'A1',
-        type: 'writing',
-        lesson: 'The Introductions',
-        prompt: 'Write a short self-introduction in English! Include:\n• Your name\n• Where you are from\n• Your age\n• What you do (job or study)\n• One thing you like\n\nUse the words from class: here, where, his/her name is. Minimum 15 words.',
+        type: 'writing', lesson: 'The Introductions', phase: 'pre',
+        prompt: 'Write a short self-introduction in English! Include:\n• Your name\n• Where you are from\n• Your age\n• What you do (job or study)\n• One thing you like\n\nUse the words from class: here, where, his/her name is.',
         minWords: 15,
         tips: [
           '"My name is ___. Nice to meet you!"',
@@ -229,16 +245,11 @@ const SKILLS = {
           '"I am a student / teacher / ___."',
           '"I like ___ and ___."',
         ],
-        feedback: {
-          excellent: "Fantastic introduction! You used the vocabulary perfectly and your sentences are clear and natural! 🌟",
-          good: "Good job! Your introduction is clear. Try to add more details using 'here', 'where' and 'his/her name is'!",
-          needsWork: "Good start! Remember to include your name, where you're from, your age and what you do. Check the tips!"
-        }
+        feedback: { excellent: "Fantastic introduction! 🌟", good: "Good job!", needsWork: "Include name, where from, age and what you do!" }
       },
       {
         id: 'w5', title: 'Describe Someone You Know', level: 'A1',
-        type: 'writing',
-        lesson: 'The Introductions',
+        type: 'writing', lesson: 'The Introductions', phase: 'post',
         prompt: 'Write about someone you know — a friend, family member or classmate. Use:\n• His name is / Her name is\n• He is / She is (age, job, where from)\n• He lives / She lives\n• He likes / She likes\n\nMinimum 20 words. Try to use "here", "where" and "there" in your sentences!',
         minWords: 20,
         tips: [
@@ -246,124 +257,87 @@ const SKILLS = {
           '"His name is Carlos. He is 25 years old."',
           '"She is from Rio. She lives here in São Paulo."',
           '"He works over there, near the school."',
-          '"Where is she from? She is from ___."',
         ],
-        feedback: {
-          excellent: "Excellent! You used his/her, here/there perfectly and your description is vivid and clear! 🌟",
-          good: "Good work! Try to include 'here', 'there' or 'where' to practice the target vocabulary from class!",
-          needsWork: "Good try! Remember: use 'His name is' for men and 'Her name is' for women. Add where they are from!"
-        }
+        feedback: { excellent: "Excellent! 🌟", good: "Good work!", needsWork: "Use 'His/Her name is' and 'here/there'!" }
       },
+      // ── L4: COUNTRIES AND NATIONALITIES ──────────────────────────────
       {
-        id: 'w5', title: 'His, Her & Where — Write It Right', level: 'A1',
-        type: 'writing',
-        lesson: 'The Introductions',
-        prompt: 'Write 4 sentences using HIS and HER correctly, then write 2 sentences using HERE and OVER THERE. Finally, write a short dialogue where someone asks WHERE you are from and you answer. Minimum 20 words.\n\nExample:\n"Her name is Ana. His name is Pedro.\nThe book is here. The door is over there.\nA: Where are you from? B: I\'m from Brazil!"',
-        minWords: 20,
+        id: 'w6', title: 'Where Are You From? — Write It!', level: 'A1',
+        type: 'writing', lesson: 'Countries and Nationalities', phase: 'pre',
+        prompt: 'Write about yourself using what you learned in class! Answer these questions in full sentences:\n\n1. Where are you from?\n2. What is your nationality?\n3. Where do you live today?\n4. What language(s) do you speak?\n5. Do you love where you live? Why?\n\nUse: I am from / I am ___ (nationality) / I live in / I speak / I love it because...',
+        minWords: 30,
         tips: [
-          'HIS = for men/boys: "His name is John."',
-          'HER = for women/girls: "Her name is Maria."',
-          'HERE = close to you: "The pen is here."',
-          'OVER THERE = far: "The board is over there."',
-          'WHERE = question: "Where are you from?"',
+          '"I am from ___. I am ___ (nationality)."',
+          '"Now I live in ___ and I love/like it!"',
+          '"I speak ___ a lot and a little English."',
+          '"I love my city because it is ___."',
+          '"I dislike ___ because it is too ___."',
         ],
-        feedback: {
-          excellent: 'Perfect! You used his/her, here/there and where correctly. Great work! 🌟',
-          good: 'Good! Check your his/her — remember: HIS for men, HER for women.',
-          needsWork: 'Keep practicing! HIS = dele, HER = dela, HERE = aqui, THERE = lá.',
-        }
+        feedback: { excellent: "Excellent! You used all the vocabulary perfectly! 🌟", good: "Good! Try to add your nationality and why you love your city!", needsWork: "Use: I am from, I am (nationality), I live in, I speak!" }
       },
       {
-        id: 'w6', title: 'Verb To Be — Complete & Create', level: 'A1',
-        type: 'writing',
-        lesson: 'The Introductions',
-        prompt: 'Complete these sentences with the correct form of TO BE (am/is/are), then make them negative. Finally, write 4 original sentences about yourself using TO BE:\n\n1. She ___ a doctor.\n2. They ___ very happy today.\n3. I ___ at home right now.\n4. He ___ from Brazil.\n\nNow make sentences 1-4 negative. Then write 4 sentences about yourself!',
-        minWords: 45,
-        tips: [
-          'I → am / She/He/It → is / You/We/They → are',
-          'Negative: am not / isn\'t / aren\'t',
-          '"She is a doctor." → "She is not a doctor." / "She isn\'t a doctor."',
-          'For yourself: "I am a student." / "I am from ___." / "I am not tired."'
-        ],
-        feedback: {
-          excellent: "Perfect! You mastered the verb TO BE in affirmative and negative. Your personal sentences are creative! 🌟",
-          good: "Good work! Check your negatives — remember: isn\'t = is not, aren\'t = are not. Keep practicing!",
-          needsWork: "Good try! Remember: I=am, He/She/It=is, You/We/They=are. Try again with the negatives!"
-        }
-      },
-      {
-        id: 'w6', title: 'A or AN? — Write Your Own Sentences', level: 'A1',
-        type: 'writing',
-        lesson: 'The Introductions',
-        prompt: 'Write 8 sentences using A or AN correctly. Use professions and nouns from your class:\n\nProfessions to use: teacher, doctor, actor, nurse, engineer, astronaut, artist, student\n\nExample: "She is a teacher." / "He is an actor."\n\nThen write 3 sentences about people you know using "His/Her name is ___ and he/she is ___."',
+        id: 'w7', title: 'My Country & City — Describe It!', level: 'A1',
+        type: 'writing', lesson: 'Countries and Nationalities', phase: 'post',
+        prompt: 'Write a paragraph presenting your country and city to a foreign friend. Include:\n\n• Your country and nationality\n• Where you live today\n• The language(s) spoken there\n• What you love about it\n• What you dislike about it\n• One interesting fact\n\nUse the verbs from class: to be, to live, to speak, to love, to dislike.',
         minWords: 40,
         tips: [
-          'A + consonant sound: a teacher, a doctor, a nurse, a student',
-          'AN + vowel sound: an actor, an artist, an engineer, an astronaut',
-          '"His name is João and he is a doctor."',
-          '"Her name is Ana and she is an engineer."',
-          'Check: does the next word start with a vowel sound (a,e,i,o,u)?'
+          '"I am from Brazil, so I am Brazilian. I speak Portuguese."',
+          '"I live in ___ and it is ___ (beautiful/big/noisy/crowded)."',
+          '"I love it because there is/are ___."',
+          '"I dislike ___ because it is too ___ (loud/dirty/crowded)."',
+          '"An interesting fact: ___ is more than ___ years old!"',
         ],
-        feedback: {
-          excellent: "Excellent! You used A and AN perfectly. Your sentences about people you know are wonderful! 🌟",
-          good: "Good job! Check your A/AN choices — remember it\'s about the SOUND, not just the letter. Keep it up!",
-          needsWork: "Good try! Remember: use AN before vowel sounds (actor, artist, engineer). Use A before consonant sounds (teacher, doctor)."
-        }
+        feedback: { excellent: "Wonderful description! Your verbs and vocabulary are spot on! 🌟", good: "Good paragraph! Try to add what you dislike too — it makes it more interesting!", needsWork: "Include: nationality, language, what you love AND dislike about your city!" }
       },
     ]
   },
   speaking: {
     label: 'Speaking', icon: '🎙️', color: '#d4537e',
     activities: [
+      // ── L2: THE GREETINGS ──────────────────────────────────────────────
       {
         id: 's1', title: 'Introduce Yourself!', level: 'A1',
-        type: 'speaking',
-        lesson: 'The Greetings',
-        prompt: 'Imagine you are meeting someone new. Record yourself doing a complete greeting: say hello, give your name, spell it, say where you are from, ask how they are, and say goodbye. Speak naturally — like in the Mark & Julia dialogue from class!',
+        type: 'speaking', lesson: 'The Greetings', phase: 'pre',
+        prompt: 'Record a short introduction! Say:\n1. A greeting (Good morning! / Hi! / Hey!)\n2. Your name\n3. How you are feeling today\n4. One thing about your day\n5. A goodbye',
         tips: [
-          'Start with a greeting: "Good morning!" or "Hi!"',
-          'Say your name: "My name is ___ / I\'m ___"',
-          'Spell it: "It\'s spelled ___"',
-          'Ask: "How are you?" and answer back',
-          'End with: "Nice to meet you! Have a good day!"'
+          '"Good morning! / Hi everyone! / Hey!"',
+          '"My name is ___. Nice to meet you!"',
+          '"I am feeling ___ today because ___."',
+          'End with: "See you later! / Take care! / Bye!"',
         ],
-        phrases: ['Good morning! My name is...', 'It\'s spelled...', 'Nice to meet you!', 'How are you?', 'I\'m good, thanks! And you?', 'Have a good day! Take care!']
+        phrases: ['Good morning!', 'My name is...', 'Nice to meet you!', 'I am feeling...', 'See you later!', 'Take care!']
       },
       {
-        id: 's2', title: 'How Are You? — 5 Different Ways!', level: 'A1',
-        type: 'speaking',
-        lesson: 'The Greetings',
-        prompt: 'Record yourself saying 5 different ways to ask "how are you?" and 5 different ways to answer. Use the vocabulary from your class! Try to sound natural — not like you\'re reading a list. Imagine you\'re texting a friend, then talking to your boss!',
+        id: 's2', title: 'How Are You? — 5 Different Ways', level: 'A1',
+        type: 'speaking', lesson: 'The Greetings', phase: 'pre',
+        prompt: 'Record yourself answering "How are you?" in 5 DIFFERENT ways! Each answer must be different. Use the expressions from class:\n\n1. Answer formally\n2. Answer informally\n3. Answer with a feeling + reason\n4. Answer with a question back\n5. Answer with one word + more info',
         tips: [
-          'Formal ways: "How are you today?" / "How have you been?"',
-          'Informal ways: "What\'s up?" / "You good?" / "All good?"',
-          'Formal answers: "I\'m well, thank you. And you?"',
-          'Informal answers: "Not bad!" / "Pretty good!" / "All good!"',
-          'Try to sound natural — smile while you speak!'
+          'Formal: "I am very well, thank you!"',
+          'Informal: "Pretty good! Not much going on!"',
+          'Feeling + reason: "I\'m tired because I woke up early!"',
+          'Question back: "I\'m great! And you?"',
+          'One word: "Fantastic! It is a beautiful day!"',
         ],
-        phrases: ['How are you today?', 'What\'s up?', 'How\'s everything?', 'I\'m good, thanks!', 'Pretty good! And you?', 'Not much! You?', 'All good!', 'Doing well, thanks!']
+        phrases: ['I am very well, thank you.', 'Not much!', 'Pretty good!', 'I\'m tired because...', 'And you?', 'Fantastic!', 'Not too bad!']
       },
       {
-        id: 's3', title: 'Role Play — Checking In at a Hotel', level: 'A1',
-        type: 'speaking',
-        lesson: 'The Greetings',
-        prompt: 'You are Jenny from the listening exercise. You are checking into a hotel. Record yourself playing Jenny\'s part in the conversation: greet the receptionist, say your name, spell it, confirm your reservation, and thank them. Use "here you are", "that\'s right", and "thank you"!',
+        id: 's3', title: 'Role Play — Hotel Check-in', level: 'A1',
+        type: 'speaking', lesson: 'The Greetings', phase: 'post',
+        prompt: 'You are Jenny from the listening exercise! Check into a hotel. Record yourself playing Jenny\'s part:\n\n1. Greet the receptionist\n2. Say you have a reservation\n3. Say your name and spell your last name\n4. Confirm your details\n5. Thank the receptionist and say goodbye politely',
         tips: [
           'Start with: "Hello! Good evening."',
-          'Say: "I have a reservation. My name is ___."',
-          'Spell your name letter by letter',
-          'Confirm details: "Yes, that\'s right."',
-          'Be polite: "Here you are." / "Thank you very much!"'
+          '"I have a reservation. My name is ___."',
+          'Spell: "My last name is ___, it\'s spelled ___."',
+          '"Yes, that\'s right." / "Here you are."',
+          '"Thank you very much! Have a good evening!"',
         ],
         phrases: ['Hello! Good evening.', 'I have a reservation.', 'My name is... it\'s spelled...', 'Yes, that\'s right.', 'Here you are.', 'Thank you very much!', 'Have a good evening!']
       },
-
-      // ─── L3: THE INTRODUCTIONS ───────────────────────────────────────
+      // ── L3: THE INTRODUCTIONS ─────────────────────────────────────────
       {
         id: 's4', title: 'Introduce Yourself!', level: 'A1',
-        type: 'speaking',
-        lesson: 'The Introductions',
-        prompt: 'Record yourself doing a complete self-introduction in English — just like John and Elizabeth in the video! Say your name, where you are from, your age, what you do, and one thing you like. Speak for at least 30 seconds. Try to sound natural!',
+        type: 'speaking', lesson: 'The Introductions', phase: 'pre',
+        prompt: 'Record yourself doing a complete self-introduction — just like John and Elizabeth! Say:\n\n1. Your name and where you are from\n2. Your age\n3. What you do (job or studies)\n4. A language you speak\n5. One thing you like\n\nSpeak for at least 30 seconds!',
         tips: [
           '"Hi! My name is ___. Nice to meet you!"',
           '"I am from ___. I live in ___."',
@@ -374,18 +348,42 @@ const SKILLS = {
         phrases: ['My name is...', 'I am from...', 'I live in...', 'I am ___ years old.', 'I am a student.', 'Nice to meet you!', 'It has been a pleasure!']
       },
       {
-        id: 's5', title: 'Where Are You From?', level: 'A1',
-        type: 'speaking',
-        lesson: 'The Introductions',
-        prompt: 'Practice the key vocabulary from class! Record yourself using each of these words in a sentence:\n\n1. HERE — say where something is\n2. OVER THERE — point to something far\n3. WHERE — ask a question\n4. HIS NAME IS — talk about a man you know\n5. HER NAME IS — talk about a woman you know\n6. YOU\'RE WELCOME — respond to a thank you\n\nSpeak clearly and try to create real, natural sentences!',
+        id: 's5', title: 'Where Are You From? — Key Vocab', level: 'A1',
+        type: 'speaking', lesson: 'The Introductions', phase: 'post',
+        prompt: 'Practice the key vocabulary! Record yourself using each of these words in a real sentence:\n\n1. HERE — say where something is\n2. OVER THERE — point to something far\n3. WHERE — ask a question\n4. HIS NAME IS — talk about a man you know\n5. HER NAME IS — talk about a woman you know\n6. YOU\'RE WELCOME — respond to a thank you',
         tips: [
           '"My bag is here. The door is over there."',
           '"Where are you from? Where do you live?"',
-          '"His name is ___ . He is my friend."',
+          '"His name is ___. He is my friend."',
           '"Her name is ___. She is my teacher."',
           '"Thank you!" → "You\'re welcome!"',
         ],
         phrases: ['Here!', 'Over there!', 'Where are you from?', 'His name is...', 'Her name is...', 'You\'re welcome!', 'It\'s right here!', 'It\'s over there!']
+      },
+      // ── L4: COUNTRIES AND NATIONALITIES ──────────────────────────────
+      {
+        id: 's6', title: 'Where Are You From? Tell Me Everything!', level: 'A1',
+        type: 'speaking', lesson: 'Countries and Nationalities', phase: 'pre',
+        prompt: 'Record yourself talking about where you are from and where you live today! Say:\n\n1. Your name and where you are from\n2. Your nationality\n3. Where you live now\n4. One language you speak\n5. One thing you love about where you live',
+        tips: [
+          '"My name is ___. I am from ___, so I am ___." (nationality)',
+          '"Now I live in ___ and I love/like it because..."',
+          '"I speak ___ and a little English!"',
+          '"My city is ___ and it is beautiful/big/noisy."',
+        ],
+        phrases: ['I am from...', 'I am ___ (nationality)', 'Now I live in...', 'I speak...', 'I love it because...', 'My city is...', 'It is beautiful!']
+      },
+      {
+        id: 's7', title: 'My Country & City — Tell Me More!', level: 'A1',
+        type: 'speaking', lesson: 'Countries and Nationalities', phase: 'post',
+        prompt: 'Go deeper! Record yourself talking about your country and city for at least 45 seconds:\n\n1. Where you are from and your nationality\n2. Where you live today and if you like it\n3. The language(s) you speak\n4. What you LOVE about your city\n5. What you DISLIKE about your city',
+        tips: [
+          '"I love my city because it is ___ and there is/are ___."',
+          '"I dislike ___ because it is too noisy / dirty / crowded."',
+          '"I speak ___ a lot and I want to learn English!"',
+          '"I live here now, but I am originally from ___."',
+        ],
+        phrases: ['I am originally from...', 'I love it because...', 'I dislike...', 'It is too...', 'There is/are...', 'I speak... a lot', 'I want to learn...']
       },
     ]
   }
@@ -487,13 +485,13 @@ export default function Practice({ user, student, onLogout }) {
   const transcribeAudio = async (blob) => {
     setSpeakingLoading(true);
 
-    if (blob.size < 1000) {
+    if (blob.size < 500) {
       setSpeakingFeedback({
         score: 0,
-        positive: '🎤 Audio not captured!',
-        tip: 'Allow microphone access and speak closer to your device. Tap the 🔒 icon in your browser address bar to allow access.',
-        suggestions: ['Allow microphone in browser settings', 'Speak louder and closer to the mic', 'Try recording again'],
-        overall: 'Microphone issue — please check settings! 🔧'
+        positive: '🎤 Audio not captured.',
+        tip: 'Allow microphone access in your browser and try again.',
+        suggestions: ['Tap the 🔒 icon in your browser address bar', 'Enable microphone permission', 'Try recording again'],
+        overall: 'Check microphone permissions and try again! 🔧'
       });
       setSpeakingLoading(false);
       setSubmitted(true);
@@ -501,47 +499,75 @@ export default function Practice({ user, student, onLogout }) {
     }
 
     try {
-      // Send as FormData so the server can read it properly on all platforms
-      const formData = new FormData();
-      formData.append('audio', blob, `recording.${blob.type.includes('mp4') ? 'mp4' : 'webm'}`);
-
+      // Send raw binary with correct content-type — works on all platforms
       const res = await fetch('/api/transcribe', {
         method: 'POST',
-        body: formData,
+        headers: { 'Content-Type': blob.type || 'audio/webm' },
+        body: blob,
       });
 
       const data = await res.json();
+      console.log('[speaking] API response:', data);
+
+      if (data.error === 'no_api_key') {
+        setSpeakingFeedback({
+          score: 0,
+          positive: '⚙️ Server configuration issue.',
+          tip: 'The OpenAI API key is not configured. Please contact Denise.',
+          suggestions: ['Contact Denise to fix the server setup', 'Try the writing activity instead'],
+          overall: 'Server setup needed — contact Denise! 🔧'
+        });
+        setSpeakingLoading(false); setSubmitted(true); return;
+      }
+      if (data.error === 'invalid_api_key') {
+        setSpeakingFeedback({
+          score: 0,
+          positive: '🔑 Invalid API key.',
+          tip: 'The OpenAI API key is invalid or expired. Contact Denise to fix this.',
+          suggestions: ['Contact Denise to update the API key', 'Try again after it is fixed'],
+          overall: 'API key needs updating — contact Denise! 🔧'
+        });
+        setSpeakingLoading(false); setSubmitted(true); return;
+      }
+      if (data.error === 'quota_exceeded') {
+        setSpeakingFeedback({
+          score: 0,
+          positive: '💳 Usage limit reached.',
+          tip: 'The OpenAI account has reached its monthly limit. Contact Denise.',
+          suggestions: ['Contact Denise to renew OpenAI credits', 'Try the writing activity instead', 'Try again tomorrow'],
+          overall: 'Credits limit reached — contact Denise! 💬'
+        });
+        setSpeakingLoading(false); setSubmitted(true); return;
+      }
+
       const text = (data.text || '').trim();
-      console.log('Transcript:', text);
 
       if (!text || text.length < 2) {
         setSpeakingFeedback({
           score: 0,
           positive: '🎤 We could not hear you clearly.',
-          tip: 'Speak louder, slower and closer to the microphone. Background noise may also interfere.',
+          tip: 'Speak louder, slower and closer to the microphone.',
           suggestions: [
             '📍 Find a quiet place with no background noise',
-            '🎙️ Hold your phone or headphone mic close to your mouth',
-            '🔊 Speak clearly and at a normal pace — not too fast!'
+            '🎙️ Hold your phone very close to your mouth',
+            '🔊 Speak clearly at a normal pace — not too fast!'
           ],
           overall: 'Give it another try! You can do it! 💪'
         });
-        setSpeakingLoading(false);
-        setSubmitted(true);
-        return;
+        setSpeakingLoading(false); setSubmitted(true); return;
       }
 
       setTranscript(text);
       await getFeedback(text);
 
     } catch (err) {
-      console.error('Transcription error:', err);
+      console.error('[speaking] Error:', err);
       setSpeakingFeedback({
         score: 0,
-        positive: 'Connection issue.',
+        positive: '🌐 Connection error.',
         tip: 'Check your internet connection and try again.',
-        suggestions: ['Check your Wi-Fi or mobile data', 'Try again in a few seconds', 'If problem persists, contact Denise'],
-        overall: 'Something went wrong — please try again! 🔄'
+        suggestions: ['Check your Wi-Fi or mobile data', 'Try again in a few seconds', 'Contact Denise if it persists'],
+        overall: 'Connection issue — try again! 🔄'
       });
       setSpeakingLoading(false);
       setSubmitted(true);

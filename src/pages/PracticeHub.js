@@ -51,7 +51,26 @@ const LESSONS = [
       ],
     }
   },
-  { num: 4,  code: 'L4',  title: 'Countries and Nationalities', level: 'A1', activities: { reading: [], listening: [], writing: [], speaking: [] } },
+  { num: 4,  code: 'L4',  title: 'Countries and Nationalities', level: 'A1',
+    activities: {
+      reading: [
+        { code: 'L4-R1', title: 'Meet Giulia!', type: 'Multiple Choice', activityIndex: 5, phase: 'pre' },
+        { code: 'L4-R2', title: 'Countries, Nationalities & Verbs', type: 'Multiple Choice', activityIndex: 6, phase: 'post' },
+      ],
+      listening: [
+        { code: 'L4-L1', title: 'Street Interview — Where Are You From?', type: 'Video + Questions', activityIndex: 5, phase: 'pre' },
+        { code: 'L4-L2', title: 'Countries & Nationalities — TV Show', type: 'Video + Questions', activityIndex: 6, phase: 'post' },
+      ],
+      writing: [
+        { code: 'L4-W1', title: 'Where Are You From? — Write It!', type: 'Open Writing', activityIndex: 5, phase: 'pre' },
+        { code: 'L4-W2', title: 'My Country & City — Describe It!', type: 'Open Writing', activityIndex: 6, phase: 'post' },
+      ],
+      speaking: [
+        { code: 'L4-S1', title: 'Where Are You From? Tell Me Everything!', type: 'AI Speaking', activityIndex: 5, phase: 'pre' },
+        { code: 'L4-S2', title: 'My Country & City — Tell Me More!', type: 'AI Speaking', activityIndex: 6, phase: 'post' },
+      ],
+    }
+  },
   { num: 5,  code: 'L5',  title: 'The Occupations',             level: 'A1', activities: { reading: [], listening: [], writing: [], speaking: [] } },
   { num: 6,  code: 'L6',  title: 'At the Café',                 level: 'A1', activities: { reading: [], listening: [], writing: [], speaking: [] } },
   { num: 7,  code: 'L7',  title: 'The Places in the City',      level: 'A1', activities: { reading: [], listening: [], writing: [], speaking: [] } },
