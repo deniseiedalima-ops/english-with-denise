@@ -4,6 +4,7 @@ import Navbar from '../components/Navbar';
 import './PracticeHub.css';
 
 const LESSONS = [
+  { num: 1,  code: 'L1',  title: 'The American Pronunciation', level: 'A1', activities: { reading: [], listening: [], writing: [], speaking: [] } },
   {
     num: 2, code: 'L2', title: 'The Greetings', level: 'A1',
     activities: {
@@ -60,6 +61,7 @@ const LESSONS = [
   { num: 11, code: 'L11', title: 'I Was So Nervous!',           level: 'A1', activities: { reading: [], listening: [], writing: [], speaking: [] } },
   { num: 12, code: 'L12', title: 'Where Were You Yesterday?',   level: 'A1', activities: { reading: [], listening: [], writing: [], speaking: [] } },
   { num: 13, code: 'L13', title: 'Final Review',                level: 'A1', activities: { reading: [], listening: [], writing: [], speaking: [] } },
+  { num: 14, code: 'L14', title: 'Final Test A1',               level: 'A1', activities: { reading: [], listening: [], writing: [], speaking: [] } },
 ];
 
 const SKILLS = [

@@ -167,3 +167,27 @@
   .record-btn { padding: 20px; font-size: 17px; }
   .submit-btn { padding: 18px; font-size: 16px; }
 }
+
+/* ─── IMPROVED RECORDER ─────────────────────────────────────────────────── */
+.recorder-area { display: flex; flex-direction: column; align-items: center; gap: 12px; padding: 8px 0; }
+.recording-active { display: flex; flex-direction: column; align-items: center; gap: 14px; width: 100%; }
+.recording-pulse-wrap { display: flex; align-items: center; gap: 10px; background: #fee; border-radius: 10px; padding: 12px 20px; }
+.recording-pulse { width: 12px; height: 12px; border-radius: 50%; background: #e02020; animation: pulse 1s infinite; }
+.recording-live { font-size: 13px; font-weight: 700; color: #e02020; letter-spacing: 1px; }
+.recording-time { font-size: 20px; font-weight: 600; color: #111; font-variant-numeric: tabular-nums; }
+.stop-btn { width: 100%; padding: 16px; background: #e02020; color: #fff; border: none; border-radius: 12px; font-size: 15px; font-weight: 600; cursor: pointer; font-family: 'DM Sans', sans-serif; }
+.stop-btn:active { background: #b01010; }
+
+/* ─── LOADING STATE ─────────────────────────────────────────────────────── */
+.speaking-loading { background: #f7f4f0; border-radius: 14px; padding: 24px 20px; }
+.speaking-loading-steps { display: flex; flex-direction: column; gap: 12px; }
+.loading-step { display: flex; align-items: center; gap: 14px; }
+.spinner { width: 28px; height: 28px; border: 3px solid #f0ede8; border-top-color: #ff6a00; border-radius: 50%; animation: spin 0.8s linear infinite; flex-shrink: 0; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.loading-title { font-size: 14px; font-weight: 600; color: #111; margin-bottom: 3px; }
+.loading-sub { font-size: 12px; color: #888; line-height: 1.5; }
+
+/* ─── TRANSCRIPT RESULT ─────────────────────────────────────────────────── */
+.transcript-result { background: #f7f4f0; border-left: 3px solid #ff6a00; border-radius: 0 10px 10px 0; padding: 14px 16px; margin-top: 12px; }
+.transcript-label { font-size: 11px; font-weight: 700; color: #aaa; text-transform: uppercase; letter-spacing: .5px; margin-bottom: 6px; }
+.transcript-text { font-size: 14px; color: #333; line-height: 1.6; font-style: italic; }

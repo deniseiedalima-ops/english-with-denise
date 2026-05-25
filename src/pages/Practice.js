@@ -435,32 +435,49 @@ export default function Practice({ user, student, onLogout }) {
 
   const startRecording = async () => {
     try {
-      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      const mediaRecorder = new MediaRecorder(stream);
+      const stream = await navigator.mediaDevices.getUserMedia({ 
+        audio: { echoCancellation: true, noiseSuppression: true, sampleRate: 16000 } 
+      });
+
+      // Pick best supported format
+      const mimeTypes = [
+        'audio/webm;codecs=opus',
+        'audio/webm',
+        'audio/mp4',
+        'audio/ogg;codecs=opus',
+        'audio/ogg',
+      ];
+      const mimeType = mimeTypes.find(m => MediaRecorder.isTypeSupported(m)) || '';
+
+      const mediaRecorder = new MediaRecorder(stream, mimeType ? { mimeType } : {});
       mediaRecorderRef.current = mediaRecorder;
       audioChunksRef.current = [];
 
       mediaRecorder.ondataavailable = (e) => {
-        if (e.data.size > 0) audioChunksRef.current.push(e.data);
+        if (e.data && e.data.size > 0) audioChunksRef.current.push(e.data);
       };
 
       mediaRecorder.onstop = async () => {
         stream.getTracks().forEach(t => t.stop());
-        const blob = new Blob(audioChunksRef.current, { type: 'audio/webm' });
+        const usedMime = mediaRecorder.mimeType || mimeType || 'audio/webm';
+        const blob = new Blob(audioChunksRef.current, { type: usedMime });
+        console.log('Recorded blob:', blob.size, 'bytes | type:', usedMime);
         await transcribeAudio(blob);
       };
 
-      mediaRecorder.start();
+      // Collect data every 250ms for reliability
+      mediaRecorder.start(250);
       setRecording(true);
       setRecordingTime(0);
       timerRef.current = setInterval(() => setRecordingTime(t => t + 1), 1000);
     } catch (err) {
-      alert('Could not access microphone. Please allow microphone access and try again.');
+      console.error('Mic error:', err);
+      alert('Could not access microphone. Please allow microphone access in your browser settings and try again.');
     }
   };
 
   const stopRecording = () => {
-    if (mediaRecorderRef.current) {
+    if (mediaRecorderRef.current && mediaRecorderRef.current.state !== 'inactive') {
       mediaRecorderRef.current.stop();
       setRecording(false);
       clearInterval(timerRef.current);
@@ -469,39 +486,45 @@ export default function Practice({ user, student, onLogout }) {
 
   const transcribeAudio = async (blob) => {
     setSpeakingLoading(true);
-    console.log('Audio blob size:', blob.size, 'type:', blob.type);
-    
+
+    if (blob.size < 1000) {
+      setSpeakingFeedback({
+        score: 0,
+        positive: '🎤 Audio not captured!',
+        tip: 'Allow microphone access and speak closer to your device. Tap the 🔒 icon in your browser address bar to allow access.',
+        suggestions: ['Allow microphone in browser settings', 'Speak louder and closer to the mic', 'Try recording again'],
+        overall: 'Microphone issue — please check settings! 🔧'
+      });
+      setSpeakingLoading(false);
+      setSubmitted(true);
+      return;
+    }
+
     try {
-      if (blob.size < 1000) {
-        setTranscript('');
-        setSpeakingFeedback({ 
-          score: 0, 
-          positive: '🎤 Audio not captured!', 
-          tip: 'Make sure your microphone is allowed in the browser. Click the 🔒 icon in the address bar and allow microphone access, then try again!', 
-          overall: 'Microphone issue — please check your settings!' 
-        });
-        setSpeakingLoading(false);
-        setSubmitted(true);
-        return;
-      }
+      // Send as FormData so the server can read it properly on all platforms
+      const formData = new FormData();
+      formData.append('audio', blob, `recording.${blob.type.includes('mp4') ? 'mp4' : 'webm'}`);
 
       const res = await fetch('/api/transcribe', {
         method: 'POST',
-        headers: { 'Content-Type': blob.type || 'audio/webm' },
-        body: blob,
+        body: formData,
       });
+
       const data = await res.json();
-      console.log('Transcription result:', data);
-      
-      const text = data.text || '';
-      
-      if (!text || text.trim().length < 2) {
-        setTranscript('');
-        setSpeakingFeedback({ 
-          score: 0, 
-          positive: '🎤 We could not hear anything!', 
-          tip: 'Speak louder and closer to the microphone. Make sure there is no background noise. Try again!', 
-          overall: 'No speech detected — give it another try! 💪' 
+      const text = (data.text || '').trim();
+      console.log('Transcript:', text);
+
+      if (!text || text.length < 2) {
+        setSpeakingFeedback({
+          score: 0,
+          positive: '🎤 We could not hear you clearly.',
+          tip: 'Speak louder, slower and closer to the microphone. Background noise may also interfere.',
+          suggestions: [
+            '📍 Find a quiet place with no background noise',
+            '🎙️ Hold your phone or headphone mic close to your mouth',
+            '🔊 Speak clearly and at a normal pace — not too fast!'
+          ],
+          overall: 'Give it another try! You can do it! 💪'
         });
         setSpeakingLoading(false);
         setSubmitted(true);
@@ -510,14 +533,15 @@ export default function Practice({ user, student, onLogout }) {
 
       setTranscript(text);
       await getFeedback(text);
+
     } catch (err) {
       console.error('Transcription error:', err);
-      setTranscript('');
-      setSpeakingFeedback({ 
-        score: 0, 
-        positive: 'Connection error.', 
-        tip: 'Check your internet connection and try again.', 
-        overall: 'Something went wrong — please try again! 🔄' 
+      setSpeakingFeedback({
+        score: 0,
+        positive: 'Connection issue.',
+        tip: 'Check your internet connection and try again.',
+        suggestions: ['Check your Wi-Fi or mobile data', 'Try again in a few seconds', 'If problem persists, contact Denise'],
+        overall: 'Something went wrong — please try again! 🔄'
       });
       setSpeakingLoading(false);
       setSubmitted(true);
@@ -869,32 +893,43 @@ export default function Practice({ user, student, onLogout }) {
               {!submitted && !speakingLoading && (
                 <div className="recorder-area">
                   {!recording && !transcript && (
-                    <button className="record-btn" onClick={startRecording}>
-                      <span className="record-dot" />
-                      Start Recording
-                    </button>
+                    <>
+                      <button className="record-btn" onClick={startRecording}>
+                        🎙️ Start Recording
+                      </button>
+                      <p className="recorder-note">🔒 Your audio is processed securely and not stored.</p>
+                    </>
                   )}
                   {recording && (
                     <div className="recording-active">
-                      <div className="recording-pulse" />
-                      <span className="recording-time">{formatTime(recordingTime)}</span>
-                      <button className="stop-btn" onClick={stopRecording}>⏹ Stop</button>
+                      <div className="recording-pulse-wrap">
+                        <div className="recording-pulse" />
+                        <span className="recording-live">● REC</span>
+                        <span className="recording-time">{formatTime(recordingTime)}</span>
+                      </div>
+                      <button className="stop-btn" onClick={stopRecording}>⏹ Stop & Submit</button>
                     </div>
                   )}
-                  <p className="recorder-note">🔒 Your audio is processed securely and not stored.</p>
                 </div>
               )}
 
               {/* Loading */}
               {speakingLoading && (
                 <div className="speaking-loading">
-                  <div className="spinner" />
-                  <span>Analyzing your speaking... ✨</span>
+                  <div className="speaking-loading-steps">
+                    <div className="loading-step">
+                      <div className="spinner" />
+                      <div>
+                        <div className="loading-title">Processing your audio...</div>
+                        <div className="loading-sub">Transcribing with Whisper AI, then generating feedback with GPT-4o</div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               )}
 
-              {/* Transcript */}
-              {transcript && !speakingLoading && (
+              {/* Transcript preview */}
+              {transcript && !speakingLoading && !submitted && (
                 <div className="transcript-result">
                   <div className="transcript-label">📝 What we heard:</div>
                   <div className="transcript-text">"{transcript}"</div>
