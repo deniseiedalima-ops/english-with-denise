@@ -1058,10 +1058,12 @@ export default function Practice({ user, student, onLogout }) {
                         <div className="fb-label">✅ What you did well</div>
                         <div className="fb-text">{writingFeedback.positive}</div>
                       </div>
-                      {writingFeedback.corrections?.length > 0 && (
-                        <div className="fb-box tip" style={{textAlign:'left',marginTop:8}}>
-                          <div className="fb-label">🔧 Corrections</div>
-                          {writingFeedback.corrections.map((c,i) => <div key={i} className="fb-text" style={{fontFamily:'monospace',fontSize:12,marginTop:4}}>{c}</div>)}
+                      {writingFeedback.errors?.length > 0 && (
+                        <div className="fb-box errors" style={{textAlign:'left',marginTop:8}}>
+                          <div className="fb-label">🔧 Errors to fix</div>
+                          {writingFeedback.errors.map((e,i) => (
+                            <div key={i} className="fb-error-item">{e}</div>
+                          ))}
                         </div>
                       )}
                       {writingFeedback.suggestions?.length > 0 && (
@@ -1087,7 +1089,15 @@ export default function Practice({ user, student, onLogout }) {
                     <div className="fb-label">✅ What you did well</div>
                     <div className="fb-text">{speakingFeedback.positive}</div>
                   </div>
-                  <div className="speaking-feedback-box tip">
+                  {speakingFeedback.errors?.length > 0 && (
+                    <div className="fb-box errors" style={{marginTop:10}}>
+                      <div className="fb-label">🔧 Errors to fix</div>
+                      {speakingFeedback.errors.map((e,i) => (
+                        <div key={i} className="fb-error-item">{e}</div>
+                      ))}
+                    </div>
+                  )}
+                  <div className="speaking-feedback-box tip" style={{marginTop:10}}>
                     <div className="fb-label">💡 Main area to improve</div>
                     <div className="fb-text">{speakingFeedback.tip}</div>
                   </div>

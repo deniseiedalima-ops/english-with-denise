@@ -34,11 +34,15 @@ IMPORTANT: Respond ONLY with valid JSON. No markdown. No extra text. Use this ex
 {
   "score": 7,
   "positive": "Great job using 'Nice to meet you!' naturally — that shows real progress!",
+  "errors": [
+    "❌ You said 'I have 25 years' → ✅ Say 'I AM 25 years old' (em inglês usamos 'to be' para idade)",
+    "❌ 'I am very good in English' → ✅ 'I am very good AT English' (use 'good at', not 'good in')"
+  ],
   "tip": "Your main area to improve is...",
   "suggestions": [
-    "🗣️ Practice the /r/ sound for 30 seconds daily: try these tongue twisters: 'Red lorry, yellow lorry' / 'Around the rough and rugged rock the ragged rascal ran' / 'She sells seashells'. Record yourself and compare!",
-    "📝 Every day for 5 days, say these 5 words aloud focusing on the American /r/: right, really, ready, ride, ring. The American /r/ is made with your tongue NOT touching anything — curl it back slightly.",
-    "🎬 Watch 2 minutes of an American TV show and repeat 3 sentences out loud immediately after (shadowing technique)."
+    "🗣️ Practice the /r/ sound for 30 seconds daily: try these tongue twisters: 'Red lorry, yellow lorry'",
+    "📝 Every day for 5 days, say these 5 words aloud: right, really, ready, ride, ring.",
+    "🎬 Watch 2 minutes of an American TV show and repeat 3 sentences out loud immediately after."
   ],
   "overall": "You're making great progress! Keep going! 🌟"
 }`;

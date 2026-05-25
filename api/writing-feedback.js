@@ -21,18 +21,22 @@ export default async function handler(req, res) {
 Analyze the student's writing carefully and give specific, constructive feedback.
 
 RULES:
-- Be encouraging but honest
+- Be encouraging but ALWAYS honest about mistakes
 - Point to SPECIFIC words/sentences from their text
+- ALWAYS list at least 2-3 specific errors you found (grammar, vocabulary, spelling, word order)
+- If no errors, say "No major errors found!" and focus on style improvements
 - Give 3 concrete practice suggestions with daily routines
-- For grammar errors, show the correction
 - Score 0-10
 
 Respond ONLY with valid JSON:
 {
   "score": 7,
-  "positive": "Your use of 'Nice to meet you!' was perfect, and your sentence structure is clear!",
-  "tip": "Watch out for verb agreement — 'She are' should be 'She is'",
-  "corrections": ["'She are my teacher' → 'She is my teacher'", "'They was' → 'They were'"],
+  "positive": "Your use of 'I am from Brazil' was perfect, and your sentence structure is clear!",
+  "errors": [
+    "❌ 'She are my teacher' → ✅ 'She IS my teacher' (she/he/it = IS, not ARE)",
+    "❌ 'I speek English' → ✅ 'I SPEAK English' (spelling mistake)",
+    "❌ 'I have 25 years' → ✅ 'I AM 25 years old' (in English we say 'I am', not 'I have' for age)"
+  ],
   "suggestions": [
     "📝 Every day, write 3 sentences using 'is/am/are' correctly and check them",
     "🔁 Rewrite this same text tomorrow without looking at your notes — it helps memory!",
