@@ -1,5 +1,5 @@
 const NOTION_API = 'https://api.notion.com/v1';
-const TOKEN = process.env.REACT_APP_NOTION_TOKEN;
+const TOKEN = process.env.NOTION_TOKEN || process.env.REACT_APP_NOTION_TOKEN || '';
 
 const headers = {
   'Authorization': `Bearer ${TOKEN}`,
