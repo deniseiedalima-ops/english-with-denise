@@ -22,11 +22,34 @@ export default function Navbar({ user, student, onLogout }) {
   });
 
   useEffect(() => {
-    fetch('/api/notifications')
+    const token = process.env.REACT_APP_NOTION_TOKEN;
+    const dbId = '609ab0b0d2344691b51aab5425f29169';
+
+    if (!token) return;
+
+    fetch(`https://api.notion.com/v1/databases/${dbId}/query`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Notion-Version': '2022-06-28',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        filter: { property: 'Ativa', checkbox: { equals: true } },
+        sorts: [{ property: 'Data', direction: 'descending' }],
+        page_size: 10,
+      }),
+    })
       .then(r => r.json())
       .then(data => {
-        const active = (data.notifications || []).filter(n => !dismissed.includes(n.id));
-        setNotifications(active);
+        const notifs = (data.results || [])
+          .map(page => ({
+            id: page.id,
+            message: page.properties['Mensagem']?.title?.[0]?.plain_text || '',
+            tipo: page.properties['Tipo']?.select?.name || '📚 Estudo',
+          }))
+          .filter(n => n.message && !dismissed.includes(n.id));
+        setNotifications(notifs);
       })
       .catch(() => {});
   }, []);

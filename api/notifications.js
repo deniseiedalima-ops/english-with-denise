@@ -7,14 +7,14 @@ export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
   if (req.method === 'OPTIONS') return res.status(200).end();
 
-  // Support both env var names
   const TOKEN = process.env.NOTION_TOKEN
     || process.env.REACT_APP_NOTION_TOKEN
     || '';
 
+  console.log('[notifications] token present:', !!TOKEN, '| length:', TOKEN.length);
+
   if (!TOKEN) {
-    console.error('[notifications] No Notion token found');
-    return res.json({ notifications: [], error: 'no_token' });
+    return res.json({ notifications: [], debug: 'no_token' });
   }
 
   try {
@@ -26,32 +26,41 @@ export default async function handler(req, res) {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        filter: { property: 'Ativa', checkbox: { equals: true } },
+        filter: {
+          property: 'Ativa',
+          checkbox: { equals: true }
+        },
         sorts: [{ property: 'Data', direction: 'descending' }],
         page_size: 10,
       }),
     });
 
+    const body = await response.text();
+    console.log('[notifications] Notion status:', response.status, '| body preview:', body.substring(0, 200));
+
     if (!response.ok) {
-      const err = await response.text();
-      console.error('[notifications] Notion error:', response.status, err);
-      return res.json({ notifications: [] });
+      return res.json({ notifications: [], debug: `notion_error_${response.status}` });
     }
 
-    const data = await response.json();
-    const notifications = (data.results || []).map(page => {
-      const props = page.properties;
-      return {
-        id: page.id,
-        message: props['Mensagem']?.title?.[0]?.plain_text || '',
-        tipo: props['Tipo']?.select?.name || '📚 Estudo',
-        data: props['Data']?.date?.start || null,
-      };
-    }).filter(n => n.message); // only show if message is not empty
+    const data = JSON.parse(body);
+    const notifications = (data.results || [])
+      .map(page => {
+        const props = page.properties;
+        const message = props['Mensagem']?.title?.[0]?.plain_text || '';
+        return {
+          id: page.id,
+          message,
+          tipo: props['Tipo']?.select?.name || '📚 Estudo',
+          data: props['Data']?.date?.start || null,
+        };
+      })
+      .filter(n => n.message.length > 0);
 
+    console.log('[notifications] Found', notifications.length, 'active notifications');
     return res.json({ notifications });
+
   } catch (err) {
     console.error('[notifications] Exception:', err.message);
-    return res.status(500).json({ notifications: [] });
+    return res.status(500).json({ notifications: [], debug: err.message });
   }
 }
