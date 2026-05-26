@@ -81,6 +81,17 @@ const LESSONS = [
   { num: 12, code: 'L12', title: 'Where Were You Yesterday?',   level: 'A1', activities: { reading: [], listening: [], writing: [], speaking: [] } },
   { num: 13, code: 'L13', title: 'Final Review',                level: 'A1', activities: { reading: [], listening: [], writing: [], speaking: [] } },
   { num: 14, code: 'L14', title: 'Final Test A1',               level: 'A1', activities: { reading: [], listening: [], writing: [], speaking: [] } },
+  // ── A2 ──────────────────────────────────────────────────────────────────
+  { num: 15, code: 'L15', title: 'Daily Routines',              level: 'A2', activities: { reading: [], listening: [], writing: [], speaking: [] } },
+  { num: 16, code: 'L16', title: 'What Time Is It?',            level: 'A2', activities: { reading: [], listening: [], writing: [], speaking: [] } },
+  { num: 17, code: 'L17', title: 'At the Restaurant',           level: 'A2', activities: { reading: [], listening: [], writing: [], speaking: [] } },
+  { num: 18, code: 'L18', title: 'Shopping & Prices',           level: 'A2', activities: { reading: [], listening: [], writing: [], speaking: [] } },
+  { num: 19, code: 'L19', title: 'My Home & Furniture',         level: 'A2', activities: { reading: [], listening: [], writing: [], speaking: [] } },
+  { num: 20, code: 'L20', title: 'Transport & Directions',      level: 'A2', activities: { reading: [], listening: [], writing: [], speaking: [] } },
+  { num: 21, code: 'L21', title: 'Health & Body',               level: 'A2', activities: { reading: [], listening: [], writing: [], speaking: [] } },
+  { num: 22, code: 'L22', title: 'Past Experiences',            level: 'A2', activities: { reading: [], listening: [], writing: [], speaking: [] } },
+  { num: 23, code: 'L23', title: 'Future Plans',                level: 'A2', activities: { reading: [], listening: [], writing: [], speaking: [] } },
+  { num: 24, code: 'L24', title: 'Final Test A2',               level: 'A2', activities: { reading: [], listening: [], writing: [], speaking: [] } },
 ];
 
 const SKILLS = [
@@ -97,7 +108,15 @@ const TYPE_ICONS = {
   'AI Speaking': '🤖',
 };
 
-const TOTAL_PER_LESSON = 8;
+// Which lesson levels the student can access based on their Notion level
+const LEVEL_ACCESS = {
+  'A1':          ['A1'],
+  'A1→A2':       ['A1'],
+  'A2':          ['A1', 'A2'],
+  'B1 iniciante':['A1', 'A2'],
+  'B1':          ['A1', 'A2', 'B1'],
+  'B2':          ['A1', 'A2', 'B1', 'B2'],
+};
 const PRE_CLASS = 4;
 const POST_CLASS = 4;
 
@@ -118,14 +137,22 @@ export default function PracticeHub({ user, student, onLogout }) {
     catch { return []; }
   });
 
-  // Auto-detect current lesson: find first lesson not 100% completed
+  const studentLevel = student?.nivel || 'A1';
+  const allowedLevels = LEVEL_ACCESS[studentLevel] || ['A1'];
+
+  // Separate available vs locked lessons
+  const availableLessons = LESSONS.filter(l => allowedLevels.includes(l.level));
+  const lockedLessons = LESSONS.filter(l => !allowedLevels.includes(l.level));
+
+  // Auto-detect current lesson among available ones
   const currentLesson = (() => {
-    for (const lesson of LESSONS) {
+    for (const lesson of availableLessons) {
       const codes = Object.values(lesson.activities).flat().map(a => a.code);
+      if (codes.length === 0) continue;
       const done = codes.filter(c => completedCodes.includes(c)).length;
       if (done < codes.length) return lesson;
     }
-    return LESSONS[LESSONS.length - 1];
+    return availableLessons[availableLessons.length - 1] || LESSONS[0];
   })();
 
   const [expandedLesson, setExpandedLesson] = useState(currentLesson?.code || 'L2');
@@ -261,7 +288,7 @@ export default function PracticeHub({ user, student, onLogout }) {
               {SKILLS.map(s => {
                 const codes = (currentLesson.activities[s.key] || []).map(a => a.code);
                 const done = codes.filter(c => completedCodes.includes(c)).length;
-                const total = LESSONS.reduce((acc, l) => acc + (l.activities[s.key] ? l.activities[s.key].length : 0), 0);
+                const total = availableLessons.reduce((acc, l) => acc + (l.activities[s.key] ? l.activities[s.key].length : 0), 0);
                 return (
                   <div key={s.key} className="hub-skill-card" onClick={() => setSelectedSkill(s.key)} style={{ '--skill-color': s.color, '--skill-bg': s.bg }}>
                     <div className="hub-skill-icon">{s.icon}</div>
@@ -293,7 +320,8 @@ export default function PracticeHub({ user, student, onLogout }) {
               </div>
             </div>
             <div className="hub-lessons">
-              {LESSONS.map(lesson => {
+              {/* Available lessons */}
+              {availableLessons.map(lesson => {
                 const acts = lesson.activities[selectedSkill] || [];
                 const isOpen = expandedLesson === lesson.code;
                 return (
@@ -313,7 +341,9 @@ export default function PracticeHub({ user, student, onLogout }) {
                     </div>
                     {isOpen && (
                       <div className="hub-activities-list">
-                        {acts.map((act, i) => {
+                        {acts.length === 0 ? (
+                          <div className="hub-coming-soon">✨ Activities coming soon!</div>
+                        ) : acts.map((act, i) => {
                           const done = completedCodes.includes(act.code);
                           return (
                             <div key={act.code} className={'hub-activity-row' + (done ? ' done' : '')} onClick={() => handleStartActivity(selectedSkill, act.activityIndex, act.code, lesson.title)}>
@@ -339,6 +369,22 @@ export default function PracticeHub({ user, student, onLogout }) {
                   </div>
                 );
               })}
+
+              {/* Locked lessons */}
+              {lockedLessons.length > 0 && (
+                <div className="hub-locked-section">
+                  <div className="hub-locked-title">🔒 Locked — Complete your current level to unlock</div>
+                  {[...new Set(lockedLessons.map(l => l.level))].map(lvl => (
+                    <div key={lvl} className="hub-locked-level-card">
+                      <div className="hub-locked-level-badge">{lvl}</div>
+                      <div className="hub-locked-level-info">
+                        <div className="hub-locked-level-name">{lvl === 'A2' ? 'Elementary' : lvl === 'B1' ? 'Intermediate' : lvl === 'B2' ? 'Upper Intermediate' : lvl}</div>
+                        <div className="hub-locked-level-count">{lockedLessons.filter(l => l.level === lvl).length} lessons · {lockedLessons.filter(l => l.level === lvl).reduce((a, l) => a + Object.values(l.activities).flat().length, 0)}+ activities</div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           </>
         )}

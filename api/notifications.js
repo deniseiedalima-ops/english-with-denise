@@ -1,4 +1,3 @@
-const NOTION_API = 'https://api.notion.com/v1';
 const NOTIFICATIONS_DB = '609ab0b0-d234-4691-b51a-ab5425f29169';
 
 export default async function handler(req, res) {
@@ -9,58 +8,38 @@ export default async function handler(req, res) {
 
   const TOKEN = process.env.NOTION_TOKEN
     || process.env.REACT_APP_NOTION_TOKEN
-    || '';
-
-  console.log('[notifications] token present:', !!TOKEN, '| length:', TOKEN.length);
-
-  if (!TOKEN) {
-    return res.json({ notifications: [], debug: 'no_token' });
-  }
+    || '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';
 
   try {
-    const response = await fetch(`${NOTION_API}/databases/${NOTIFICATIONS_DB}/query`, {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${TOKEN}`,
-        'Notion-Version': '2022-06-28',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        filter: {
-          property: 'Ativa',
-          checkbox: { equals: true }
+    const response = await fetch(
+      `https://api.notion.com/v1/databases/${NOTIFICATIONS_DB}/query`,
+      {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${TOKEN}`,
+          'Notion-Version': '2022-06-28',
+          'Content-Type': 'application/json',
         },
-        sorts: [{ property: 'Data', direction: 'descending' }],
-        page_size: 10,
-      }),
-    });
+        body: JSON.stringify({
+          filter: { property: 'Ativa', checkbox: { equals: true } },
+          sorts: [{ property: 'Data', direction: 'descending' }],
+          page_size: 10,
+        }),
+      }
+    );
 
-    const body = await response.text();
-    console.log('[notifications] Notion status:', response.status, '| body preview:', body.substring(0, 200));
+    const data = await response.json();
 
-    if (!response.ok) {
-      return res.json({ notifications: [], debug: `notion_error_${response.status}` });
-    }
-
-    const data = JSON.parse(body);
     const notifications = (data.results || [])
-      .map(page => {
-        const props = page.properties;
-        const message = props['Mensagem']?.title?.[0]?.plain_text || '';
-        return {
-          id: page.id,
-          message,
-          tipo: props['Tipo']?.select?.name || '📚 Estudo',
-          data: props['Data']?.date?.start || null,
-        };
-      })
-      .filter(n => n.message.length > 0);
+      .map(page => ({
+        id: page.id,
+        message: page.properties['Mensagem']?.title?.[0]?.plain_text || '',
+        tipo: page.properties['Tipo']?.select?.name || '📚 Estudo',
+      }))
+      .filter(n => n.message);
 
-    console.log('[notifications] Found', notifications.length, 'active notifications');
     return res.json({ notifications });
-
   } catch (err) {
-    console.error('[notifications] Exception:', err.message);
-    return res.status(500).json({ notifications: [], debug: err.message });
+    return res.status(500).json({ notifications: [] });
   }
 }
