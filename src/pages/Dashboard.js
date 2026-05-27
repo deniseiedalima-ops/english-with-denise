@@ -7,46 +7,37 @@ const LEVEL_ORDER = ['A1', 'A1→A2', 'A2', 'B1 iniciante', 'B1', 'B2'];
 const LEVEL_DISPLAY = { 'A1': 'A1', 'A1→A2': 'A1→A2', 'A2': 'A2', 'B1 iniciante': 'B1 Beginner', 'B1': 'B1', 'B2': 'B2' };
 const XP_PER_LEVEL = 100;
 
-// ─── Achievement definitions ─────────────────────────────────────────────────
 const ACHIEVEMENTS = [
-  // Bronze
-  { id: 'first_step',   tier: 'Bronze', label: 'First Step',     desc: 'Complete your first activity',         check: (a,x,s) => a.length >= 1 },
-  { id: 'getting_warm', tier: 'Bronze', label: 'Getting Warm',   desc: 'Complete 5 activities',                check: (a,x,s) => a.length >= 5 },
-  { id: 'on_fire',      tier: 'Bronze', label: 'On Fire!',       desc: 'Earn 50 XP',                           check: (a,x,s) => x >= 50 },
-  { id: 'reader',       tier: 'Bronze', label: 'Bookworm',       desc: 'Complete 2 reading activities',        check: (a,x,s) => a.filter(i=>i.skill==='reading').length >= 2 },
-  { id: 'speaker_1',   tier: 'Bronze', label: 'First Words',    desc: 'Complete 1 speaking activity',         check: (a,x,s) => a.filter(i=>i.skill==='speaking').length >= 1 },
-  // Silver
-  { id: 'century',      tier: 'Silver', label: 'Century!',       desc: 'Earn 100 XP',                          check: (a,x,s) => x >= 100 },
-  { id: 'streak_3',     tier: 'Silver', label: '3-Day Streak',   desc: 'Practice 3 days in a row',             check: (a,x,s) => s >= 3 },
-  { id: 'all_skills',   tier: 'Silver', label: 'Well Rounded',   desc: 'Try all 4 skills',                     check: (a,x,s) => new Set(a.map(i=>i.skill)).size >= 4 },
-  { id: 'writer_5',     tier: 'Silver', label: 'Pen Master',     desc: 'Complete 5 writing activities',        check: (a,x,s) => a.filter(i=>i.skill==='writing').length >= 5 },
-  { id: 'listener_5',   tier: 'Silver', label: 'Sharp Ears',     desc: 'Complete 5 listening activities',      check: (a,x,s) => a.filter(i=>i.skill==='listening').length >= 5 },
-  // Gold
-  { id: 'xp_250',       tier: 'Gold',   label: 'XP Hunter',      desc: 'Earn 250 XP',                          check: (a,x,s) => x >= 250 },
-  { id: 'streak_7',     tier: 'Gold',   label: 'Week Warrior',   desc: 'Practice 7 days in a row',             check: (a,x,s) => s >= 7 },
-  { id: 'activities_20',tier: 'Gold',   label: 'Dedicated',      desc: 'Complete 20 activities',               check: (a,x,s) => a.length >= 20 },
-  { id: 'perfect_score',tier: 'Gold',   label: 'Perfectionist',  desc: 'Score 100% on any activity',           check: (a,x,s) => a.some(i=>i.score>=100) },
-  // Platinum
-  { id: 'xp_500',       tier: 'Platinum', label: 'XP Legend',    desc: 'Earn 500 XP',                          check: (a,x,s) => x >= 500 },
-  { id: 'streak_30',    tier: 'Platinum', label: 'Unstoppable',  desc: 'Practice 30 days in a row',            check: (a,x,s) => s >= 30 },
+  { id: 'first_step',    tier: 'Bronze',   label: 'First Step',      desc: 'Complete your first activity',        check: (a,x,s) => a.length >= 1 },
+  { id: 'getting_warm',  tier: 'Bronze',   label: 'Getting Warm',    desc: 'Complete 5 activities',               check: (a,x,s) => a.length >= 5 },
+  { id: 'on_fire',       tier: 'Bronze',   label: 'On Fire!',        desc: 'Earn 50 XP',                          check: (a,x,s) => x >= 50 },
+  { id: 'reader',        tier: 'Bronze',   label: 'Bookworm',        desc: 'Complete 2 reading activities',       check: (a,x,s) => a.filter(i=>i.skill==='reading').length >= 2 },
+  { id: 'speaker_1',    tier: 'Bronze',   label: 'First Words',     desc: 'Complete 1 speaking activity',        check: (a,x,s) => a.filter(i=>i.skill==='speaking').length >= 1 },
+  { id: 'century',      tier: 'Silver',   label: 'Century!',        desc: 'Earn 100 XP',                         check: (a,x,s) => x >= 100 },
+  { id: 'streak_3',     tier: 'Silver',   label: '3-Day Streak',    desc: 'Practice 3 days in a row',            check: (a,x,s) => s >= 3 },
+  { id: 'all_skills',   tier: 'Silver',   label: 'Well Rounded',    desc: 'Try all 4 skills',                    check: (a,x,s) => new Set(a.map(i=>i.skill)).size >= 4 },
+  { id: 'writer_5',     tier: 'Silver',   label: 'Pen Master',      desc: 'Complete 5 writing activities',       check: (a,x,s) => a.filter(i=>i.skill==='writing').length >= 5 },
+  { id: 'listener_5',   tier: 'Silver',   label: 'Sharp Ears',      desc: 'Complete 5 listening activities',     check: (a,x,s) => a.filter(i=>i.skill==='listening').length >= 5 },
+  { id: 'xp_250',       tier: 'Gold',     label: 'XP Hunter',       desc: 'Earn 250 XP',                         check: (a,x,s) => x >= 250 },
+  { id: 'streak_7',     tier: 'Gold',     label: 'Week Warrior',    desc: 'Practice 7 days in a row',            check: (a,x,s) => s >= 7 },
+  { id: 'activities_20',tier: 'Gold',     label: 'Dedicated',       desc: 'Complete 20 activities',              check: (a,x,s) => a.length >= 20 },
+  { id: 'perfect_score',tier: 'Gold',     label: 'Perfectionist',   desc: 'Score 100% on any activity',          check: (a,x,s) => a.some(i=>i.score>=100) },
+  { id: 'xp_500',       tier: 'Platinum', label: 'XP Legend',       desc: 'Earn 500 XP',                         check: (a,x,s) => x >= 500 },
+  { id: 'streak_30',    tier: 'Platinum', label: 'Unstoppable',     desc: 'Practice 30 days in a row',           check: (a,x,s) => s >= 30 },
 ];
 
 const TIER_COLORS = { Bronze: '#cd7f32', Silver: '#999', Gold: '#ff6a00', Platinum: '#7f77dd' };
 
 function updateStreak() {
   const today = new Date().toDateString();
-  const lastActive = localStorage.getItem('ewd_last_active') || '';
   const yesterday = new Date(Date.now() - 86400000).toDateString();
+  const lastActive = localStorage.getItem('ewd_last_active') || '';
   let streak = parseInt(localStorage.getItem('ewd_streak') || '0');
-  let bestStreak = parseInt(localStorage.getItem('ewd_best_streak') || '0');
-
-  if (lastActive === today) return streak; // already counted today
-  if (lastActive === yesterday) streak += 1; // consecutive day
-  else if (lastActive !== today) streak = 1; // reset — gap in days
-
-  if (streak > bestStreak) bestStreak = streak;
+  let best = parseInt(localStorage.getItem('ewd_best_streak') || '0');
+  if (lastActive === today) return streak;
+  streak = lastActive === yesterday ? streak + 1 : 1;
+  if (streak > best) { best = streak; localStorage.setItem('ewd_best_streak', best); }
   localStorage.setItem('ewd_streak', streak);
-  localStorage.setItem('ewd_best_streak', bestStreak);
   localStorage.setItem('ewd_last_active', today);
   return streak;
 }
@@ -57,49 +48,33 @@ export default function Dashboard({ user, student, onLogout }) {
   const [streak, setStreak] = useState(() => parseInt(localStorage.getItem('ewd_streak') || '0'));
   const [bestStreak] = useState(() => parseInt(localStorage.getItem('ewd_best_streak') || '0'));
   const [activities, setActivities] = useState(() => {
-    try { return JSON.parse(localStorage.getItem('ewd_activities') || '[]'); }
-    catch { return []; }
+    try { return JSON.parse(localStorage.getItem('ewd_activities') || '[]'); } catch { return []; }
   });
   const [unlockedIds, setUnlockedIds] = useState(() => {
-    try { return JSON.parse(localStorage.getItem('ewd_achievements') || '[]'); }
-    catch { return []; }
+    try { return JSON.parse(localStorage.getItem('ewd_achievements') || '[]'); } catch { return []; }
   });
   const [newAchievement, setNewAchievement] = useState(null);
 
-  // Update streak on mount + listen for XP changes
   useEffect(() => {
-    const newStreak = updateStreak();
-    setStreak(newStreak);
-
+    const s = updateStreak();
+    setStreak(s);
     const onStorage = () => {
       const newXp = parseInt(localStorage.getItem('ewd_xp') || '0');
-      const newActs = JSON.parse(localStorage.getItem('ewd_activities') || '[]');
-      const newStrk = parseInt(localStorage.getItem('ewd_streak') || '0');
-      setXp(newXp);
-      setActivities(newActs);
-      setStreak(newStrk);
-      checkAchievements(newActs, newXp, newStrk);
+      const newActs = (() => { try { return JSON.parse(localStorage.getItem('ewd_activities') || '[]'); } catch { return []; } })();
+      const newS = parseInt(localStorage.getItem('ewd_streak') || '0');
+      setXp(newXp); setActivities(newActs); setStreak(newS);
+      checkAchievements(newActs, newXp, newS);
     };
-
     window.addEventListener('storage', onStorage);
-    // Also check on mount
-    checkAchievements(
-      JSON.parse(localStorage.getItem('ewd_activities') || '[]'),
-      parseInt(localStorage.getItem('ewd_xp') || '0'),
-      newStreak
-    );
+    checkAchievements(activities, xp, s);
     return () => window.removeEventListener('storage', onStorage);
   }, []);
 
   const checkAchievements = (acts, xpVal, streakVal) => {
-    const current = JSON.parse(localStorage.getItem('ewd_achievements') || '[]');
-    let updated = [...current];
-    let newest = null;
+    const current = (() => { try { return JSON.parse(localStorage.getItem('ewd_achievements') || '[]'); } catch { return []; } })();
+    let updated = [...current]; let newest = null;
     ACHIEVEMENTS.forEach(ach => {
-      if (!updated.includes(ach.id) && ach.check(acts, xpVal, streakVal)) {
-        updated.push(ach.id);
-        newest = ach;
-      }
+      if (!updated.includes(ach.id) && ach.check(acts, xpVal, streakVal)) { updated.push(ach.id); newest = ach; }
     });
     if (updated.length !== current.length) {
       localStorage.setItem('ewd_achievements', JSON.stringify(updated));
@@ -108,15 +83,7 @@ export default function Dashboard({ user, student, onLogout }) {
     }
   };
 
-
-  useEffect(() => {
-    if (user?.email) {
-      fetch(`/api/reports?email=${encodeURIComponent(user.email)}`)
-        .then(r => r.json())
-        .then(data => setReports(data.reports || []))
-        .catch(() => {});
-    }
-  }, [user?.email]);
+  const nivel = student?.nivel || 'A1';
   const levelIndex = LEVEL_ORDER.indexOf(nivel);
   const xpProgress = xp % XP_PER_LEVEL;
   const levelNum = Math.floor(xp / XP_PER_LEVEL) + 1;
@@ -131,9 +98,9 @@ export default function Dashboard({ user, student, onLogout }) {
   const date = formatDate(dataAula);
 
   const skills = [
-    { key: 'writing',   label: 'Writing',   icon: '✏️' },
-    { key: 'speaking',  label: 'Speaking',  icon: '🎙️' },
-    { key: 'reading',   label: 'Reading',   icon: '📖' },
+    { key: 'writing', label: 'Writing', icon: '✏️' },
+    { key: 'speaking', label: 'Speaking', icon: '🎙️' },
+    { key: 'reading', label: 'Reading', icon: '📖' },
     { key: 'listening', label: 'Listening', icon: '🎧' },
   ].map(s => {
     const acts = activities.filter(a => a.skill === s.key);
@@ -141,25 +108,19 @@ export default function Dashboard({ user, student, onLogout }) {
     return { ...s, score: avgScore, done: acts.length };
   });
 
-  // Achievements grouped by tier
   const byTier = ['Bronze','Silver','Gold','Platinum'].map(tier => ({
-    tier,
-    total: ACHIEVEMENTS.filter(a => a.tier === tier).length,
+    tier, total: ACHIEVEMENTS.filter(a => a.tier === tier).length,
     unlocked: ACHIEVEMENTS.filter(a => a.tier === tier && unlockedIds.includes(a.id)).length,
   }));
   const latestAch = ACHIEVEMENTS.filter(a => unlockedIds.includes(a.id)).slice(-1)[0];
 
   const firstName = student?.nome?.split(' ')[0] || user?.name?.split(' ')[0] || '';
-  const genero = student?.genero || '';
-  const title = genero === 'M' ? 'King' : genero === 'F' ? 'Queen' : null;
+  const title = student?.genero === 'M' ? 'King' : student?.genero === 'F' ? 'Queen' : null;
 
   const stars = Array.from({ length: 8 }, (_, i) => ({
-    top: [6,12,38,62,75,89,93,25][i] + '%',
-    left: [4,91,97,1.5,96,6,87,50][i] + '%',
-    size: [3,2,3.5,2,2.5,2,3,1.5][i],
-    op: [0.35,0.25,0.4,0.3,0.35,0.2,0.3,0.15][i],
-    d: ['3.5s','4s','5s','3s','4.5s','6s','3s','5s'][i],
-    delay: ['0s','1s','0.5s','2s','1.5s','0.8s','2.5s','3s'][i],
+    top: [6,12,38,62,75,89,93,25][i] + '%', left: [4,91,97,1.5,96,6,87,50][i] + '%',
+    size: [3,2,3.5,2,2.5,2,3,1.5][i], op: [0.35,0.25,0.4,0.3,0.35,0.2,0.3,0.15][i],
+    d: ['3.5s','4s','5s','3s','4.5s','6s','3s','5s'][i], delay: ['0s','1s','0.5s','2s','1.5s','0.8s','2.5s','3s'][i],
   }));
 
   return (
@@ -168,28 +129,29 @@ export default function Dashboard({ user, student, onLogout }) {
         <div key={i} className="star" style={{ top: s.top, left: s.left, width: s.size, height: s.size, '--op': s.op, '--d': s.d, '--delay': s.delay }} />
       ))}
       <Navbar user={user} student={student} onLogout={onLogout} />
-      <main className="dashboard-content">
 
-    {/* Achievement unlock popup */}
-        {newAchievement && (
-          <div className="ach-popup" onClick={() => setNewAchievement(null)}>
-            <div className="ach-popup-inner">
-              <div className="ach-popup-icon">🏅</div>
-              <div>
-                <div className="ach-popup-title">Achievement Unlocked!</div>
-                <div className="ach-popup-name">{newAchievement.tier} — {newAchievement.label}</div>
-                <div className="ach-popup-desc">{newAchievement.desc}</div>
-              </div>
-              <div className="ach-popup-close">✕</div>
+      {/* Achievement popup */}
+      {newAchievement && (
+        <div className="ach-popup" onClick={() => setNewAchievement(null)}>
+          <div className="ach-popup-inner">
+            <div className="ach-popup-icon">🏅</div>
+            <div>
+              <div className="ach-popup-title">Achievement Unlocked!</div>
+              <div className="ach-popup-name">{newAchievement.tier} — {newAchievement.label}</div>
+              <div className="ach-popup-desc">{newAchievement.desc}</div>
             </div>
+            <div className="ach-popup-close">✕</div>
           </div>
-        )}
+        </div>
+      )}
+
+      <main className="dashboard-content">
 
         {/* Welcome */}
         <div className="welcome-row fade-up fade-up-1">
           <div>
             <p className="welcome-label">Welcome back,</p>
-            {title && <div className="welcome-title-badge">{title === 'Queen' ? '👑' : '👑'} {title}</div>}
+            {title && <div className="welcome-title-badge">👑 {title}</div>}
             <h1 className="welcome-name">{firstName} <span className="welcome-star">✦</span></h1>
             <p className="welcome-streak">{streak > 0 ? '🔥 ' + streak + ' day streak! Keep going!' : 'Start your streak today!'}</p>
           </div>
@@ -211,14 +173,10 @@ export default function Dashboard({ user, student, onLogout }) {
               const isCurrent = (l === 'A1' && levelIndex <= 1) || (l === 'A2' && levelIndex === 2) || (l === 'B1' && (levelIndex === 3 || levelIndex === 4)) || (l === 'B2' && levelIndex === 5);
               const isUnlocked = levelIndex >= levelMap[l];
               return (
-                <div
-                  key={l}
-                  className={'level-dot' + (isDone ? ' done' : '') + (isCurrent ? ' current' : '') + (!isUnlocked ? ' locked' : '')}
-                  title={isUnlocked ? `Go to ${l} lessons` : `Complete ${l === 'A2' ? 'A1' : l === 'B1' ? 'A2' : 'B1'} to unlock`}
-                  onClick={() => isUnlocked && navigate('/hub')}
-                  style={{ cursor: isUnlocked ? 'pointer' : 'default' }}
-                >
-                  {!isUnlocked ? '🔒' : l}
+                <div key={l} className={`level-dot${isDone ? ' done' : ''}${isCurrent ? ' current' : ''}`}
+                  style={{ cursor: isUnlocked ? 'pointer' : 'default', opacity: isUnlocked ? 1 : 0.5 }}
+                  onClick={() => isUnlocked && navigate('/hub')}>
+                  {isUnlocked ? l : '🔒'}
                 </div>
               );
             })}
@@ -305,28 +263,19 @@ export default function Dashboard({ user, student, onLogout }) {
               <div className="meet-sub">{student?.meetLink ? 'Clique para entrar na sua aula com a Denise' : 'Link da aula será adicionado pela Denise em breve'}</div>
             </div>
           </div>
-          {student?.meetLink ? (
-            <a href={student.meetLink} target="_blank" rel="noreferrer" className="meet-btn">
-              Entrar na Aula ↗
-            </a>
-          ) : (
-            <div className="meet-btn-disabled">Em breve</div>
-          )}
+          {student?.meetLink
+            ? <a href={student.meetLink} target="_blank" rel="noreferrer" className="meet-btn">Entrar na Aula ↗</a>
+            : <div className="meet-btn-disabled">Em breve</div>
+          }
         </div>
 
         {/* Bottom grid */}
         <div className="bottom-grid fade-up fade-up-5">
-
-          {/* LEFT COL */}
           <div className="bottom-col">
-
-            {/* Google Classroom */}
             {student?.classroomLink && (
               <div className="card classroom-card">
                 <div className="card-title">🎓 Google Classroom</div>
-                <a href={student.classroomLink} target="_blank" rel="noreferrer" className="classroom-btn">
-                  Open my Classroom ↗
-                </a>
+                <a href={student.classroomLink} target="_blank" rel="noreferrer" className="classroom-btn">Open my Classroom ↗</a>
                 <div className="classroom-desc-box">
                   <div className="classroom-desc-item">📄 PDF do material para imprimir ou usar no tablet</div>
                   <div className="classroom-desc-item">🎥 Gravações das aulas</div>
@@ -334,7 +283,6 @@ export default function Dashboard({ user, student, onLogout }) {
               </div>
             )}
 
-            {/* Achievements */}
             <div className="card achievements-card">
               <div className="card-header-row">
                 <div className="card-title">✨ Achievements <span className="ach-count">{unlockedIds.length}/{ACHIEVEMENTS.length}</span></div>
@@ -360,7 +308,6 @@ export default function Dashboard({ user, student, onLogout }) {
               </div>
             </div>
 
-            {/* Explore more resources */}
             <a href="https://www.englishwithdenise.com.br/" target="_blank" rel="noreferrer" className="card website-card">
               <div className="website-card-inner">
                 <div className="website-icon">🌐</div>
@@ -372,7 +319,6 @@ export default function Dashboard({ user, student, onLogout }) {
               </div>
             </a>
 
-            {/* Manual de Estudo Independente */}
             <a href="https://polydactyl-melon-224.notion.site/MANUAL-DE-COMO-APRENDER-INGL-S-POR-CONTA-PR-PRIA-32d628bb387c80698ddfd1c290166b32" target="_blank" rel="noreferrer" className="card manual-card">
               <div className="manual-card-inner">
                 <div className="manual-icon-wrap" style={{ background: '#fff1e8' }}>📘</div>
@@ -384,7 +330,6 @@ export default function Dashboard({ user, student, onLogout }) {
               </div>
             </a>
 
-            {/* Manual do Aluno */}
             <a href="https://polydactyl-melon-224.notion.site/Manual-do-Aluno-353628bb387c81199971fa266ed66a26" target="_blank" rel="noreferrer" className="card manual-card">
               <div className="manual-card-inner">
                 <div className="manual-icon-wrap" style={{ background: '#eeedfe' }}>📙</div>
@@ -397,10 +342,7 @@ export default function Dashboard({ user, student, onLogout }) {
             </a>
           </div>
 
-          {/* RIGHT COL */}
           <div className="bottom-col">
-
-            {/* Recent activity */}
             <div className="card activity-card">
               <div className="card-header-row">
                 <div className="card-title">Recent activity</div>
@@ -419,7 +361,6 @@ export default function Dashboard({ user, student, onLogout }) {
               )}
             </div>
 
-            {/* Make-up Classes */}
             <div className="card reposicoes-card">
               <div className="reposicoes-header">
                 <div className="card-title">🔄 Make-up Classes</div>
@@ -434,29 +375,22 @@ export default function Dashboard({ user, student, onLogout }) {
                   <div className="reposicoes-desc">Essa é a quantidade de aulas que você precisa repor.</div>
                 </div>
               </div>
-
-              {/* Show scheduled makeup class if date is set */}
               {student?.reposicoes > 0 && student?.dataReposicao ? (
                 <div className="reposicoes-agendada">
                   <div className="reposicoes-agendada-icon">📅</div>
                   <div>
                     <div className="reposicoes-agendada-label">Reposição agendada</div>
                     <div className="reposicoes-agendada-data">
-                      {new Date(student.dataReposicao + 'T12:00:00').toLocaleDateString('pt-BR', {
-                        weekday: 'long', day: 'numeric', month: 'long'
-                      })}
-                      {student?.horarioReposicao && (
-                        <span className="reposicoes-agendada-hora"> · {student.horarioReposicao}</span>
-                      )}
+                      {new Date(student.dataReposicao + 'T12:00:00').toLocaleDateString('pt-BR', { weekday: 'long', day: 'numeric', month: 'long' })}
+                      {student?.horarioReposicao && <span className="reposicoes-agendada-hora"> · {student.horarioReposicao}</span>}
                     </div>
                   </div>
                 </div>
-              ) : student?.reposicoes > 0 ? (
+              ) : (
                 <div className="reposicoes-note">Entre em contato com a Denise para agendar um horário 💬</div>
-              ) : null}
+              )}
             </div>
 
-            {/* Your stats */}
             <div className="card stats-card">
               <div className="card-title" style={{ marginBottom: 12 }}>Your stats</div>
               {[
