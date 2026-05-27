@@ -434,18 +434,19 @@ export default function Practice({ user, student, onLogout }) {
   const startRecording = async () => {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ 
-        audio: { echoCancellation: true, noiseSuppression: true, sampleRate: 16000 } 
+        audio: { echoCancellation: true, noiseSuppression: true } 
       });
 
-      // Pick best supported format
+      // Pick best supported format — prefer mp4 for broader Whisper support
       const mimeTypes = [
+        'audio/mp4',
         'audio/webm;codecs=opus',
         'audio/webm',
-        'audio/mp4',
         'audio/ogg;codecs=opus',
         'audio/ogg',
       ];
       const mimeType = mimeTypes.find(m => MediaRecorder.isTypeSupported(m)) || '';
+      console.log('[recording] Using format:', mimeType || 'browser default');
 
       const mediaRecorder = new MediaRecorder(stream, mimeType ? { mimeType } : {});
       mediaRecorderRef.current = mediaRecorder;
@@ -459,12 +460,11 @@ export default function Practice({ user, student, onLogout }) {
         stream.getTracks().forEach(t => t.stop());
         const usedMime = mediaRecorder.mimeType || mimeType || 'audio/webm';
         const blob = new Blob(audioChunksRef.current, { type: usedMime });
-        console.log('Recorded blob:', blob.size, 'bytes | type:', usedMime);
+        console.log('[recording] Blob:', blob.size, 'bytes | type:', usedMime);
         await transcribeAudio(blob);
       };
 
-      // Collect data every 250ms for reliability
-      mediaRecorder.start(250);
+      mediaRecorder.start(500); // collect every 500ms
       setRecording(true);
       setRecordingTime(0);
       timerRef.current = setInterval(() => setRecordingTime(t => t + 1), 1000);

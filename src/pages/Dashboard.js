@@ -108,7 +108,18 @@ export default function Dashboard({ user, student, onLogout }) {
     }
   };
 
-  const nivel = student?.nivel || 'A1';
+  const [reports, setReports] = useState([]);
+  const [showReports, setShowReports] = useState(false);
+  const [selectedReport, setSelectedReport] = useState(null);
+
+  useEffect(() => {
+    if (user?.email) {
+      fetch(`/api/reports?email=${encodeURIComponent(user.email)}`)
+        .then(r => r.json())
+        .then(data => setReports(data.reports || []))
+        .catch(() => {});
+    }
+  }, [user?.email]);
   const levelIndex = LEVEL_ORDER.indexOf(nivel);
   const xpProgress = xp % XP_PER_LEVEL;
   const levelNum = Math.floor(xp / XP_PER_LEVEL) + 1;
@@ -201,7 +212,18 @@ export default function Dashboard({ user, student, onLogout }) {
               const levelMap = { 'A1': 0, 'A2': 2, 'B1': 4, 'B2': 5 };
               const isDone = levelIndex > levelMap[l];
               const isCurrent = (l === 'A1' && levelIndex <= 1) || (l === 'A2' && levelIndex === 2) || (l === 'B1' && (levelIndex === 3 || levelIndex === 4)) || (l === 'B2' && levelIndex === 5);
-              return <div key={l} className={'level-dot' + (isDone ? ' done' : '') + (isCurrent ? ' current' : '')}>{l}</div>;
+              const isUnlocked = levelIndex >= levelMap[l];
+              return (
+                <div
+                  key={l}
+                  className={'level-dot' + (isDone ? ' done' : '') + (isCurrent ? ' current' : '') + (!isUnlocked ? ' locked' : '')}
+                  title={isUnlocked ? `Go to ${l} lessons` : `Complete ${l === 'A2' ? 'A1' : l === 'B1' ? 'A2' : 'B1'} to unlock`}
+                  onClick={() => isUnlocked && navigate('/hub')}
+                  style={{ cursor: isUnlocked ? 'pointer' : 'default' }}
+                >
+                  {!isUnlocked ? '🔒' : l}
+                </div>
+              );
             })}
           </div>
         </div>
@@ -341,6 +363,18 @@ export default function Dashboard({ user, student, onLogout }) {
               </div>
             </div>
 
+            {/* Relatórios & Feedback */}
+            <div className="card reports-card" style={{ cursor: 'pointer' }} onClick={() => setShowReports(true)}>
+              <div className="reports-card-inner">
+                <div className="reports-icon-wrap">📊</div>
+                <div className="reports-text">
+                  <div className="reports-title">Relatórios & Feedback</div>
+                  <div className="reports-sub">Relatórios pós provas · {reports.length} {reports.length === 1 ? 'relatório disponível' : 'relatórios disponíveis'}</div>
+                </div>
+                <div className="reports-arrow">↗</div>
+              </div>
+            </div>
+
             {/* Explore more resources */}
             <a href="https://www.englishwithdenise.com.br/" target="_blank" rel="noreferrer" className="card website-card">
               <div className="website-card-inner">
@@ -455,6 +489,94 @@ export default function Dashboard({ user, student, onLogout }) {
             </div>
           </div>
         </div>
+      {/* ── Reports Modal ── */}
+      {showReports && (
+        <div className="reports-overlay" onClick={() => { setShowReports(false); setSelectedReport(null); }}>
+          <div className="reports-modal" onClick={e => e.stopPropagation()}>
+            <div className="reports-modal-header">
+              <div>
+                <div className="reports-modal-title">📊 Relatórios & Feedback</div>
+                <div className="reports-modal-sub">Seus relatórios pós provas</div>
+              </div>
+              <button className="reports-close" onClick={() => { setShowReports(false); setSelectedReport(null); }}>✕</button>
+            </div>
+
+            {reports.length === 0 ? (
+              <div className="reports-empty">
+                <div style={{ fontSize: 40, marginBottom: 12 }}>📋</div>
+                <div className="reports-empty-title">Nenhum relatório ainda</div>
+                <div className="reports-empty-sub">Após sua prova de nível, a Denise adicionará seu relatório aqui com feedback detalhado das 4 habilidades!</div>
+              </div>
+            ) : !selectedReport ? (
+              <div className="reports-list">
+                {reports.map(r => (
+                  <div key={r.id} className="reports-list-item" onClick={() => setSelectedReport(r)}>
+                    <div className="reports-list-left">
+                      <div className="reports-nivel-badge">{r.nivel}</div>
+                      <div>
+                        <div className="reports-list-title">Prova {r.nivel}</div>
+                        <div className="reports-list-date">{r.data ? new Date(r.data + 'T12:00:00').toLocaleDateString('pt-BR', { day: 'numeric', month: 'long', year: 'numeric' }) : 'Data não informada'}</div>
+                      </div>
+                    </div>
+                    <div className="reports-list-right">
+                      <div className={`reports-resultado ${r.resultado?.includes('Aprovado') ? 'aprovado' : r.resultado?.includes('Precisa') ? 'revisar' : 'progresso'}`}>{r.resultado || '—'}</div>
+                      <div className="reports-nota-final">{r.notas?.final != null ? r.notas.final + '/10' : '—'}</div>
+                      <span style={{ color: '#aaa', fontSize: 20 }}>›</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="reports-detail">
+                <button className="reports-back-btn" onClick={() => setSelectedReport(null)}>← Voltar</button>
+                <div className="reports-detail-header">
+                  <div className="reports-nivel-badge big">{selectedReport.nivel}</div>
+                  <div style={{ flex: 1 }}>
+                    <div className="reports-detail-title">Prova {selectedReport.nivel}</div>
+                    <div className="reports-detail-date">{selectedReport.data ? new Date(selectedReport.data + 'T12:00:00').toLocaleDateString('pt-BR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }) : ''}</div>
+                  </div>
+                  <div className={`reports-resultado ${selectedReport.resultado?.includes('Aprovado') ? 'aprovado' : selectedReport.resultado?.includes('Precisa') ? 'revisar' : 'progresso'}`}>{selectedReport.resultado}</div>
+                </div>
+
+                <div className="reports-grades">
+                  {[
+                    { label: '📖 Reading',   key: 'reading',   color: '#1d9e75' },
+                    { label: '🎧 Listening', key: 'listening', color: '#378add' },
+                    { label: '✏️ Writing',   key: 'writing',   color: '#7f77dd' },
+                    { label: '🎙️ Speaking',  key: 'speaking',  color: '#d4537e' },
+                  ].map(s => (
+                    <div key={s.key} className="reports-grade-item">
+                      <div className="reports-grade-label">{s.label}</div>
+                      <div className="reports-grade-num" style={{ color: s.color }}>{selectedReport.notas?.[s.key] ?? '—'}<span>/10</span></div>
+                      <div className="reports-grade-bar"><div className="reports-grade-fill" style={{ width: selectedReport.notas?.[s.key] ? (selectedReport.notas[s.key] * 10) + '%' : '0%', background: s.color }} /></div>
+                      {selectedReport.feedbacks?.[s.key] && <div className="reports-grade-feedback">{selectedReport.feedbacks[s.key]}</div>}
+                    </div>
+                  ))}
+                </div>
+
+                {selectedReport.notas?.final != null && (
+                  <div className="reports-final-row">
+                    <span>Nota Final</span>
+                    <span className="reports-final-nota">{selectedReport.notas.final}/10</span>
+                  </div>
+                )}
+                {selectedReport.pontosFortes && (
+                  <div className="reports-section green">
+                    <div className="reports-section-label">✅ Pontos Fortes</div>
+                    <div className="reports-section-text">{selectedReport.pontosFortes}</div>
+                  </div>
+                )}
+                {selectedReport.pontosMelhorar && (
+                  <div className="reports-section orange">
+                    <div className="reports-section-label">💡 Pontos a Melhorar</div>
+                    <div className="reports-section-text">{selectedReport.pontosMelhorar}</div>
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+        </div>
+      )}
       </main>
     </div>
   );
