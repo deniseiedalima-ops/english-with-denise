@@ -137,29 +137,31 @@ export default function PracticeHub({ user, student, onLogout }) {
     catch { return []; }
   });
 
-  const studentLevel = student?.nivel || 'A1';
-  const allowedLevels = LEVEL_ACCESS[studentLevel] || ['A1'];
+  const studentLevel = (student?.nivel || 'A1').trim();
+  const allowedLevels = LEVEL_ACCESS[studentLevel] || LEVEL_ACCESS['A1'];
 
-  // Separate available vs locked lessons
+  // Separate available vs locked lessons safely
   const availableLessons = LESSONS.filter(l => allowedLevels.includes(l.level));
   const lockedLessons = LESSONS.filter(l => !allowedLevels.includes(l.level));
 
   // Auto-detect current lesson among available ones
   const currentLesson = (() => {
     for (const lesson of availableLessons) {
-      const codes = Object.values(lesson.activities).flat().map(a => a.code);
-      if (codes.length === 0) continue;
-      const done = codes.filter(c => completedCodes.includes(c)).length;
-      if (done < codes.length) return lesson;
+      try {
+        const codes = Object.values(lesson.activities || {}).flat().map(a => a.code);
+        if (codes.length === 0) continue;
+        const done = codes.filter(c => completedCodes.includes(c)).length;
+        if (done < codes.length) return lesson;
+      } catch { continue; }
     }
     return availableLessons[availableLessons.length - 1] || LESSONS[0];
   })();
 
   const [expandedLesson, setExpandedLesson] = useState(currentLesson?.code || 'L2');
 
-  const allCodes = Object.values(currentLesson.activities).flat().map(a => a.code);
+  const allCodes = currentLesson ? Object.values(currentLesson.activities || {}).flat().map(a => a.code) : [];
   const completedThisLesson = allCodes.filter(c => completedCodes.includes(c)).length;
-  const lessonTotal = allCodes.length;
+  const lessonTotal = Math.max(allCodes.length, 1);
   const progressPct = Math.round((completedThisLesson / lessonTotal) * 100);
   const badge = WEEKLY_BADGES.find(b => completedThisLesson >= b.min && completedThisLesson <= b.max) || WEEKLY_BADGES[0];
 
