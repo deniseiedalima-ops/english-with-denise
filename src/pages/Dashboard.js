@@ -201,18 +201,7 @@ export default function Dashboard({ user, student, onLogout }) {
               const levelMap = { 'A1': 0, 'A2': 2, 'B1': 4, 'B2': 5 };
               const isDone = levelIndex > levelMap[l];
               const isCurrent = (l === 'A1' && levelIndex <= 1) || (l === 'A2' && levelIndex === 2) || (l === 'B1' && (levelIndex === 3 || levelIndex === 4)) || (l === 'B2' && levelIndex === 5);
-              const isUnlocked = levelIndex >= levelMap[l];
-              return (
-                <div
-                  key={l}
-                  className={'level-dot' + (isDone ? ' done' : '') + (isCurrent ? ' current' : '') + (!isUnlocked ? ' locked' : '')}
-                  title={isUnlocked ? `Go to ${l} lessons` : `Complete ${l === 'A2' ? 'A1' : l === 'B1' ? 'A2' : 'B1'} to unlock`}
-                  onClick={() => isUnlocked && navigate('/hub')}
-                  style={{ cursor: isUnlocked ? 'pointer' : 'default' }}
-                >
-                  {!isUnlocked ? '🔒' : l}
-                </div>
-              );
+              return <div key={l} className={'level-dot' + (isDone ? ' done' : '') + (isCurrent ? ' current' : '')}>{l}</div>;
             })}
           </div>
         </div>
