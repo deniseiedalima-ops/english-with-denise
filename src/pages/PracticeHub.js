@@ -174,6 +174,10 @@ export default function PracticeHub({ user, student, onLogout }) {
         <div className="hub-header">
           <h1 className="hub-title">Practice Hub</h1>
           <p className="hub-sub">Choose a skill and dive into your lesson activities ✦</p>
+        </div>
+
+        {/* Trio row: Legend + Tip + Weekly Progress */}
+        <div className="hub-trio-row">
 
           {/* Legend */}
           <div className="hub-legend">
@@ -194,10 +198,6 @@ export default function PracticeHub({ user, student, onLogout }) {
             </div>
             <div className="hub-legend-example"><strong>L3-R2</strong> = Lesson 3 · Reading · Activity 2</div>
           </div>
-        </div>
-
-        {/* Trio row */}
-        <div className="hub-trio-row">
           {/* Tip */}
           <div className="hub-tip-banner">
             <div className="hub-tip-icon">💡</div>
