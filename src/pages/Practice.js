@@ -237,9 +237,9 @@ const SKILLS = {
 
       // ── L5: THE OCCUPATIONS ──────────────────────────────────────────
       {
-        id: 'l8', title: 'What\'s Your Job? — Street Interviews', level: 'A1',
+        id: 'l8', title: 'What Is Your Job?', level: 'A1',
         type: 'listening_video', lesson: 'The Occupations', phase: 'pre',
-        youtubeId: 'M0sAM4x8DxY', startTime: 0, endTime: 120,
+        youtubeId: '0x1WRY4fvz4', startTime: 0, endTime: 120,
         instruction: 'Watch people talk about their jobs! Pay attention to what they do, where they work, and whether they like their jobs. Then answer the questions!',
         audioText: `Interviewer: Hi! What do you do?\nPerson 1: I'm a teacher. I teach math at a high school.\nInterviewer: Do you like your job?\nPerson 1: Yes, I love it! It's very rewarding.\nInterviewer: And you?\nPerson 2: I'm a nurse. I work at a hospital.\nInterviewer: Is it stressful?\nPerson 2: Sometimes, yes! But I love helping people.\nInterviewer: What about you?\nPerson 3: I'm a chef. I work at an Italian restaurant.\nInterviewer: Do you cook at home too?\nPerson 3: No! After work, I'm too tired to cook!\nInterviewer: That's funny! And you, what do you do?\nPerson 4: I'm an engineer. I work for a big technology company.\nInterviewer: Do you enjoy it?\nPerson 4: Yes, it's very creative and challenging. I love it.`,
         questions: [
@@ -250,10 +250,10 @@ const SKILLS = {
         ]
       },
       {
-        id: 'l9', title: 'Dream Jobs — Kids Talk About the Future', level: 'A1',
+        id: 'l9', title: 'What Is Your Dream Job?', level: 'A1',
         type: 'listening_video', lesson: 'The Occupations', phase: 'post',
-        youtubeId: 'pRBo_JTOAP0', startTime: 0, endTime: 90,
-        instruction: 'Listen to kids talking about their dream jobs! Pay attention to what they want to be and why. Then answer the questions!',
+        youtubeId: 'wL3CFtW8WE0', startTime: 67, endTime: 180,
+        instruction: 'Watch people talk about their dream jobs! Pay attention to what they want to be and why. Then answer the questions!',
         audioText: `Host: What do you want to be when you grow up?\nKid 1: I want to be a doctor! I want to help sick people and save lives.\nHost: That's wonderful! And you?\nKid 2: I want to be an astronaut! I want to go to space and explore the stars.\nHost: Wow! What about you?\nKid 3: I want to be a teacher! I love school and I want to help kids learn.\nHost: Amazing! And you, what is your dream job?\nKid 4: I want to be a chef! I love cooking with my mom. Food makes people happy!\nHost: Beautiful answers! Remember — work hard and your dreams can come true!`,
         questions: [
           { q: 'Why does Kid 1 want to be a doctor?', options: ['To make money', 'To travel the world', 'To help sick people and save lives', 'To work in a hospital'], answer: 2 },
@@ -267,7 +267,7 @@ const SKILLS = {
       {
         id: 'l10', title: 'Ordering at a Coffee Shop', level: 'A1',
         type: 'listening_video', lesson: 'At the Café', phase: 'pre',
-        youtubeId: 'VGYwHXLM_cQ', startTime: 0, endTime: 100,
+        youtubeId: '9nq9ocivltk', startTime: 0, endTime: 100,
         instruction: 'Watch someone ordering at a coffee shop! Pay attention to what they order, how they ask, and how they pay. Then answer the questions!',
         audioText: `Barista: Hi! Welcome! What can I get for you today?\nCustomer: Hi! Can I have a medium latte, please?\nBarista: Of course! Hot or iced?\nCustomer: Hot, please.\nBarista: Any milk preference? We have whole milk, oat milk, or almond milk.\nCustomer: Oat milk, please.\nBarista: Perfect. Anything else?\nCustomer: Yes! Can I also get a blueberry muffin?\nBarista: Great choice! That's going to be $7.50.\nCustomer: Here's a ten.\nBarista: And $2.50 is your change. Your name?\nCustomer: Sarah.\nBarista: Perfect, Sarah! Your latte will be ready in a minute. Have a great day!\nCustomer: Thank you! You too!`,
         questions: [
@@ -278,10 +278,10 @@ const SKILLS = {
         ]
       },
       {
-        id: 'l11', title: 'English at a Restaurant — Full Conversation', level: 'A1',
+        id: 'l11', title: 'Real Conversation — Ordering at a Café', level: 'A1',
         type: 'listening_video', lesson: 'At the Café', phase: 'post',
-        youtubeId: 'ZP-mDRrYYgM', startTime: 0, endTime: 120,
-        instruction: 'Watch a full café/restaurant conversation in English. Pay attention to how to order, ask questions, and be polite. Then answer the questions!',
+        youtubeId: 'uv4d3qpbd80', startTime: 0, endTime: 120,
+        instruction: 'Watch a real conversation ordering at a café in English. Pay attention to how to order, ask questions, and be polite. Then answer the questions!',
         audioText: `Waiter: Good evening! Welcome to The Green Garden. My name is James and I\'ll be your server tonight.\nCustomer: Thank you! This place is lovely!\nWaiter: Thank you! Can I start you off with something to drink?\nCustomer: Yes, I'd like a sparkling water, please.\nWaiter: Of course! Are you ready to order, or do you need a few minutes?\nCustomer: I think I'm ready. What do you recommend?\nWaiter: The pasta with mushrooms is very popular tonight.\nCustomer: That sounds delicious! I'll have that, please.\nWaiter: Excellent choice! Would you like a salad to start?\nCustomer: Yes, please! A Caesar salad.\nWaiter: Perfect. I'll be right back with your water!`,
         questions: [
           { q: 'What is the waiter\'s name?', options: ['John', 'Michael', 'James', 'Robert'], answer: 2 },

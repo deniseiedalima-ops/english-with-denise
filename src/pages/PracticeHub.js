@@ -88,8 +88,8 @@ const LESSONS = [
         { code: 'L5-R2', title: 'Articles A / AN — Jobs Grammar', type: 'Multiple Choice', activityIndex: 8, phase: 'post' },
       ],
       listening: [
-        { code: 'L5-L1', title: 'What\'s Your Job? — Street Interviews', type: 'Video + Questions', activityIndex: 7, phase: 'pre' },
-        { code: 'L5-L2', title: 'Dream Jobs — Kids Talk About the Future', type: 'Video + Questions', activityIndex: 8, phase: 'post' },
+        { code: 'L5-L1', title: 'What Is Your Job?', type: 'Video + Questions', activityIndex: 7, phase: 'pre' },
+        { code: 'L5-L2', title: 'What Is Your Dream Job?', type: 'Video + Questions', activityIndex: 8, phase: 'post' },
       ],
       writing: [
         { code: 'L5-W1', title: 'Write About Your Job!', type: 'Open Writing', activityIndex: 7, phase: 'pre' },
@@ -109,7 +109,7 @@ const LESSONS = [
       ],
       listening: [
         { code: 'L6-L1', title: 'Ordering at a Coffee Shop', type: 'Video + Questions', activityIndex: 9, phase: 'pre' },
-        { code: 'L6-L2', title: 'English at a Restaurant — Full Conversation', type: 'Video + Questions', activityIndex: 10, phase: 'post' },
+        { code: 'L6-L2', title: 'Real Conversation — Ordering at a Café', type: 'Video + Questions', activityIndex: 10, phase: 'post' },
       ],
       writing: [
         { code: 'L6-W1', title: 'Write a Café Dialogue!', type: 'Open Writing', activityIndex: 9, phase: 'pre' },
