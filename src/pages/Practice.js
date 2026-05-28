@@ -252,8 +252,9 @@ const SKILLS = {
       {
         id: 'l9', title: 'What Is Your Dream Job?', level: 'A1',
         type: 'listening_video', lesson: 'The Occupations', phase: 'post',
-        youtubeId: 'wL3CFtW8WE0', startTime: 67, endTime: 180,
-        instruction: 'Watch people talk about their dream jobs! Pay attention to what they want to be and why. Then answer the questions!',
+        youtubeId: 'cFdCzN7RYbw', startTime: 0, endTime: 150,
+        instruction: 'Watch people talking about their dream jobs in real English interviews! Pay attention to what jobs they want and why. Then answer the questions!',
+        audioText: `Interviewer: What is your dream job?\nPerson 1: My dream job is to be a singer. I love music and I want to perform on big stages around the world!\nInterviewer: What about you?\nPerson 2: I want to be a doctor. I want to help people and save lives. It is a very important job.\nInterviewer: And you?\nPerson 3: My dream is to be a teacher! I love working with children and I want to help them learn.\nPerson 4: I want to be an entrepreneur — I want to start my own business and be my own boss!\nInterviewer: Why is that your dream?\nPerson 4: Because I want to be free and creative. I want to build something new!`,
         audioText: `Host: What do you want to be when you grow up?\nKid 1: I want to be a doctor! I want to help sick people and save lives.\nHost: That's wonderful! And you?\nKid 2: I want to be an astronaut! I want to go to space and explore the stars.\nHost: Wow! What about you?\nKid 3: I want to be a teacher! I love school and I want to help kids learn.\nHost: Amazing! And you, what is your dream job?\nKid 4: I want to be a chef! I love cooking with my mom. Food makes people happy!\nHost: Beautiful answers! Remember — work hard and your dreams can come true!`,
         questions: [
           { q: 'Why does Kid 1 want to be a doctor?', options: ['To make money', 'To travel the world', 'To help sick people and save lives', 'To work in a hospital'], answer: 2 },
@@ -280,8 +281,8 @@ const SKILLS = {
       {
         id: 'l11', title: 'Real Conversation — Ordering at a Café', level: 'A1',
         type: 'listening_video', lesson: 'At the Café', phase: 'post',
-        youtubeId: 'uv4d3qpbd80', startTime: 0, endTime: 120,
-        instruction: 'Watch a real conversation ordering at a café in English. Pay attention to how to order, ask questions, and be polite. Then answer the questions!',
+        youtubeId: 'bv6RQNrNGKQ', startTime: 0, endTime: 180,
+        instruction: 'Watch a real conversation ordering food and drinks at a café! Pay attention to the expressions used to order politely. Then answer the questions!',
         audioText: `Waiter: Good evening! Welcome to The Green Garden. My name is James and I\'ll be your server tonight.\nCustomer: Thank you! This place is lovely!\nWaiter: Thank you! Can I start you off with something to drink?\nCustomer: Yes, I'd like a sparkling water, please.\nWaiter: Of course! Are you ready to order, or do you need a few minutes?\nCustomer: I think I'm ready. What do you recommend?\nWaiter: The pasta with mushrooms is very popular tonight.\nCustomer: That sounds delicious! I'll have that, please.\nWaiter: Excellent choice! Would you like a salad to start?\nCustomer: Yes, please! A Caesar salad.\nWaiter: Perfect. I'll be right back with your water!`,
         questions: [
           { q: 'What is the waiter\'s name?', options: ['John', 'Michael', 'James', 'Robert'], answer: 2 },
