@@ -87,6 +87,54 @@ const SKILLS = {
           { q: 'Complete: "I ___ loud noise. I prefer quiet places."', options: ['love', 'want', 'dislike', 'speak'], answer: 2 },
         ]
       },
+
+      // ── L5: THE OCCUPATIONS ──────────────────────────────────────────
+      {
+        id: 'r8', title: 'What Do They Do?', level: 'A1',
+        type: 'multiple_choice', lesson: 'The Occupations', phase: 'pre',
+        text: `Meet four people with interesting jobs!\n\nMy name is Carlos. I am a doctor. I work at a big hospital in São Paulo. I help sick people every day. I love my job, but it is sometimes very stressful. My dream is to open my own clinic one day.\n\nHi! I am Sophie. I am a teacher. I teach English at a school in London. I love my job because I help people learn something new every day. I work from Monday to Friday.\n\nMy name is David. I am an engineer. I work at a technology company. I design bridges and buildings. It is a creative and challenging job. I love it!\n\nHello! I am Maria. I am a chef. I work at a restaurant in Paris. I cook French and Italian food. My job is delicious — and very busy on weekends!`,
+        questions: [
+          { q: 'What does Carlos do?', options: ['He is a teacher', 'He is an engineer', 'He is a doctor', 'He is a chef'], answer: 2 },
+          { q: 'Where does Sophie work?', options: ['At a hospital', 'At a restaurant', 'At a company', 'At a school'], answer: 3 },
+          { q: 'What does David design?', options: ['Food and menus', 'Bridges and buildings', 'English lessons', 'Hospital rooms'], answer: 1 },
+          { q: 'When is Maria\'s job very busy?', options: ['On weekdays', 'On Mondays', 'On weekends', 'On Fridays'], answer: 2 },
+        ]
+      },
+      {
+        id: 'r9', title: 'Articles A / AN — Jobs Grammar', level: 'A1',
+        type: 'multiple_choice', lesson: 'The Occupations', phase: 'post',
+        text: `Use A before consonant sounds:\n• a doctor • a teacher • a nurse • a chef\n• a lawyer • a pilot • a waiter • a builder\n\nUse AN before vowel sounds (a, e, i, o, u):\n• an engineer • an actor • an artist\n• an architect • an accountant • an officer\n\nKey job vocabulary:\nI AM a... / I WORK AS a... / I WORK AT...\nHe IS a... / She WORKS AS a...\n\nUseful expressions:\n"What do you do?" → "I am a teacher."\n"Where do you work?" → "I work at a hospital."\n"Do you like your job?" → "Yes! I love it!" / "It's okay." / "It's stressful!"`,
+        questions: [
+          { q: 'Choose: "She is ___ engineer."', options: ['a', 'an', 'the', 'one'], answer: 1 },
+          { q: 'Choose: "He works as ___ chef."', options: ['an', 'the', 'a', 'some'], answer: 2 },
+          { q: '"What do you do?" — best answer:', options: ['"I do a lot!"', '"I am a teacher."', '"I work Monday."', '"Yes, I do."'], answer: 1 },
+          { q: 'Which sentence is CORRECT?', options: ['She is a actor.', 'He is an doctor.', 'I am an architect.', 'We are a engineers.'], answer: 2 },
+        ]
+      },
+
+      // ── L6: AT THE CAFÉ ───────────────────────────────────────────────
+      {
+        id: 'r10', title: 'At the Café — Tom & Anna', level: 'A1',
+        type: 'multiple_choice', lesson: 'At the Café', phase: 'pre',
+        text: `Tom and Anna are at a café.\n\nWaiter: Good morning! Welcome to Sunrise Café. What can I get you?\nTom: Good morning! Can I see the menu, please?\nWaiter: Of course! Here you are.\nTom: Thank you. I'd like a large coffee and a croissant, please.\nAnna: And I'll have a green tea and a slice of chocolate cake.\nWaiter: Perfect! Hot or iced coffee?\nTom: Hot, please. With a little milk.\nWaiter: And the tea — with sugar?\nAnna: No, thank you. No sugar for me.\nWaiter: Great! Anything else?\nTom: No, that's all, thank you. How much is it?\nWaiter: That's $12.50 in total.\nTom: Here you are. Keep the change!\nWaiter: Thank you so much! Enjoy your meal!\nAnna: Thank you! Have a great day!`,
+        questions: [
+          { q: 'What does Tom order to drink?', options: ['Green tea', 'Iced coffee', 'Hot coffee with milk', 'Hot tea'], answer: 2 },
+          { q: 'What does Anna order to eat?', options: ['A croissant', 'A sandwich', 'A slice of chocolate cake', 'Nothing'], answer: 2 },
+          { q: 'How much does everything cost?', options: ['$10.50', '$12.50', '$15.00', '$8.50'], answer: 1 },
+          { q: '"Keep the change!" means:', options: ['Give me more change', 'The change is yours — don\'t give it back', 'I don\'t have change', 'Change my order'], answer: 1 },
+        ]
+      },
+      {
+        id: 'r11', title: 'Café Vocabulary & Expressions', level: 'A1',
+        type: 'multiple_choice', lesson: 'At the Café', phase: 'post',
+        text: `Key expressions at the café:\n\nORDERING:\n"I'd like a ___, please." → Quero um ___, por favor.\n"Can I have ___?" → Posso ter ___?\n"I'll have the ___." → Vou querer o ___.\n"What do you recommend?" → O que você recomenda?\n\nASKING THE PRICE:\n"How much is it?" → Quanto custa?\n"What's the total?" → Qual é o total?\n"The bill, please." → A conta, por favor.\n\nPAYING:\n"Here you are." → Aqui está.\n"Keep the change." → Fique com o troco.\n\nPREFERENCES:\n"Hot or iced?" → Quente ou gelado?\n"With or without milk/sugar?" → Com ou sem leite/açúcar?\n\nFOOD & DRINKS:\ncoffee, tea, juice, water, cake, croissant, sandwich, cookie`,
+        questions: [
+          { q: 'You want to pay. You say:', options: ['"I\'d like more!"', '"The bill, please."', '"Keep the change!"', '"How much?"'], answer: 1 },
+          { q: '"I\'d like a coffee, please." — same meaning:', options: ['"I like coffee."', '"Give me coffee!"', '"Can I have a coffee, please?"', '"Coffee is good."'], answer: 2 },
+          { q: 'Waiter asks: "Hot or iced?" — you want cold coffee. You say:', options: ['"Hot, please."', '"No, thank you."', '"With milk."', '"Iced, please."'], answer: 3 },
+          { q: 'Which is CORRECT to order politely?', options: ['"Give me a sandwich!"', '"I want cake now."', '"Can I have a slice of cake, please?"', '"Sandwich. Now."'], answer: 2 },
+        ]
+      },
     ]
   },
   listening: {
@@ -184,6 +232,62 @@ const SKILLS = {
           { q: 'What is the capital of Jamaica?', options: ['Montego Bay', 'Kingston', 'Nassau', 'Havana'], answer: 1 },
           { q: 'How does Kim describe Kingston?', options: ['Small and quiet', 'Big, crowded and noisy but interesting', 'Beautiful and peaceful', 'Old and boring'], answer: 1 },
           { q: 'Kim is nervous because...', options: ['She forgot her lines', 'She doesn\'t like Jay', 'She is on TV with millions watching', 'She is from Jamaica'], answer: 2 },
+        ]
+      },
+
+      // ── L5: THE OCCUPATIONS ──────────────────────────────────────────
+      {
+        id: 'l8', title: 'What\'s Your Job? — Street Interviews', level: 'A1',
+        type: 'listening_video', lesson: 'The Occupations', phase: 'pre',
+        youtubeId: 'M0sAM4x8DxY', startTime: 0, endTime: 120,
+        instruction: 'Watch people talk about their jobs! Pay attention to what they do, where they work, and whether they like their jobs. Then answer the questions!',
+        audioText: `Interviewer: Hi! What do you do?\nPerson 1: I'm a teacher. I teach math at a high school.\nInterviewer: Do you like your job?\nPerson 1: Yes, I love it! It's very rewarding.\nInterviewer: And you?\nPerson 2: I'm a nurse. I work at a hospital.\nInterviewer: Is it stressful?\nPerson 2: Sometimes, yes! But I love helping people.\nInterviewer: What about you?\nPerson 3: I'm a chef. I work at an Italian restaurant.\nInterviewer: Do you cook at home too?\nPerson 3: No! After work, I'm too tired to cook!\nInterviewer: That's funny! And you, what do you do?\nPerson 4: I'm an engineer. I work for a big technology company.\nInterviewer: Do you enjoy it?\nPerson 4: Yes, it's very creative and challenging. I love it.`,
+        questions: [
+          { q: 'What does Person 1 teach?', options: ['English', 'Science', 'Math', 'History'], answer: 2 },
+          { q: 'Where does the nurse work?', options: ['At a school', 'At a restaurant', 'At an office', 'At a hospital'], answer: 3 },
+          { q: 'Why doesn\'t the chef cook at home?', options: ['He doesn\'t have food', 'He is too tired after work', 'He doesn\'t like cooking', 'His kitchen is broken'], answer: 1 },
+          { q: 'How does the engineer describe the job?', options: ['Boring and easy', 'Stressful and hard', 'Creative and challenging', 'Simple and relaxing'], answer: 2 },
+        ]
+      },
+      {
+        id: 'l9', title: 'Dream Jobs — Kids Talk About the Future', level: 'A1',
+        type: 'listening_video', lesson: 'The Occupations', phase: 'post',
+        youtubeId: 'pRBo_JTOAP0', startTime: 0, endTime: 90,
+        instruction: 'Listen to kids talking about their dream jobs! Pay attention to what they want to be and why. Then answer the questions!',
+        audioText: `Host: What do you want to be when you grow up?\nKid 1: I want to be a doctor! I want to help sick people and save lives.\nHost: That's wonderful! And you?\nKid 2: I want to be an astronaut! I want to go to space and explore the stars.\nHost: Wow! What about you?\nKid 3: I want to be a teacher! I love school and I want to help kids learn.\nHost: Amazing! And you, what is your dream job?\nKid 4: I want to be a chef! I love cooking with my mom. Food makes people happy!\nHost: Beautiful answers! Remember — work hard and your dreams can come true!`,
+        questions: [
+          { q: 'Why does Kid 1 want to be a doctor?', options: ['To make money', 'To travel the world', 'To help sick people and save lives', 'To work in a hospital'], answer: 2 },
+          { q: 'What does Kid 2 want to do in space?', options: ['Build a rocket', 'Explore the stars', 'Meet aliens', 'Live there'], answer: 1 },
+          { q: 'Why does Kid 4 want to be a chef?', options: ['Because it pays well', 'Because it is easy', 'Because food makes people happy', 'Because restaurants are fun'], answer: 2 },
+          { q: 'What does the host say at the end?', options: ['"Good luck with school!"', '"Work hard and your dreams can come true!"', '"Be a doctor — it\'s the best job!"', '"You are all wrong!"'], answer: 1 },
+        ]
+      },
+
+      // ── L6: AT THE CAFÉ ───────────────────────────────────────────────
+      {
+        id: 'l10', title: 'Ordering at a Coffee Shop', level: 'A1',
+        type: 'listening_video', lesson: 'At the Café', phase: 'pre',
+        youtubeId: 'VGYwHXLM_cQ', startTime: 0, endTime: 100,
+        instruction: 'Watch someone ordering at a coffee shop! Pay attention to what they order, how they ask, and how they pay. Then answer the questions!',
+        audioText: `Barista: Hi! Welcome! What can I get for you today?\nCustomer: Hi! Can I have a medium latte, please?\nBarista: Of course! Hot or iced?\nCustomer: Hot, please.\nBarista: Any milk preference? We have whole milk, oat milk, or almond milk.\nCustomer: Oat milk, please.\nBarista: Perfect. Anything else?\nCustomer: Yes! Can I also get a blueberry muffin?\nBarista: Great choice! That's going to be $7.50.\nCustomer: Here's a ten.\nBarista: And $2.50 is your change. Your name?\nCustomer: Sarah.\nBarista: Perfect, Sarah! Your latte will be ready in a minute. Have a great day!\nCustomer: Thank you! You too!`,
+        questions: [
+          { q: 'What size coffee does Sarah order?', options: ['Small', 'Large', 'Medium', 'Extra large'], answer: 2 },
+          { q: 'What milk does Sarah choose?', options: ['Whole milk', 'Almond milk', 'No milk', 'Oat milk'], answer: 3 },
+          { q: 'How much does everything cost?', options: ['$5.00', '$10.00', '$7.50', '$8.50'], answer: 2 },
+          { q: 'What food does Sarah order?', options: ['A croissant', 'A blueberry muffin', 'A sandwich', 'A cookie'], answer: 1 },
+        ]
+      },
+      {
+        id: 'l11', title: 'English at a Restaurant — Full Conversation', level: 'A1',
+        type: 'listening_video', lesson: 'At the Café', phase: 'post',
+        youtubeId: 'ZP-mDRrYYgM', startTime: 0, endTime: 120,
+        instruction: 'Watch a full café/restaurant conversation in English. Pay attention to how to order, ask questions, and be polite. Then answer the questions!',
+        audioText: `Waiter: Good evening! Welcome to The Green Garden. My name is James and I\'ll be your server tonight.\nCustomer: Thank you! This place is lovely!\nWaiter: Thank you! Can I start you off with something to drink?\nCustomer: Yes, I'd like a sparkling water, please.\nWaiter: Of course! Are you ready to order, or do you need a few minutes?\nCustomer: I think I'm ready. What do you recommend?\nWaiter: The pasta with mushrooms is very popular tonight.\nCustomer: That sounds delicious! I'll have that, please.\nWaiter: Excellent choice! Would you like a salad to start?\nCustomer: Yes, please! A Caesar salad.\nWaiter: Perfect. I'll be right back with your water!`,
+        questions: [
+          { q: 'What is the waiter\'s name?', options: ['John', 'Michael', 'James', 'Robert'], answer: 2 },
+          { q: 'What does the customer order to drink?', options: ['Orange juice', 'Still water', 'Wine', 'Sparkling water'], answer: 3 },
+          { q: 'What does the waiter recommend?', options: ['The salad', 'The pasta with mushrooms', 'The soup', 'The fish'], answer: 1 },
+          { q: '"I\'ll be right back" means:', options: ['I am leaving forever', 'Wait — I\'ll return very soon', 'Come with me', 'I forgot something'], answer: 1 },
         ]
       },
     ]
@@ -289,6 +393,65 @@ const SKILLS = {
         ],
         feedback: { excellent: "Wonderful description! Your verbs and vocabulary are spot on! 🌟", good: "Good paragraph! Try to add what you dislike too — it makes it more interesting!", needsWork: "Include: nationality, language, what you love AND dislike about your city!" }
       },
+
+      // ── L5: THE OCCUPATIONS ──────────────────────────────────────────
+      {
+        id: 'w8', title: 'Write About Your Job!', level: 'A1',
+        type: 'writing', lesson: 'The Occupations', phase: 'pre',
+        prompt: 'Write about your job or studies! Answer in full sentences:\n\n1. What do you do?\n2. Where do you work or study?\n3. What do you like about it?\n4. What do you dislike about it?\n5. What is your dream job?\n\nUse: I am a... / I work as a... / I work at... / I love it because... / My dream is to be a...',
+        minWords: 35,
+        tips: [
+          '"I am a teacher. I work at a school in ___."',
+          '"I am a student. I study at ___ University."',
+          '"I love my job because it is rewarding/creative/fun."',
+          '"I dislike ___ because it is sometimes stressful/tiring."',
+          '"My dream job is to be a ___ because ___."',
+        ],
+        feedback: { excellent: "Excellent! You described your job with great vocabulary and detail! 🌟", good: "Good work! Add what you dislike and your dream job to make it more complete!", needsWork: "Include your job, where you work, what you like and dislike, and your dream job!" }
+      },
+      {
+        id: 'w9', title: 'Describe Three People\'s Jobs!', level: 'A1',
+        type: 'writing', lesson: 'The Occupations', phase: 'post',
+        prompt: 'Write about the jobs of 3 people you know (family, friends or famous people). For each one write 2-3 sentences:\n\n• His/Her name\n• What he/she does (job title)\n• Where he/she works\n• One thing about the job\n\nRemember: use A or AN correctly! (a doctor / an engineer)',
+        minWords: 40,
+        tips: [
+          '"Her name is ___. She is a nurse. She works at a hospital."',
+          '"His name is ___. He is an engineer. He works at a tech company."',
+          '"She loves her job because it is very rewarding."',
+          '"He dislikes his job sometimes because it is stressful."',
+        ],
+        feedback: { excellent: "Perfect! You used 'a/an' correctly and described the jobs with great detail! 🌟", good: "Good! Check your use of 'a' vs 'an' before job titles!", needsWork: "Write about 3 people with their name, job, workplace and one thing about the job!" }
+      },
+
+      // ── L6: AT THE CAFÉ ───────────────────────────────────────────────
+      {
+        id: 'w10', title: 'Write a Café Dialogue!', level: 'A1',
+        type: 'writing', lesson: 'At the Café', phase: 'pre',
+        prompt: 'Write a dialogue between a customer and a waiter at a café. Include:\n\n• A greeting from the waiter\n• The customer asking for the menu or ordering directly\n• Ordering food AND a drink\n• Asking about the price\n• Paying and saying goodbye\n\nBe polite! Use expressions from class.',
+        minWords: 45,
+        tips: [
+          'Waiter: "Good morning! Welcome! What can I get you?"',
+          'Customer: "I\'d like a ___ and a ___, please."',
+          '"Can I have ___?" / "I\'ll have the ___, please."',
+          '"How much is it?" / "What\'s the total?"',
+          '"Here you are." / "Keep the change." / "Thank you! Have a great day!"',
+        ],
+        feedback: { excellent: "Perfect café dialogue! Your expressions are natural and polite! 🌟", good: "Great! Make sure to include the price question and the goodbye!", needsWork: "Include: greeting, ordering food AND drink, asking the price, and saying goodbye!" }
+      },
+      {
+        id: 'w11', title: 'My Favourite Café — Describe It!', level: 'A1',
+        type: 'writing', lesson: 'At the Café', phase: 'post',
+        prompt: 'Write about your favourite café or restaurant! Include:\n\n• The name and where it is\n• What you usually order there\n• Why you love it\n• One thing you would change about it\n• A recommendation to a friend\n\nUse: I usually order... / I love it because... / I would recommend...',
+        minWords: 40,
+        tips: [
+          '"My favourite café is ___ and it is in ___."',
+          '"I usually order a ___ and a ___. It is delicious!"',
+          '"I love it because the atmosphere is ___ and the staff is ___."',
+          '"I would recommend it because ___."',
+          '"The only thing I would change is ___."',
+        ],
+        feedback: { excellent: "Wonderful! Your description makes me want to visit that café! 🌟", good: "Great description! Add a recommendation to your friend to complete it!", needsWork: "Write about the name, location, what you order, why you love it, and a recommendation!" }
+      },
     ]
   },
   speaking: {
@@ -384,6 +547,60 @@ const SKILLS = {
           '"I live here now, but I am originally from ___."',
         ],
         phrases: ['I am originally from...', 'I love it because...', 'I dislike...', 'It is too...', 'There is/are...', 'I speak... a lot', 'I want to learn...']
+      },
+
+      // ── L5: THE OCCUPATIONS ──────────────────────────────────────────
+      {
+        id: 's8', title: 'What Do You Do? Tell Me About Your Job!', level: 'A1',
+        type: 'speaking', lesson: 'The Occupations', phase: 'pre',
+        prompt: 'Record yourself talking about your job or studies! Say:\n\n1. What you do (job or student)\n2. Where you work or study\n3. What you like about it\n4. What you dislike about it\n5. Your dream job — if different!',
+        tips: [
+          '"I am a ___ / I work as a ___."',
+          '"I work at / I study at ___."',
+          '"I love my job because ___."',
+          '"It is sometimes difficult/boring/stressful because ___."',
+          '"My dream job is to be a ___ because ___."',
+        ],
+        phrases: ['I am a...', 'I work as a...', 'I work at...', 'I study at...', 'I love it because...', 'My dream job is...', 'It is sometimes...']
+      },
+      {
+        id: 's9', title: 'Jobs Around the World — Describe Them!', level: 'A1',
+        type: 'speaking', lesson: 'The Occupations', phase: 'post',
+        prompt: 'Practice talking about different jobs! Record yourself describing 3 people you know — a family member, a friend and yourself. For each one say:\n\n1. His/Her name\n2. What he/she does\n3. Where he/she works\n4. One thing he/she likes about the job\n\nUse: He is a... / She works as a... / He works at...',
+        tips: [
+          '"Her name is ___. She is a ___ and she works at ___."',
+          '"His name is ___. He works as a ___ and he loves it because ___."',
+          '"I am a ___. I work at ___ and I like it because ___."',
+        ],
+        phrases: ['He is a...', 'She works as a...', 'He works at...', 'She loves it because...', 'His job is...', 'Her dream is to be a...']
+      },
+
+      // ── L6: AT THE CAFÉ ───────────────────────────────────────────────
+      {
+        id: 's10', title: 'Order at a Café!', level: 'A1',
+        type: 'speaking', lesson: 'At the Café', phase: 'pre',
+        prompt: 'Role play! You are at a café. Record yourself ordering. Say:\n\n1. Greet the waiter\n2. Ask for the menu or say what you want\n3. Order a drink AND a food item\n4. Ask for the price\n5. Pay and say thank you!\n\nBe polite and natural!',
+        tips: [
+          '"Good morning! Can I see the menu, please?"',
+          '"I\'d like a ___ and a ___, please."',
+          '"Can I have ___? / I\'ll have ___, please."',
+          '"How much is it? / What\'s the total?"',
+          '"Here you are! Thank you so much! Have a great day!"',
+        ],
+        phrases: ['I\'d like...', 'Can I have...?', 'I\'ll have...', 'How much is it?', 'The bill, please.', 'Here you are.', 'Thank you so much!', 'Have a great day!']
+      },
+      {
+        id: 's11', title: 'At the Café — Full Conversation!', level: 'A1',
+        type: 'speaking', lesson: 'At the Café', phase: 'post',
+        prompt: 'Full café conversation! Record yourself playing BOTH roles — you are the customer AND the waiter. Create a natural dialogue that includes:\n\n1. Waiter greeting the customer\n2. Customer ordering food and drink\n3. Waiter asking about preferences (hot/cold? milk? sugar?)\n4. Customer asking the price\n5. Paying and saying goodbye\n\nBe creative and use the vocabulary from class!',
+        tips: [
+          'Waiter: "Good morning! Welcome! What can I get you today?"',
+          'Customer: "Hi! I\'d like a large coffee and a croissant, please."',
+          'Waiter: "Of course! Hot or iced? With milk?"',
+          'Customer: "Hot, please. With a little milk. How much is it?"',
+          'Waiter: "That\'s $5.50. Here you go! Enjoy!"',
+        ],
+        phrases: ['Welcome!', 'What can I get you?', 'I\'d like...', 'Hot or iced?', 'With milk/sugar?', 'That\'s $___', 'Enjoy your meal!', 'Have a good day!']
       },
     ]
   }

@@ -81,8 +81,46 @@ const LESSONS = [
       ],
     }
   },
-  { num: 5,  code: 'L5',  title: 'The Occupations',             level: 'A1', activities: { reading: [], listening: [], writing: [], speaking: [] } },
-  { num: 6,  code: 'L6',  title: 'At the Café',                 level: 'A1', activities: { reading: [], listening: [], writing: [], speaking: [] } },
+  { num: 5,  code: 'L5',  title: 'The Occupations', level: 'A1',
+    activities: {
+      reading: [
+        { code: 'L5-R1', title: 'What Do They Do?', type: 'Multiple Choice', activityIndex: 7, phase: 'pre' },
+        { code: 'L5-R2', title: 'Articles A / AN — Jobs Grammar', type: 'Multiple Choice', activityIndex: 8, phase: 'post' },
+      ],
+      listening: [
+        { code: 'L5-L1', title: 'What\'s Your Job? — Street Interviews', type: 'Video + Questions', activityIndex: 7, phase: 'pre' },
+        { code: 'L5-L2', title: 'Dream Jobs — Kids Talk About the Future', type: 'Video + Questions', activityIndex: 8, phase: 'post' },
+      ],
+      writing: [
+        { code: 'L5-W1', title: 'Write About Your Job!', type: 'Open Writing', activityIndex: 7, phase: 'pre' },
+        { code: 'L5-W2', title: 'Describe Three People\'s Jobs!', type: 'Open Writing', activityIndex: 8, phase: 'post' },
+      ],
+      speaking: [
+        { code: 'L5-S1', title: 'What Do You Do? Tell Me About Your Job!', type: 'AI Speaking', activityIndex: 7, phase: 'pre' },
+        { code: 'L5-S2', title: 'Jobs Around the World — Describe Them!', type: 'AI Speaking', activityIndex: 8, phase: 'post' },
+      ],
+    }
+  },
+  { num: 6,  code: 'L6',  title: 'At the Café', level: 'A1',
+    activities: {
+      reading: [
+        { code: 'L6-R1', title: 'At the Café — Tom & Anna', type: 'Multiple Choice', activityIndex: 9, phase: 'pre' },
+        { code: 'L6-R2', title: 'Café Vocabulary & Expressions', type: 'Multiple Choice', activityIndex: 10, phase: 'post' },
+      ],
+      listening: [
+        { code: 'L6-L1', title: 'Ordering at a Coffee Shop', type: 'Video + Questions', activityIndex: 9, phase: 'pre' },
+        { code: 'L6-L2', title: 'English at a Restaurant — Full Conversation', type: 'Video + Questions', activityIndex: 10, phase: 'post' },
+      ],
+      writing: [
+        { code: 'L6-W1', title: 'Write a Café Dialogue!', type: 'Open Writing', activityIndex: 9, phase: 'pre' },
+        { code: 'L6-W2', title: 'My Favourite Café — Describe It!', type: 'Open Writing', activityIndex: 10, phase: 'post' },
+      ],
+      speaking: [
+        { code: 'L6-S1', title: 'Order at a Café!', type: 'AI Speaking', activityIndex: 9, phase: 'pre' },
+        { code: 'L6-S2', title: 'At the Café — Full Conversation!', type: 'AI Speaking', activityIndex: 10, phase: 'post' },
+      ],
+    }
+  },
   { num: 7,  code: 'L7',  title: 'The Places in the City',      level: 'A1', activities: { reading: [], listening: [], writing: [], speaking: [] } },
   { num: 8,  code: 'L8',  title: 'The Family',                  level: 'A1', activities: { reading: [], listening: [], writing: [], speaking: [] } },
   { num: 9,  code: 'L9',  title: 'You Are Going To…',           level: 'A1', activities: { reading: [], listening: [], writing: [], speaking: [] } },
