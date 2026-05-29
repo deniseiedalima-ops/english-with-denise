@@ -7,132 +7,188 @@ const SKILLS = {
   reading: {
     label: 'Reading', icon: '📖', color: '#1d9e75',
     activities: [
-      // ── L2: THE GREETINGS ──────────────────────────────────────────────
-      {
-        id: 'r1', title: 'The Greetings — Mark & Julia', level: 'A1',
-        type: 'multiple_choice', lesson: 'The Greetings', phase: 'pre',
-        text: `Mark: Good afternoon!\nJulia: Good afternoon!\nMark: Hi, what's your name?\nJulia: I'm Julia. And you?\nMark: I'm Mark. Nice to meet you!\nJulia: Nice to meet you too! How do you spell your name?\nMark: It's M-A-R-K. How do you spell yours?\nJulia: J-U-L-I-A.\nMark: Great! How are you?\nJulia: I'm good, thanks. How about you?\nMark: Fine, thanks!\nJulia: Alright, then! But I have to go now!\nMark: Okay, no problem. Have a good day!\nJulia: Thanks, you too! See you later!\nMark: Take care! Bye bye!`,
-        questions: [
-          { q: 'What time of day does the conversation happen?', options: ['Morning', 'Afternoon', 'Evening', 'Night'], answer: 1 },
-          { q: 'How does Julia spell her name?', options: ['J-U-L-I-E', 'J-O-O-L-I-A', 'J-U-L-I-A', 'G-U-L-I-A'], answer: 2 },
-          { q: 'How is Julia feeling?', options: ['Tired', 'Bad', 'Good', 'Nervous'], answer: 2 },
-          { q: 'What does Mark say when Julia leaves?', options: ['Goodbye forever!', 'See you tomorrow!', 'Have a good day! Take care!', 'Come back soon!'], answer: 2 },
+      // ── L2 ──────────────────────────────────────────────────────────
+      { id:'r1', title:'The Greetings — Mark & Julia', level:'A1', type:'multiple_choice', lesson:'The Greetings', phase:'pre',
+        text:`Mark: Good afternoon!\nJulia: Good afternoon!\nMark: Hi, what's your name?\nJulia: I'm Julia. And you?\nMark: I'm Mark. Nice to meet you!\nJulia: Nice to meet you too! How do you spell your name?\nMark: It's M-A-R-K. How do you spell yours?\nJulia: J-U-L-I-A.\nMark: Great! How are you?\nJulia: I'm good, thanks. How about you?\nMark: Fine, thanks!\nJulia: But I have to go now!\nMark: Okay! Have a good day!\nJulia: Thanks! See you later!\nMark: Take care! Bye!`,
+        questions:[
+          {q:'What time of day does the conversation happen?',options:['Morning','Afternoon','Evening','Night'],answer:1},
+          {q:'How does Julia spell her name?',options:['J-U-L-I-E','J-O-O-L-I-A','J-U-L-I-A','G-U-L-I-A'],answer:2},
+          {q:'How is Julia feeling?',options:['Tired','Bad','Good','Nervous'],answer:2},
+          {q:'What does Mark say when Julia leaves?',options:['Goodbye forever!','See you tomorrow!','Have a good day! Take care!','Come back soon!'],answer:2},
         ]
       },
-      {
-        id: 'r2', title: 'The Greetings — Vocabulary Match', level: 'A1',
-        type: 'multiple_choice', lesson: 'The Greetings', phase: 'pre',
-        text: `Study these greetings from your class:\n\n🌅 MORNING: "Good morning!" / "Morning!"\n☀️ AFTERNOON: "Good afternoon!" / "Afternoon, people!"\n🌙 EVENING/ARRIVAL: "Good evening!"\n🌛 LEAVING AT NIGHT: "Good night!"\n\nHow to ask how someone is:\n"How are you?" → "I'm good, thanks!"\n"What's up?" → "Not much! And you?"\n"How's it going?" → "Pretty good! And you?"\n"You good?" → "Yeah, all good!"\n\nSaying goodbye:\n"See you later!" / "Take care!" / "Have a good day!"`,
-        questions: [
-          { q: 'You arrive at a party at 8 PM. What do you say?', options: ['Good morning!', 'Good night!', 'Good evening!', 'Goodbye!'], answer: 2 },
-          { q: 'Someone asks "What\'s up?" — what is the best answer?', options: ['I\'m Julia.', 'Not much! And you?', 'Good afternoon!', 'Take care!'], answer: 1 },
-          { q: 'You are leaving work late at night. What do you say?', options: ['Good morning!', 'Good evening!', 'Good night!', 'See you!'], answer: 2 },
-          { q: '"How\'s it going?" means the same as...', options: ['Where are you going?', 'How are you?', 'What are you doing?', 'When are you leaving?'], answer: 1 },
+      { id:'r2', title:'Vocabulary Match — Greetings', level:'A1', type:'multiple_choice', lesson:'The Greetings', phase:'pre',
+        text:`Study these greetings:\n\n🌅 MORNING: "Good morning!" / "Morning!"\n☀️ AFTERNOON: "Good afternoon!"\n🌙 EVENING: "Good evening!"\n🌛 LEAVING AT NIGHT: "Good night!"\n\n"How are you?" → "I'm good, thanks!"\n"What's up?" → "Not much! And you?"\n"How's it going?" → "Pretty good!"\n\nGoodbye:\n"See you later!" / "Take care!" / "Have a good day!"`,
+        questions:[
+          {q:'You arrive at a party at 8 PM. You say:',options:['Good morning!','Good night!','Good evening!','Goodbye!'],answer:2},
+          {q:'Someone asks "What\'s up?" — best answer:',options:['I\'m Julia.','Not much! And you?','Good afternoon!','Take care!'],answer:1},
+          {q:'You are leaving work late at night. You say:',options:['Good morning!','Good evening!','Good night!','See you!'],answer:2},
+          {q:'"How\'s it going?" means the same as:',options:['Where are you going?','How are you?','What are you doing?','When are you leaving?'],answer:1},
         ]
       },
-      {
-        id: 'r3', title: 'Verb To Be — The Greetings', level: 'A1',
-        type: 'multiple_choice', lesson: 'The Greetings', phase: 'post',
-        text: `Verb TO BE — used in greetings:\n\nI AM → I'm fine. / I am Mark.\nYOU ARE → You are very kind!\nHE IS → He is my friend.\nSHE IS → She is from Brazil.\nIT IS → It is a good day!\nWE ARE → We are students.\nTHEY ARE → They are teachers.\n\nNEGATIVE:\nI am not tired. / She is not here.\nHe isn't late. / They aren't ready.\n\nQUESTIONS:\n"Are you okay?" → "Yes, I am!" / "No, I'm not."\n"Is she your friend?" → "Yes, she is!"\n"How are you?" → "I'm great, thanks!"`,
-        questions: [
-          { q: 'Complete: "___ she your teacher?" — "Yes, ___ is!"', options: ['Is / she', 'Are / she', 'Am / she', 'Is / her'], answer: 0 },
-          { q: 'Which is CORRECT?', options: ['I are fine.', 'He am happy.', 'They is students.', 'We are friends.'], answer: 3 },
-          { q: 'Make negative: "I am tired."', options: ['I not am tired.', 'I am not tired.', 'I am no tired.', 'Am I not tired.'], answer: 1 },
-          { q: '"How are you?" — best answer:', options: ['"I am Mark."', '"She is fine."', '"I\'m great, thanks! And you?"', '"You are welcome."'], answer: 2 },
+      { id:'r3', title:'Verb To Be in Context', level:'A1', type:'multiple_choice', lesson:'The Greetings', phase:'post',
+        text:`Verb TO BE in greetings:\n\nI AM → I'm fine. / I am Mark.\nYOU ARE → You are very kind!\nHE IS → He is my friend.\nSHE IS → She is from Brazil.\nWE ARE → We are students.\nTHEY ARE → They are teachers.\n\nNEGATIVE:\nI am not tired. / She is not here. / He isn't late.\n\nQUESTIONS:\n"Are you okay?" → "Yes, I am!" / "No, I'm not."\n"Is she your friend?" → "Yes, she is!"\n"How are you?" → "I'm great, thanks!"`,
+        questions:[
+          {q:'Complete: "___ she your teacher?" — "Yes, ___ is!"',options:['Is / she','Are / she','Am / she','Is / her'],answer:0},
+          {q:'Which is CORRECT?',options:['I are fine.','He am happy.','They is students.','We are friends.'],answer:3},
+          {q:'Make negative: "I am tired."',options:['I not am tired.','I am not tired.','I am no tired.','Am I not tired.'],answer:1},
+          {q:'"How are you?" — best answer:',options:['I am Mark.','She is fine.','I\'m great, thanks! And you?','You are welcome.'],answer:2},
         ]
       },
-      // ── L3: THE INTRODUCTIONS ─────────────────────────────────────────
-      {
-        id: 'r4', title: 'Meet John & Elizabeth!', level: 'A1',
-        type: 'multiple_choice', lesson: 'The Introductions', phase: 'pre',
-        text: `John: Hello hello!\nElizabeth: Hello hello! How are you?\nJohn: I am fine thanks. What about you? I am okay! What's your name?\nElizabeth: My name is Elizabeth. What is your name?\nJohn: My name is John. Nice to meet you, Elizabeth!\nElizabeth: Nice to meet you too, John! How old are you?\nJohn: I am 23 years old. Where are you from, Elizabeth?\nElizabeth: I am from Spain. I am Spanish. I live in Madrid. What about you?\nJohn: I am from the United States of America. I am an American. I live in New York.\nElizabeth: Do you speak Spanish?\nJohn: No, I don't. I speak English and French. I am a businessman. What about you?\nElizabeth: I am a teacher. I teach Spanish in a high school. It has been a pleasure to meet you, John!\nJohn: I am also glad to meet you. I hope to see you soon! Bye!\nElizabeth: See you later! Bye!`,
-        questions: [
-          { q: 'Where is Elizabeth from?', options: ['The United States', 'France', 'Spain', 'England'], answer: 2 },
-          { q: 'What does John do?', options: ['He is a teacher', 'He is a businessman', 'He is a student', 'He is a doctor'], answer: 1 },
-          { q: 'Where does John live?', options: ['Madrid', 'Los Angeles', 'London', 'New York'], answer: 3 },
-          { q: '"It has been a pleasure to meet you" means:', options: ['I need to leave now', 'I am very happy to have met you', 'Where are you from?', 'See you tomorrow'], answer: 1 },
+      // ── L3 ──────────────────────────────────────────────────────────
+      { id:'r4', title:'Meet John & Elizabeth!', level:'A1', type:'multiple_choice', lesson:'The Introductions', phase:'pre',
+        text:`John: Hello hello!\nElizabeth: Hello! How are you?\nJohn: I am fine thanks. What's your name?\nElizabeth: My name is Elizabeth. What is your name?\nJohn: My name is John. Nice to meet you!\nElizabeth: Nice to meet you too! How old are you?\nJohn: I am 23. Where are you from?\nElizabeth: I am from Spain. I am Spanish. I live in Madrid.\nJohn: I am from the USA. I am American. I live in New York.\nElizabeth: Do you speak Spanish?\nJohn: No. I speak English and French. I am a businessman.\nElizabeth: I am a teacher. It has been a pleasure to meet you!\nJohn: I am also glad to meet you. Bye!\nElizabeth: See you later!`,
+        questions:[
+          {q:'Where is Elizabeth from?',options:['The United States','France','Spain','England'],answer:2},
+          {q:'What does John do?',options:['He is a teacher','He is a businessman','He is a student','He is a doctor'],answer:1},
+          {q:'Where does John live?',options:['Madrid','Los Angeles','London','New York'],answer:3},
+          {q:'"It has been a pleasure to meet you" means:',options:['I need to leave now','I am very happy to have met you','Where are you from?','See you tomorrow'],answer:1},
         ]
       },
-      {
-        id: 'r5', title: 'Her, His, Here & There — Grammar Focus', level: 'A1',
-        type: 'multiple_choice', lesson: 'The Introductions', phase: 'post',
-        text: `Key vocabulary from class:\n\nHERE = aqui (perto de você)\n"My book is here." / "Come here!"\n\nOVER THERE = lá, ali (longe de você)\n"The bathroom is over there." / "He is over there!"\n\nWHERE = onde (pergunta)\n"Where are you from?" / "Where is my pen?"\n\nHER NAME IS = o nome dela é\n"Her name is Elizabeth. She is from Spain."\n\nHIS NAME IS = o nome dele é\n"His name is John. He is an American."\n\nYOU'RE WELCOME = de nada\n"Thank you!" → "You're welcome!"`,
-        questions: [
-          { q: 'Someone is far away. You say: "He is ___ ."', options: ['here', 'where', 'over there', 'welcome'], answer: 2 },
-          { q: 'Your friend thanks you. You say:', options: ['"Thank you!"', '"You\'re welcome!"', '"Here you are!"', '"Over there!"'], answer: 1 },
-          { q: 'Fill in: "___ name is Maria. She is Brazilian."', options: ['His', 'Her', 'Where', 'Here'], answer: 1 },
-          { q: '"Thank you so much!" — "___!"', options: ['Here you are', 'Over there', 'You\'re welcome', 'His name'], answer: 2 },
+      { id:'r5', title:'Her, His, Here & There', level:'A1', type:'multiple_choice', lesson:'The Introductions', phase:'post',
+        text:`Key vocabulary:\n\nHERE = aqui\n"My book is here." / "Come here!"\n\nOVER THERE = lá, ali\n"The bathroom is over there."\n\nWHERE = onde (pergunta)\n"Where are you from?" / "Where is my pen?"\n\nHER NAME IS = o nome dela é\n"Her name is Elizabeth."\n\nHIS NAME IS = o nome dele é\n"His name is John."\n\nYOU'RE WELCOME = de nada\n"Thank you!" → "You're welcome!"`,
+        questions:[
+          {q:'Someone is far away. You say: "He is ___ ."',options:['here','where','over there','welcome'],answer:2},
+          {q:'Your friend thanks you. You say:',options:['"Thank you!"','"You\'re welcome!"','"Here you are!"','"Over there!"'],answer:1},
+          {q:'Fill in: "___ name is Maria. She is Brazilian."',options:['His','Her','Where','Here'],answer:1},
+          {q:'"Thank you so much!" — "___!"',options:['Here you are','Over there','You\'re welcome','His name'],answer:2},
         ]
       },
-      // ── L4: COUNTRIES AND NATIONALITIES ──────────────────────────────
-      {
-        id: 'r6', title: 'Meet Giulia!', level: 'A1',
-        type: 'multiple_choice', lesson: 'Countries and Nationalities', phase: 'pre',
-        text: `Hi! My name is Giulia Rossi, and I'm from Florence, Italy. I'm Italian. I'm a teacher and I'm very happy with my job.\n\nNow I live in São Paulo, Brazil, and I love it here! I speak Italian, English and Portuguese. Portuguese is my favorite language, because my mother is from Brazil.\n\nI love Brazil because it is beautiful and the people are very friendly. But sometimes the city is too loud and very crowded!\n\nSee you!`,
-        questions: [
-          { q: 'Where is Giulia originally from?', options: ['São Paulo, Brazil', 'Rome, Italy', 'Florence, Italy', 'Lisbon, Portugal'], answer: 2 },
-          { q: 'What is Giulia\'s nationality?', options: ['Brazilian', 'Portuguese', 'Spanish', 'Italian'], answer: 3 },
-          { q: 'Why is Portuguese Giulia\'s favorite language?', options: ['She lives in Brazil', 'Her father is Brazilian', 'Her mother is from Brazil', 'She is a Portuguese teacher'], answer: 2 },
-          { q: 'What does Giulia DISLIKE about the city?', options: ['The food', 'The weather', 'The people', 'It is too loud and crowded'], answer: 3 },
+      // ── L4 ──────────────────────────────────────────────────────────
+      { id:'r6', title:'Meet Giulia!', level:'A1', type:'multiple_choice', lesson:'Countries and Nationalities', phase:'pre',
+        text:`Hi! My name is Giulia Rossi, and I'm from Florence, Italy. I'm Italian. I'm a teacher and I'm very happy with my job.\n\nNow I live in São Paulo, Brazil, and I love it here! I speak Italian, English and Portuguese. Portuguese is my favorite language, because my mother is from Brazil.\n\nI love Brazil because it is beautiful and the people are very friendly. But sometimes the city is too loud and very crowded!`,
+        questions:[
+          {q:'Where is Giulia originally from?',options:['São Paulo, Brazil','Rome, Italy','Florence, Italy','Lisbon, Portugal'],answer:2},
+          {q:'What is Giulia\'s nationality?',options:['Brazilian','Portuguese','Spanish','Italian'],answer:3},
+          {q:'Why is Portuguese Giulia\'s favorite language?',options:['She lives in Brazil','Her father is Brazilian','Her mother is from Brazil','She is a Portuguese teacher'],answer:2},
+          {q:'What does Giulia DISLIKE about the city?',options:['The food','The weather','The people','It is too loud and crowded'],answer:3},
         ]
       },
-      {
-        id: 'r7', title: 'Countries, Nationalities & Verbs', level: 'A1',
-        type: 'multiple_choice', lesson: 'Countries and Nationalities', phase: 'post',
-        text: `Meet Ana! She is from Brazil, so she is Brazilian. She speaks Portuguese a lot and a little English. She wants to learn more! She lives in Rio de Janeiro. She loves her city because it is beautiful. But she dislikes loud noise and dirty places.\n\nKey verbs from class:\nTo BE → I am / She is / He is\nTo LIVE → I live in... / She lives in...\nTo SPEAK → I speak... / She speaks...\nTo LOVE → I love... / She loves...\nTo DISLIKE → I dislike... / She dislikes...\n\nCountry → Nationality:\nBrazil → Brazilian\nItaly → Italian\nEngland → English\nFrance → French\nJapan → Japanese\nChina → Chinese\nSpain → Spanish`,
-        questions: [
-          { q: 'Complete: "Ana ___ from Rio de Janeiro."', options: ['am', 'are', 'is', 'be'], answer: 2 },
-          { q: 'What is the nationality of someone from Japan?', options: ['Japanian', 'Japanish', 'Japaneese', 'Japanese'], answer: 3 },
-          { q: 'Complete: "She ___ Portuguese a lot and a little English."', options: ['speak', 'speaks', 'speaking', 'spoke'], answer: 1 },
-          { q: 'Complete: "I ___ loud noise. I prefer quiet places."', options: ['love', 'want', 'dislike', 'speak'], answer: 2 },
+      { id:'r7', title:'Countries, Nationalities & Verbs', level:'A1', type:'multiple_choice', lesson:'Countries and Nationalities', phase:'post',
+        text:`Key verbs:\nTo BE → I am / She is / He is\nTo LIVE → I live in... / She lives in...\nTo SPEAK → I speak... / She speaks...\nTo LOVE → I love... / She loves...\nTo DISLIKE → I dislike... / She dislikes...\n\nCountry → Nationality:\nBrazil → Brazilian\nItaly → Italian\nEngland → English\nFrance → French\nJapan → Japanese\nChina → Chinese\nSpain → Spanish`,
+        questions:[
+          {q:'Complete: "Ana ___ from Rio de Janeiro."',options:['am','are','is','be'],answer:2},
+          {q:'Nationality of someone from Japan:',options:['Japanian','Japanish','Japaneese','Japanese'],answer:3},
+          {q:'Complete: "She ___ Portuguese and a little English."',options:['speak','speaks','speaking','spoke'],answer:1},
+          {q:'Complete: "I ___ loud noise. I prefer quiet places."',options:['love','want','dislike','speak'],answer:2},
         ]
       },
-
-      // ── L5: THE OCCUPATIONS ──────────────────────────────────────────
-      {
-        id: 'r8', title: 'What Do They Do?', level: 'A1',
-        type: 'multiple_choice', lesson: 'The Occupations', phase: 'pre',
-        text: `Meet four people with interesting jobs!\n\nMy name is Carlos. I am a doctor. I work at a big hospital in São Paulo. I help sick people every day. I love my job, but it is sometimes very stressful. My dream is to open my own clinic one day.\n\nHi! I am Sophie. I am a teacher. I teach English at a school in London. I love my job because I help people learn something new every day. I work from Monday to Friday.\n\nMy name is David. I am an engineer. I work at a technology company. I design bridges and buildings. It is a creative and challenging job. I love it!\n\nHello! I am Maria. I am a chef. I work at a restaurant in Paris. I cook French and Italian food. My job is delicious — and very busy on weekends!`,
-        questions: [
-          { q: 'What does Carlos do?', options: ['He is a teacher', 'He is an engineer', 'He is a doctor', 'He is a chef'], answer: 2 },
-          { q: 'Where does Sophie work?', options: ['At a hospital', 'At a restaurant', 'At a company', 'At a school'], answer: 3 },
-          { q: 'What does David design?', options: ['Food and menus', 'Bridges and buildings', 'English lessons', 'Hospital rooms'], answer: 1 },
-          { q: 'When is Maria\'s job very busy?', options: ['On weekdays', 'On Mondays', 'On weekends', 'On Fridays'], answer: 2 },
+      // ── L5 ──────────────────────────────────────────────────────────
+      { id:'r8', title:'What Do They Do?', level:'A1', type:'multiple_choice', lesson:'The Occupations', phase:'pre',
+        text:`Carlos is a doctor. He works at a big hospital in São Paulo. He loves his job but it is sometimes very stressful.\n\nSophie is a teacher. She teaches English at a school in London. She works Monday to Friday.\n\nDavid is an engineer. He works at a technology company and designs bridges and buildings.\n\nMaria is a chef. She works at a restaurant in Paris and cooks French and Italian food.`,
+        questions:[
+          {q:'What does Carlos do?',options:['He is a teacher','He is an engineer','He is a doctor','He is a chef'],answer:2},
+          {q:'Where does Sophie work?',options:['At a hospital','At a restaurant','At a company','At a school'],answer:3},
+          {q:'What does David design?',options:['Food and menus','Bridges and buildings','English lessons','Hospital rooms'],answer:1},
+          {q:'What food does Maria cook?',options:['Brazilian food','Japanese food','French and Italian food','American food'],answer:2},
         ]
       },
-      {
-        id: 'r9', title: 'Articles A / AN — Jobs Grammar', level: 'A1',
-        type: 'multiple_choice', lesson: 'The Occupations', phase: 'post',
-        text: `Use A before consonant sounds:\n• a doctor • a teacher • a nurse • a chef\n• a lawyer • a pilot • a waiter • a builder\n\nUse AN before vowel sounds (a, e, i, o, u):\n• an engineer • an actor • an artist\n• an architect • an accountant • an officer\n\nKey job vocabulary:\nI AM a... / I WORK AS a... / I WORK AT...\nHe IS a... / She WORKS AS a...\n\nUseful expressions:\n"What do you do?" → "I am a teacher."\n"Where do you work?" → "I work at a hospital."\n"Do you like your job?" → "Yes! I love it!" / "It's okay." / "It's stressful!"`,
-        questions: [
-          { q: 'Choose: "She is ___ engineer."', options: ['a', 'an', 'the', 'one'], answer: 1 },
-          { q: 'Choose: "He works as ___ chef."', options: ['an', 'the', 'a', 'some'], answer: 2 },
-          { q: '"What do you do?" — best answer:', options: ['"I do a lot!"', '"I am a teacher."', '"I work Monday."', '"Yes, I do."'], answer: 1 },
-          { q: 'Which sentence is CORRECT?', options: ['She is a actor.', 'He is an doctor.', 'I am an architect.', 'We are a engineers.'], answer: 2 },
+      { id:'r9', title:'Articles A / AN — Jobs Grammar', level:'A1', type:'multiple_choice', lesson:'The Occupations', phase:'post',
+        text:`Use A before consonant sounds:\na doctor • a teacher • a nurse • a chef • a lawyer • a pilot\n\nUse AN before vowel sounds (a, e, i, o, u):\nan engineer • an actor • an artist • an architect • an accountant\n\nKey expressions:\nI AM a... / I WORK AS a... / I WORK AT...\n"What do you do?" → "I am a teacher."\n"Where do you work?" → "I work at a hospital."`,
+        questions:[
+          {q:'"She is ___ engineer."',options:['a','an','the','one'],answer:1},
+          {q:'"He works as ___ chef."',options:['an','the','a','some'],answer:2},
+          {q:'"What do you do?" — best answer:',options:['"I do a lot!"','"I am a teacher."','"I work Monday."','"Yes, I do."'],answer:1},
+          {q:'Which sentence is CORRECT?',options:['She is a actor.','He is an doctor.','I am an architect.','We are a engineers.'],answer:2},
         ]
       },
-
-      // ── L6: AT THE CAFÉ ───────────────────────────────────────────────
-      {
-        id: 'r10', title: 'At the Café — Tom & Anna', level: 'A1',
-        type: 'multiple_choice', lesson: 'At the Café', phase: 'pre',
-        text: `Tom and Anna are at a café.\n\nWaiter: Good morning! Welcome to Sunrise Café. What can I get you?\nTom: Good morning! Can I see the menu, please?\nWaiter: Of course! Here you are.\nTom: Thank you. I'd like a large coffee and a croissant, please.\nAnna: And I'll have a green tea and a slice of chocolate cake.\nWaiter: Perfect! Hot or iced coffee?\nTom: Hot, please. With a little milk.\nWaiter: And the tea — with sugar?\nAnna: No, thank you. No sugar for me.\nWaiter: Great! Anything else?\nTom: No, that's all, thank you. How much is it?\nWaiter: That's $12.50 in total.\nTom: Here you are. Keep the change!\nWaiter: Thank you so much! Enjoy your meal!\nAnna: Thank you! Have a great day!`,
-        questions: [
-          { q: 'What does Tom order to drink?', options: ['Green tea', 'Iced coffee', 'Hot coffee with milk', 'Hot tea'], answer: 2 },
-          { q: 'What does Anna order to eat?', options: ['A croissant', 'A sandwich', 'A slice of chocolate cake', 'Nothing'], answer: 2 },
-          { q: 'How much does everything cost?', options: ['$10.50', '$12.50', '$15.00', '$8.50'], answer: 1 },
-          { q: '"Keep the change!" means:', options: ['Give me more change', 'The change is yours — don\'t give it back', 'I don\'t have change', 'Change my order'], answer: 1 },
+      // ── L6 ──────────────────────────────────────────────────────────
+      { id:'r10', title:'At the Café — Tom & Anna', level:'A1', type:'multiple_choice', lesson:'At the Café', phase:'pre',
+        text:`Waiter: Good morning! What can I get you?\nTom: Can I see the menu, please?\nWaiter: Of course! Here you are.\nTom: I'd like a large coffee and a croissant.\nAnna: And I'll have a green tea and a slice of chocolate cake.\nWaiter: Hot or iced coffee?\nTom: Hot, with a little milk.\nWaiter: Tea with sugar?\nAnna: No thank you. No sugar.\nWaiter: Anything else?\nTom: No. How much is it?\nWaiter: That's $12.50.\nTom: Here you are. Keep the change!\nWaiter: Thank you! Enjoy your meal!\nAnna: Have a great day!`,
+        questions:[
+          {q:'What does Tom order to drink?',options:['Green tea','Iced coffee','Hot coffee with milk','Hot tea'],answer:2},
+          {q:'What does Anna order to eat?',options:['A croissant','A sandwich','A slice of chocolate cake','Nothing'],answer:2},
+          {q:'How much does everything cost?',options:['$10.50','$12.50','$15.00','$8.50'],answer:1},
+          {q:'"Keep the change!" means:',options:['Give me more change','The change is yours — don\'t give it back','I don\'t have change','Change my order'],answer:1},
         ]
       },
-      {
-        id: 'r11', title: 'Café Vocabulary & Expressions', level: 'A1',
-        type: 'multiple_choice', lesson: 'At the Café', phase: 'post',
-        text: `Key expressions at the café:\n\nORDERING:\n"I'd like a ___, please." → Quero um ___, por favor.\n"Can I have ___?" → Posso ter ___?\n"I'll have the ___." → Vou querer o ___.\n"What do you recommend?" → O que você recomenda?\n\nASKING THE PRICE:\n"How much is it?" → Quanto custa?\n"What's the total?" → Qual é o total?\n"The bill, please." → A conta, por favor.\n\nPAYING:\n"Here you are." → Aqui está.\n"Keep the change." → Fique com o troco.\n\nPREFERENCES:\n"Hot or iced?" → Quente ou gelado?\n"With or without milk/sugar?" → Com ou sem leite/açúcar?\n\nFOOD & DRINKS:\ncoffee, tea, juice, water, cake, croissant, sandwich, cookie`,
-        questions: [
-          { q: 'You want to pay. You say:', options: ['"I\'d like more!"', '"The bill, please."', '"Keep the change!"', '"How much?"'], answer: 1 },
-          { q: '"I\'d like a coffee, please." — same meaning:', options: ['"I like coffee."', '"Give me coffee!"', '"Can I have a coffee, please?"', '"Coffee is good."'], answer: 2 },
-          { q: 'Waiter asks: "Hot or iced?" — you want cold coffee. You say:', options: ['"Hot, please."', '"No, thank you."', '"With milk."', '"Iced, please."'], answer: 3 },
-          { q: 'Which is CORRECT to order politely?', options: ['"Give me a sandwich!"', '"I want cake now."', '"Can I have a slice of cake, please?"', '"Sandwich. Now."'], answer: 2 },
+      { id:'r11', title:'Café Vocabulary & Expressions', level:'A1', type:'multiple_choice', lesson:'At the Café', phase:'post',
+        text:`ORDERING:\n"I'd like a ___, please."\n"Can I have ___?"\n"I'll have the ___."\n\nASKING THE PRICE:\n"How much is it?"\n"The bill, please."\n\nPAYING:\n"Here you are." / "Keep the change."\n\nPREFERENCES:\n"Hot or iced?" / "With or without milk/sugar?"`,
+        questions:[
+          {q:'You want to pay. You say:',options:['"I\'d like more!"','"The bill, please."','"Keep the change!"','"How much?"'],answer:1},
+          {q:'"I\'d like a coffee" — same meaning:',options:['"I like coffee."','"Give me coffee!"','"Can I have a coffee, please?"','"Coffee is good."'],answer:2},
+          {q:'You want cold coffee. You say:',options:['"Hot, please."','"No, thank you."','"With milk."','"Iced, please."'],answer:3},
+          {q:'Which is CORRECT to order politely?',options:['"Give me a sandwich!"','"I want cake now."','"Can I have a slice of cake, please?"','"Sandwich. Now."'],answer:2},
+        ]
+      },
+      // ── L7 ──────────────────────────────────────────────────────────
+      { id:'r12', title:'City Vocabulary & Directions', level:'A1', type:'multiple_choice', lesson:'The Places in the City', phase:'post',
+        text:`PLACES: bank, post office, supermarket, pharmacy, hospital, school, park, library, cinema, police station, train station\n\nDIRECTIONS:\n"Go straight ahead." → Vá em frente.\n"Turn left / right." → Vire à esquerda / direita.\n"It's opposite the ___." → Fica em frente ao ___.\n"It's next to the ___." → Fica ao lado do ___.\n\nASKING:\n"Excuse me! Is there a ___ near here?"\n"How far is it?" → "It's 5 minutes on foot."`,
+        questions:[
+          {q:'"Turn left at the traffic lights" means:',options:['Vire à direita','Pare no semáforo','Vire à esquerda no semáforo','Vá em frente'],answer:2},
+          {q:'The pharmacy is ___ the hospital. (em frente)',options:['next to','between','opposite','behind'],answer:2},
+          {q:'You need money. You ask for a:',options:['hospital','bank','school','park'],answer:1},
+          {q:'"It\'s 5 minutes on foot" means:',options:['It\'s very far','You need to drive','It\'s close — a short walk','Take the bus'],answer:2},
+        ]
+      },
+      // ── L8 ──────────────────────────────────────────────────────────
+      { id:'r13', title:'Family Members & Possessives', level:'A1', type:'multiple_choice', lesson:'The Family', phase:'post',
+        text:`FAMILY:\nfather / mother → parents\nson / daughter → children\nbrother / sister → siblings\ngrandfather / grandmother → grandparents\nuncle / aunt / nephew / niece / cousin\n\nPOSSESSIVES:\nMY / YOUR / HIS / HER / OUR / THEIR\nMy father's name is ___ (apostrophe S)\n\nEXPRESSIONS:\n"He is an only child." → filho único\n"She is the oldest / youngest."\n"He passed away." → ele faleceu`,
+        questions:[
+          {q:'Your mother\'s mother is your:',options:['Aunt','Sister','Grandmother','Cousin'],answer:2},
+          {q:'"He is an only child" means:',options:['He has many brothers','He has no brothers or sisters','He is very young','He is the oldest'],answer:1},
+          {q:'Your brother\'s son is your:',options:['Cousin','Uncle','Nephew','Son'],answer:2},
+          {q:'Complete: "___ name is Maria. She is my wife."',options:['His','My','Her','Their'],answer:2},
+        ]
+      },
+      // ── L9 ──────────────────────────────────────────────────────────
+      { id:'r14', title:'Going To — Grammar Focus', level:'A1', type:'multiple_choice', lesson:'You Are Going To…', phase:'post',
+        text:`GOING TO — future plans:\n\nI am going to study.\nShe is going to cook.\nWe are going to travel.\n\nNEGATIVE:\nI am NOT going to go.\nShe is NOT going to come.\n\nQUESTION:\nAre you going to study? → Yes, I am! / No, I'm not.\nWhat are you going to do? → I'm going to ___.`,
+        questions:[
+          {q:'Complete: "She ___ going to cook dinner."',options:['am','are','is','be'],answer:2},
+          {q:'Complete: "Are you going to study?" — "No, ___ ."',options:['I am','I\'m not','she isn\'t','we aren\'t'],answer:1},
+          {q:'Which is CORRECT?',options:['He going to travel.','We going travel.','They are going to work.','I am go to study.'],answer:2},
+          {q:'"What are you going to do?" — best answer:',options:['"Yes, I am."','"I went to the park."','"I am going to visit my family."','"I go to school."'],answer:2},
+        ]
+      },
+      // ── L10 ──────────────────────────────────────────────────────────
+      { id:'r15', title:'Travel Vocabulary & Phrases', level:'A1', type:'multiple_choice', lesson:'At the Travel Agency', phase:'post',
+        text:`AT THE AIRPORT:\npassport, ticket, boarding pass, gate, departure, arrival, check-in, luggage, suitcase, carry-on, customs\n\nKEY PHRASES:\n"Window or aisle seat?"\n"How many bags are you checking?"\n"Your flight departs from Gate ___."\n"The baggage limit is 23 kilos."\n"Have a wonderful flight!"`,
+        questions:[
+          {q:'Your "boarding pass" is:',options:['Your passport','Your luggage ticket','Your document to board the plane','Your seat cushion'],answer:2},
+          {q:'"Aisle seat" is:',options:['The window seat','The middle seat','The seat next to the corridor','The front seat'],answer:2},
+          {q:'"Your flight departs from Gate 14" means:',options:['Arrives at gate 14','Leaves from gate 14','Check-in is at gate 14','Baggage is at gate 14'],answer:1},
+          {q:'You want to book a flight. You go to:',options:['The airport security','The travel agency or website','The gate directly','The baggage claim'],answer:1},
+        ]
+      },
+      // ── L11 ──────────────────────────────────────────────────────────
+      { id:'r16', title:'Simple Past — To Be (Was / Were)', level:'A1', type:'multiple_choice', lesson:'I Was So Nervous!', phase:'post',
+        text:`SIMPLE PAST — Verb TO BE:\n\nI WAS / HE WAS / SHE WAS / IT WAS\nWE WERE / YOU WERE / THEY WERE\n\nNEGATIVE:\nI wasn't nervous. / They weren't there.\n\nQUESTION:\nWas she happy? → Yes, she was! / No, she wasn't.\nWere they there? → Yes, they were!\nWhere were you? → I was at home.\nHow was it? → It was amazing!`,
+        questions:[
+          {q:'Complete: "I ___ very nervous on my first day."',options:['were','am','was','be'],answer:2},
+          {q:'"Were they friendly?" — "No, ___ ."',options:['they wasn\'t','they weren\'t','they aren\'t','they isn\'t'],answer:1},
+          {q:'Complete: "How ___ the movie?" — "It ___ great!"',options:['was / were','were / was','was / was','were / were'],answer:2},
+          {q:'Which is CORRECT?',options:['She were happy.','They was late.','He was a teacher.','I were tired.'],answer:2},
+        ]
+      },
+      // ── L12 ──────────────────────────────────────────────────────────
+      { id:'r17', title:'Simple Past — Regular Verbs', level:'A1', type:'multiple_choice', lesson:'Where Were You Yesterday?', phase:'post',
+        text:`SIMPLE PAST — Regular verbs (add -ED):\nwork → worked / watch → watched / visit → visited\ncook → cooked / call → called\n\nNEGATIVE (DID NOT + base verb):\nI didn't work. / She didn't cook.\n\nQUESTION (DID + subject + base verb):\nDid you work? → Yes, I did! / No, I didn't.\nWhat did she cook? → She cooked pasta.\n\nIRREGULAR:\ngo → went / eat → ate / see → saw / have → had`,
+        questions:[
+          {q:'Complete: "She ___ a movie last night."',options:['watch','watchs','watched','watching'],answer:2},
+          {q:'Make negative: "I worked yesterday."',options:['I not worked yesterday.','I didn\'t worked yesterday.','I didn\'t work yesterday.','I wasn\'t work yesterday.'],answer:2},
+          {q:'"Did you call her?" — "No, ___ ."',options:['I didn\'t','I wasn\'t','I don\'t','I haven\'t'],answer:0},
+          {q:'Past of "go":',options:['goed','goes','going','went'],answer:3},
+        ]
+      },
+      // ── L13 ──────────────────────────────────────────────────────────
+      { id:'r18', title:'A1 Full Review — Reading', level:'A1', type:'multiple_choice', lesson:'Final Review', phase:'post',
+        text:`My name is Ana Costa. I am Brazilian and I am 28 years old. I am an English teacher in São Paulo.\n\nI live with my husband Pedro (an engineer) and our daughter Sofia (3 years old). Sofia is going to start school next year!\n\nYesterday was busy. In the morning I worked. In the afternoon I went to the supermarket and cooked dinner. In the evening, Pedro and I watched a comedy film. It was very funny!\n\nNext weekend we are going to visit my parents in Campinas. My mother is going to cook a big Sunday lunch!`,
+        questions:[
+          {q:'What does Ana do?',options:['She is an engineer','She is a doctor','She is an English teacher','She is a chef'],answer:2},
+          {q:'What is Sofia going to do next year?',options:['Learn English','Start school','Move to Campinas','Cook lunch'],answer:1},
+          {q:'What did Ana do yesterday afternoon?',options:['She worked','She watched a film','She went to the supermarket and cooked dinner','She visited her parents'],answer:2},
+          {q:'Where do Ana\'s parents live?',options:['In São Paulo','In Rio de Janeiro','In Campinas','Near the city centre'],answer:2},
+        ]
+      },
+      // ── L14 FINAL TEST ────────────────────────────────────────────────
+      { id:'r19', title:'Final Test — Reading Review', level:'A1', type:'multiple_choice', lesson:'Final Test A1', phase:'post',
+        text:`My name is Lucas. I am Brazilian from Belo Horizonte, but I live in London. I am a software engineer at a tech company near the train station.\n\nMy wife Emma is British and works as a nurse. We are going to have a baby next year!\n\nYesterday was special. In the morning I went to a travel agency and booked two tickets to Belo Horizonte — we are going to visit Brazil next month! In the afternoon Emma and I went to a café. I had an espresso and she ordered a latte. It was delicious!\n\nI miss my family in Brazil. My parents are retired and my sister is a teacher. I was very nervous when I first moved to London, but now I love it here!`,
+        questions:[
+          {q:'Where is Lucas from originally?',options:['London','São Paulo','Belo Horizonte','Rio de Janeiro'],answer:2},
+          {q:'What exciting news does Lucas share?',options:['He is going to change jobs','He and Emma are going to have a baby','He is moving back to Brazil','He is going to open a café'],answer:1},
+          {q:'What did Lucas do at the travel agency?',options:['Got his passport','Booked a hotel','Booked two tickets to Belo Horizonte','Met his family'],answer:2},
+          {q:'How did Lucas feel when he first moved to London?',options:['Excited and happy','Very nervous','Bored and sad','Angry'],answer:1},
         ]
       },
     ]
@@ -140,169 +196,226 @@ const SKILLS = {
   listening: {
     label: 'Listening', icon: '🎧', color: '#378add',
     activities: [
-      // ── L1: THE AMERICAN PRONUNCIATION ───────────────────────────────
-      {
-        id: 'l0', title: 'American Sounds — Listen & Learn', level: 'A1',
-        type: 'listening_video', lesson: 'The American Pronunciation', phase: 'pre',
-        youtubeId: 'dIgLLScXbhU', startTime: 0, endTime: 180,
-        instruction: 'Listen carefully to the American English sounds! Pay attention to how each vowel and consonant is pronounced. This will help you understand native speakers better. Then answer the questions!',
-        audioText: `Teacher: Welcome! Today we are going to learn about American English pronunciation.\nThe American R sound is very important. Listen: right, red, really, river.\nNotice how the tongue curls back — it never touches the top of your mouth!\nNow the TH sound — this does not exist in Portuguese! Tongue between your teeth: the, this, three, think.\nThe American A sound: cat, bad, happy, man. It is a wider sound than in British English.\nLet's practice: "The red rabbit ran really rapidly." Can you say it?`,
-        questions: [
-          { q: 'In American English, where does the tongue go for the R sound?', options: ['Touches the top', 'Curls back and never touches', 'Goes forward', 'Stays flat'], answer: 1 },
-          { q: 'For the TH sound, where does the tongue go?', options: ['Behind the teeth', 'Between the teeth', 'At the back of the mouth', 'Under the tongue'], answer: 1 },
-          { q: 'Which of these does NOT have the TH sound?', options: ['the', 'think', 'three', 'right'], answer: 3 },
-          { q: 'Which sentence did the teacher use to practice the R sound?', options: ['"Really red river runs"', '"The red rabbit ran really rapidly"', '"Run rabbit run"', '"Red runs really fast"'], answer: 1 },
+      // ── L1 ──────────────────────────────────────────────────────────
+      { id:'l0', title:'American Sounds — Listen & Learn', level:'A1', type:'listening_video', lesson:'The American Pronunciation', phase:'pre',
+        youtubeId:'dIgLLScXbhU', startTime:0, endTime:180,
+        instruction:'Listen carefully to American English sounds! Pay attention to how each vowel and consonant is pronounced. Then answer the questions!',
+        audioText:`Teacher: Today we learn about American English pronunciation.\nThe American R: right, red, really, river. The tongue curls back — never touches!\nThe TH sound: the, this, three, think. Tongue between teeth!\nPractice: "The red rabbit ran really rapidly."`,
+        questions:[
+          {q:'For the R sound, where does the tongue go?',options:['Touches the top','Curls back and never touches','Goes forward','Stays flat'],answer:1},
+          {q:'For TH, where does the tongue go?',options:['Behind the teeth','Between the teeth','At the back','Under the tongue'],answer:1},
+          {q:'Which does NOT have the TH sound?',options:['the','think','three','right'],answer:3},
+          {q:'Practice sentence:',options:['"Really red river runs"','"The red rabbit ran really rapidly"','"Run rabbit run"','"Red runs really fast"'],answer:1},
         ]
       },
-      // ── L2: THE GREETINGS ──────────────────────────────────────────────
-      {
-        id: 'l1', title: 'Jenny at the Hotel', level: 'A1',
-        type: 'listening_video', lesson: 'The Greetings', phase: 'pre',
-        youtubeId: 'EflkHGJbxnA', startTime: 56, endTime: 286,
-        instruction: 'Watch the video from 0:56 to 4:46. Pay attention to how Jenny greets the receptionist, spells her name, and checks in. Then answer the questions below!',
-        audioText: `Jenny: Hello. I have a reservation. My name is Jennifer Zielinski.\nReceptionist: Can you spell that, please?\nJenny: Z-I-E-L-I-N-S-K-I.\nReceptionist: For five nights?\nJenny: Yes, that's right.\nReceptionist: Can I have your passport, please?\nJenny: Just a second… here you are.\nReceptionist: Thank you. Can you sign here, please?\nJenny: Sure. Thank you.\nReceptionist: Here's your key — it's room 306 on the third floor. The lift is over there.\nJenny: The lift — oh, the elevator!\nReceptionist: Yes, enjoy your stay, Ms. Zielinski.\nJenny: Thank you!`,
-        questions: [
-          { q: 'What is Jenny\'s last name?', options: ['Zelinski', 'Zielinski', 'Zielinsky', 'Zielinksi'], answer: 1 },
-          { q: 'How many nights is Jenny staying?', options: ['3 nights', '4 nights', '5 nights', '6 nights'], answer: 2 },
-          { q: 'What room does Jenny get?', options: ['Room 306', 'Room 360', 'Room 603', 'Room 316'], answer: 0 },
-          { q: 'What does "lift" mean?', options: ['Stairs', 'Reception', 'Elevator', 'Exit'], answer: 2 },
+      // ── L2 ──────────────────────────────────────────────────────────
+      { id:'l1', title:'Jenny at the Hotel', level:'A1', type:'listening_video', lesson:'The Greetings', phase:'pre',
+        youtubeId:'EflkHGJbxnA', startTime:56, endTime:286,
+        instruction:'Watch from 0:56 to 4:46. Pay attention to how Jenny greets the receptionist, spells her name, and checks in. Then answer the questions!',
+        audioText:`Jenny: Hello. I have a reservation. My name is Jennifer Zielinski.\nReceptionist: Can you spell that?\nJenny: Z-I-E-L-I-N-S-K-I.\nReceptionist: For five nights?\nJenny: Yes, that's right.\nReceptionist: Passport, please?\nJenny: Here you are.\nReceptionist: Sign here. Here's your key — room 306, third floor. The lift is over there.\nJenny: The lift — oh, the elevator!\nReceptionist: Yes, enjoy your stay!\nJenny: Thank you!`,
+        questions:[
+          {q:'What is Jenny\'s last name?',options:['Zelinski','Zielinski','Zielinsky','Zielinksi'],answer:1},
+          {q:'How many nights is Jenny staying?',options:['3 nights','4 nights','5 nights','6 nights'],answer:2},
+          {q:'What room does Jenny get?',options:['Room 306','Room 360','Room 603','Room 316'],answer:0},
+          {q:'What does "lift" mean?',options:['Stairs','Reception','Elevator','Exit'],answer:2},
         ]
       },
-      {
-        id: 'l2', title: 'Meet Sarah!', level: 'A1',
-        type: 'listening_video', lesson: 'The Greetings', phase: 'pre',
-        youtubeId: 'fLYzVdpseSA', startTime: 0, endTime: 60,
-        instruction: 'Listen to Sarah introducing herself. Pay attention to how she spells her name, where she is from, her age, and how she is feeling. Then answer the questions below!',
-        audioText: `Sarah: Hi! Good morning! My name is Sarah, and it's spelled S-A-R-A-H. Nice to meet you!\nSarah: I'm from New York, but now I live in a different city for work and study. I'm 22 years old, and I really enjoy music, coffee, and meeting new people.\nSarah: Today I'm feeling great, just a little tired because I woke up early this morning.\nSarah: People usually say my name is easy to remember, but I still like spelling it when I meet someone new. What about you? What's your name, and how do you spell it?`,
-        questions: [
-          { q: 'How does Sarah spell her name?', options: ['S-E-R-A-H', 'S-A-R-A-H', 'S-A-R-R-A-H', 'S-A-R-A'], answer: 1 },
-          { q: 'Where is Sarah originally from?', options: ['Los Angeles', 'London', 'New York', 'Chicago'], answer: 2 },
-          { q: 'How old is Sarah?', options: ['20 years old', '21 years old', '23 years old', '22 years old'], answer: 3 },
-          { q: 'How is Sarah feeling today?', options: ['Sick and tired', 'Great, a little tired', 'Nervous and excited', 'Bored and sleepy'], answer: 1 },
+      { id:'l2', title:'Meet Sarah!', level:'A1', type:'listening_video', lesson:'The Greetings', phase:'pre',
+        youtubeId:'fLYzVdpseSA', startTime:0, endTime:60,
+        instruction:'Listen to Sarah introducing herself. Pay attention to how she spells her name, where she is from, her age, and how she feels. Then answer!',
+        audioText:`Sarah: Hi! My name is Sarah — S-A-R-A-H. Nice to meet you!\nI'm from New York but now I live in a different city. I'm 22 years old. I enjoy music, coffee, and meeting new people.\nToday I'm feeling great — just a little tired because I woke up early.`,
+        questions:[
+          {q:'How does Sarah spell her name?',options:['S-E-R-A-H','S-A-R-A-H','S-A-R-R-A-H','S-A-R-A'],answer:1},
+          {q:'Where is Sarah from?',options:['Los Angeles','London','New York','Chicago'],answer:2},
+          {q:'How old is Sarah?',options:['20','21','23','22'],answer:3},
+          {q:'How is Sarah feeling?',options:['Sick and tired','Great, a little tired','Nervous','Bored'],answer:1},
         ]
       },
-      {
-        id: 'l3', title: 'Where Are You From?', level: 'A1',
-        type: 'listening_video', lesson: 'The Greetings', phase: 'post',
-        youtubeId: '31y2Bq1RYQA', startTime: 60, endTime: 297,
-        instruction: 'Watch Tim, Sian, Buli and Georgie talk about where they are from and where they live. Pay attention to the names, cities and how they describe their homes. Then answer the questions!',
-        audioText: `Tim: Hi, I'm Tim. I'm from Oxford.\nSian: I'm from Swansea.\nBuli: I'm from Beijing.\nGeorgie: I'm from Petworth.\nTim: I live in a house in London. And I live with my housemates.\nSian: I live in a house in Brighton. I live with my family.\nBuli: I live in a flat in Cambridge. I live on my own.\nGeorgie: I live in a flat in London. I live with my flatmates.`,
-        questions: [
-          { q: 'Where is Sian from originally?', options: ['Oxford', 'Beijing', 'Swansea', 'Petworth'], answer: 2 },
-          { q: 'Where does Buli live now?', options: ['London', 'Brighton', 'Oxford', 'Cambridge'], answer: 3 },
-          { q: 'Who lives in a flat?', options: ['Tim and Sian', 'Sian and Georgie', 'Buli and Georgie', 'Tim and Buli'], answer: 2 },
-          { q: 'Who does Sian live with?', options: ['Her flatmates', 'On her own', 'Her housemates', 'Her family'], answer: 3 },
+      { id:'l3', title:'Where Are You From?', level:'A1', type:'listening_video', lesson:'The Greetings', phase:'post',
+        youtubeId:'31y2Bq1RYQA', startTime:60, endTime:297,
+        instruction:'Watch Tim, Sian, Buli and Georgie talk about where they are from. Then answer the questions!',
+        audioText:`Tim: I'm from Oxford. I live in a house in London with housemates.\nSian: I'm from Swansea. I live in Brighton with my family.\nBuli: I'm from Beijing. I live in a flat in Cambridge on my own.\nGeorgie: I'm from Petworth. I live in a flat in London with flatmates.`,
+        questions:[
+          {q:'Where is Sian from?',options:['Oxford','Beijing','Swansea','Petworth'],answer:2},
+          {q:'Where does Buli live now?',options:['London','Brighton','Oxford','Cambridge'],answer:3},
+          {q:'Who lives in a flat?',options:['Tim and Sian','Sian and Georgie','Buli and Georgie','Tim and Buli'],answer:2},
+          {q:'Who does Sian live with?',options:['Flatmates','On her own','Housemates','Her family'],answer:3},
         ]
       },
-      // ── L3: THE INTRODUCTIONS ─────────────────────────────────────────
-      {
-        id: 'l4', title: 'John & Elizabeth — First Meeting', level: 'A1',
-        type: 'listening_video', lesson: 'The Introductions', phase: 'pre',
-        youtubeId: 'YGTEXtptvGM', startTime: 0, endTime: 182,
-        instruction: 'Watch John and Elizabeth meeting for the first time. Pay attention to where they are from, what they do, and how they say goodbye. Then answer the questions!',
-        audioText: `John: Hello hello!\nElizabeth: Hello hello! How are you? I am okay! What's your name?\nJohn: My name is John. Nice to meet you, Elizabeth!\nElizabeth: Nice to meet you too! I am from Spain. I am Spanish. I live in Madrid.\nJohn: I am from the United States. I am an American. I live in New York.\nElizabeth: Do you speak Spanish?\nJohn: No, I don't. I speak English and French. I am a businessman.\nElizabeth: I am a teacher. It has been a pleasure to meet you, John!\nJohn: I am also glad to meet you. I hope to see you soon!`,
-        questions: [
-          { q: 'Where is Elizabeth from?', options: ['The United States', 'France', 'Spain', 'England'], answer: 2 },
-          { q: 'What does John do?', options: ['He is a teacher', 'He is a businessman', 'He is a student', 'He is a doctor'], answer: 1 },
-          { q: 'What languages does John speak?', options: ['English and Spanish', 'Spanish and French', 'English and French', 'Italian and English'], answer: 2 },
-          { q: '"I am glad to meet you" means:', options: ['I am tired of meeting people', 'I am happy to meet you', 'I want to leave now', 'I do not know you'], answer: 1 },
+      // ── L3 ──────────────────────────────────────────────────────────
+      { id:'l4', title:'John & Elizabeth — First Meeting', level:'A1', type:'listening_video', lesson:'The Introductions', phase:'pre',
+        youtubeId:'YGTEXtptvGM', startTime:0, endTime:182,
+        instruction:'Watch John and Elizabeth meeting for the first time. Pay attention to where they are from and what they do. Then answer!',
+        audioText:`John: Hello! My name is John. Nice to meet you!\nElizabeth: I am from Spain. I am Spanish. I live in Madrid.\nJohn: I am from the United States. I am American. I live in New York.\nElizabeth: Do you speak Spanish?\nJohn: No. I speak English and French. I am a businessman.\nElizabeth: I am a teacher. It has been a pleasure!`,
+        questions:[
+          {q:'Where is Elizabeth from?',options:['The United States','France','Spain','England'],answer:2},
+          {q:'What does John do?',options:['He is a teacher','He is a businessman','He is a student','He is a doctor'],answer:1},
+          {q:'What languages does John speak?',options:['English and Spanish','Spanish and French','English and French','Italian and English'],answer:2},
+          {q:'"I am glad to meet you" means:',options:['I am tired','I am happy to meet you','I want to leave','I do not know you'],answer:1},
         ]
       },
-      {
-        id: 'l5', title: 'Introducing Yourself', level: 'A1',
-        type: 'listening_video', lesson: 'The Introductions', phase: 'post',
-        youtubeId: 'P3VcHnECgbs', startTime: 0, endTime: 75,
-        instruction: 'Watch this ESL video about introducing yourself. Pay attention to the key phrases used. Then answer the questions!',
-        audioText: `Narrator: How do you introduce yourself in English?\nSpeaker 1: Hi! My name is Anna. Nice to meet you!\nSpeaker 2: Hello! I'm David. Where are you from, Anna?\nAnna: I'm from Brazil. And you?\nDavid: I'm from Canada. What do you do?\nAnna: I'm a student. What about you?\nDavid: I'm an engineer. It's great to meet you!\nAnna: You too! See you around!`,
-        questions: [
-          { q: '"Nice to meet you" — same meaning:', options: ['See you later!', 'It\'s great to meet you!', 'How are you?', 'Where are you from?'], answer: 1 },
-          { q: '"What do you do?" means:', options: ['What are you doing now?', 'What is your hobby?', 'What is your job?', 'What did you do yesterday?'], answer: 2 },
-          { q: 'Where is Anna from?', options: ['Canada', 'The United States', 'Brazil', 'Australia'], answer: 2 },
-          { q: '"See you around!" means:', options: ['I will never see you again', 'We will probably see each other again', 'Look around you!', 'Let\'s go around'], answer: 1 },
+      { id:'l5', title:'Introducing Yourself', level:'A1', type:'listening_video', lesson:'The Introductions', phase:'post',
+        youtubeId:'P3VcHnECgbs', startTime:0, endTime:75,
+        instruction:'Watch this ESL video about introducing yourself. Pay attention to key phrases. Then answer!',
+        audioText:`Anna: Hi! My name is Anna. Nice to meet you!\nDavid: Hello! I'm David. Where are you from, Anna?\nAnna: I'm from Brazil. And you?\nDavid: I'm from Canada. What do you do?\nAnna: I'm a student. What about you?\nDavid: I'm an engineer. It's great to meet you!\nAnna: You too! See you around!`,
+        questions:[
+          {q:'"Nice to meet you" — same meaning:',options:['See you later!','It\'s great to meet you!','How are you?','Where are you from?'],answer:1},
+          {q:'"What do you do?" means:',options:['What are you doing now?','What is your hobby?','What is your job?','What did you do yesterday?'],answer:2},
+          {q:'Where is Anna from?',options:['Canada','The United States','Brazil','Australia'],answer:2},
+          {q:'"See you around!" means:',options:['I will never see you again','We will probably see each other again','Look around you!','Let\'s go around'],answer:1},
         ]
       },
-      // ── L4: COUNTRIES AND NATIONALITIES ──────────────────────────────
-      {
-        id: 'l6', title: 'Street Interview — Where Are You From?', level: 'A1',
-        type: 'listening_video', lesson: 'Countries and Nationalities', phase: 'pre',
-        youtubeId: 'qaand6YZhc0', startTime: 0, endTime: 65,
-        instruction: 'Watch this real street interview! People talk about where they are from, spell their names, and share personal information. Then answer the questions!',
-        audioText: `Doug: Hi, I'm Doug.\nNatalie: Hi, I'm Natalie. This is my husband, Chris.\nChris: Hi, nice to meet you.\nInterviewer: Where are you from?\nNatalie: I'm from Oklahoma and I'm from Bristol in England.\nInterviewer: Hi. What's your name?\nDeepti: My name is Deepti Gupta.\nInterviewer: Could you spell it for me?\nDeepti: Yes. The first name is Deepti — D E E P T I. And the last name is Gupta — G U P T A.\nInterviewer: And are you from the United States?\nDeepti: No, I'm not. I'm from India.`,
-        questions: [
-          { q: 'Where is Natalie from?', options: ['Oklahoma only', 'Bristol only', 'Oklahoma and Bristol, England', 'India'], answer: 2 },
-          { q: 'How do you spell Deepti\'s last name?', options: ['G-U-P-T-A', 'G-O-O-P-T-A', 'G-U-P-T-E', 'G-A-P-T-A'], answer: 0 },
-          { q: 'Is Deepti from the United States?', options: ['Yes, she is.', 'No, she is from England.', 'No, she is from India.', 'No, she is from Canada.'], answer: 2 },
-          { q: 'Chris is Natalie\'s...', options: ['brother', 'friend', 'husband', 'teacher'], answer: 2 },
+      // ── L4 ──────────────────────────────────────────────────────────
+      { id:'l6', title:'Street Interview — Where Are You From?', level:'A1', type:'listening_video', lesson:'Countries and Nationalities', phase:'pre',
+        youtubeId:'qaand6YZhc0', startTime:0, endTime:65,
+        instruction:'Watch real street interviews! Pay attention to where people are from and how they spell their names. Then answer!',
+        audioText:`Natalie: I'm from Oklahoma and Bristol in England.\nDeepti: My name is Deepti Gupta. D-E-E-P-T-I. G-U-P-T-A.\nInterviewer: Are you from the United States?\nDeepti: No, I'm from India.`,
+        questions:[
+          {q:'Where is Natalie from?',options:['Oklahoma only','Bristol only','Oklahoma and Bristol, England','India'],answer:2},
+          {q:'How do you spell Deepti\'s last name?',options:['G-U-P-T-A','G-O-O-P-T-A','G-U-P-T-E','G-A-P-T-A'],answer:0},
+          {q:'Is Deepti from the United States?',options:['Yes, she is.','No, from England.','No, from India.','No, from Canada.'],answer:2},
+          {q:'Chris is Natalie\'s:',options:['brother','friend','husband','teacher'],answer:2},
         ]
       },
-      {
-        id: 'l7', title: 'Countries & Nationalities — TV Show', level: 'A1',
-        type: 'listening_video', lesson: 'Countries and Nationalities', phase: 'post',
-        youtubeId: 'wYbTtiosCFE', startTime: 0, endTime: 112,
-        instruction: 'Watch this conversation about countries and nationalities. Pay attention to how they guess nationalities and talk about cities. Then answer the questions!',
-        audioText: `Jay: I am happy to introduce the new co-host of our show, Miss Kim Kamal.\nKim: Hello Kim. Good morning, Ray. Oh, I'm sorry, I mean Jay.\nJay: Well, you must be nervous to be next to a celebrity.\nKim: Yes, and I'm also nervous to be on TV. Millions of people watch Good Morning World!\nJay: So tell us about yourself. Where are you from?\nJay: Are you from Canada? Are you Canadian?\nKim: No, I'm not.\nJay: Are you from Brazil? Brazil is a beautiful country.\nKim: Yes it is, but no, I'm not Brazilian.\nJay: Are you from Turkey?\nKim: No, I'm not from Turkey. I'm from Jamaica!\nJay: Whereabouts in Jamaica are you from?\nKim: I'm from Kingston, the capital of Jamaica. It is a big and crowded city which makes it very noisy, but it is also very interesting!`,
-        questions: [
-          { q: 'Where is Kim from?', options: ['Canada', 'Brazil', 'Turkey', 'Jamaica'], answer: 3 },
-          { q: 'What is the capital of Jamaica?', options: ['Montego Bay', 'Kingston', 'Nassau', 'Havana'], answer: 1 },
-          { q: 'How does Kim describe Kingston?', options: ['Small and quiet', 'Big, crowded and noisy but interesting', 'Beautiful and peaceful', 'Old and boring'], answer: 1 },
-          { q: 'Kim is nervous because...', options: ['She forgot her lines', 'She doesn\'t like Jay', 'She is on TV with millions watching', 'She is from Jamaica'], answer: 2 },
+      { id:'l7', title:'Countries & Nationalities — TV Show', level:'A1', type:'listening_video', lesson:'Countries and Nationalities', phase:'post',
+        youtubeId:'wYbTtiosCFE', startTime:0, endTime:112,
+        instruction:'Watch Kim talk about where she is from on a TV show. Then answer the questions!',
+        audioText:`Jay: Where are you from? Are you Canadian?\nKim: No, I'm not.\nJay: Brazilian?\nKim: No. I'm from Jamaica!\nJay: Whereabouts in Jamaica?\nKim: I'm from Kingston, the capital. It is big and crowded but very interesting!`,
+        questions:[
+          {q:'Where is Kim from?',options:['Canada','Brazil','Turkey','Jamaica'],answer:3},
+          {q:'What is the capital of Jamaica?',options:['Montego Bay','Kingston','Nassau','Havana'],answer:1},
+          {q:'How does Kim describe Kingston?',options:['Small and quiet','Big, crowded and interesting','Beautiful and peaceful','Old and boring'],answer:1},
+          {q:'Kim is nervous because:',options:['She forgot her lines','She doesn\'t like Jay','She is on TV with millions watching','She is from Jamaica'],answer:2},
         ]
       },
-
-      // ── L5: THE OCCUPATIONS ──────────────────────────────────────────
-      {
-        id: 'l8', title: 'What Is Your Job?', level: 'A1',
-        type: 'listening_video', lesson: 'The Occupations', phase: 'pre',
-        youtubeId: '0x1WRY4fvz4', startTime: 0, endTime: 120,
-        instruction: 'Watch people talk about their jobs! Pay attention to what they do, where they work, and whether they like their jobs. Then answer the questions!',
-        audioText: `Interviewer: Hi! What do you do?\nPerson 1: I'm a teacher. I teach math at a high school.\nInterviewer: Do you like your job?\nPerson 1: Yes, I love it! It's very rewarding.\nInterviewer: And you?\nPerson 2: I'm a nurse. I work at a hospital.\nInterviewer: Is it stressful?\nPerson 2: Sometimes, yes! But I love helping people.\nInterviewer: What about you?\nPerson 3: I'm a chef. I work at an Italian restaurant.\nInterviewer: Do you cook at home too?\nPerson 3: No! After work, I'm too tired to cook!\nInterviewer: That's funny! And you, what do you do?\nPerson 4: I'm an engineer. I work for a big technology company.\nInterviewer: Do you enjoy it?\nPerson 4: Yes, it's very creative and challenging. I love it.`,
-        questions: [
-          { q: 'What does Person 1 teach?', options: ['English', 'Science', 'Math', 'History'], answer: 2 },
-          { q: 'Where does the nurse work?', options: ['At a school', 'At a restaurant', 'At an office', 'At a hospital'], answer: 3 },
-          { q: 'Why doesn\'t the chef cook at home?', options: ['He doesn\'t have food', 'He is too tired after work', 'He doesn\'t like cooking', 'His kitchen is broken'], answer: 1 },
-          { q: 'How does the engineer describe the job?', options: ['Boring and easy', 'Stressful and hard', 'Creative and challenging', 'Simple and relaxing'], answer: 2 },
+      // ── L5 ──────────────────────────────────────────────────────────
+      { id:'l8', title:'What Is Your Job?', level:'A1', type:'listening_video', lesson:'The Occupations', phase:'pre',
+        youtubeId:'0x1WRY4fvz4', startTime:0, endTime:120,
+        instruction:'Watch people talk about their jobs! Pay attention to what they do, where they work, and how they feel about it. Then answer!',
+        audioText:`Person 1: I'm a teacher. I teach math at a high school. I love it — very rewarding!\nPerson 2: I'm a nurse. I work at a hospital. Sometimes stressful but I love helping people.\nPerson 3: I'm a chef at an Italian restaurant. After work I'm too tired to cook!\nPerson 4: I'm an engineer at a tech company. Very creative and challenging. I love it!`,
+        questions:[
+          {q:'What does Person 1 teach?',options:['English','Science','Math','History'],answer:2},
+          {q:'Where does the nurse work?',options:['At a school','At a restaurant','At an office','At a hospital'],answer:3},
+          {q:'Why doesn\'t the chef cook at home?',options:['No food','Too tired after work','Doesn\'t like cooking','Kitchen is broken'],answer:1},
+          {q:'How does the engineer describe the job?',options:['Boring and easy','Stressful and hard','Creative and challenging','Simple and relaxing'],answer:2},
         ]
       },
-      {
-        id: 'l9', title: 'What Is Your Dream Job?', level: 'A1',
-        type: 'listening_video', lesson: 'The Occupations', phase: 'post',
-        youtubeId: 'cFdCzN7RYbw', startTime: 0, endTime: 150,
-        instruction: 'Watch people talking about their dream jobs in real English interviews! Pay attention to what jobs they want and why. Then answer the questions!',
-        audioText: `Interviewer: What is your dream job?\nPerson 1: My dream job is to be a singer. I love music and I want to perform on big stages around the world!\nInterviewer: What about you?\nPerson 2: I want to be a doctor. I want to help people and save lives. It is a very important job.\nInterviewer: And you?\nPerson 3: My dream is to be a teacher! I love working with children and I want to help them learn.\nPerson 4: I want to be an entrepreneur — I want to start my own business and be my own boss!\nInterviewer: Why is that your dream?\nPerson 4: Because I want to be free and creative. I want to build something new!`,
-        audioText: `Host: What do you want to be when you grow up?\nKid 1: I want to be a doctor! I want to help sick people and save lives.\nHost: That's wonderful! And you?\nKid 2: I want to be an astronaut! I want to go to space and explore the stars.\nHost: Wow! What about you?\nKid 3: I want to be a teacher! I love school and I want to help kids learn.\nHost: Amazing! And you, what is your dream job?\nKid 4: I want to be a chef! I love cooking with my mom. Food makes people happy!\nHost: Beautiful answers! Remember — work hard and your dreams can come true!`,
-        questions: [
-          { q: 'Why does Kid 1 want to be a doctor?', options: ['To make money', 'To travel the world', 'To help sick people and save lives', 'To work in a hospital'], answer: 2 },
-          { q: 'What does Kid 2 want to do in space?', options: ['Build a rocket', 'Explore the stars', 'Meet aliens', 'Live there'], answer: 1 },
-          { q: 'Why does Kid 4 want to be a chef?', options: ['Because it pays well', 'Because it is easy', 'Because food makes people happy', 'Because restaurants are fun'], answer: 2 },
-          { q: 'What does the host say at the end?', options: ['"Good luck with school!"', '"Work hard and your dreams can come true!"', '"Be a doctor — it\'s the best job!"', '"You are all wrong!"'], answer: 1 },
+      { id:'l9', title:'What Is Your Dream Job?', level:'A1', type:'listening_video', lesson:'The Occupations', phase:'post',
+        youtubeId:'cFdCzN7RYbw', startTime:0, endTime:150,
+        instruction:'Watch people talk about their dream jobs! Pay attention to what they want to be and why. Then answer!',
+        audioText:`Person 1: My dream is to be a singer! I love music.\nPerson 2: I want to be a doctor and save lives.\nPerson 3: My dream is to be a teacher and help children learn.\nPerson 4: I want to be an entrepreneur — start my own business and be my own boss!`,
+        questions:[
+          {q:'Person 1 wants to be a:',options:['Doctor','Teacher','Singer','Entrepreneur'],answer:2},
+          {q:'Why does Person 2 want to be a doctor?',options:['To make money','To travel','To help people and save lives','To work in a hospital'],answer:2},
+          {q:'Why does Person 4 want to be an entrepreneur?',options:['For money','To be free and creative','Because it is easy','To travel the world'],answer:1},
+          {q:'Person 3 wants to work with:',options:['Animals','Technology','Food','Children'],answer:3},
         ]
       },
-
-      // ── L6: AT THE CAFÉ ───────────────────────────────────────────────
-      {
-        id: 'l10', title: 'Ordering at a Coffee Shop', level: 'A1',
-        type: 'listening_video', lesson: 'At the Café', phase: 'pre',
-        youtubeId: '9nq9ocivltk', startTime: 0, endTime: 100,
-        instruction: 'Watch someone ordering at a coffee shop! Pay attention to what they order, how they ask, and how they pay. Then answer the questions!',
-        audioText: `Barista: Hi! Welcome! What can I get for you today?\nCustomer: Hi! Can I have a medium latte, please?\nBarista: Of course! Hot or iced?\nCustomer: Hot, please.\nBarista: Any milk preference? We have whole milk, oat milk, or almond milk.\nCustomer: Oat milk, please.\nBarista: Perfect. Anything else?\nCustomer: Yes! Can I also get a blueberry muffin?\nBarista: Great choice! That's going to be $7.50.\nCustomer: Here's a ten.\nBarista: And $2.50 is your change. Your name?\nCustomer: Sarah.\nBarista: Perfect, Sarah! Your latte will be ready in a minute. Have a great day!\nCustomer: Thank you! You too!`,
-        questions: [
-          { q: 'What size coffee does Sarah order?', options: ['Small', 'Large', 'Medium', 'Extra large'], answer: 2 },
-          { q: 'What milk does Sarah choose?', options: ['Whole milk', 'Almond milk', 'No milk', 'Oat milk'], answer: 3 },
-          { q: 'How much does everything cost?', options: ['$5.00', '$10.00', '$7.50', '$8.50'], answer: 2 },
-          { q: 'What food does Sarah order?', options: ['A croissant', 'A blueberry muffin', 'A sandwich', 'A cookie'], answer: 1 },
+      // ── L6 ──────────────────────────────────────────────────────────
+      { id:'l10', title:'Ordering at a Coffee Shop', level:'A1', type:'listening_video', lesson:'At the Café', phase:'pre',
+        youtubeId:'9nq9ocivltk', startTime:0, endTime:100,
+        instruction:'Watch someone ordering at a coffee shop! Pay attention to what they order, how they ask, and how they pay. Then answer!',
+        audioText:`Barista: Hi! What can I get you?\nCustomer: Can I have a medium latte please?\nBarista: Hot or iced?\nCustomer: Hot. With oat milk.\nBarista: Anything else?\nCustomer: A blueberry muffin!\nBarista: That's $7.50. Your name?\nCustomer: Sarah.\nBarista: Ready in a minute! Have a great day!`,
+        questions:[
+          {q:'What size coffee does Sarah order?',options:['Small','Large','Medium','Extra large'],answer:2},
+          {q:'What milk does Sarah choose?',options:['Whole milk','Almond milk','No milk','Oat milk'],answer:3},
+          {q:'How much does everything cost?',options:['$5.00','$10.00','$7.50','$8.50'],answer:2},
+          {q:'What food does Sarah order?',options:['A croissant','A blueberry muffin','A sandwich','A cookie'],answer:1},
         ]
       },
-      {
-        id: 'l11', title: 'Real Conversation — Ordering at a Café', level: 'A1',
-        type: 'listening_video', lesson: 'At the Café', phase: 'post',
-        youtubeId: 'bv6RQNrNGKQ', startTime: 0, endTime: 180,
-        instruction: 'Watch a real conversation ordering food and drinks at a café! Pay attention to the expressions used to order politely. Then answer the questions!',
-        audioText: `Waiter: Good evening! Welcome to The Green Garden. My name is James and I\'ll be your server tonight.\nCustomer: Thank you! This place is lovely!\nWaiter: Thank you! Can I start you off with something to drink?\nCustomer: Yes, I'd like a sparkling water, please.\nWaiter: Of course! Are you ready to order, or do you need a few minutes?\nCustomer: I think I'm ready. What do you recommend?\nWaiter: The pasta with mushrooms is very popular tonight.\nCustomer: That sounds delicious! I'll have that, please.\nWaiter: Excellent choice! Would you like a salad to start?\nCustomer: Yes, please! A Caesar salad.\nWaiter: Perfect. I'll be right back with your water!`,
-        questions: [
-          { q: 'What is the waiter\'s name?', options: ['John', 'Michael', 'James', 'Robert'], answer: 2 },
-          { q: 'What does the customer order to drink?', options: ['Orange juice', 'Still water', 'Wine', 'Sparkling water'], answer: 3 },
-          { q: 'What does the waiter recommend?', options: ['The salad', 'The pasta with mushrooms', 'The soup', 'The fish'], answer: 1 },
-          { q: '"I\'ll be right back" means:', options: ['I am leaving forever', 'Wait — I\'ll return very soon', 'Come with me', 'I forgot something'], answer: 1 },
+      { id:'l11', title:'Real Conversation — Ordering at a Café', level:'A1', type:'listening_video', lesson:'At the Café', phase:'post',
+        youtubeId:'bv6RQNrNGKQ', startTime:0, endTime:180,
+        instruction:'Watch a real café conversation! Pay attention to polite ordering expressions. Then answer!',
+        audioText:`Waiter: Good evening! My name is James, I'll be your server.\nCustomer: Can I start with a sparkling water?\nWaiter: Of course! Ready to order?\nCustomer: What do you recommend?\nWaiter: The pasta with mushrooms is very popular.\nCustomer: I'll have that! And a Caesar salad to start.\nWaiter: Excellent! I'll be right back!`,
+        questions:[
+          {q:'What is the waiter\'s name?',options:['John','Michael','James','Robert'],answer:2},
+          {q:'What does the customer order to drink?',options:['Orange juice','Still water','Wine','Sparkling water'],answer:3},
+          {q:'What does the waiter recommend?',options:['The salad','The pasta with mushrooms','The soup','The fish'],answer:1},
+          {q:'"I\'ll be right back" means:',options:['I am leaving forever','I\'ll return very soon','Come with me','I forgot something'],answer:1},
+        ]
+      },
+      // ── L7 ──────────────────────────────────────────────────────────
+      { id:'l12', title:'Places in the City — Conversation', level:'A1', type:'listening_video', lesson:'The Places in the City', phase:'pre',
+        youtubeId:'on_1sS6Ii8M', startTime:0, endTime:180,
+        instruction:'Watch this conversation about places in the city and directions. Then answer the questions!',
+        audioText:`Person A: Is there a bank near here?\nPerson B: Yes! On Main Street, next to the post office.\nPerson A: And a supermarket?\nPerson B: On Park Avenue — go straight and turn left at the traffic lights.\nPerson A: A pharmacy?\nPerson B: Opposite the hospital, on Oak Street.\nPerson A: Is there a park nearby?\nPerson B: City Park is 5 minutes away — turn right at the school!`,
+        questions:[
+          {q:'Where is the bank?',options:['On Park Avenue','On Main Street next to the post office','On Oak Street','Next to the school'],answer:1},
+          {q:'How do you get to the supermarket?',options:['Turn right at the school','Opposite the hospital','Go straight and turn left at the lights','5 minutes from the park'],answer:2},
+          {q:'Where is the pharmacy?',options:['Next to the bank','On Main Street','Opposite the hospital on Oak Street','Next to City Park'],answer:2},
+          {q:'How far is City Park?',options:['2 minutes','10 minutes','5 minutes','On the corner'],answer:2},
+        ]
+      },
+      // ── L8 ──────────────────────────────────────────────────────────
+      { id:'l13', title:'The Family — Conversation', level:'A1', type:'listening_video', lesson:'The Family', phase:'pre',
+        youtubeId:'v9EU41cuhHY', startTime:0, endTime:180,
+        instruction:'Watch this conversation about family members! Pay attention to the vocabulary. Then answer!',
+        audioText:`Person A: Tell me about your family!\nPerson B: I live with my parents and two brothers.\nPerson A: Are they retired?\nPerson B: My father is 65 and retired. My mother is a teacher.\nPerson A: Sisters?\nPerson B: No — but I have a sister-in-law! My oldest brother got married last year.\nPerson A: Grandparents?\nPerson B: My grandmother lives with us — 82 and very active! My grandfather passed away 5 years ago.\nPerson A: Do you get together?\nPerson B: Every Sunday for lunch!`,
+        questions:[
+          {q:'How many brothers does Person B have?',options:['One','Two','Three','None'],answer:1},
+          {q:'What does Person B\'s mother do?',options:['Retired','Doctor','Teacher','Chef'],answer:2},
+          {q:'Why does Person B have a sister-in-law?',options:['His sister got married','His oldest brother got married','His father remarried','His mother has a sister'],answer:1},
+          {q:'When does the family get together?',options:['Every Saturday for dinner','Every Sunday for lunch','Every Friday','Every holiday'],answer:1},
+        ]
+      },
+      // ── L9 ──────────────────────────────────────────────────────────
+      { id:'l14', title:'Future Plans — Going To', level:'A1', type:'listening_video', lesson:'You Are Going To…', phase:'pre',
+        youtubeId:'OlyYE6USuO0', startTime:0, endTime:180,
+        instruction:'Watch this conversation about future plans using "going to"! Then answer!',
+        audioText:`Person A: What are you going to do this weekend?\nPerson B: Visit my family Saturday — my sister is going to cook a big dinner!\nPerson A: Sunday?\nPerson B: I'm going to study for my English test.\nPerson A: Me too! Let's study together at the library!\nPerson B: What time?\nPerson A: 10 o'clock? I'm going to bring coffee!\nPerson B: We're going to do great on the test!`,
+        questions:[
+          {q:'What is Person B going to do Saturday?',options:['Study','Go to library','Visit family','Cook dinner'],answer:2},
+          {q:'What is Person B\'s sister going to do?',options:['Visit them','Travel','Cook a big dinner','Study English'],answer:2},
+          {q:'Where are they going to study?',options:['At home','At a café','At the library','At school'],answer:2},
+          {q:'What is Person A going to bring?',options:['Books','Coffee','Food','Notebooks'],answer:1},
+        ]
+      },
+      // ── L10 ──────────────────────────────────────────────────────────
+      { id:'l15', title:'At the Airport — Conversation', level:'A1', type:'listening_video', lesson:'At the Travel Agency', phase:'pre',
+        youtubeId:'Sn45WTzoAKg', startTime:0, endTime:180,
+        instruction:'Watch this airport check-in conversation! Pay attention to travel vocabulary. Then answer!',
+        audioText:`Agent: Can I see your passport and ticket?\nPassenger: Here you are.\nAgent: Checking any bags?\nPassenger: One suitcase and one carry-on.\nAgent: It's 22 kilos — within the 23 kilo limit. Window or aisle seat?\nPassenger: Window please.\nAgent: Here's your boarding pass. Gate 14, departs at 10:30. Be there by 10:00!\nPassenger: Thank you!`,
+        questions:[
+          {q:'How many bags is the passenger checking?',options:['Two suitcases','No bags','One suitcase and one carry-on','Just a carry-on'],answer:2},
+          {q:'How much does the suitcase weigh?',options:['23 kilos','20 kilos','22 kilos','25 kilos'],answer:2},
+          {q:'What seat does the passenger choose?',options:['Aisle','Middle','Window','Front'],answer:2},
+          {q:'What time does the flight depart?',options:['10:00','10:30','11:00','9:30'],answer:1},
+        ]
+      },
+      // ── L11 ──────────────────────────────────────────────────────────
+      { id:'l16', title:'Was / Were — Conversation', level:'A1', type:'listening_video', lesson:'I Was So Nervous!', phase:'pre',
+        youtubeId:'FG0USQaru8o', startTime:0, endTime:180,
+        instruction:'Watch this conversation using "was" and "were" in the past! Then answer!',
+        audioText:`Person A: How was your first day at the new job?\nPerson B: Amazing but I was so nervous!\nPerson A: Were your colleagues friendly?\nPerson B: Yes, very welcoming! My boss was really helpful.\nPerson A: Was the office nice?\nPerson B: Beautiful — 20th floor with a great view!\nPerson B: By lunchtime I was completely comfortable.`,
+        questions:[
+          {q:'How did Person B feel on the first day?',options:['Bored','Angry','Nervous but amazed','Sad'],answer:2},
+          {q:'Were the colleagues friendly?',options:['No, they were cold','Yes, very welcoming','Some were friendly','They were busy'],answer:1},
+          {q:'Where was the office?',options:['Ground floor','5th floor','20th floor','Basement'],answer:2},
+          {q:'When did Person B feel comfortable?',options:['After a week','By lunchtime','The next day','After meeting the boss'],answer:1},
+        ]
+      },
+      // ── L12 ──────────────────────────────────────────────────────────
+      { id:'l17', title:'Where Were You? — Conversation', level:'A1', type:'listening_video', lesson:'Where Were You Yesterday?', phase:'pre',
+        youtubeId:'1DymiK883-o', startTime:11, endTime:200,
+        instruction:'Watch this conversation about what happened yesterday! Pay attention to Simple Past verbs. Then answer!',
+        audioText:`Person A: Where were you yesterday? You didn't answer!\nPerson B: I was at the doctor's in the morning — just a check-up!\nPerson A: Did you watch the football game?\nPerson B: No, I watched a movie. I was really tired.\nPerson A: I worked then visited my parents. My mom cooked her famous pasta!`,
+        questions:[
+          {q:'Where was Person B in the morning?',options:['At work','At the supermarket','At home','At the doctor\'s'],answer:3},
+          {q:'What did Person B do instead of watching the game?',options:['Went to the supermarket','Visited parents','Watched a movie','Played football'],answer:2},
+          {q:'Why didn\'t Person B watch the game?',options:['Doesn\'t like football','Was at the doctor\'s','Watched a movie — was tired','Went out'],answer:2},
+          {q:'What did Person A\'s mom cook?',options:['Rice and beans','Her famous pasta','Grilled chicken','A birthday cake'],answer:1},
+        ]
+      },
+      // ── L13 ──────────────────────────────────────────────────────────
+      { id:'l18', title:'A1 Full Review — Listening', level:'A1', type:'listening_video', lesson:'Final Review', phase:'pre',
+        youtubeId:'Cgk8RNLthZ4', startTime:0, endTime:180,
+        instruction:'Final review! This conversation covers all A1 topics. Listen carefully and answer!',
+        audioText:`Sarah: Hi! I'm Sarah!\nJames: Hello! I'm James. Nice to meet you!\nSarah: Are you from here?\nJames: No, I'm from London — I'm British. I moved here 2 years ago.\nSarah: What do you do?\nJames: I'm a software engineer. I work downtown near the city park.\nSarah: Do you have family here?\nJames: Not yet. My family is in London but I'm going to visit them next month!\nSarah: Were you nervous when you first moved?\nJames: Very nervous! But now I feel completely at home.`,
+        questions:[
+          {q:'Where is James from?',options:['New York','Sydney','London','Paris'],answer:2},
+          {q:'What does James do?',options:['Teacher','Software engineer','Doctor','Chef'],answer:1},
+          {q:'What are James\'s future plans?',options:['Move back to London','Change jobs','Visit family next month','Move to Paris'],answer:2},
+          {q:'How did James feel when he first moved?',options:['Excited and happy','Very nervous','Angry','Bored'],answer:1},
         ]
       },
     ]
@@ -310,325 +423,154 @@ const SKILLS = {
   writing: {
     label: 'Writing', icon: '✏️', color: '#7f77dd',
     activities: [
-      // ── L2: THE GREETINGS ──────────────────────────────────────────────
-      {
-        id: 'w1', title: 'Write Your Own Greeting Dialogue', level: 'A1',
-        type: 'writing', lesson: 'The Greetings', phase: 'pre',
-        prompt: 'Write a short dialogue (conversation) between two people meeting for the first time. Include:\n• A greeting\n• Asking and saying names\n• Spelling at least one name\n• Asking how they are\n• Saying goodbye\n\nUse vocabulary from The Greetings class!',
-        minWords: 40,
-        tips: [
-          'Start with a greeting: "Good morning!" / "Hi!" / "Hey!"',
-          'Ask the name: "What\'s your name?" → "I\'m ___."',
-          'Spell a name: "How do you spell that?" → "It\'s M-A-R-K."',
-          'Ask how they are: "How are you?" → "I\'m good, thanks!"',
-          'Say goodbye: "See you later!" / "Take care!" / "Have a good day!"'
-        ],
-        feedback: { excellent: "Excellent dialogue! 🌟", good: "Good job!", needsWork: "Nice start! Add more expressions." }
+      // ── L2 ──────────────────────────────────────────────────────────
+      { id:'w1', title:'Write Your Own Greeting Dialogue', level:'A1', type:'writing', lesson:'The Greetings', phase:'pre',
+        prompt:'Write a dialogue between two people meeting for the first time:\n• A greeting\n• Asking and saying names\n• Spelling at least one name\n• Asking how they are\n• Saying goodbye',
+        minWords:40,
+        tips:['"Good morning!" / "Hi!" / "Hey!"','"What\'s your name?" → "I\'m ___."','"How do you spell that?" → "It\'s M-A-R-K."','"How are you?" → "I\'m good, thanks!"','"See you later!" / "Take care!"'],
+        feedback:{excellent:'Excellent dialogue! 🌟',good:'Good! Add more expressions.',needsWork:'Include: greeting, names, spelling and goodbye!'}
       },
-      {
-        id: 'w2', title: 'How Are You? — Write Your Answers', level: 'A1',
-        type: 'writing', lesson: 'The Greetings', phase: 'pre',
-        prompt: 'Someone asks you these 3 questions. Write a natural answer for each one:\n\n1. "How are you today?"\n2. "What\'s up?"\n3. "How\'s everything?"\n\nThen write 2 more sentences about your day using "I am" or "I\'m".',
-        minWords: 35,
-        tips: [
-          'Use different answers for each question!',
-          'For "How are you?" try: "I\'m good, thanks! And you?"',
-          'For "What\'s up?" try: "Not much! Pretty good day!"',
-          'Add details: "I\'m a little tired but happy!"',
-        ],
-        feedback: { excellent: "Wonderful! 🌟", good: "Good work!", needsWork: "Answer each of the 3 questions!" }
+      { id:'w2', title:'How Are You? — Write Your Answers', level:'A1', type:'writing', lesson:'The Greetings', phase:'pre',
+        prompt:'Answer these 3 questions naturally:\n1. "How are you today?"\n2. "What\'s up?"\n3. "How\'s everything?"\n\nThen write 2 sentences about your day using "I am" or "I\'m".',
+        minWords:35,
+        tips:['"I\'m good, thanks! And you?"','"Not much! Pretty good day!"','"I\'m a little tired but happy!"'],
+        feedback:{excellent:'Wonderful! 🌟',good:'Good work!',needsWork:'Answer all 3 questions!'}
       },
-      {
-        id: 'w3', title: 'Formal or Informal? — Rewrite It!', level: 'A1',
-        type: 'writing', lesson: 'The Greetings', phase: 'post',
-        prompt: 'Rewrite these sentences. Make them the OPPOSITE style:\n\n1. INFORMAL → make it FORMAL:\n"Hey! What\'s up? You good?"\n\n2. FORMAL → make it INFORMAL:\n"Good morning. How do you do? It is a pleasure to meet you."\n\n3. Write 3 sentences to say goodbye — 1 formal, 1 informal, 1 your choice!',
-        minWords: 40,
-        tips: [
-          'Formal = professional, polite: "Good morning. How are you?"',
-          'Informal = relaxed, friendly: "Hey! What\'s up?"',
-          'Formal goodbye: "It was a pleasure. Have a wonderful day."',
-          'Informal goodbye: "See ya! Take care! Bye!"',
-        ],
-        feedback: { excellent: "Perfect! 🌟", good: "Good!", needsWork: "Check the formal/informal difference!" }
+      { id:'w3', title:'Formal or Informal? — Rewrite!', level:'A1', type:'writing', lesson:'The Greetings', phase:'post',
+        prompt:'Rewrite these sentences making them the opposite style:\n1. INFORMAL → FORMAL:\n"Hey! What\'s up? You good?"\n\n2. FORMAL → INFORMAL:\n"Good morning. How do you do? It is a pleasure to meet you."\n\n3. Write 3 goodbye sentences — 1 formal, 1 informal, 1 your choice!',
+        minWords:40,
+        tips:['Formal: "Good morning. How are you?"','Informal: "Hey! What\'s up?"','Formal goodbye: "It was a pleasure. Have a wonderful day."','Informal goodbye: "See ya! Take care!"'],
+        feedback:{excellent:'Perfect! 🌟',good:'Good!',needsWork:'Check the formal/informal difference!'}
       },
-      // ── L3: THE INTRODUCTIONS ─────────────────────────────────────────
-      {
-        id: 'w4', title: 'Introduce Yourself in Writing', level: 'A1',
-        type: 'writing', lesson: 'The Introductions', phase: 'pre',
-        prompt: 'Write a short self-introduction in English! Include:\n• Your name\n• Where you are from\n• Your age\n• What you do (job or study)\n• One thing you like\n\nUse the words from class: here, where, his/her name is.',
-        minWords: 15,
-        tips: [
-          '"My name is ___. Nice to meet you!"',
-          '"I am from ___. I live in ___."',
-          '"I am ___ years old."',
-          '"I am a student / teacher / ___."',
-          '"I like ___ and ___."',
-        ],
-        feedback: { excellent: "Fantastic introduction! 🌟", good: "Good job!", needsWork: "Include name, where from, age and what you do!" }
+      // ── L3 ──────────────────────────────────────────────────────────
+      { id:'w4', title:'Introduce Yourself in Writing', level:'A1', type:'writing', lesson:'The Introductions', phase:'pre',
+        prompt:'Write a self-introduction! Include:\n• Your name\n• Where you are from\n• Your age\n• What you do\n• One thing you like',
+        minWords:15,
+        tips:['"My name is ___. Nice to meet you!"','"I am from ___. I live in ___."','"I am ___ years old."','"I like ___ and ___.'],
+        feedback:{excellent:'Fantastic! 🌟',good:'Good job!',needsWork:'Include name, where from, age and what you do!'}
       },
-      {
-        id: 'w5', title: 'Describe Someone You Know', level: 'A1',
-        type: 'writing', lesson: 'The Introductions', phase: 'post',
-        prompt: 'Write about someone you know — a friend, family member or classmate. Use:\n• His name is / Her name is\n• He is / She is (age, job, where from)\n• He lives / She lives\n• He likes / She likes\n\nMinimum 20 words. Try to use "here", "where" and "there" in your sentences!',
-        minWords: 20,
-        tips: [
-          '"Her name is Ana. She is my friend."',
-          '"His name is Carlos. He is 25 years old."',
-          '"She is from Rio. She lives here in São Paulo."',
-          '"He works over there, near the school."',
-        ],
-        feedback: { excellent: "Excellent! 🌟", good: "Good work!", needsWork: "Use 'His/Her name is' and 'here/there'!" }
+      { id:'w5', title:'Describe Someone You Know', level:'A1', type:'writing', lesson:'The Introductions', phase:'post',
+        prompt:'Write about someone you know — a friend or family member. Use:\n• His name is / Her name is\n• He is / She is (age, job, where from)\n• He/She lives\n• He/She likes\n\nMinimum 20 words. Use "here", "where" and "there"!',
+        minWords:20,
+        tips:['"Her name is Ana. She is my friend."','"His name is Carlos. He is 25 years old."','"She lives here in São Paulo."'],
+        feedback:{excellent:'Excellent! 🌟',good:'Good work!',needsWork:'Use His/Her name is and here/there!'}
       },
-      // ── L4: COUNTRIES AND NATIONALITIES ──────────────────────────────
-      {
-        id: 'w6', title: 'Where Are You From? — Write It!', level: 'A1',
-        type: 'writing', lesson: 'Countries and Nationalities', phase: 'pre',
-        prompt: 'Write about yourself using what you learned in class! Answer these questions in full sentences:\n\n1. Where are you from?\n2. What is your nationality?\n3. Where do you live today?\n4. What language(s) do you speak?\n5. Do you love where you live? Why?\n\nUse: I am from / I am ___ (nationality) / I live in / I speak / I love it because...',
-        minWords: 30,
-        tips: [
-          '"I am from ___. I am ___ (nationality)."',
-          '"Now I live in ___ and I love/like it!"',
-          '"I speak ___ a lot and a little English."',
-          '"I love my city because it is ___."',
-          '"I dislike ___ because it is too ___."',
-        ],
-        feedback: { excellent: "Excellent! You used all the vocabulary perfectly! 🌟", good: "Good! Try to add your nationality and why you love your city!", needsWork: "Use: I am from, I am (nationality), I live in, I speak!" }
+      // ── L4 ──────────────────────────────────────────────────────────
+      { id:'w6', title:'Where Are You From? — Write It!', level:'A1', type:'writing', lesson:'Countries and Nationalities', phase:'pre',
+        prompt:'Answer in full sentences:\n1. Where are you from?\n2. What is your nationality?\n3. Where do you live today?\n4. What language(s) do you speak?\n5. Do you love where you live? Why?',
+        minWords:30,
+        tips:['"I am from ___. I am ___ (nationality)."','"Now I live in ___ and I love it!"','"I speak ___ and a little English."','"I love my city because it is ___.'],
+        feedback:{excellent:'Excellent! 🌟',good:'Add your nationality and why you love your city!',needsWork:'Use: I am from, I am (nationality), I live in, I speak!'}
       },
-      {
-        id: 'w7', title: 'My Country & City — Describe It!', level: 'A1',
-        type: 'writing', lesson: 'Countries and Nationalities', phase: 'post',
-        prompt: 'Write a paragraph presenting your country and city to a foreign friend. Include:\n\n• Your country and nationality\n• Where you live today\n• The language(s) spoken there\n• What you love about it\n• What you dislike about it\n• One interesting fact\n\nUse the verbs from class: to be, to live, to speak, to love, to dislike.',
-        minWords: 40,
-        tips: [
-          '"I am from Brazil, so I am Brazilian. I speak Portuguese."',
-          '"I live in ___ and it is ___ (beautiful/big/noisy/crowded)."',
-          '"I love it because there is/are ___."',
-          '"I dislike ___ because it is too ___ (loud/dirty/crowded)."',
-          '"An interesting fact: ___ is more than ___ years old!"',
-        ],
-        feedback: { excellent: "Wonderful description! Your verbs and vocabulary are spot on! 🌟", good: "Good paragraph! Try to add what you dislike too — it makes it more interesting!", needsWork: "Include: nationality, language, what you love AND dislike about your city!" }
+      { id:'w7', title:'My Country & City — Describe It!', level:'A1', type:'writing', lesson:'Countries and Nationalities', phase:'post',
+        prompt:'Write a paragraph about your country and city:\n• Your nationality\n• Where you live\n• Language(s) spoken\n• What you love about it\n• What you dislike\n• One interesting fact',
+        minWords:40,
+        tips:['"I am from Brazil, so I am Brazilian. I speak Portuguese."','"I love it because there is/are ___."','"I dislike ___ because it is too ___.'],
+        feedback:{excellent:'Wonderful! 🌟',good:'Add what you dislike too!',needsWork:'Include: nationality, language, what you love AND dislike!'}
       },
-
-      // ── L5: THE OCCUPATIONS ──────────────────────────────────────────
-      {
-        id: 'w8', title: 'Write About Your Job!', level: 'A1',
-        type: 'writing', lesson: 'The Occupations', phase: 'pre',
-        prompt: 'Write about your job or studies! Answer in full sentences:\n\n1. What do you do?\n2. Where do you work or study?\n3. What do you like about it?\n4. What do you dislike about it?\n5. What is your dream job?\n\nUse: I am a... / I work as a... / I work at... / I love it because... / My dream is to be a...',
-        minWords: 35,
-        tips: [
-          '"I am a teacher. I work at a school in ___."',
-          '"I am a student. I study at ___ University."',
-          '"I love my job because it is rewarding/creative/fun."',
-          '"I dislike ___ because it is sometimes stressful/tiring."',
-          '"My dream job is to be a ___ because ___."',
-        ],
-        feedback: { excellent: "Excellent! You described your job with great vocabulary and detail! 🌟", good: "Good work! Add what you dislike and your dream job to make it more complete!", needsWork: "Include your job, where you work, what you like and dislike, and your dream job!" }
+      // ── L5 ──────────────────────────────────────────────────────────
+      { id:'w8', title:'Write About Your Job!', level:'A1', type:'writing', lesson:'The Occupations', phase:'pre',
+        prompt:'Answer in full sentences:\n1. What do you do?\n2. Where do you work or study?\n3. What do you like about it?\n4. What do you dislike?\n5. What is your dream job?',
+        minWords:35,
+        tips:['"I am a teacher. I work at a school in ___."','"I love my job because it is rewarding."','"My dream job is to be a ___ because ___.'],
+        feedback:{excellent:'Excellent! 🌟',good:'Add your dream job!',needsWork:'Include job, where you work, likes, dislikes and dream job!'}
       },
-      {
-        id: 'w9', title: 'Describe Three People\'s Jobs!', level: 'A1',
-        type: 'writing', lesson: 'The Occupations', phase: 'post',
-        prompt: 'Write about the jobs of 3 people you know (family, friends or famous people). For each one write 2-3 sentences:\n\n• His/Her name\n• What he/she does (job title)\n• Where he/she works\n• One thing about the job\n\nRemember: use A or AN correctly! (a doctor / an engineer)',
-        minWords: 40,
-        tips: [
-          '"Her name is ___. She is a nurse. She works at a hospital."',
-          '"His name is ___. He is an engineer. He works at a tech company."',
-          '"She loves her job because it is very rewarding."',
-          '"He dislikes his job sometimes because it is stressful."',
-        ],
-        feedback: { excellent: "Perfect! You used 'a/an' correctly and described the jobs with great detail! 🌟", good: "Good! Check your use of 'a' vs 'an' before job titles!", needsWork: "Write about 3 people with their name, job, workplace and one thing about the job!" }
+      { id:'w9', title:'Describe Three People\'s Jobs!', level:'A1', type:'writing', lesson:'The Occupations', phase:'post',
+        prompt:'Write about the jobs of 3 people you know. For each:\n• His/Her name\n• Job title\n• Where they work\n• One thing about the job\n\nUse A or AN correctly!',
+        minWords:40,
+        tips:['"Her name is ___. She is a nurse. She works at a hospital."','"His name is ___. He is an engineer."','"She loves her job because it is rewarding.'],
+        feedback:{excellent:'Perfect! 🌟',good:'Check your A/AN!',needsWork:'Write about 3 people with name, job, workplace and one detail!'}
       },
-
-      // ── L6: AT THE CAFÉ ───────────────────────────────────────────────
-      {
-        id: 'w10', title: 'Write a Café Dialogue!', level: 'A1',
-        type: 'writing', lesson: 'At the Café', phase: 'pre',
-        prompt: 'Write a dialogue between a customer and a waiter at a café. Include:\n\n• A greeting from the waiter\n• The customer asking for the menu or ordering directly\n• Ordering food AND a drink\n• Asking about the price\n• Paying and saying goodbye\n\nBe polite! Use expressions from class.',
-        minWords: 45,
-        tips: [
-          'Waiter: "Good morning! Welcome! What can I get you?"',
-          'Customer: "I\'d like a ___ and a ___, please."',
-          '"Can I have ___?" / "I\'ll have the ___, please."',
-          '"How much is it?" / "What\'s the total?"',
-          '"Here you are." / "Keep the change." / "Thank you! Have a great day!"',
-        ],
-        feedback: { excellent: "Perfect café dialogue! Your expressions are natural and polite! 🌟", good: "Great! Make sure to include the price question and the goodbye!", needsWork: "Include: greeting, ordering food AND drink, asking the price, and saying goodbye!" }
+      // ── L6 ──────────────────────────────────────────────────────────
+      { id:'w10', title:'Write a Café Dialogue!', level:'A1', type:'writing', lesson:'At the Café', phase:'pre',
+        prompt:'Write a dialogue between a customer and a waiter:\n• Greeting from the waiter\n• Customer ordering food AND drink\n• Asking about the price\n• Paying and saying goodbye',
+        minWords:45,
+        tips:['Waiter: "Good morning! What can I get you?"','Customer: "I\'d like a ___ and a ___, please."','"How much is it?" / "Here you are." / "Keep the change."'],
+        feedback:{excellent:'Perfect café dialogue! 🌟',good:'Add the price question and goodbye!',needsWork:'Include: greeting, ordering food AND drink, price, goodbye!'}
       },
-      {
-        id: 'w11', title: 'My Favourite Café — Describe It!', level: 'A1',
-        type: 'writing', lesson: 'At the Café', phase: 'post',
-        prompt: 'Write about your favourite café or restaurant! Include:\n\n• The name and where it is\n• What you usually order there\n• Why you love it\n• One thing you would change about it\n• A recommendation to a friend\n\nUse: I usually order... / I love it because... / I would recommend...',
-        minWords: 40,
-        tips: [
-          '"My favourite café is ___ and it is in ___."',
-          '"I usually order a ___ and a ___. It is delicious!"',
-          '"I love it because the atmosphere is ___ and the staff is ___."',
-          '"I would recommend it because ___."',
-          '"The only thing I would change is ___."',
-        ],
-        feedback: { excellent: "Wonderful! Your description makes me want to visit that café! 🌟", good: "Great description! Add a recommendation to your friend to complete it!", needsWork: "Write about the name, location, what you order, why you love it, and a recommendation!" }
+      { id:'w11', title:'My Favourite Café — Describe It!', level:'A1', type:'writing', lesson:'At the Café', phase:'post',
+        prompt:'Write about your favourite café or restaurant:\n• The name and where it is\n• What you usually order\n• Why you love it\n• One thing you would change\n• A recommendation to a friend',
+        minWords:40,
+        tips:['"My favourite café is ___ and it is in ___."','"I usually order a ___ and a ___."','"I would recommend it because ___.'],
+        feedback:{excellent:'Wonderful! 🌟',good:'Add a recommendation!',needsWork:'Write about name, location, what you order, why you love it and a recommendation!'}
+      },
+      // ── L14 FINAL TEST ────────────────────────────────────────────────
+      { id:'w12', title:'Final Test — Writing Review', level:'A1', type:'writing', lesson:'Final Test A1', phase:'pre',
+        prompt:'Your A1 writing review! Write covering ALL 5 topics:\n1. Introduce yourself (name, nationality, age, job)\n2. Your family (2 members)\n3. Your city (places you like)\n4. Plans for next weekend (going to...)\n5. Something you did yesterday (past tense)\n\nMinimum 60 words!',
+        minWords:60,
+        tips:['"My name is ___. I am ___ (nationality). I am ___ years old and I work as a ___."','"My ___ is a ___ and works at ___."','"Next weekend I am going to ___ and ___."','"Yesterday I ___ (past verb). It was ___.'],
+        feedback:{excellent:'Outstanding! You are ready for your A1 test! 🏆',good:'Great! Check you covered all 5 topics!',needsWork:'Include all 5 topics: introduction, family, city, future plans and past events!'}
       },
     ]
   },
   speaking: {
     label: 'Speaking', icon: '🎙️', color: '#d4537e',
     activities: [
-      // ── L1: THE AMERICAN PRONUNCIATION ───────────────────────────────
-      {
-        id: 's0', title: 'Pronunciation Practice!', level: 'A1',
-        type: 'speaking', lesson: 'The American Pronunciation', phase: 'post',
-        prompt: 'Practice your American English pronunciation! Record yourself saying these sounds and sentences clearly:\n\n1. The R sound: "right", "really", "river", "red"\n2. The TH sound: "the", "this", "three", "think"\n3. Say this sentence: "The red rabbit ran really rapidly"\n4. Say your name in American English\n5. Say where you are from in American English\n\nSpeak slowly and clearly!',
-        tips: [
-          'R sound: curl your tongue back — it never touches anything!',
-          'TH sound: put your tongue BETWEEN your teeth and blow air',
-          '"The red rabbit ran really rapidly" — go slow!',
-          'Record 2-3 times and listen back to yourself',
-        ],
-        phrases: ['Right!', 'Really?', 'Red river', 'The / This / Three / Think', 'The red rabbit ran really rapidly', 'My name is...', 'I am from...']
+      // ── L1 ──────────────────────────────────────────────────────────
+      { id:'s0', title:'Pronunciation Practice!', level:'A1', type:'speaking', lesson:'The American Pronunciation', phase:'post',
+        prompt:'Practice your American pronunciation! Record yourself:\n1. The R sound: "right", "really", "river", "red"\n2. The TH sound: "the", "this", "three", "think"\n3. Say: "The red rabbit ran really rapidly"\n4. Your name in American English\n5. Where you are from',
+        tips:['R sound: curl your tongue back — never touches anything!','TH sound: tongue BETWEEN your teeth and blow','Record 2-3 times and listen back!'],
+        phrases:['Right!','Really?','Red river','The / This / Three / Think','The red rabbit ran really rapidly','My name is...','I am from...']
       },
-      // ── L2: THE GREETINGS ──────────────────────────────────────────────
-      {
-        id: 's1', title: 'Introduce Yourself!', level: 'A1',
-        type: 'speaking', lesson: 'The Greetings', phase: 'pre',
-        prompt: 'Record a short introduction! Say:\n1. A greeting (Good morning! / Hi! / Hey!)\n2. Your name\n3. How you are feeling today\n4. One thing about your day\n5. A goodbye',
-        tips: [
-          '"Good morning! / Hi everyone! / Hey!"',
-          '"My name is ___. Nice to meet you!"',
-          '"I am feeling ___ today because ___."',
-          'End with: "See you later! / Take care! / Bye!"',
-        ],
-        phrases: ['Good morning!', 'My name is...', 'Nice to meet you!', 'I am feeling...', 'See you later!', 'Take care!']
+      // ── L2 ──────────────────────────────────────────────────────────
+      { id:'s1', title:'Introduce Yourself!', level:'A1', type:'speaking', lesson:'The Greetings', phase:'pre',
+        prompt:'Record a short introduction:\n1. A greeting\n2. Your name\n3. How you are feeling today\n4. One thing about your day\n5. A goodbye',
+        tips:['"Good morning! / Hi!"','"My name is ___. Nice to meet you!"','"I am feeling ___ today."','End with: "See you later! / Take care!"'],
+        phrases:['Good morning!','My name is...','Nice to meet you!','I am feeling...','See you later!','Take care!']
       },
-      {
-        id: 's2', title: 'How Are You? — 5 Different Ways', level: 'A1',
-        type: 'speaking', lesson: 'The Greetings', phase: 'pre',
-        prompt: 'Record yourself answering "How are you?" in 5 DIFFERENT ways! Each answer must be different. Use the expressions from class:\n\n1. Answer formally\n2. Answer informally\n3. Answer with a feeling + reason\n4. Answer with a question back\n5. Answer with one word + more info',
-        tips: [
-          'Formal: "I am very well, thank you!"',
-          'Informal: "Pretty good! Not much going on!"',
-          'Feeling + reason: "I\'m tired because I woke up early!"',
-          'Question back: "I\'m great! And you?"',
-          'One word: "Fantastic! It is a beautiful day!"',
-        ],
-        phrases: ['I am very well, thank you.', 'Not much!', 'Pretty good!', 'I\'m tired because...', 'And you?', 'Fantastic!', 'Not too bad!']
+      { id:'s2', title:'How Are You? — 5 Different Ways', level:'A1', type:'speaking', lesson:'The Greetings', phase:'pre',
+        prompt:'Answer "How are you?" in 5 DIFFERENT ways:\n1. Formally\n2. Informally\n3. With a feeling + reason\n4. With a question back\n5. One word + more info',
+        tips:['Formal: "I am very well, thank you!"','Informal: "Pretty good! Not much going on!"','Feeling + reason: "I\'m tired because I woke up early!"','Question back: "I\'m great! And you?"'],
+        phrases:['I am very well, thank you.','Not much!','Pretty good!','I\'m tired because...','And you?','Fantastic!','Not too bad!']
       },
-      {
-        id: 's3', title: 'Role Play — Hotel Check-in', level: 'A1',
-        type: 'speaking', lesson: 'The Greetings', phase: 'post',
-        prompt: 'You are Jenny from the listening exercise! Check into a hotel. Record yourself playing Jenny\'s part:\n\n1. Greet the receptionist\n2. Say you have a reservation\n3. Say your name and spell your last name\n4. Confirm your details\n5. Thank the receptionist and say goodbye politely',
-        tips: [
-          'Start with: "Hello! Good evening."',
-          '"I have a reservation. My name is ___."',
-          'Spell: "My last name is ___, it\'s spelled ___."',
-          '"Yes, that\'s right." / "Here you are."',
-          '"Thank you very much! Have a good evening!"',
-        ],
-        phrases: ['Hello! Good evening.', 'I have a reservation.', 'My name is... it\'s spelled...', 'Yes, that\'s right.', 'Here you are.', 'Thank you very much!', 'Have a good evening!']
+      { id:'s3', title:'Role Play — Hotel Check-in', level:'A1', type:'speaking', lesson:'The Greetings', phase:'post',
+        prompt:'You are Jenny checking into a hotel! Record yourself:\n1. Greet the receptionist\n2. Say you have a reservation\n3. Say your name and spell your last name\n4. Confirm your details\n5. Thank the receptionist',
+        tips:['"Hello! Good evening."','"I have a reservation. My name is ___."','Spell: "My last name is ___, it\'s spelled ___."','"Yes, that\'s right." / "Here you are."'],
+        phrases:['Hello! Good evening.','I have a reservation.','My name is... it\'s spelled...','Yes, that\'s right.','Here you are.','Thank you very much!','Have a good evening!']
       },
-      // ── L3: THE INTRODUCTIONS ─────────────────────────────────────────
-      {
-        id: 's4', title: 'Introduce Yourself!', level: 'A1',
-        type: 'speaking', lesson: 'The Introductions', phase: 'pre',
-        prompt: 'Record yourself doing a complete self-introduction — just like John and Elizabeth! Say:\n\n1. Your name and where you are from\n2. Your age\n3. What you do (job or studies)\n4. A language you speak\n5. One thing you like\n\nSpeak for at least 30 seconds!',
-        tips: [
-          '"Hi! My name is ___. Nice to meet you!"',
-          '"I am from ___. I live in ___."',
-          '"I am ___ years old."',
-          '"I am a student / I work as a ___."',
-          '"I like ___ a lot. What about you?"',
-        ],
-        phrases: ['My name is...', 'I am from...', 'I live in...', 'I am ___ years old.', 'I am a student.', 'Nice to meet you!', 'It has been a pleasure!']
+      // ── L3 ──────────────────────────────────────────────────────────
+      { id:'s4', title:'Introduce Yourself!', level:'A1', type:'speaking', lesson:'The Introductions', phase:'pre',
+        prompt:'Record a full self-introduction:\n1. Your name and where you are from\n2. Your age\n3. What you do\n4. A language you speak\n5. One thing you like\n\nSpeak for at least 30 seconds!',
+        tips:['"Hi! My name is ___. Nice to meet you!"','"I am from ___. I live in ___."','"I am ___ years old."','"I like ___ a lot. What about you?"'],
+        phrases:['My name is...','I am from...','I live in...','I am ___ years old.','I am a student.','Nice to meet you!']
       },
-      {
-        id: 's5', title: 'Where Are You From? — Key Vocab', level: 'A1',
-        type: 'speaking', lesson: 'The Introductions', phase: 'post',
-        prompt: 'Practice the key vocabulary! Record yourself using each of these words in a real sentence:\n\n1. HERE — say where something is\n2. OVER THERE — point to something far\n3. WHERE — ask a question\n4. HIS NAME IS — talk about a man you know\n5. HER NAME IS — talk about a woman you know\n6. YOU\'RE WELCOME — respond to a thank you',
-        tips: [
-          '"My bag is here. The door is over there."',
-          '"Where are you from? Where do you live?"',
-          '"His name is ___. He is my friend."',
-          '"Her name is ___. She is my teacher."',
-          '"Thank you!" → "You\'re welcome!"',
-        ],
-        phrases: ['Here!', 'Over there!', 'Where are you from?', 'His name is...', 'Her name is...', 'You\'re welcome!', 'It\'s right here!', 'It\'s over there!']
+      { id:'s5', title:'Where Are You From? — Key Vocab', level:'A1', type:'speaking', lesson:'The Introductions', phase:'post',
+        prompt:'Use each of these words in a real sentence:\n1. HERE\n2. OVER THERE\n3. WHERE\n4. HIS NAME IS\n5. HER NAME IS\n6. YOU\'RE WELCOME',
+        tips:['"My bag is here. The door is over there."','"Where are you from? Where do you live?"','"His name is ___." / "Her name is ___."','"Thank you!" → "You\'re welcome!"'],
+        phrases:['Here!','Over there!','Where are you from?','His name is...','Her name is...','You\'re welcome!']
       },
-      // ── L4: COUNTRIES AND NATIONALITIES ──────────────────────────────
-      {
-        id: 's6', title: 'Where Are You From? Tell Me Everything!', level: 'A1',
-        type: 'speaking', lesson: 'Countries and Nationalities', phase: 'pre',
-        prompt: 'Record yourself talking about where you are from and where you live today! Say:\n\n1. Your name and where you are from\n2. Your nationality\n3. Where you live now\n4. One language you speak\n5. One thing you love about where you live',
-        tips: [
-          '"My name is ___. I am from ___, so I am ___." (nationality)',
-          '"Now I live in ___ and I love/like it because..."',
-          '"I speak ___ and a little English!"',
-          '"My city is ___ and it is beautiful/big/noisy."',
-        ],
-        phrases: ['I am from...', 'I am ___ (nationality)', 'Now I live in...', 'I speak...', 'I love it because...', 'My city is...', 'It is beautiful!']
+      // ── L4 ──────────────────────────────────────────────────────────
+      { id:'s6', title:'Where Are You From? Tell Me Everything!', level:'A1', type:'speaking', lesson:'Countries and Nationalities', phase:'pre',
+        prompt:'Talk about where you are from:\n1. Your name and where you are from\n2. Your nationality\n3. Where you live now\n4. One language you speak\n5. One thing you love about where you live',
+        tips:['"My name is ___. I am from ___, so I am ___."','"Now I live in ___ and I love it because..."','"My city is ___ and it is beautiful/big/noisy."'],
+        phrases:['I am from...','I am ___ (nationality)','Now I live in...','I speak...','I love it because...']
       },
-      {
-        id: 's7', title: 'My Country & City — Tell Me More!', level: 'A1',
-        type: 'speaking', lesson: 'Countries and Nationalities', phase: 'post',
-        prompt: 'Go deeper! Record yourself talking about your country and city for at least 45 seconds:\n\n1. Where you are from and your nationality\n2. Where you live today and if you like it\n3. The language(s) you speak\n4. What you LOVE about your city\n5. What you DISLIKE about your city',
-        tips: [
-          '"I love my city because it is ___ and there is/are ___."',
-          '"I dislike ___ because it is too noisy / dirty / crowded."',
-          '"I speak ___ a lot and I want to learn English!"',
-          '"I live here now, but I am originally from ___."',
-        ],
-        phrases: ['I am originally from...', 'I love it because...', 'I dislike...', 'It is too...', 'There is/are...', 'I speak... a lot', 'I want to learn...']
+      { id:'s7', title:'My Country & City — Tell Me More!', level:'A1', type:'speaking', lesson:'Countries and Nationalities', phase:'post',
+        prompt:'Talk for 45 seconds about your country and city:\n1. Nationality\n2. Where you live and if you like it\n3. Language(s) you speak\n4. What you LOVE\n5. What you DISLIKE',
+        tips:['"I love my city because it is ___ and there is/are ___."','"I dislike ___ because it is too noisy / dirty / crowded."'],
+        phrases:['I am originally from...','I love it because...','I dislike...','It is too...','There is/are...']
       },
-
-      // ── L5: THE OCCUPATIONS ──────────────────────────────────────────
-      {
-        id: 's8', title: 'What Do You Do? Tell Me About Your Job!', level: 'A1',
-        type: 'speaking', lesson: 'The Occupations', phase: 'pre',
-        prompt: 'Record yourself talking about your job or studies! Say:\n\n1. What you do (job or student)\n2. Where you work or study\n3. What you like about it\n4. What you dislike about it\n5. Your dream job — if different!',
-        tips: [
-          '"I am a ___ / I work as a ___."',
-          '"I work at / I study at ___."',
-          '"I love my job because ___."',
-          '"It is sometimes difficult/boring/stressful because ___."',
-          '"My dream job is to be a ___ because ___."',
-        ],
-        phrases: ['I am a...', 'I work as a...', 'I work at...', 'I study at...', 'I love it because...', 'My dream job is...', 'It is sometimes...']
+      // ── L5 ──────────────────────────────────────────────────────────
+      { id:'s8', title:'What Do You Do? Tell Me About Your Job!', level:'A1', type:'speaking', lesson:'The Occupations', phase:'pre',
+        prompt:'Talk about your job or studies:\n1. What you do\n2. Where you work or study\n3. What you like about it\n4. What you dislike\n5. Your dream job',
+        tips:['"I am a ___ / I work as a ___."','"I work at / I study at ___."','"My dream job is to be a ___ because ___.'],
+        phrases:['I am a...','I work as a...','I work at...','I love it because...','My dream job is...']
       },
-      {
-        id: 's9', title: 'Jobs Around the World — Describe Them!', level: 'A1',
-        type: 'speaking', lesson: 'The Occupations', phase: 'post',
-        prompt: 'Practice talking about different jobs! Record yourself describing 3 people you know — a family member, a friend and yourself. For each one say:\n\n1. His/Her name\n2. What he/she does\n3. Where he/she works\n4. One thing he/she likes about the job\n\nUse: He is a... / She works as a... / He works at...',
-        tips: [
-          '"Her name is ___. She is a ___ and she works at ___."',
-          '"His name is ___. He works as a ___ and he loves it because ___."',
-          '"I am a ___. I work at ___ and I like it because ___."',
-        ],
-        phrases: ['He is a...', 'She works as a...', 'He works at...', 'She loves it because...', 'His job is...', 'Her dream is to be a...']
+      { id:'s9', title:'Jobs Around the World — Describe Them!', level:'A1', type:'speaking', lesson:'The Occupations', phase:'post',
+        prompt:'Describe 3 people you know — family, friend, yourself. For each:\n1. His/Her name\n2. What he/she does\n3. Where he/she works\n4. One thing about the job',
+        tips:['"Her name is ___. She is a ___ and she works at ___."','"His name is ___. He loves his job because ___.'],
+        phrases:['He is a...','She works as a...','He works at...','She loves it because...']
       },
-
-      // ── L6: AT THE CAFÉ ───────────────────────────────────────────────
-      {
-        id: 's10', title: 'Order at a Café!', level: 'A1',
-        type: 'speaking', lesson: 'At the Café', phase: 'pre',
-        prompt: 'Role play! You are at a café. Record yourself ordering. Say:\n\n1. Greet the waiter\n2. Ask for the menu or say what you want\n3. Order a drink AND a food item\n4. Ask for the price\n5. Pay and say thank you!\n\nBe polite and natural!',
-        tips: [
-          '"Good morning! Can I see the menu, please?"',
-          '"I\'d like a ___ and a ___, please."',
-          '"Can I have ___? / I\'ll have ___, please."',
-          '"How much is it? / What\'s the total?"',
-          '"Here you are! Thank you so much! Have a great day!"',
-        ],
-        phrases: ['I\'d like...', 'Can I have...?', 'I\'ll have...', 'How much is it?', 'The bill, please.', 'Here you are.', 'Thank you so much!', 'Have a great day!']
+      // ── L6 ──────────────────────────────────────────────────────────
+      { id:'s10', title:'Order at a Café!', level:'A1', type:'speaking', lesson:'At the Café', phase:'pre',
+        prompt:'Role play at a café! Record yourself:\n1. Greet the waiter\n2. Ask for the menu or order directly\n3. Order a drink AND food\n4. Ask for the price\n5. Pay and say thank you!',
+        tips:['"Good morning! Can I see the menu?"','"I\'d like a ___ and a ___, please."','"How much is it? / The bill, please."','"Here you are! Thank you! Have a great day!"'],
+        phrases:['I\'d like...','Can I have...?','I\'ll have...','How much is it?','The bill, please.','Here you are.','Thank you so much!']
       },
-      {
-        id: 's11', title: 'At the Café — Full Conversation!', level: 'A1',
-        type: 'speaking', lesson: 'At the Café', phase: 'post',
-        prompt: 'Full café conversation! Record yourself playing BOTH roles — you are the customer AND the waiter. Create a natural dialogue that includes:\n\n1. Waiter greeting the customer\n2. Customer ordering food and drink\n3. Waiter asking about preferences (hot/cold? milk? sugar?)\n4. Customer asking the price\n5. Paying and saying goodbye\n\nBe creative and use the vocabulary from class!',
-        tips: [
-          'Waiter: "Good morning! Welcome! What can I get you today?"',
-          'Customer: "Hi! I\'d like a large coffee and a croissant, please."',
-          'Waiter: "Of course! Hot or iced? With milk?"',
-          'Customer: "Hot, please. With a little milk. How much is it?"',
-          'Waiter: "That\'s $5.50. Here you go! Enjoy!"',
-        ],
-        phrases: ['Welcome!', 'What can I get you?', 'I\'d like...', 'Hot or iced?', 'With milk/sugar?', 'That\'s $___', 'Enjoy your meal!', 'Have a good day!']
+      { id:'s11', title:'At the Café — Full Conversation!', level:'A1', type:'speaking', lesson:'At the Café', phase:'post',
+        prompt:'Play BOTH roles — customer AND waiter!\n1. Waiter greeting\n2. Customer ordering food and drink\n3. Waiter asking preferences (hot/cold? milk? sugar?)\n4. Customer asking the price\n5. Paying and saying goodbye',
+        tips:['Waiter: "Good morning! What can I get you today?"','Customer: "I\'d like a large coffee and a croissant."','Waiter: "Hot or iced? With milk?"','Customer: "Hot. How much is it?"'],
+        phrases:['Welcome!','What can I get you?','I\'d like...','Hot or iced?','With milk/sugar?','That\'s $___','Enjoy!','Have a good day!']
       },
     ]
   }
