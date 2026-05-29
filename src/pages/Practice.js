@@ -140,6 +140,20 @@ const SKILLS = {
   listening: {
     label: 'Listening', icon: '🎧', color: '#378add',
     activities: [
+      // ── L1: THE AMERICAN PRONUNCIATION ───────────────────────────────
+      {
+        id: 'l0', title: 'American Sounds — Listen & Learn', level: 'A1',
+        type: 'listening_video', lesson: 'The American Pronunciation', phase: 'pre',
+        youtubeId: 'dIgLLScXbhU', startTime: 0, endTime: 180,
+        instruction: 'Listen carefully to the American English sounds! Pay attention to how each vowel and consonant is pronounced. This will help you understand native speakers better. Then answer the questions!',
+        audioText: `Teacher: Welcome! Today we are going to learn about American English pronunciation.\nThe American R sound is very important. Listen: right, red, really, river.\nNotice how the tongue curls back — it never touches the top of your mouth!\nNow the TH sound — this does not exist in Portuguese! Tongue between your teeth: the, this, three, think.\nThe American A sound: cat, bad, happy, man. It is a wider sound than in British English.\nLet's practice: "The red rabbit ran really rapidly." Can you say it?`,
+        questions: [
+          { q: 'In American English, where does the tongue go for the R sound?', options: ['Touches the top', 'Curls back and never touches', 'Goes forward', 'Stays flat'], answer: 1 },
+          { q: 'For the TH sound, where does the tongue go?', options: ['Behind the teeth', 'Between the teeth', 'At the back of the mouth', 'Under the tongue'], answer: 1 },
+          { q: 'Which of these does NOT have the TH sound?', options: ['the', 'think', 'three', 'right'], answer: 3 },
+          { q: 'Which sentence did the teacher use to practice the R sound?', options: ['"Really red river runs"', '"The red rabbit ran really rapidly"', '"Run rabbit run"', '"Red runs really fast"'], answer: 1 },
+        ]
+      },
       // ── L2: THE GREETINGS ──────────────────────────────────────────────
       {
         id: 'l1', title: 'Jenny at the Hotel', level: 'A1',
@@ -458,6 +472,19 @@ const SKILLS = {
   speaking: {
     label: 'Speaking', icon: '🎙️', color: '#d4537e',
     activities: [
+      // ── L1: THE AMERICAN PRONUNCIATION ───────────────────────────────
+      {
+        id: 's0', title: 'Pronunciation Practice!', level: 'A1',
+        type: 'speaking', lesson: 'The American Pronunciation', phase: 'post',
+        prompt: 'Practice your American English pronunciation! Record yourself saying these sounds and sentences clearly:\n\n1. The R sound: "right", "really", "river", "red"\n2. The TH sound: "the", "this", "three", "think"\n3. Say this sentence: "The red rabbit ran really rapidly"\n4. Say your name in American English\n5. Say where you are from in American English\n\nSpeak slowly and clearly!',
+        tips: [
+          'R sound: curl your tongue back — it never touches anything!',
+          'TH sound: put your tongue BETWEEN your teeth and blow air',
+          '"The red rabbit ran really rapidly" — go slow!',
+          'Record 2-3 times and listen back to yourself',
+        ],
+        phrases: ['Right!', 'Really?', 'Red river', 'The / This / Three / Think', 'The red rabbit ran really rapidly', 'My name is...', 'I am from...']
+      },
       // ── L2: THE GREETINGS ──────────────────────────────────────────────
       {
         id: 's1', title: 'Introduce Yourself!', level: 'A1',

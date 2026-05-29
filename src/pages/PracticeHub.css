@@ -1,167 +1,95 @@
 /* ─── BASE ─────────────────────────────────────────────────────────────── */
-.hub-page { min-height: 100vh; background: #f0ede8; position: relative; }
-.hub-content { max-width: 860px; margin: 0 auto; padding: 24px 16px 80px; position: relative; z-index: 2; }
-
-.hub-header { margin-bottom: 20px; }
+.hub-page { min-height: 100vh; background: #f0ede8; }
+.hub-content { max-width: 860px; margin: 0 auto; padding: 24px 16px 80px; }
+.hub-header { margin-bottom: 18px; }
 .hub-title { font-family: 'DM Serif Display', serif; font-size: 28px; color: #111; font-weight: 400; margin-bottom: 4px; }
 .hub-sub { font-size: 13px; color: #888; }
 
-/* ─── TRIO ROW ──────────────────────────────────────────────────────────── */
-.hub-trio-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-bottom: 24px; align-items: stretch; }
-.hub-trio-row .hub-legend { margin-top: 0; margin-bottom: 0; }
-.hub-trio-row .hub-tip-banner { margin-bottom: 0; flex-direction: column; gap: 6px; align-items: flex-start; }
-.hub-trio-row .hub-tip-banner .hub-tip-icon { font-size: 18px; }
-.hub-trio-row .hub-tip-text { font-size: 12px; line-height: 1.7; }
-.hub-trio-row .hub-weekly-card { margin-bottom: 0; }
+/* ─── PROGRESS CARD ─────────────────────────────────────────────────────── */
+.hub-progress-card { background: #fff; border: 0.5px solid #e0dbd4; border-radius: 14px; padding: 14px 18px; margin-bottom: 20px; display: flex; align-items: center; gap: 14px; }
+.hub-progress-icon { font-size: 26px; flex-shrink: 0; }
+.hub-progress-text { flex: 1; min-width: 0; }
+.hub-progress-lesson { font-size: 13px; font-weight: 600; color: #111; margin-bottom: 2px; }
+.hub-progress-status { font-size: 12px; color: #ff6a00; font-weight: 500; margin-bottom: 7px; }
+.hub-progress-bar { height: 5px; background: #f0ede8; border-radius: 3px; overflow: hidden; }
+.hub-progress-fill { height: 100%; background: #ff6a00; border-radius: 3px; transition: width 1s ease; }
+.hub-progress-nums { font-family: 'DM Serif Display', serif; font-size: 22px; color: #ff6a00; white-space: nowrap; flex-shrink: 0; }
+.hub-progress-nums span { font-family: 'DM Sans', sans-serif; font-size: 13px; color: #aaa; font-weight: 400; }
 
-/* ─── LEGEND ────────────────────────────────────────────────────────────── */
-.hub-legend { background: #fff; border: 0.5px solid #e0dbd4; border-radius: 12px; padding: 12px 14px; }
-.hub-legend-title { font-size: 10px; font-weight: 700; color: #aaa; text-transform: uppercase; letter-spacing: .6px; margin-bottom: 8px; }
-.hub-legend-items { display: flex; flex-direction: column; gap: 5px; margin-bottom: 10px; }
-.hub-legend-item { display: flex; align-items: center; gap: 8px; }
-.hub-legend-code { font-size: 10px; font-weight: 700; letter-spacing: .5px; background: #111; color: #fff; padding: 2px 8px; border-radius: 4px; min-width: 32px; text-align: center; flex-shrink: 0; }
-.hub-legend-code.reading  { background: #1d9e75; }
-.hub-legend-code.listening { background: #378add; }
-.hub-legend-code.writing  { background: #7f77dd; }
-.hub-legend-code.speaking { background: #d4537e; }
-.hub-legend-desc { font-size: 11px; color: #666; }
-.hub-legend-desc strong { color: #111; }
-.hub-legend-example { font-size: 11px; color: #888; background: #f7f4f0; border-radius: 6px; padding: 6px 10px; border-left: 3px solid #ff6a00; }
-.hub-legend-example strong { color: #ff6a00; }
+/* ─── TWO COLUMNS ───────────────────────────────────────────────────────── */
+.hub-two-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; align-items: start; }
 
-/* ─── TIP BANNER ────────────────────────────────────────────────────────── */
-.hub-tip-banner { display: flex; align-items: flex-start; gap: 10px; background: #fff; border: 0.5px solid #e0dbd4; border-left: 4px solid #ff6a00; border-radius: 12px; padding: 12px 14px; margin-bottom: 14px; }
-.hub-tip-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
-.hub-tip-text strong:first-child { display: block; font-size: 12px; font-weight: 700; color: #111; margin-bottom: 6px; }
-.hub-tip-list { margin: 0; padding-left: 16px; display: flex; flex-direction: column; gap: 0; list-style: disc; }
-.hub-tip-list li { line-height: 1.35; margin-bottom: 5px; color: #555; font-size: 11px; }
-.hub-tip-list li strong { color: #111; }
-.hub-tip-text em { display: block; margin-top: 6px; color: #e05e00; font-style: normal; font-weight: 600; font-size: 11px; }
+/* ─── COLUMN ────────────────────────────────────────────────────────────── */
+.hub-col { display: flex; flex-direction: column; gap: 6px; }
+.hub-col-header { display: flex; align-items: center; gap: 8px; padding: 10px 13px; border-radius: 10px; margin-bottom: 4px; }
+.hub-col-header.pre { background: #e6f1fb; }
+.hub-col-header.pos { background: #e1f5ee; }
+.hub-col-icon { font-size: 15px; }
+.hub-col-label { font-size: 14px; font-weight: 600; }
+.hub-col-label.pre { color: #0C447C; }
+.hub-col-label.pos { color: #085041; }
+.hub-col-badge { font-size: 10px; font-weight: 600; padding: 2px 7px; border-radius: 20px; margin-left: auto; }
+.hub-col-badge.pre { background: #b5d4f4; color: #0C447C; }
+.hub-col-badge.pos { background: #9fe1cb; color: #085041; }
+.hub-col-desc { font-size: 11px; color: #aaa; margin-bottom: 4px; padding: 0 2px; }
 
-/* ─── WEEKLY PROGRESS ───────────────────────────────────────────────────── */
-.hub-weekly-card { background: #fff; border: 0.5px solid #e0dbd4; border-radius: 12px; padding: 14px 16px; margin-bottom: 20px; }
-.hub-weekly-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
-.hub-weekly-left { display: flex; align-items: center; gap: 10px; }
-.hub-weekly-badge-icon { font-size: 24px; }
-.hub-weekly-title { font-size: 12px; font-weight: 600; color: #111; margin-bottom: 2px; }
-.hub-weekly-status { font-size: 11px; font-weight: 600; }
-.hub-weekly-count { text-align: right; }
-.hub-weekly-done { font-family: 'DM Serif Display', serif; font-size: 28px; font-weight: 400; }
-.hub-weekly-total { font-size: 14px; color: #aaa; }
-.hub-weekly-bar-wrap { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
-.hub-weekly-bar { flex: 1; height: 8px; background: #f0ede8; border-radius: 4px; overflow: hidden; }
-.hub-weekly-fill { height: 100%; border-radius: 4px; transition: width 1s ease; }
-.hub-weekly-pct { font-size: 11px; font-weight: 600; color: #888; min-width: 32px; text-align: right; }
-.hub-weekly-skills { display: flex; gap: 6px; flex-wrap: wrap; }
-.hub-weekly-skill-chip { font-size: 11px; font-weight: 500; background: #f7f4f0; border: 0.5px solid #e0dbd4; border-radius: 20px; padding: 3px 10px; color: var(--chip-color); }
-.hub-weekly-congrats { margin-top: 12px; background: #e1f5ee; border: 0.5px solid #9fe1cb; border-radius: 8px; padding: 10px 12px; font-size: 12px; color: #0f6e56; line-height: 1.6; }
+/* ─── LESSON ROW ────────────────────────────────────────────────────────── */
+.lesson-row { display: flex; align-items: center; gap: 9px; background: #fff; border: 0.5px solid #e0dbd4; border-radius: 10px; padding: 11px 13px; }
+.lesson-row.done { background: #fafff9; }
+.upcoming-row { opacity: .5; }
 
-/* ─── SKILLS GRID ───────────────────────────────────────────────────────── */
-.hub-skills-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 20px; }
-.hub-skill-card { background: #fff; border: 0.5px solid #e0dbd4; border-radius: 14px; padding: 20px 16px; cursor: pointer; transition: transform .15s, box-shadow .15s; border-top: 3px solid var(--skill-color); display: flex; flex-direction: column; gap: 4px; position: relative; overflow: hidden; }
-.hub-skill-card::before { content: ''; position: absolute; top: 0; right: 0; width: 70px; height: 70px; border-radius: 50%; background: var(--skill-bg); transform: translate(28px, -28px); opacity: .6; }
-.hub-skill-card:active { transform: scale(0.98); }
-.hub-skill-icon { font-size: 26px; margin-bottom: 2px; }
-.hub-skill-label { font-size: 17px; font-weight: 600; color: #111; }
-.hub-skill-count { font-size: 12px; color: #aaa; }
-.hub-skill-mini-bar { height: 3px; background: #f0ede8; border-radius: 2px; margin: 6px 0 2px; }
-.hub-skill-mini-fill { height: 100%; border-radius: 2px; transition: width .5s; }
-.hub-skill-progress-text { font-size: 11px; font-weight: 600; margin-bottom: 6px; }
-.hub-skill-arrow { font-size: 16px; font-weight: 600; margin-top: 4px; }
+.lesson-code-badge { font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 5px; flex-shrink: 0; letter-spacing: .3px; }
+.lesson-code-badge.done { background: #1d9e75; color: #fff; }
+.lesson-code-badge.pre { background: #ff6a00; color: #fff; }
+.lesson-code-badge.pos { background: #1d9e75; color: #fff; }
+.lesson-code-badge.default { background: #111; color: #fff; }
+.lesson-code-badge.upcoming { background: #f0ede8; color: #aaa; border: 0.5px solid #e0dbd4; }
 
-/* ─── STATS ROW ─────────────────────────────────────────────────────────── */
-.hub-stats-row { display: grid; grid-template-columns: repeat(4,1fr); gap: 10px; }
-.hub-stat { background: #fff; border: 0.5px solid #e0dbd4; border-radius: 12px; padding: 14px; text-align: center; }
-.hub-stat-num { font-family: 'DM Serif Display', serif; font-size: 24px; color: #ff6a00; line-height: 1; margin-bottom: 4px; }
-.hub-stat-label { font-size: 10px; color: #aaa; text-transform: uppercase; letter-spacing: .5px; }
+.lesson-row-info { flex: 1; min-width: 0; }
+.lesson-row-name { font-size: 12px; font-weight: 500; color: #111; margin-bottom: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-/* ─── SKILL DETAIL ──────────────────────────────────────────────────────── */
-.hub-skill-header { display: flex; align-items: center; gap: 14px; margin-bottom: 20px; }
-.hub-back-btn { background: #fff; border: 0.5px solid #e0dbd4; border-radius: 8px; padding: 8px 14px; font-size: 13px; color: #666; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all .15s; flex-shrink: 0; }
-.hub-back-btn:active { background: #fff1e8; color: #ff6a00; }
-.hub-skill-title-row { display: flex; align-items: center; gap: 10px; }
-.hub-skill-title { font-family: 'DM Serif Display', serif; font-size: 22px; color: #111; font-weight: 400; }
+.skill-pill { display: inline-flex; align-items: center; gap: 3px; font-size: 10px; font-weight: 500; padding: 2px 7px; border-radius: 10px; }
+.coming-soon-tag { font-size: 10px; color: #bbb; }
 
-/* ─── LESSONS ───────────────────────────────────────────────────────────── */
-.hub-lessons { display: flex; flex-direction: column; gap: 10px; }
-.hub-lesson-card { background: #fff; border: 0.5px solid #e0dbd4; border-radius: 14px; overflow: hidden; }
-.hub-lesson-header { display: flex; align-items: center; justify-content: space-between; padding: 14px 16px; cursor: pointer; transition: background .15s; }
-.hub-lesson-header:active { background: #faf8f5; }
-.hub-lesson-left { display: flex; align-items: center; gap: 12px; min-width: 0; }
-.hub-lesson-code { font-size: 10px; font-weight: 700; background: #111; color: #fff; padding: 4px 9px; border-radius: 5px; letter-spacing: .5px; white-space: nowrap; flex-shrink: 0; }
-.hub-lesson-title { font-size: 14px; font-weight: 600; color: #111; margin-bottom: 4px; }
-.hub-lesson-meta { display: flex; align-items: center; gap: 8px; }
-.hub-level-pill { font-size: 10px; font-weight: 600; background: #fff1e8; color: #ff6a00; padding: 2px 7px; border-radius: 10px; }
-.hub-acts-count { font-size: 11px; color: #aaa; }
-.hub-chevron { font-size: 16px; color: #aaa; transition: transform .2s; flex-shrink: 0; }
-.hub-chevron.open { transform: rotate(180deg); }
+.done-check { font-size: 13px; color: #1d9e75; font-weight: 700; flex-shrink: 0; }
+.redo-btn { background: none; border: 0.5px solid #e0dbd4; border-radius: 6px; padding: 4px 9px; font-size: 10px; color: #888; cursor: pointer; flex-shrink: 0; font-family: 'DM Sans', sans-serif; }
+.redo-btn:active { background: #f0ede8; }
+.start-small-btn { background: #ff6a00; color: #fff; border: none; border-radius: 6px; padding: 5px 11px; font-size: 11px; font-weight: 600; cursor: pointer; flex-shrink: 0; font-family: 'DM Sans', sans-serif; white-space: nowrap; }
+.start-small-btn:active { background: #e05e00; }
 
-/* ─── ACTIVITIES LIST ───────────────────────────────────────────────────── */
-.hub-activities-list { border-top: 0.5px solid #f0ede8; }
-.hub-activity-row { display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; border-bottom: 0.5px solid #f0ede8; cursor: pointer; transition: background .15s; gap: 10px; }
-.hub-activity-row:last-child { border-bottom: none; }
-.hub-activity-row:active { background: #faf8f5; }
-.hub-activity-row.done { background: #fafff9; }
-.hub-activity-left { display: flex; align-items: center; gap: 10px; min-width: 0; flex: 1; }
-.hub-activity-num { width: 26px; height: 26px; border-radius: 50%; background: #f0ede8; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; color: #888; flex-shrink: 0; }
-.hub-activity-num.done { background: #e1f5ee; color: #1d9e75; font-size: 13px; }
-.hub-activity-code-row { display: flex; align-items: center; gap: 6px; margin-bottom: 2px; flex-wrap: wrap; }
-.hub-activity-code { font-size: 10px; font-weight: 700; color: #ff6a00; letter-spacing: .5px; }
-.hub-activity-title { font-size: 13px; color: #333; font-weight: 500; }
-.hub-activity-right { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
-.hub-type-badge { font-size: 10px; color: #aaa; display: flex; align-items: center; gap: 3px; white-space: nowrap; }
-.hub-start-btn { background: #ff6a00; color: #fff; border: none; border-radius: 8px; padding: 7px 14px; font-size: 12px; font-weight: 600; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: background .15s; white-space: nowrap; }
-.hub-start-btn:active { background: #e05e00; }
-.hub-start-btn.done { background: #f0ede8; color: #888; }
+/* ─── CURRENT CARD ──────────────────────────────────────────────────────── */
+.lesson-current-card { border-radius: 10px; overflow: hidden; border: 1.5px solid; }
+.lesson-current-card.pre { border-color: #ff6a00; }
+.lesson-current-card.pos { border-color: #1d9e75; }
 
-/* ─── PHASE BADGES ──────────────────────────────────────────────────────── */
-.hub-phase-badge { font-size: 10px; font-weight: 600; padding: 2px 6px; border-radius: 4px; white-space: nowrap; }
-.hub-phase-badge.pre { background: #e6f1fb; color: #378add; }
-.hub-phase-badge.post { background: #e1f5ee; color: #1d9e75; }
+.lesson-current-header { display: flex; align-items: center; gap: 9px; padding: 11px 13px; }
+.lesson-current-header.pre { background: #fff8f4; }
+.lesson-current-header.pos { background: #f2fcf7; }
 
-/* ─── STARS ─────────────────────────────────────────────────────────────── */
-.star { position: absolute; border-radius: 50%; background: #ff6a00; opacity: var(--op); animation: twinkle var(--d) ease-in-out var(--delay) infinite alternate; pointer-events: none; z-index: 1; }
-@keyframes twinkle { 0% { opacity: var(--op); transform: scale(1); } 100% { opacity: calc(var(--op) * 0.3); transform: scale(0.7); } }
+.current-tag { font-size: 10px; font-weight: 600; flex-shrink: 0; }
+.current-tag.pre { color: #ff6a00; }
+.current-tag.pos { color: #1d9e75; }
 
-/* ═══════════════════════════════════════════════════════════════════════════
-   MOBILE — 600px and below
-   ═══════════════════════════════════════════════════════════════════════════ */
+.lesson-current-body { padding: 10px 13px 13px; background: #f7f4f0; border-top: 0.5px solid #e0dbd4; }
+.lesson-current-title { font-size: 12px; color: #555; margin-bottom: 10px; line-height: 1.4; }
+.lesson-current-actions { display: flex; align-items: center; gap: 10px; }
+.start-big-btn { border: none; border-radius: 8px; padding: 9px 18px; font-size: 13px; font-weight: 600; cursor: pointer; font-family: 'DM Sans', sans-serif; -webkit-tap-highlight-color: transparent; }
+.start-big-btn.pre { background: #ff6a00; color: #fff; }
+.start-big-btn.pos { background: #1d9e75; color: #fff; }
+.start-big-btn:active { opacity: 0.85; }
+.xp-tag { font-size: 11px; color: #aaa; }
+
+/* ─── LOCKED ────────────────────────────────────────────────────────────── */
+.hub-locked-row { display: flex; align-items: center; gap: 8px; background: #f7f4f0; border: 0.5px dashed #d0cbc4; border-radius: 10px; padding: 9px 12px; margin-top: 4px; opacity: .65; }
+.hub-locked-icon { font-size: 13px; }
+.hub-locked-badge { font-size: 10px; font-weight: 700; color: #888; background: #e0dbd4; padding: 2px 7px; border-radius: 4px; }
+.hub-locked-txt { font-size: 11px; color: #aaa; }
+
+/* ─── MOBILE ────────────────────────────────────────────────────────────── */
 @media (max-width: 600px) {
-  .hub-content { padding: 16px 14px 100px; }
-  .hub-title { font-size: 24px; }
-
-  /* Trio row → stack vertically */
-  .hub-trio-row { grid-template-columns: 1fr; gap: 10px; margin-bottom: 16px; }
-
-  /* Skills grid → 2 columns always */
-  .hub-skills-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
-  .hub-skill-card { padding: 16px 14px; }
-  .hub-skill-label { font-size: 15px; }
-
-  /* Stats → 2 columns */
-  .hub-stats-row { grid-template-columns: repeat(2,1fr); }
-
-  /* Activity rows — hide type badge, keep code & button */
-  .hub-type-badge { display: none; }
-  .hub-activity-row { padding: 12px 14px; }
-  .hub-start-btn { padding: 7px 12px; font-size: 11px; }
-
-  /* Lesson title smaller */
-  .hub-lesson-title { font-size: 13px; }
-  .hub-lesson-header { padding: 12px 14px; }
+  .hub-content { padding: 16px 12px 80px; }
+  .hub-title { font-size: 22px; }
+  .hub-two-cols { grid-template-columns: 1fr; gap: 24px; }
+  .hub-progress-card { flex-wrap: wrap; }
+  .lesson-row-name { font-size: 11px; }
 }
-
-/* ─── TABLET ────────────────────────────────────────────────────────────── */
-@media (min-width: 601px) and (max-width: 768px) {
-  .hub-trio-row { grid-template-columns: 1fr 1fr; }
-  .hub-trio-row .hub-legend { grid-column: 1 / -1; }
-}
-
-/* Locked lessons */
-.hub-coming-soon { text-align: center; padding: 16px; font-size: 13px; color: #aaa; }
-.hub-locked-section { margin-top: 20px; }
-.hub-locked-title { font-size: 11px; font-weight: 700; color: #aaa; text-transform: uppercase; letter-spacing: .5px; margin-bottom: 10px; display: flex; align-items: center; gap: 6px; }
-.hub-locked-level-card { display: flex; align-items: center; gap: 14px; background: #f7f4f0; border: 0.5px dashed #d0cbc4; border-radius: 12px; padding: 14px 16px; margin-bottom: 8px; opacity: .7; }
-.hub-locked-level-badge { font-size: 13px; font-weight: 700; background: #e0dbd4; color: #888; padding: 6px 14px; border-radius: 8px; }
-.hub-locked-level-name { font-size: 14px; font-weight: 600; color: #888; margin-bottom: 2px; }
-.hub-locked-level-count { font-size: 12px; color: #aaa; }
