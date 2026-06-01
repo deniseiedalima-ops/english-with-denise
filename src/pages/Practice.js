@@ -418,6 +418,129 @@ const SKILLS = {
           {q:'How did James feel when he first moved?',options:['Excited and happy','Very nervous','Angry','Bored'],answer:1},
         ]
       },
+
+      // ── A2 LISTENING ─────────────────────────────────────────────────
+      { id:'l19a2', title:'Parts of the House — Conversation', level:'A2', type:'listening_video', lesson:'The Parts of the House', phase:'pre',
+        youtubeId:'cFgmC5agPjA', startTime:0, endTime:180,
+        instruction:'Watch this conversation about parts of the house! Then answer the questions!',
+        audioText:`Person B: We have a living room, dining room and kitchen downstairs. Upstairs there are 3 bedrooms and 2 bathrooms. My favorite room is the living room — big sofa and a fireplace!`,
+        questions:[
+          {q:'How many bedrooms?',options:['One','Two','Three','Four'],answer:2},
+          {q:'Favorite room?',options:['Kitchen','Bedroom','Living room','Garden'],answer:2},
+          {q:'What does the living room have?',options:['Big table','Big sofa and fireplace','TV and desk','Bookshelves'],answer:1},
+          {q:'How is the kitchen?',options:['Old and small','Modern with lots of cupboards','Simple','Dark'],answer:1},
+        ]
+      },
+      { id:'l20a2', title:'Do or Does? — Conversation', level:'A2', type:'listening_video', lesson:'Do or Does?', phase:'pre',
+        youtubeId:'PvFVRNr3M_Q', startTime:0, endTime:180,
+        instruction:'Watch this conversation using Do and Does! Then answer the questions!',
+        audioText:`DO = I, you, we, they. DOES = he, she, it. Does she work here? No, she doesn't. Do they like pizza? Yes, they do! Everyone DOES their homework.`,
+        questions:[
+          {q:'DO is used with:',options:['he, she, it','I, you, we, they','everyone','only they'],answer:1},
+          {q:'Complete: "___ she work here?"',options:['Do','Does','Did','Is'],answer:1},
+          {q:'"Do they like pizza?" →',options:['"Yes, they does."','"Yes, they do!"','"Yes, he does."','"Yes, she do."'],answer:1},
+          {q:'"Everyone" uses:',options:['DO','DID','DOES','ARE'],answer:2},
+        ]
+      },
+      { id:'l21a2', title:'Housework — Conversation', level:'A2', type:'listening_video', lesson:'Housework', phase:'pre',
+        youtubeId:'uypw2Tf2v5A', startTime:0, endTime:180,
+        instruction:'Watch this conversation about household chores! Then answer the questions!',
+        audioText:`Ben: I vacuum every weekend and take out the trash daily. My wife cooks. I do the dishes after dinner. Anna: I do laundry but I never iron. Ben: I don't like cleaning the bathroom.`,
+        questions:[
+          {q:'What does Ben do every day?',options:['Vacuum','Take out the trash','Do dishes','Cook'],answer:1},
+          {q:'Who usually cooks?',options:['Ben','His son','His wife','His mother'],answer:2},
+          {q:'What does Anna HATE?',options:['Laundry','Cooking','Cleaning bathroom','Ironing'],answer:3},
+          {q:'What does Ben NOT like?',options:['Vacuuming','Ironing','Cleaning bathroom','Cooking'],answer:2},
+        ]
+      },
+      { id:'l22a2', title:'Routines — Conversation', level:'A2', type:'listening_video', lesson:'Routines', phase:'pre',
+        youtubeId:'bq6GBbh3uhU', startTime:0, endTime:180,
+        instruction:'Watch this conversation about daily routines! Then answer the questions!',
+        audioText:`Wake up 6:30. Shower then breakfast — coffee and toast. Leave home 8:00 by bus (30 min). Finish work 6pm. Gym on Tuesdays and Thursdays.`,
+        questions:[
+          {q:'Wake up time?',options:['6:00','6:30','7:00','7:30'],answer:1},
+          {q:'Breakfast?',options:['Cereal','Eggs daily','Coffee and toast','Nothing'],answer:2},
+          {q:'How to work?',options:['Car','Bicycle','Bus','On foot'],answer:2},
+          {q:'Gym days?',options:['Every day','Mon/Wed','Tue/Thu','Weekends'],answer:3},
+        ]
+      },
+      { id:'l23a2', title:'Would You…? — Conversation', level:'A2', type:'listening_video', lesson:'Would You…?', phase:'pre',
+        youtubeId:'581385218', startTime:0, endTime:180, isVimeo:true,
+        instruction:'Watch this conversation using "Would you...?" for polite offers. Then answer the questions!',
+        audioText:`Would you like coffee? I'd love some — with milk and a little sugar. Would you mind if I opened the window? Not at all! Would you like to start the meeting?`,
+        questions:[
+          {q:'What does Person B choose?',options:['Tea','Black coffee','Coffee with milk and sugar','Water'],answer:2},
+          {q:'Does Person B want food?',options:['Yes, a sandwich','Yes, a biscuit','No, nothing','Yes, cake'],answer:2},
+          {q:'"Would you mind?" — Person B says:',options:['"Yes, I mind!"','"Not at all!"','"No, don\'t."','"I would mind."'],answer:1},
+          {q:'Correct use of WOULD:',options:['"I would went."','"Would you like tea?"','"She would is here."','"They would are happy."'],answer:1},
+        ]
+      },
+      { id:'l24a2', title:'Food Time! — Conversation', level:'A2', type:'listening_video', lesson:'Food Time!', phase:'pre',
+        youtubeId:'426409746', startTime:0, endTime:180, isVimeo:true,
+        instruction:'Watch this conversation about food! Then answer the questions!',
+        audioText:`Yesterday I made pasta with tomato sauce! I prefer fish and vegetables — almost vegetarian. Favorite food: sushi! Person A prefers grilled chicken with rice and salad.`,
+        questions:[
+          {q:'What did Person B cook yesterday?',options:['Grilled chicken','Sushi','Pasta with tomato sauce','Fish'],answer:2},
+          {q:'Favorite food?',options:['Pasta','Pizza','Grilled chicken','Sushi'],answer:3},
+          {q:'Does Person A like raw fish?',options:['Loves it','No, prefers cooked','Sometimes','Only sushi'],answer:1},
+          {q:'Person A\'s favorite?',options:['Sushi','Pasta','Grilled chicken with rice and salad','Vegetable soup'],answer:2},
+        ]
+      },
+      { id:'l25a2', title:'Can or Could? — Conversation', level:'A2', type:'listening_video', lesson:'I Can or I Could?!', phase:'pre',
+        youtubeId:'295283272', startTime:0, endTime:180, isVimeo:true,
+        instruction:'Watch this conversation using CAN and COULD! Then answer the questions!',
+        audioText:`Can you help me? This box is heavy! Could you put it in the bedroom? Could you speak more slowly? When I was young I couldn't speak English at all. Now I can speak it quite well!`,
+        questions:[
+          {q:'Why does Person A need help?',options:['Box too big','Box very heavy','Can\'t open door','Lost'],answer:1},
+          {q:'Person B asks Person A to:',options:['Speak faster','Speak more slowly','Repeat','Write it down'],answer:1},
+          {q:'Could Person B speak English when young?',options:['Yes, very well','A little','No, not at all','A few words'],answer:2},
+          {q:'Ability in the past:',options:['"I can\'t do it yesterday."','"I couldn\'t do it."','"I didn\'t can do it."','"I not could do it."'],answer:1},
+        ]
+      },
+      { id:'l26a2', title:'Shopping Time! — Conversation', level:'A2', type:'listening_video', lesson:'Shopping Time!', phase:'pre',
+        youtubeId:'544156694', startTime:0, endTime:180, isVimeo:true,
+        instruction:'Watch this shopping conversation! Then answer the questions!',
+        audioText:`Jacket is $89.99, 20% off. Do you have it in blue? Sizes S, M, L. Can I try medium? Fits perfectly! Pay by card. Total: $71.99.`,
+        questions:[
+          {q:'Original price?',options:['$71.99','$89.99','$80.00','$99.99'],answer:1},
+          {q:'What size tried?',options:['Small','Large','Medium','XL'],answer:2},
+          {q:'How does customer pay?',options:['Cash','By card','By check','Voucher'],answer:1},
+          {q:'Final price after discount?',options:['$89.99','$80.00','$75.00','$71.99'],answer:3},
+        ]
+      },
+      { id:'l27a2', title:'What Did You Do? — Conversation', level:'A2', type:'listening_video', lesson:'What Did You Do?', phase:'pre',
+        youtubeId:'1057737854', startTime:0, endTime:180, isVimeo:true,
+        instruction:'Watch this conversation about last weekend! Then answer the questions!',
+        audioText:`Saturday: went to cinema, saw action movie, ate at Italian restaurant. Sunday: stayed home, cleaned house, cooked dinner, walked in the park. Weather was beautiful!`,
+        questions:[
+          {q:'Where on Saturday?',options:['Restaurant','Park','Cinema','Friend\'s house'],answer:2},
+          {q:'What did they eat?',options:['Pizza','Italian restaurant food','Chinese food','Cooked at home'],answer:1},
+          {q:'Sunday at home?',options:['Watched movies','Cleaned house and cooked','Had a party','Studied'],answer:1},
+          {q:'Sunday morning weather?',options:['Rainy','Cold','Cloudy','Beautiful'],answer:3},
+        ]
+      },
+      { id:'l28a2', title:'A Story in the Past', level:'A2', type:'listening_video', lesson:'A Story in the Past', phase:'pre',
+        youtubeId:'Kii0C8F46eY', startTime:622, endTime:780,
+        instruction:'Listen to this story in the past tense! Then answer the questions!',
+        audioText:`A couple got lost camping — forgot the map. Took a shortcut. After 2 hours they were lost. They sat down, drank water, thought carefully. Found a river, followed it to a village where someone helped them.`,
+        questions:[
+          {q:'Why did they get lost?',options:['Walked too fast','Forgot the map','Wrong train','It was dark'],answer:1},
+          {q:'What did they do when lost?',options:['Panicked','Called for help','Sat down, drank water, thought','Climbed a tree'],answer:2},
+          {q:'How did they get back?',options:['Helicopter','Followed river to village','Used compass','Retraced steps'],answer:1},
+          {q:'Moral of the story?',options:['Never go camping','Always bring a map and stay calm','Rivers are dangerous','Always bring a phone'],answer:1},
+        ]
+      },
+      { id:'l29a2', title:'Final Review II — Listening', level:'A2', type:'listening_video', lesson:'The Final Review II', phase:'pre',
+        youtubeId:'8yMgH8xHq2U', startTime:0, endTime:180,
+        instruction:'Final A2 review! Listen carefully and answer the questions!',
+        audioText:`Comprehensive A2 review covering present simple, past simple, would, can/could and everyday vocabulary.`,
+        questions:[
+          {q:'Tense for daily routines?',options:['Past simple','Future','Present simple','Present continuous'],answer:2},
+          {q:'Correct use of "would":',options:['"I would go yesterday."','"Would you like some tea?"','"She would work tomorrow."','"They would is happy."'],answer:1},
+          {q:'Complete: "She ___ cook well when young."',options:['can','could','would','did'],answer:1},
+          {q:'Correct past simple question:',options:['"Did you went?"','"Did she go?"','"She did go?"','"Went she?"'],answer:1},
+        ]
+      },
     ]
   },
   writing: {
@@ -1013,7 +1136,10 @@ export default function Practice({ user, student, onLogout }) {
               <div className="youtube-wrap">
                 <iframe
                   className="youtube-iframe"
-                  src={`https://www.youtube.com/embed/${activity.youtubeId}?start=${activity.startTime}&end=${activity.endTime}&rel=0&modestbranding=1`}
+                  src={activity.isVimeo
+                    ? `https://player.vimeo.com/video/${activity.youtubeId}?autoplay=0`
+                    : `https://www.youtube.com/embed/${activity.youtubeId}?start=${activity.startTime}&end=${activity.endTime}&rel=0&modestbranding=1`
+                  }
                   title="Listening activity"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                   allowFullScreen
