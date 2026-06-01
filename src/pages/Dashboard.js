@@ -97,17 +97,6 @@ export default function Dashboard({ user, student, onLogout }) {
   };
   const date = formatDate(dataAula);
 
-  const skills = [
-    { key: 'writing', label: 'Writing', icon: '✏️' },
-    { key: 'speaking', label: 'Speaking', icon: '🎙️' },
-    { key: 'reading', label: 'Reading', icon: '📖' },
-    { key: 'listening', label: 'Listening', icon: '🎧' },
-  ].map(s => {
-    const acts = activities.filter(a => a.skill === s.key);
-    const avgScore = acts.length ? (acts.reduce((acc, a) => acc + a.score, 0) / acts.length).toFixed(1) : '—';
-    return { ...s, score: avgScore, done: acts.length };
-  });
-
   const byTier = ['Bronze','Silver','Gold','Platinum'].map(tier => ({
     tier, total: ACHIEVEMENTS.filter(a => a.tier === tier).length,
     unlocked: ACHIEVEMENTS.filter(a => a.tier === tier && unlockedIds.includes(a.id)).length,
@@ -197,24 +186,9 @@ export default function Dashboard({ user, student, onLogout }) {
           </div>
         </div>
 
-        {/* Skills */}
-        <div className="section-title fade-up fade-up-3">Your skills</div>
-        <div className="skills-grid fade-up fade-up-3">
-          {skills.map(s => (
-            <div key={s.key} className="skill-card" onClick={() => navigate('/hub?skill=' + s.key)}>
-              <div className="skill-icon">{s.icon}</div>
-              <div className="skill-score">{s.score} <span className="skill-avg">avg</span></div>
-              <div className="skill-name">{s.label}</div>
-              <div className="skill-sub">{s.done} {s.done === 1 ? 'activity' : 'activities'} done</div>
-              <div className="skill-bar"><div className="skill-bar-fill" style={{ width: Math.min(s.done * 10, 100) + '%' }} /></div>
-              <div className="practice-btn">Practice →</div>
-            </div>
-          ))}
-        </div>
-
         {/* Agenda */}
-        <div className="section-title fade-up fade-up-4">Agenda</div>
-        <div className="agenda-card fade-up fade-up-4">
+        <div className="section-title fade-up fade-up-3">Agenda</div>
+        <div className="agenda-card fade-up fade-up-3">
           <div className="agenda-header">
             <div className="agenda-header-left">
               <span style={{ fontSize: 18, color: '#ff6a00' }}>📅</span>
@@ -235,11 +209,7 @@ export default function Dashboard({ user, student, onLogout }) {
               <div className="agenda-info">
                 <div className="agenda-num">✦ LESSON {agenda.numero} · {agenda.nivel}</div>
                 <div className="agenda-title-text">{agenda.titulo}</div>
-                <div className="agenda-goal">{agenda.targetGoal}</div>
-                <div className="agenda-task-box">
-                  <div className="agenda-task-label">✅ Before class — your task</div>
-                  <div className="agenda-task-text">{student?.tarefaPersonalizada || agenda.tarefa}</div>
-                </div>
+                {agenda.targetGoal && <div className="agenda-goal">{agenda.targetGoal}</div>}
               </div>
             </div>
           ) : (
@@ -248,6 +218,31 @@ export default function Dashboard({ user, student, onLogout }) {
               <p>No class scheduled yet. Denise will update your agenda soon!</p>
             </div>
           )}
+
+          {/* Tarefa pré-aula */}
+          {(student?.tarefaPersonalizada || agenda?.tarefa) && (
+            <div className="agenda-section-block pre">
+              <div className="agenda-section-label">✅ Before class — your task</div>
+              <div className="agenda-section-text">{student?.tarefaPersonalizada || agenda?.tarefa}</div>
+            </div>
+          )}
+
+          {/* Páginas do livro */}
+          {student?.paginasDoLivro && (
+            <div className="agenda-section-block book">
+              <div className="agenda-section-label">📖 Book pages</div>
+              <div className="agenda-section-text">{student.paginasDoLivro}</div>
+            </div>
+          )}
+
+          {/* Tarefa da semana */}
+          {student?.tarefaDaSemana && (
+            <div className="agenda-section-block week">
+              <div className="agenda-section-label">🗓️ This week's task</div>
+              <div className="agenda-section-text">{student.tarefaDaSemana}</div>
+            </div>
+          )}
+
           <div className="agenda-footer">
             <span className="agenda-level-pill">{nivel}</span>
             <span className="agenda-updated">Updated by Denise</span>

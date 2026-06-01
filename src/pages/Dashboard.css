@@ -326,3 +326,17 @@
   .reports-grades { grid-template-columns: 1fr; }
   .reports-modal { padding: 20px 16px 40px; }
 }
+
+/* ─── AGENDA SECTION BLOCKS ─────────────────────────────────────────────── */
+.agenda-section-block {
+  border-radius: 10px; padding: 12px 14px;
+  margin-top: 12px; border-left: 3px solid;
+}
+.agenda-section-block.pre  { background: #e1f5ee; border-color: #1d9e75; }
+.agenda-section-block.book { background: #e6f1fb; border-color: #378add; }
+.agenda-section-block.week { background: #fff1e8; border-color: #ff6a00; }
+.agenda-section-label {
+  font-size: 11px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .5px; margin-bottom: 6px; color: #555;
+}
+.agenda-section-text { font-size: 14px; color: #333; line-height: 1.65; }
