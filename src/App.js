@@ -4,10 +4,14 @@ import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
 import Practice from './pages/Practice';
 import PracticeHub from './pages/PracticeHub';
+import PracticeHubP1 from './pages/PracticeHubP1';
 
 export const NOTION_TOKEN = process.env.REACT_APP_NOTION_TOKEN || '';
 export const STUDENTS_DB  = '368628bb387c80259882da13d7e2ed1d';
 export const AGENDA_DB    = '20d1f53be0104838a9e452246edfa737';
+
+// Emails with P1 access
+export const P1_EMAILS = ['yaraandrade19912@gmail.com'];
 
 export default function App() {
   const [user, setUser] = useState(() => {
@@ -45,6 +49,11 @@ export default function App() {
         <Route path="/hub" element={
           user ? <PracticeHub user={user} student={student} onLogout={handleLogout} /> : <Navigate to="/login" replace />
         } />
+        <Route path="/hub-p1" element={
+          user && P1_EMAILS.includes(user.email)
+            ? <PracticeHubP1 user={user} student={student} onLogout={handleLogout} />
+            : <Navigate to="/" replace />
+        } />
         <Route path="/practice/:skill" element={
           user ? <Practice user={user} student={student} onLogout={handleLogout} /> : <Navigate to="/login" replace />
         } />
@@ -53,3 +62,4 @@ export default function App() {
     </BrowserRouter>
   );
 }
+

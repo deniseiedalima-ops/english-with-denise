@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import './Dashboard.css';
+import { P1_EMAILS } from '../App';
 
 const LEVEL_ORDER = ['A1', 'A1→A2', 'A2', 'B1 iniciante', 'B1', 'B2'];
 const LEVEL_DISPLAY = { 'A1': 'A1', 'A1→A2': 'A1→A2', 'A2': 'A2', 'B1 iniciante': 'B1 Beginner', 'B1': 'B1', 'B2': 'B2' };
@@ -169,6 +170,11 @@ export default function Dashboard({ user, student, onLogout }) {
                 </div>
               );
             })}
+            {P1_EMAILS.includes(user?.email) && (
+              <div className="level-dot p1-dot" onClick={() => navigate('/hub-p1')} title="Meu programa personalizado">
+                P1
+              </div>
+            )}
           </div>
         </div>
 
