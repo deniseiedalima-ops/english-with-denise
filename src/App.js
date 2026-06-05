@@ -5,7 +5,6 @@ import Dashboard from './pages/Dashboard';
 import Practice from './pages/Practice';
 import PracticeHub from './pages/PracticeHub';
 import PracticeHubP1 from './pages/PracticeHubP1';
-import Community from './pages/Community';
 
 export const NOTION_TOKEN = process.env.REACT_APP_NOTION_TOKEN || '';
 export const STUDENTS_DB  = '368628bb387c80259882da13d7e2ed1d';
@@ -57,9 +56,6 @@ export default function App() {
         } />
         <Route path="/practice/:skill" element={
           user ? <Practice user={user} student={student} onLogout={handleLogout} /> : <Navigate to="/login" replace />
-        } />
-        <Route path="/community" element={
-          user ? <Community user={user} student={student} onLogout={handleLogout} /> : <Navigate to="/login" replace />
         } />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
