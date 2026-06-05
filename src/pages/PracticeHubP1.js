@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
+import { getItem, setItem } from '../utils/storage';
 import './PracticeHubP1.css';
 
 // P1 — Personalizado: Yara Andrade
@@ -428,9 +429,11 @@ DEADLINE.setMonth(DEADLINE.getMonth() + 3);
 
 export default function PracticeHubP1({ user, student, onLogout }) {
   const navigate = useNavigate();
-  const [completedCodes, setCompletedCodes] = useState(() => {
-    try { return JSON.parse(localStorage.getItem('ewd_p1_completed') || '[]'); } catch { return []; }
-  });
+  const email = user?.email || '';
+
+  const [completedCodes, setCompletedCodes] = useState(() =>
+    getItem(email, 'p1_completed', [])
+  );
   const [expandedTopic, setExpandedTopic] = useState('P1-T1');
 
   const totalActivities = P1_LESSONS.reduce((acc, l) => acc + l.activities.length, 0);
@@ -444,10 +447,9 @@ export default function PracticeHubP1({ user, student, onLogout }) {
     if (!completedCodes.includes(act.code)) {
       const updated = [...completedCodes, act.code];
       setCompletedCodes(updated);
-      localStorage.setItem('ewd_p1_completed', JSON.stringify(updated));
-      const xp = parseInt(localStorage.getItem('ewd_xp') || '0') + 25;
-      localStorage.setItem('ewd_xp', xp);
-      window.dispatchEvent(new Event('storage'));
+      setItem(email, 'p1_completed', updated);
+      const xp = getItem(email, 'xp', 0) + 25;
+      setItem(email, 'xp', xp);
     }
     // Navigate to appropriate practice page
     if (act.type === 'reading') {

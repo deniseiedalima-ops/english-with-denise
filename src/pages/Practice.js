@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { useParams, useNavigate, useSearchParams } from 'react-router-dom';
 import Navbar from '../components/Navbar';
+import { getItem, setItem } from '../utils/storage';
 import './Practice.css';
 
 const SKILLS = {
@@ -911,28 +912,29 @@ export default function Practice({ user, student, onLogout }) {
 
   // Central function: saves XP, activity, updates streak, fires storage event
   const saveProgress = (skillKey, title, score, xpGain) => {
-    const currentXp = parseInt(localStorage.getItem('ewd_xp') || '0');
-    localStorage.setItem('ewd_xp', currentXp + xpGain);
+    const email = user?.email || '';
 
-    const acts = JSON.parse(localStorage.getItem('ewd_activities') || '[]');
+    // XP
+    const currentXp = getItem(email, 'xp', 0);
+    setItem(email, 'xp', currentXp + xpGain);
+
+    // Activities
+    const acts = getItem(email, 'activities', []);
     acts.push({ skill: skillKey, title, score, time: 'Just now' });
-    localStorage.setItem('ewd_activities', JSON.stringify(acts));
+    setItem(email, 'activities', acts);
 
-    // Update streak
+    // Streak
     const today = new Date().toDateString();
     const yesterday = new Date(Date.now() - 86400000).toDateString();
-    const lastActive = localStorage.getItem('ewd_last_active') || '';
-    let streak = parseInt(localStorage.getItem('ewd_streak') || '0');
+    const lastActive = getItem(email, 'last_active', '');
+    let streak = getItem(email, 'streak', 0);
     if (lastActive !== today) {
       streak = lastActive === yesterday ? streak + 1 : 1;
-      const best = parseInt(localStorage.getItem('ewd_best_streak') || '0');
-      if (streak > best) localStorage.setItem('ewd_best_streak', streak);
-      localStorage.setItem('ewd_streak', streak);
-      localStorage.setItem('ewd_last_active', today);
+      const best = getItem(email, 'best_streak', 0);
+      if (streak > best) setItem(email, 'best_streak', streak);
+      setItem(email, 'streak', streak);
+      setItem(email, 'last_active', today);
     }
-
-    // Fire storage event so Dashboard updates reactively
-    window.dispatchEvent(new Event('storage'));
   };
 
   const handleAnswer = (qi, ai) => {

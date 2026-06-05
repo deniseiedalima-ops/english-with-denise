@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
+import { getItem, setItem } from '../utils/storage';
 import './PracticeHub.css';
 
 const LEVEL_ACCESS = {
@@ -167,10 +168,11 @@ const LEVEL_META = {
 
 export default function PracticeHub({ user, student, onLogout }) {
   const navigate = useNavigate();
-  const [completedCodes, setCompletedCodes] = useState(() => {
-    try { return JSON.parse(localStorage.getItem('ewd_completed_codes') || '[]'); }
-    catch { return []; }
-  });
+  const email = user?.email || '';
+
+  const [completedCodes, setCompletedCodes] = useState(() =>
+    getItem(email, 'completed_codes', [])
+  );
   const [openLevels, setOpenLevels] = useState({ 'A1': true, 'A2': true, 'B1': true, 'B2': true });
 
   const studentLevel = (student?.nivel || 'A1').trim();
@@ -214,10 +216,9 @@ export default function PracticeHub({ user, student, onLogout }) {
     if (!completedCodes.includes(act.code)) {
       const updated = [...completedCodes, act.code];
       setCompletedCodes(updated);
-      localStorage.setItem('ewd_completed_codes', JSON.stringify(updated));
-      const xp = parseInt(localStorage.getItem('ewd_xp') || '0');
-      localStorage.setItem('ewd_xp', xp + 20);
-      window.dispatchEvent(new Event('storage'));
+      setItem(email, 'completed_codes', updated);
+      const xp = getItem(email, 'xp', 0) + 20;
+      setItem(email, 'xp', xp);
     }
     navigate(`/practice/${act.skill}?lesson=${encodeURIComponent(lessonTitle)}&activity=${act.activityIndex}`);
   };

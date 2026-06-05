@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import './Dashboard.css';
 import { P1_EMAILS } from '../App';
+import { getItem, setItem, getKey } from '../utils/storage';
 
 const LEVEL_ORDER = ['A1', 'A1→A2', 'A2', 'B1 iniciante', 'B1', 'B2'];
 const LEVEL_DISPLAY = { 'A1': 'A1', 'A1→A2': 'A1→A2', 'A2': 'A2', 'B1 iniciante': 'B1 Beginner', 'B1': 'B1', 'B2': 'B2' };
@@ -29,40 +30,38 @@ const ACHIEVEMENTS = [
 
 const TIER_COLORS = { Bronze: '#cd7f32', Silver: '#999', Gold: '#ff6a00', Platinum: '#7f77dd' };
 
-function updateStreak() {
+function updateStreak(email) {
   const today = new Date().toDateString();
   const yesterday = new Date(Date.now() - 86400000).toDateString();
-  const lastActive = localStorage.getItem('ewd_last_active') || '';
-  let streak = parseInt(localStorage.getItem('ewd_streak') || '0');
-  let best = parseInt(localStorage.getItem('ewd_best_streak') || '0');
+  const lastActive = getItem(email, 'last_active', '');
+  let streak = getItem(email, 'streak', 0);
+  let best = getItem(email, 'best_streak', 0);
   if (lastActive === today) return streak;
   streak = lastActive === yesterday ? streak + 1 : 1;
-  if (streak > best) { best = streak; localStorage.setItem('ewd_best_streak', best); }
-  localStorage.setItem('ewd_streak', streak);
-  localStorage.setItem('ewd_last_active', today);
+  if (streak > best) { best = streak; setItem(email, 'best_streak', best); }
+  setItem(email, 'streak', streak);
+  setItem(email, 'last_active', today);
   return streak;
 }
 
 export default function Dashboard({ user, student, onLogout }) {
   const navigate = useNavigate();
-  const [xp, setXp] = useState(() => parseInt(localStorage.getItem('ewd_xp') || '0'));
-  const [streak, setStreak] = useState(() => parseInt(localStorage.getItem('ewd_streak') || '0'));
-  const [bestStreak] = useState(() => parseInt(localStorage.getItem('ewd_best_streak') || '0'));
-  const [activities, setActivities] = useState(() => {
-    try { return JSON.parse(localStorage.getItem('ewd_activities') || '[]'); } catch { return []; }
-  });
-  const [unlockedIds, setUnlockedIds] = useState(() => {
-    try { return JSON.parse(localStorage.getItem('ewd_achievements') || '[]'); } catch { return []; }
-  });
+  const email = user?.email || '';
+
+  const [xp, setXp] = useState(() => getItem(email, 'xp', 0));
+  const [streak, setStreak] = useState(() => getItem(email, 'streak', 0));
+  const [bestStreak] = useState(() => getItem(email, 'best_streak', 0));
+  const [activities, setActivities] = useState(() => getItem(email, 'activities', []));
+  const [unlockedIds, setUnlockedIds] = useState(() => getItem(email, 'achievements', []));
   const [newAchievement, setNewAchievement] = useState(null);
 
   useEffect(() => {
-    const s = updateStreak();
+    const s = updateStreak(email);
     setStreak(s);
     const onStorage = () => {
-      const newXp = parseInt(localStorage.getItem('ewd_xp') || '0');
-      const newActs = (() => { try { return JSON.parse(localStorage.getItem('ewd_activities') || '[]'); } catch { return []; } })();
-      const newS = parseInt(localStorage.getItem('ewd_streak') || '0');
+      const newXp    = getItem(email, 'xp', 0);
+      const newActs  = getItem(email, 'activities', []);
+      const newS     = getItem(email, 'streak', 0);
       setXp(newXp); setActivities(newActs); setStreak(newS);
       checkAchievements(newActs, newXp, newS);
     };
@@ -72,13 +71,13 @@ export default function Dashboard({ user, student, onLogout }) {
   }, []);
 
   const checkAchievements = (acts, xpVal, streakVal) => {
-    const current = (() => { try { return JSON.parse(localStorage.getItem('ewd_achievements') || '[]'); } catch { return []; } })();
+    const current = getItem(email, 'achievements', []);
     let updated = [...current]; let newest = null;
     ACHIEVEMENTS.forEach(ach => {
       if (!updated.includes(ach.id) && ach.check(acts, xpVal, streakVal)) { updated.push(ach.id); newest = ach; }
     });
     if (updated.length !== current.length) {
-      localStorage.setItem('ewd_achievements', JSON.stringify(updated));
+      setItem(email, 'achievements', updated);
       setUnlockedIds(updated);
       if (newest) setNewAchievement(newest);
     }
