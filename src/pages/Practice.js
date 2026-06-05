@@ -1089,12 +1089,12 @@ export default function Practice({ user, student, onLogout }) {
 
           {/* Reading activity */}
           {activity.type === 'multiple_choice' && skill === 'reading' && (
-            <div className="reading-section">
+            <div className="activity-body reading-section">
               <div className="activity-instruction-box">
                 <span className="instr-icon">📖</span>
                 <div>
-                  <div className="instr-title">Read the text below</div>
-                  <div className="instr-sub">Then answer the questions at the bottom.</div>
+                  <div className="instr-title">Read carefully</div>
+                  <div className="instr-sub">Then answer the 4 questions below.</div>
                 </div>
               </div>
               <div className="reading-text">{renderDialogue(activity.text)}</div>
@@ -1124,7 +1124,7 @@ export default function Practice({ user, student, onLogout }) {
 
           {/* Listening with YouTube video */}
           {activity.type === 'listening_video' && (
-            <div className="listening-section">
+            <div className="activity-body listening-section">
               <div className="video-instruction">
                 <span className="video-instruction-icon">🎬</span>
                 <div>
@@ -1228,33 +1228,32 @@ export default function Practice({ user, student, onLogout }) {
 
           {/* Writing activity */}
           {activity.type === 'writing' && (
-            <div className="writing-section">
+            <div className="activity-body writing-section">
               <div className="activity-instruction-box">
                 <span className="instr-icon">✏️</span>
                 <div>
                   <div className="instr-title">Write your answer below</div>
-                  <div className="instr-sub">Minimum {activity.minWords} words. AI will give you detailed feedback.</div>
+                  <div className="instr-sub">Minimum {activity.minWords} words · AI will give you detailed feedback</div>
                 </div>
               </div>
-              <div className="writing-prompt-box">
-                <div className="writing-prompt-label">📝 Your task</div>
-                <div className="writing-prompt-text">{renderPrompt(activity.prompt)}</div>
-              </div>
-              <div className="writing-tips-title">💡 Tips</div>
-              <div className="writing-tips">
-                {activity.tips?.map((tip, i) => (
-                  <div key={i} className="writing-tip">{tip}</div>
-                ))}
-              </div>
+              <div className="writing-prompt-box">{renderPrompt(activity.prompt)}</div>
+              {activity.tips?.length > 0 && (
+                <div className="writing-tips-box">
+                  <div className="writing-tips-title">💡 Tips from the teacher</div>
+                  {activity.tips.map((tip, i) => (
+                    <div key={i} className="writing-tip-item">→ {tip}</div>
+                  ))}
+                </div>
+              )}
               <textarea
-                className="writing-textarea"
-                placeholder="Start writing here..."
+                className="practice-textarea"
+                placeholder="Start writing here in English..."
                 value={writingText}
                 onChange={e => setWritingText(e.target.value)}
                 disabled={submitted}
-                rows={8}
+                rows={7}
               />
-              <div className="word-count" style={{ color: wordCount >= activity.minWords ? '#1d9e75' : '#aaa' }}>
+              <div className={`word-count-row ${wordCount >= activity.minWords ? 'ok' : ''}`}>
                 {wordCount} / {activity.minWords} words minimum {wordCount >= activity.minWords ? '✓' : ''}
               </div>
             </div>
@@ -1262,7 +1261,7 @@ export default function Practice({ user, student, onLogout }) {
 
           {/* Speaking activity */}
           {activity.type === 'speaking' && (
-            <div className="speaking-section">
+            <div className="activity-body speaking-section">
               <div className="activity-instruction-box">
                 <span className="instr-icon">🎙️</span>
                 <div>
@@ -1270,26 +1269,21 @@ export default function Practice({ user, student, onLogout }) {
                   <div className="instr-sub">Press Start, speak clearly, then Stop. AI will transcribe and give feedback.</div>
                 </div>
               </div>
-              <div className="speaking-prompt-box">
-                <div className="speaking-prompt-label">📋 Your task</div>
-                <div className="speaking-prompt-text">{renderPrompt(activity.prompt)}</div>
-              </div>
+              <div className="speaking-prompt-box">{renderPrompt(activity.prompt)}</div>
               {activity.tips?.length > 0 && (
-                <>
-                  <div className="speaking-tips-title">💡 Tips</div>
-                  <div className="speaking-tips-list">
-                    {activity.tips.map((tip, i) => (
-                      <div key={i} className="speaking-tip-item">{tip}</div>
-                    ))}
-                  </div>
-                </>
+                <div className="speaking-tips-box">
+                  <div className="speaking-tips-title">💡 Tips from the teacher</div>
+                  {activity.tips.map((tip, i) => (
+                    <div key={i} className="speaking-tip-item">→ {tip}</div>
+                  ))}
+                </div>
               )}
               {activity.phrases?.length > 0 && (
-                <div className="speaking-phrases-box">
-                  <div className="phrases-label">🗣️ Useful phrases</div>
-                  <div className="phrases-grid">
+                <div className="phrases-box">
+                  <div className="phrases-title">🗣️ Useful phrases</div>
+                  <div className="phrases-wrap">
                     {activity.phrases.map((p, i) => (
-                      <div key={i} className="phrase-chip">"{p}"</div>
+                      <span key={i} className="phrase-chip">"{p}"</span>
                     ))}
                   </div>
                 </div>
@@ -1297,46 +1291,37 @@ export default function Practice({ user, student, onLogout }) {
 
               {/* Recorder */}
               {!submitted && !speakingLoading && (
-                <div className="recorder-area">
+                <div className="recorder-card">
                   {!recording && !transcript && (
                     <>
-                      <button className="record-btn" onClick={startRecording}>
-                        🎙️ Start Recording
-                      </button>
-                      <p className="recorder-note">🔒 Your audio is processed securely and not stored.</p>
+                      <div className="recorder-status">Tap the button and start speaking! 🎤</div>
+                      <button className="recorder-btn idle" onClick={startRecording}>🎙️</button>
+                      <div className="recorder-hint">🔒 Audio is processed securely and not stored</div>
                     </>
                   )}
                   {recording && (
-                    <div className="recording-active">
-                      <div className="recording-pulse-wrap">
-                        <div className="recording-pulse" />
-                        <span className="recording-live">● REC</span>
-                        <span className="recording-time">{formatTime(recordingTime)}</span>
-                      </div>
-                      <button className="stop-btn" onClick={stopRecording}>⏹ Stop & Submit</button>
-                    </div>
+                    <>
+                      <div className="recorder-status" style={{ color: '#e02020', fontWeight: 700 }}>● Recording...</div>
+                      <div className="recorder-timer">{formatTime(recordingTime)}</div>
+                      <button className="recorder-btn recording" onClick={stopRecording}>⏹</button>
+                      <div className="recorder-hint">Tap to stop when you are done</div>
+                    </>
                   )}
                 </div>
               )}
 
               {/* Loading */}
               {speakingLoading && (
-                <div className="speaking-loading">
-                  <div className="speaking-loading-steps">
-                    <div className="loading-step">
-                      <div className="spinner" />
-                      <div>
-                        <div className="loading-title">Processing your audio...</div>
-                        <div className="loading-sub">Transcribing with Whisper AI, then generating feedback with GPT-4o</div>
-                      </div>
-                    </div>
-                  </div>
+                <div className="recorder-card">
+                  <div className="recorder-status">Processing your audio...</div>
+                  <div className="recorder-btn processing" style={{ background: '#e0dbd4' }}>⏳</div>
+                  <div className="recorder-hint">Transcribing with Whisper · Analysing with GPT-4o</div>
                 </div>
               )}
 
-              {/* Transcript preview */}
+              {/* Transcript */}
               {transcript && !speakingLoading && !submitted && (
-                <div className="transcript-result">
+                <div className="transcript-box">
                   <div className="transcript-label">📝 What we heard:</div>
                   <div className="transcript-text">"{transcript}"</div>
                 </div>
