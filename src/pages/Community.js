@@ -98,7 +98,7 @@ export default function Community({ user, student, onLogout }) {
       const form = new FormData();
       form.append('file', photo);
       form.append('upload_preset', UPLOAD_PRESET);
-      form.append('folder', 'english-challenge');
+      form.append('folder', 'english-rats');
 
       const upRes = await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`, {
         method: 'POST', body: form,
@@ -161,7 +161,7 @@ export default function Community({ user, student, onLogout }) {
         {/* Header */}
         <div className="community-header">
           <div>
-            <h1 className="community-title">English Challenge 🏆</h1>
+            <h1 className="community-title">EnglishRats 🐀</h1>
             <p className="community-sub">Share your English practice. Inspire your classmates!</p>
           </div>
           <button className="community-post-btn" onClick={() => setTab('post')}>

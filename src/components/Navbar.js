@@ -21,7 +21,7 @@ export default function Navbar({ user, student, onLogout }) {
           {[
             { label: 'Dashboard', path: '/' },
             { label: 'Practice Hub', path: '/hub' },
-            { label: '🏆 Challenge', path: '/community' },
+            { label: '🐀 EnglishRats', path: '/community' },
           ].map(l => (
             <div key={l.path}
               className={`navbar-link ${location.pathname === l.path ? 'active' : ''}`}
