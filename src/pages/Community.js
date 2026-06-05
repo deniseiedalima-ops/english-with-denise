@@ -3,8 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import './Community.css';
 
-const CLOUD_NAME = 'dbkrebqs0';
-const UPLOAD_PRESET = 'agrr8msy';
 const EMOJIS = ['🔥','❤️','👏','🎉','✨','📚','👑','💛'];
 const CATEGORIES = ['📖 Reading','🎧 Listening','✏️ Writing','🎙️ Speaking'];
 const CAT_COLORS = {
@@ -93,17 +91,15 @@ export default function Community({ user, student, onLogout }) {
 
     setUploading(true);
     try {
-      // Upload to Cloudinary
-      const form = new FormData();
-      form.append('file', photo);
-      form.append('upload_preset', UPLOAD_PRESET);
-      form.append('folder', 'english-rats');
-
-      const upRes = await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`, {
-        method: 'POST', body: form,
+      // Upload via server-side API (avoids CORS issues)
+      const arrayBuffer = await photo.arrayBuffer();
+      const upRes = await fetch('/api/upload-image', {
+        method: 'POST',
+        headers: { 'Content-Type': photo.type || 'image/jpeg' },
+        body: arrayBuffer,
       });
       const upData = await upRes.json();
-      if (!upData.secure_url) throw new Error('Upload failed');
+      if (!upData.url) throw new Error(upData.error || 'Upload failed');
 
       // Save to Notion via API
       const nome = `${user?.name?.split(' ').slice(0, 2).join(' ')}` || 'Student';
@@ -113,7 +109,7 @@ export default function Community({ user, student, onLogout }) {
         body: JSON.stringify({
           nome, email: user?.email,
           categoria, legenda,
-          fotoUrl: upData.secure_url,
+          fotoUrl: upData.url,
         }),
       });
       const postData = await postRes.json();
