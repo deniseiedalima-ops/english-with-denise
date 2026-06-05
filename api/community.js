@@ -1,8 +1,6 @@
 const NOTION_API = 'https://api.notion.com/v1';
 const POSTS_DB = 'dbe7ae1a-6bf8-4610-bc11-ffb585acaf5c';
-
 const TOKEN = () => process.env.NOTION_TOKEN || process.env.REACT_APP_NOTION_TOKEN || '';
-
 const EMOJIS = ['🔥','❤️','👏','🎉','✨','📚','👑','💛'];
 
 export default async function handler(req, res) {
@@ -11,10 +9,9 @@ export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
   if (req.method === 'OPTIONS') return res.status(200).end();
 
-  // GET /api/community?type=feed|podio
+  // ── GET: feed or podio ──────────────────────────────────────────────────
   if (req.method === 'GET') {
     const { type = 'feed' } = req.query;
-
     try {
       const response = await fetch(`${NOTION_API}/databases/${POSTS_DB}/query`, {
         method: 'POST',
@@ -25,66 +22,67 @@ export default async function handler(req, res) {
         },
         body: JSON.stringify({
           sorts: [{ timestamp: 'created_time', direction: 'descending' }],
-          page_size: 50,
+          page_size: 100,
         }),
       });
 
       const data = await response.json();
+      if (!response.ok) {
+        console.error('[community GET]', data);
+        return res.status(500).json({ error: data?.message || 'Notion error', posts: [] });
+      }
+
       const posts = (data.results || []).map(page => {
         const p = page.properties;
         const reactions = {};
-        EMOJIS.forEach(e => {
-          reactions[e] = p[`Reações ${e}`]?.number || 0;
-        });
+        EMOJIS.forEach(e => { reactions[e] = p[`Reações ${e}`]?.number || 0; });
         return {
           id: page.id,
-          legenda: p['Legenda']?.title?.[0]?.plain_text || '',
-          nome: p['Nome']?.rich_text?.[0]?.plain_text || '',
-          email: p['Email']?.email || '',
+          legenda:   p['Legenda']?.title?.[0]?.plain_text || '',
+          nome:      p['Nome']?.rich_text?.[0]?.plain_text || '',
+          email:     p['Email']?.email || '',
           categoria: p['Categoria']?.select?.name || '',
-          fotoUrl: p['Foto URL']?.url || '',
-          data: page.created_time,
-          semana: p['Semana']?.number || 0,
-          mes: p['Mês']?.number || 0,
-          ano: p['Ano']?.number || 0,
-          pontos: p['Pontos']?.number || 1,
+          fotoUrl:   p['Foto URL']?.url || '',
+          data:      page.created_time,
+          semana:    p['Semana']?.number || 0,
+          mes:       p['Mês']?.number || 0,
+          ano:       p['Ano']?.number || 0,
           reactions,
         };
       });
 
       if (type === 'podio') {
-        // Calculate weekly and monthly leaderboard
         const now = new Date();
         const weekNum = getWeekNumber(now);
         const month = now.getMonth() + 1;
         const year = now.getFullYear();
-
-        const weekly = calcLeaderboard(posts.filter(p => p.semana === weekNum && p.ano === year));
+        const weekly  = calcLeaderboard(posts.filter(p => p.semana === weekNum && p.ano === year));
         const monthly = calcLeaderboard(posts.filter(p => p.mes === month && p.ano === year));
         return res.json({ weekly, monthly });
       }
 
       return res.json({ posts });
     } catch (err) {
-      return res.status(500).json({ error: err.message });
+      console.error('[community GET exception]', err.message);
+      return res.status(500).json({ error: err.message, posts: [] });
     }
   }
 
-  // POST /api/community — create post
+  // ── POST: create post ───────────────────────────────────────────────────
   if (req.method === 'POST') {
-    const { nome, email, categoria, legenda, fotoUrl } = req.body;
+    const { nome, email, categoria, legenda, fotoUrl } = req.body || {};
     if (!nome || !email || !categoria || !legenda || !fotoUrl) {
       return res.status(400).json({ error: 'Missing fields' });
     }
 
-    // Word count check
     const words = legenda.trim().split(/\s+/).filter(Boolean);
     if (words.length < 3) {
       return res.status(400).json({ error: 'Caption must have at least 3 words' });
     }
 
-    // Check daily post limit (4 per day)
-    const today = new Date().toISOString().split('T')[0];
+    // Check daily limit — fetch all posts by this email today
+    const today = new Date();
+    const todayStr = today.toISOString().split('T')[0]; // YYYY-MM-DD
     const checkRes = await fetch(`${NOTION_API}/databases/${POSTS_DB}/query`, {
       method: 'POST',
       headers: {
@@ -93,16 +91,15 @@ export default async function handler(req, res) {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        filter: {
-          and: [
-            { property: 'Email', email: { equals: email } },
-            { timestamp: 'created_time', created_time: { on_or_after: today + 'T00:00:00Z' } },
-          ]
-        }
+        filter: { property: 'Email', email: { equals: email } },
+        page_size: 100,
       }),
     });
     const checkData = await checkRes.json();
-    if ((checkData.results || []).length >= 4) {
+    const todayPosts = (checkData.results || []).filter(p =>
+      p.created_time?.startsWith(todayStr)
+    );
+    if (todayPosts.length >= 4) {
       return res.status(429).json({ error: 'Daily limit reached (4 posts/day)' });
     }
 
@@ -119,12 +116,11 @@ export default async function handler(req, res) {
       body: JSON.stringify({
         parent: { database_id: POSTS_DB },
         properties: {
-          'Legenda': { title: [{ text: { content: legenda } }] },
-          'Nome':    { rich_text: [{ text: { content: nome } }] },
-          'Email':   { email },
+          'Legenda':   { title: [{ text: { content: legenda } }] },
+          'Nome':      { rich_text: [{ text: { content: nome } }] },
+          'Email':     { email },
           'Categoria': { select: { name: categoria } },
           'Foto URL':  { url: fotoUrl },
-          'Data':      { date: { start: now.toISOString() } },
           'Semana':    { number: weekNum },
           'Mês':       { number: now.getMonth() + 1 },
           'Ano':       { number: now.getFullYear() },
@@ -135,22 +131,29 @@ export default async function handler(req, res) {
     });
 
     const post = await response.json();
+    if (!response.ok) {
+      console.error('[community POST create]', post);
+      return res.status(500).json({ error: post?.message || 'Failed to create post' });
+    }
+
     return res.json({ success: true, id: post.id });
   }
 
-  // PATCH /api/community — add reaction
+  // ── PATCH: add reaction ──────────────────────────────────────────────────
   if (req.method === 'PATCH') {
-    const { postId, emoji } = req.body;
+    const { postId, emoji } = req.body || {};
     if (!postId || !emoji || !EMOJIS.includes(emoji)) {
       return res.status(400).json({ error: 'Invalid request' });
     }
 
-    // Get current value
     const pageRes = await fetch(`${NOTION_API}/pages/${postId}`, {
-      headers: { 'Authorization': `Bearer ${TOKEN()}`, 'Notion-Version': '2022-06-28' },
+      headers: {
+        'Authorization': `Bearer ${TOKEN()}`,
+        'Notion-Version': '2022-06-28',
+      },
     });
     const page = await pageRes.json();
-    const current = page.properties[`Reações ${emoji}`]?.number || 0;
+    const current = page.properties?.[`Reações ${emoji}`]?.number || 0;
 
     await fetch(`${NOTION_API}/pages/${postId}`, {
       method: 'PATCH',
@@ -160,9 +163,7 @@ export default async function handler(req, res) {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        properties: {
-          [`Reações ${emoji}`]: { number: current + 1 },
-        },
+        properties: { [`Reações ${emoji}`]: { number: current + 1 } },
       }),
     });
 

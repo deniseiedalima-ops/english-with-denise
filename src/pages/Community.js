@@ -51,11 +51,10 @@ export default function Community({ user, student, onLogout }) {
       const r = await fetch('/api/community?type=feed');
       const d = await r.json();
       setPosts(d.posts || []);
-      // Count today's posts by this user
-      const today = new Date().toISOString().split('T')[0];
+      // Count today's posts by this user using local date
+      const todayStr = new Date().toISOString().split('T')[0];
       const mine = (d.posts || []).filter(p =>
-        p.email === user?.email &&
-        p.data?.startsWith(today)
+        p.email === user?.email && p.data?.startsWith(todayStr)
       );
       setTodayCount(mine.length);
     } catch {}
