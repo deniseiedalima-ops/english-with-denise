@@ -158,27 +158,50 @@ const SKILL_COLORS = {
   speaking:  { bg: '#fbeaf0', color: '#72243E', label: 'Speaking' },
 };
 
+const LEVEL_META = {
+  'A1': { label: 'Nível A1', sub: 'Beginner',           color: '#ff6a00', bg: '#fff1e8' },
+  'A2': { label: 'Nível A2', sub: 'Elementary',         color: '#1d9e75', bg: '#e1f5ee' },
+  'B1': { label: 'Nível B1', sub: 'Intermediate',       color: '#378add', bg: '#e6f1fb' },
+  'B2': { label: 'Nível B2', sub: 'Upper Intermediate',  color: '#7f77dd', bg: '#eeedfe' },
+};
+
 export default function PracticeHub({ user, student, onLogout }) {
   const navigate = useNavigate();
   const [completedCodes, setCompletedCodes] = useState(() => {
     try { return JSON.parse(localStorage.getItem('ewd_completed_codes') || '[]'); }
     catch { return []; }
   });
+  const [openLevels, setOpenLevels] = useState({ 'A1': true, 'A2': true, 'B1': true, 'B2': true });
 
   const studentLevel = (student?.nivel || 'A1').trim();
   const allowedLevels = LEVEL_ACCESS[studentLevel] || ['A1'];
-  const availableLessons = LESSONS.filter(l => allowedLevels.includes(l.level));
-  const lockedLessons = LESSONS.filter(l => !allowedLevels.includes(l.level));
 
-  // Find current lesson (first with activities not fully done)
+  // Deduplicate lessons by code
+  const seen = new Set();
+  const uniqueLessons = LESSONS.filter(l => {
+    if (seen.has(l.code)) return false;
+    seen.add(l.code);
+    return true;
+  });
+
+  const availableLessons = uniqueLessons.filter(l => allowedLevels.includes(l.level));
+  const lockedLessons    = uniqueLessons.filter(l => !allowedLevels.includes(l.level));
+
+  // Group available lessons by level
+  const lessonsByLevel = allowedLevels.reduce((acc, lvl) => {
+    acc[lvl] = availableLessons.filter(l => l.level === lvl);
+    return acc;
+  }, {});
+
+  // Find current lesson (first incomplete)
   const currentLesson = availableLessons.find(l => {
     if (!l.pre && !l.post) return false;
-    const preDone = !l.pre || completedCodes.includes(l.pre.code);
+    const preDone  = !l.pre  || completedCodes.includes(l.pre.code);
     const postDone = !l.post || completedCodes.includes(l.post.code);
     return !preDone || !postDone;
   }) || availableLessons.find(l => l.pre || l.post) || availableLessons[0];
 
-  // Weekly progress
+  // Progress
   const preTotal  = availableLessons.filter(l => l.pre).length;
   const postTotal = availableLessons.filter(l => l.post).length;
   const preDone   = availableLessons.filter(l => l.pre  && completedCodes.includes(l.pre.code)).length;
@@ -199,6 +222,8 @@ export default function PracticeHub({ user, student, onLogout }) {
     navigate(`/practice/${act.skill}?lesson=${encodeURIComponent(lessonTitle)}&activity=${act.activityIndex}`);
   };
 
+  const toggleLevel = (lvl) => setOpenLevels(prev => ({ ...prev, [lvl]: !prev[lvl] }));
+
   const renderLesson = (lesson, phase) => {
     const act = phase === 'pre' ? lesson.pre : lesson.post;
     const isCurrent = lesson.code === currentLesson?.code;
@@ -206,43 +231,37 @@ export default function PracticeHub({ user, student, onLogout }) {
     const hasAct = !!act;
     const skillStyle = act ? SKILL_COLORS[act.skill] : null;
 
-    if (!hasAct) {
-      return (
-        <div key={lesson.code + phase} className="lesson-row upcoming-row">
-          <span className="lesson-code-badge upcoming">{lesson.code}</span>
+    if (!hasAct) return (
+      <div key={lesson.code + phase} className="lesson-row upcoming-row">
+        <span className="lesson-code-badge upcoming">{lesson.code}</span>
+        <div className="lesson-row-info">
+          <div className="lesson-row-name">{lesson.title}</div>
+          <span className="coming-soon-tag">Coming soon</span>
+        </div>
+      </div>
+    );
+
+    if (isCurrent && !isDone) return (
+      <div key={lesson.code + phase} className={`lesson-current-card ${phase}`}>
+        <div className={`lesson-current-header ${phase}`}>
+          <span className={`lesson-code-badge ${phase}`}>{lesson.code}</span>
           <div className="lesson-row-info">
             <div className="lesson-row-name">{lesson.title}</div>
-            <span className="coming-soon-tag">Coming soon</span>
+            <span className="skill-pill" style={{ background: skillStyle.bg, color: skillStyle.color }}>
+              {act.icon} {skillStyle.label}
+            </span>
+          </div>
+          <span className={`current-tag ${phase}`}>{phase === 'pre' ? 'Current ✦' : 'After class ✦'}</span>
+        </div>
+        <div className="lesson-current-body">
+          <div className="lesson-current-title">{act.title}</div>
+          <div className="lesson-current-actions">
+            <button className={`start-big-btn ${phase}`} onClick={() => handleStart(act, lesson.title)}>▶ Start Activity</button>
+            <span className="xp-tag">+20 XP</span>
           </div>
         </div>
-      );
-    }
-
-    if (isCurrent && !isDone) {
-      return (
-        <div key={lesson.code + phase} className={`lesson-current-card ${phase}`}>
-          <div className={`lesson-current-header ${phase}`}>
-            <span className={`lesson-code-badge ${phase}`}>{lesson.code}</span>
-            <div className="lesson-row-info">
-              <div className="lesson-row-name">{lesson.title}</div>
-              <span className="skill-pill" style={{ background: skillStyle.bg, color: skillStyle.color }}>
-                {act.icon} {skillStyle.label}
-              </span>
-            </div>
-            <span className={`current-tag ${phase}`}>{phase === 'pre' ? 'Current ✦' : 'After class ✦'}</span>
-          </div>
-          <div className="lesson-current-body">
-            <div className="lesson-current-title">{act.title}</div>
-            <div className="lesson-current-actions">
-              <button className={`start-big-btn ${phase}`} onClick={() => handleStart(act, lesson.title)}>
-                ▶ Start Activity
-              </button>
-              <span className="xp-tag">+20 XP</span>
-            </div>
-          </div>
-        </div>
-      );
-    }
+      </div>
+    );
 
     return (
       <div key={lesson.code + phase} className={`lesson-row ${isDone ? 'done' : ''}`}>
@@ -261,6 +280,41 @@ export default function PracticeHub({ user, student, onLogout }) {
     );
   };
 
+  // Render a level section (collapsible) for one column
+  const renderLevelSection = (lvl, phase) => {
+    const meta = LEVEL_META[lvl];
+    const lessons = lessonsByLevel[lvl] || [];
+    const isOpen = openLevels[lvl];
+    const doneCnt = lessons.filter(l => {
+      const act = phase === 'pre' ? l.pre : l.post;
+      return act && completedCodes.includes(act.code);
+    }).length;
+    const total = lessons.filter(l => phase === 'pre' ? l.pre : l.post).length;
+
+    return (
+      <div key={lvl + phase} className="hub-level-section">
+        <div className="hub-level-header" onClick={() => toggleLevel(lvl)} style={{ borderColor: meta.color }}>
+          <div className="hub-level-header-left">
+            <div className="hub-level-pill" style={{ background: meta.color, color: '#fff' }}>{meta.label}</div>
+            <div className="hub-level-sub">{meta.sub}</div>
+          </div>
+          <div className="hub-level-header-right">
+            <div className="hub-level-progress-text" style={{ color: meta.color }}>{doneCnt}/{total}</div>
+            <div className="hub-level-mini-bar">
+              <div className="hub-level-mini-fill" style={{ width: total > 0 ? (doneCnt/total*100)+'%' : '0%', background: meta.color }} />
+            </div>
+            <span className={`hub-level-chevron ${isOpen ? 'open' : ''}`}>▾</span>
+          </div>
+        </div>
+        {isOpen && (
+          <div className="hub-level-content">
+            {lessons.map(l => renderLesson(l, phase))}
+          </div>
+        )}
+      </div>
+    );
+  };
+
   const lockedLevels = [...new Set(lockedLessons.map(l => l.level))];
 
   return (
@@ -268,7 +322,6 @@ export default function PracticeHub({ user, student, onLogout }) {
       <Navbar user={user} student={student} onLogout={onLogout} />
       <main className="hub-content">
 
-        {/* Header */}
         <div className="hub-header">
           <h1 className="hub-title">Practice Hub</h1>
           <p className="hub-sub">One activity before class, one after — simple and focused ✦</p>
@@ -281,9 +334,7 @@ export default function PracticeHub({ user, student, onLogout }) {
             <div className="hub-progress-lesson">
               {currentLesson ? `${currentLesson.code}: ${currentLesson.title}` : 'All done!'}
             </div>
-            <div className="hub-progress-status">
-              {totalDone} of {totalActs} activities completed
-            </div>
+            <div className="hub-progress-status">{totalDone} of {totalActs} activities completed</div>
             <div className="hub-progress-bar"><div className="hub-progress-fill" style={{ width: pct + '%' }} /></div>
           </div>
           <div className="hub-progress-nums">{totalDone}<span>/{totalActs}</span></div>
@@ -292,7 +343,7 @@ export default function PracticeHub({ user, student, onLogout }) {
         {/* Two-column layout */}
         <div className="hub-two-cols">
 
-          {/* PRÉ-AULA column */}
+          {/* PRÉ-AULA */}
           <div className="hub-col">
             <div className="hub-col-header pre">
               <span className="hub-col-icon">📚</span>
@@ -301,18 +352,21 @@ export default function PracticeHub({ user, student, onLogout }) {
             </div>
             <p className="hub-col-desc">Complete before each class with Denise</p>
 
-            {availableLessons.map(l => renderLesson(l, 'pre'))}
+            {allowedLevels.map(lvl => renderLevelSection(lvl, 'pre'))}
 
-            {lockedLevels.map(lvl => (
-              <div key={lvl} className="hub-locked-row">
-                <span className="hub-locked-icon">🔒</span>
-                <span className="hub-locked-badge">{lvl}</span>
-                <span className="hub-locked-txt">Unlocks when you reach {lvl}</span>
-              </div>
-            ))}
+            {lockedLevels.map(lvl => {
+              const meta = LEVEL_META[lvl] || {};
+              return (
+                <div key={lvl + 'pre-locked'} className="hub-locked-row">
+                  <span className="hub-locked-icon">🔒</span>
+                  <span className="hub-locked-badge">{meta.label || lvl}</span>
+                  <span className="hub-locked-txt">Unlocks when you reach {lvl}</span>
+                </div>
+              );
+            })}
           </div>
 
-          {/* PÓS-AULA column */}
+          {/* PÓS-AULA */}
           <div className="hub-col">
             <div className="hub-col-header pos">
               <span className="hub-col-icon">✅</span>
@@ -321,15 +375,18 @@ export default function PracticeHub({ user, student, onLogout }) {
             </div>
             <p className="hub-col-desc">Complete right after your class</p>
 
-            {availableLessons.map(l => renderLesson(l, 'post'))}
+            {allowedLevels.map(lvl => renderLevelSection(lvl, 'post'))}
 
-            {lockedLevels.map(lvl => (
-              <div key={lvl} className="hub-locked-row">
-                <span className="hub-locked-icon">🔒</span>
-                <span className="hub-locked-badge">{lvl}</span>
-                <span className="hub-locked-txt">Unlocks when you reach {lvl}</span>
-              </div>
-            ))}
+            {lockedLevels.map(lvl => {
+              const meta = LEVEL_META[lvl] || {};
+              return (
+                <div key={lvl + 'post-locked'} className="hub-locked-row">
+                  <span className="hub-locked-icon">🔒</span>
+                  <span className="hub-locked-badge">{meta.label || lvl}</span>
+                  <span className="hub-locked-txt">Unlocks when you reach {lvl}</span>
+                </div>
+              );
+            })}
           </div>
 
         </div>
@@ -337,3 +394,4 @@ export default function PracticeHub({ user, student, onLogout }) {
     </div>
   );
 }
+
