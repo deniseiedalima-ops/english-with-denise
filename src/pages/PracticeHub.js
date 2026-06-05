@@ -173,7 +173,7 @@ export default function PracticeHub({ user, student, onLogout }) {
   const [completedCodes, setCompletedCodes] = useState(() =>
     getItem(email, 'completed_codes', [])
   );
-  const [openLevels, setOpenLevels] = useState({ 'A1': true, 'A2': true, 'B1': true, 'B2': true });
+  const [openLevels, setOpenLevels] = useState({ 'A1': false, 'A2': false, 'B1': false, 'B2': false });
 
   const studentLevel = (student?.nivel || 'A1').trim();
   const allowedLevels = LEVEL_ACCESS[studentLevel] || ['A1'];
