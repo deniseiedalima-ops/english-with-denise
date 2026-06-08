@@ -192,21 +192,182 @@ const SKILLS = {
           {q:'How did Lucas feel when he first moved to London?',options:['Excited and happy','Very nervous','Bored and sad','Angry'],answer:1},
         ]
       },
+
+      // ── B1 READING (pós-aula) ─────────────────────────────────────────
+      { id:'rb1_1', title:'Arguments & Reactions — Reading', level:'B1', type:'multiple_choice', lesson:'The Elevator Incident', phase:'post',
+        text:`Conflict is a natural part of human communication. How we handle disagreements says a lot about our emotional intelligence.\n\nUseful language for arguments:\n• "That's not what I meant!" — clarifying a misunderstanding\n• "Can we talk about this calmly?" — de-escalating tension\n• "I understand your point, but..." — acknowledging then disagreeing\n• "I'm sorry if that came across wrong." — apologizing without full blame\n• "Let's agree to disagree." — ending a conflict respectfully\n\nKey vocabulary: misunderstanding, overreact, calm down, make up, apologize, perspective, tone of voice`,
+        questions:[
+          {q:'"Let\'s agree to disagree" means:',options:['We agree on everything','We accept that we have different views','We will argue more later','We are both wrong'],answer:1},
+          {q:'"Can we talk about this calmly?" is used to:',options:['Start an argument','De-escalate tension','Ignore the problem','Change the subject'],answer:1},
+          {q:'"I\'m sorry if that came across wrong" is:',options:['A full apology taking all blame','A partial apology without full blame','A way to continue arguing','Sarcasm'],answer:1},
+          {q:'Emotional intelligence in conflicts means:',options:['Always winning the argument','Managing feelings and communicating respectfully','Never apologizing','Being louder than the other person'],answer:1},
+        ]
+      },
+      { id:'rb1_2', title:'Superlatives — Grammar Focus', level:'B1', type:'multiple_choice', lesson:'Best Thing I Never Had', phase:'post',
+        text:`SUPERLATIVES — comparing one thing to all others:\n\nSHORT ADJECTIVES (1 syllable): add -est\nbig → the biggest / fast → the fastest / tall → the tallest\n\nLONG ADJECTIVES (2+ syllables): the most + adjective\nbeautiful → the most beautiful / expensive → the most expensive\n\nIRREGULAR:\ngood → the best / bad → the worst / far → the farthest/furthest\n\nSPELLING RULES:\n• Double final consonant: big → biggest, hot → hottest\n• Drop -e: nice → nicest, large → largest\n• -y becomes -iest: easy → easiest, happy → happiest\n\nCommon expressions:\n"The best thing about..." / "The worst part is..." / "By far the most..."`,
+        questions:[
+          {q:'Superlative of "happy":',options:['the happiest','the most happy','the happyest','the happier'],answer:0},
+          {q:'Superlative of "interesting":',options:['the interestingest','the most interesting','the interestingest','the more interesting'],answer:1},
+          {q:'Irregular superlative of "bad":',options:['the baddest','the most bad','the worst','the badder'],answer:2},
+          {q:'Complete: "She is ___ student in the class."',options:['the most smart','the smartest','the smarter','most smartest'],answer:1},
+        ]
+      },
+      { id:'rb1_3', title:'Comparatives vs Superlatives', level:'B1', type:'multiple_choice', lesson:'My Milkshake Is Better Than Yours!', phase:'post',
+        text:`COMPARATIVES vs SUPERLATIVES\n\nCOMPARATIVE (comparing 2 things):\n• Short: adjective + -er + than → taller than, faster than\n• Long: more + adjective + than → more interesting than\n• Irregular: good → better than / bad → worse than\n\nSUPERLATIVE (comparing to a group):\n• Short: the + adjective + -est → the tallest, the fastest\n• Long: the most + adjective → the most interesting\n• Irregular: good → the best / bad → the worst\n\nWATCH OUT:\n• "More better" ❌ → "better" ✓\n• "The most tallest" ❌ → "the tallest" ✓\n• "Gooder" ❌ → "better" ✓`,
+        questions:[
+          {q:'Compare 2 cities: "London is ___ than my hometown."',options:['the biggest','more bigger','bigger','most big'],answer:2},
+          {q:'Compare all cities: "London is ___ city in the UK."',options:['bigger','the biggest','more big','most biggest'],answer:1},
+          {q:'Which is CORRECT?',options:['"She is more taller than him."','"This is the most best film!"','"He runs faster than me."','"That\'s the goodest idea."'],answer:2},
+          {q:'"My coffee is better than yours" uses:',options:['Superlative','Comparative','Equality','Negative comparison'],answer:1},
+        ]
+      },
+      { id:'rb1_4', title:'Will vs Going To — Grammar', level:'B1', type:'multiple_choice', lesson:'What Will You Do Tonight?', phase:'post',
+        text:`FUTURE: WILL vs GOING TO\n\nWILL — use for:\n• Spontaneous decisions: "I'll have the salad." (deciding now)\n• Predictions without evidence: "I think it will rain."\n• Offers and promises: "I'll help you!" / "I'll never lie to you."\n• Facts about the future: "She'll be 30 next year."\n\nGOING TO — use for:\n• Pre-planned intentions: "I'm going to visit my parents this weekend." (already decided)\n• Predictions with evidence: "Look at those clouds — it's going to rain!"\n\nKey difference:\nWill = deciding NOW\nGoing to = already decided BEFORE`,
+        questions:[
+          {q:'You see dark clouds. You say:',options:['"It will rain."','"It\'s going to rain!"','"It rains."','"It rained."'],answer:1},
+          {q:'Your phone rings. You say:',options:['"I\'m going to answer it."','"I\'ll get it!"','"I get it."','"I\'m answering before."'],answer:1},
+          {q:'"I\'m going to study medicine" means:',options:['A spontaneous decision made right now','A decision already made before','A prediction','A wish'],answer:1},
+          {q:'Complete: "Don\'t worry, I ___ help you move next Saturday." (already promised)',options:['will','am going to','go to','would'],answer:1},
+        ]
+      },
+      { id:'rb1_5', title:'Imperatives & Reminders — Reading', level:'B1', type:'multiple_choice', lesson:'Before Leaving the House', phase:'post',
+        text:`IMPERATIVES — giving instructions, advice and reminders:\n\nAFFIRMATIVE IMPERATIVE: verb (base form)\n• "Lock the door!" / "Turn off the lights!" / "Call me!"\n\nNEGATIVE IMPERATIVE: don't + verb\n• "Don't forget your keys!" / "Don't leave the gas on!"\n\nSOFTENED WITH "please":\n• "Please remember to..." / "Please don't..."\n\nFOR REMINDERS, add "make sure":\n• "Make sure you have your wallet."\n• "Make sure not to leave the oven on."\n\nNote: Imperatives can sound direct — add "please" or "could you" to be more polite.`,
+        questions:[
+          {q:'Which is a negative imperative?',options:['Lock the door.','Please check.','Don\'t forget your phone!','Make sure you have your bag.'],answer:2},
+          {q:'"Make sure you have your ID" is:',options:['A question','A negative imperative','A softened reminder','A command with please'],answer:2},
+          {q:'To make an imperative more polite, you add:',options:['never','please','not','always'],answer:1},
+          {q:'Imperatives use the verb in:',options:['Past form','-ing form','Base form','Third person'],answer:2},
+        ]
+      },
+      { id:'rb1_6', title:'First Conditional — Grammar', level:'B1', type:'multiple_choice', lesson:'First Conditional', phase:'post',
+        text:`FIRST CONDITIONAL — real/possible future situations\n\nFORMULA: IF + present simple, WILL + base verb\n\nExamples:\n• "If it rains tomorrow, I will stay home."\n• "If you study hard, you will pass the exam."\n• "I will call you if I need help."\n\nNOTE: The IF clause can come first or second.\n• "If I'm late, I'll text you." ✓\n• "I'll text you if I'm late." ✓\n(Comma only when IF clause comes first)\n\nCOMMON MISTAKES:\n• "If it will rain, I stay home." ❌\n• "If you will study, you pass." ❌\n• "If she studies, she will pass." ✓`,
+        questions:[
+          {q:'First conditional uses IF + ___ in the condition:',options:['will + verb','past simple','present simple','would + verb'],answer:2},
+          {q:'Which is CORRECT first conditional?',options:['"If it will snow, I stay."','"If she studies, she will pass."','"If I would go, I\'ll see him."','"If they went, they will enjoy."'],answer:1},
+          {q:'Complete: "If you ___ early, you ___ a good seat."',options:['arrive / will get','will arrive / get','arrived / would get','arrive / would get'],answer:0},
+          {q:'When does the comma go in first conditional?',options:['Always','Never','Only when IF clause comes first','Only when WILL clause comes first'],answer:2},
+        ]
+      },
+      { id:'rb1_7', title:'Second Conditional — Grammar', level:'B1', type:'multiple_choice', lesson:'Second Conditional', phase:'post',
+        text:`SECOND CONDITIONAL — imaginary/unlikely situations\n\nFORMULA: IF + past simple, WOULD + base verb\n\nExamples:\n• "If I were rich, I would travel the world."\n• "If she knew the answer, she would tell us."\n• "I would buy that car if I had the money."\n\nNOTE: Use "were" for all subjects (formal/correct):\n• "If I were you, I would apologize." ✓\n• "If she were here, she would know." ✓\n\nDIFFERENCE:\n1st conditional → POSSIBLE: "If it rains, I'll stay."\n2nd conditional → IMAGINARY: "If I were a bird, I would fly."`,
+        questions:[
+          {q:'Second conditional uses IF + ___ in the condition:',options:['present simple','will + verb','past simple','would + verb'],answer:2},
+          {q:'Which is CORRECT second conditional?',options:['"If I am rich, I would travel."','"If she had time, she would help."','"If they will come, we\'d be happy."','"If he studies, he would pass."'],answer:1},
+          {q:'In second conditional, "were" is used for:',options:['Only plural subjects','All subjects (I, he, she, we)','Only "you"','Only formal writing'],answer:1},
+          {q:'Complete: "If I ___ you, I ___ apologize."',options:['am / will','were / would','was / will','be / would'],answer:1},
+        ]
+      },
+      { id:'rb1_8', title:'Hypothetical Situations — Reading', level:'B1', type:'multiple_choice', lesson:'What If?', phase:'post',
+        text:`SPECULATING AND IMAGINING — useful language:\n\n"What if...?" → used to explore imaginary scenarios\n"Imagine (that)..." → inviting someone to picture a scenario\n"Suppose/Supposing..." → similar to "what if"\n\nResponding to hypotheticals:\n• "I would probably..."\n• "I think I'd..."\n• "I'm not sure, but I might..."\n• "It depends. If... then I would..."\n\nUseful vocabulary:\n• hypothetical / scenario / imagine / suppose / assume\n• "In an ideal world..." / "If everything were perfect..."\n• "Realistically speaking..." / "In theory..."`,
+        questions:[
+          {q:'"Suppose you could speak 5 languages..." introduces:',options:['A real past event','A hypothetical scenario','A future plan','A factual statement'],answer:1},
+          {q:'"I would probably travel more" responds to:',options:['A direct question','A hypothetical situation','A past event','A command'],answer:1},
+          {q:'"In an ideal world..." suggests:',options:['The current situation is perfect','Things are not ideal but you can imagine better','A past memory','A real plan'],answer:1},
+          {q:'Complete: "___ you could live anywhere, where would you choose?"',options:['If','When','Although','Because'],answer:0},
+        ]
+      },
+      { id:'rb1_9', title:'Opinion Language — Reading', level:'B1', type:'multiple_choice', lesson:'Opinions', phase:'post',
+        text:`GIVING & RESPONDING TO OPINIONS\n\nGIVING YOUR OPINION:\n"In my opinion..." / "I think..." / "I believe..."\n"From my perspective..." / "As far as I'm concerned..."\n"I feel strongly that..." / "I'm convinced that..."\n\nASKING FOR OPINIONS:\n"What do you think about...?"\n"How do you feel about...?"\n"What's your take on...?"\n\nAGREEING: "Exactly!" / "I couldn't agree more." / "That's a good point."\nPARTIALLY AGREEING: "I see where you're coming from, but..."\nDISAGREEING: "I'm not sure about that." / "I respectfully disagree."`,
+        questions:[
+          {q:'"What\'s your take on this?" means:',options:['What do you want to take?','What is your opinion?','Do you agree?','Are you sure?'],answer:1},
+          {q:'"I couldn\'t agree more!" expresses:',options:['Strong disagreement','Partial agreement','Strong agreement','Uncertainty'],answer:2},
+          {q:'"I see where you\'re coming from, but..." shows:',options:['Complete agreement','Ignoring the other person','Partial agreement/polite disagreement','Changing the subject'],answer:2},
+          {q:'Which BEST introduces a personal opinion?',options:['"The news says..."','According to statistics..."','"In my opinion..."','"Someone told me..."'],answer:2},
+        ]
+      },
+      { id:'rb1_10', title:'Brazilian Culture — Reading', level:'B1', type:'multiple_choice', lesson:'Brazilian Culture', phase:'post',
+        text:`Brazil is the largest country in South America and the fifth largest in the world, home to over 215 million people.\n\nCultural highlights:\n• CARNIVAL: The world's biggest festival, celebrated 40 days before Easter with samba, costumes and parades.\n• FEIJOADA: A rich black bean stew with pork, considered the national dish.\n• FUTEBOL: Football is more than a sport — it's a cultural identity. Brazil has won the FIFA World Cup 5 times.\n• MUSIC: Brazil gave the world samba, bossa nova, forró and funk.\n• FAMILY VALUES: Family gatherings are central to Brazilian life, especially Sunday lunches.\n\nWhen describing your culture in English:\n"Brazil is known for..." / "One thing that makes Brazil unique is..."\n"Brazilians are proud of..." / "An important tradition is..."`,
+        questions:[
+          {q:'How many times has Brazil won the FIFA World Cup?',options:['3','4','5','6'],answer:2},
+          {q:'Feijoada is described as:',options:['A dessert','A drink','A black bean stew with pork','A type of music'],answer:2},
+          {q:'When does Carnival take place?',options:['At Christmas','40 days before Easter','At New Year','In July'],answer:1},
+          {q:'"Brazil is known for its diversity" — best continued with:',options:['...it has no culture.','...including music, food, and people from many backgrounds.','...it is a small country.','...it has one language only.'],answer:1},
+        ]
+      },
+      { id:'rb1_11', title:'Phrasal Verbs GET — Reading', level:'B1', type:'multiple_choice', lesson:'Phrasal Verbs 1', phase:'post',
+        text:`PHRASAL VERBS WITH "GET"\n\nget up → wake up and rise from bed\nget on → board a vehicle / have a good relationship ("get on with someone")\nget off → leave a vehicle / stop an activity\nget over → recover from illness or disappointment\nget along → have a good relationship with someone\nget away → escape / go on holiday ("get away from it all")\nget away with → do something wrong without being punished\nget back → return / receive something back\nget out → leave a place\nget through → finish / contact someone / survive a difficult time\n\nRemember: phrasal verbs are often idiomatic — the meaning is different from the individual words!`,
+        questions:[
+          {q:'"She got over the break-up quickly" means:',options:['She ended the relationship','She recovered from the disappointment','She got angry','She started a new relationship'],answer:1},
+          {q:'"I can\'t get through to him" means:',options:['I can\'t reach him / contact him','I can\'t understand him','I don\'t like him','I can\'t walk past him'],answer:0},
+          {q:'"He got away with cheating on the test" means:',options:['He got caught cheating','He cheated without consequences','He didn\'t cheat','He was punished'],answer:1},
+          {q:'"We really get along well" means:',options:['We walk together','We argue often','We have a good relationship','We work in the same place'],answer:2},
+        ]
+      },
+      { id:'rb1_12', title:'Storytelling Techniques — Reading', level:'B1', type:'multiple_choice', lesson:'Storytelling', phase:'post',
+        text:`THE ART OF STORYTELLING IN ENGLISH\n\nA great story has:\n1. HOOK: Grab attention from the start\n "You won't believe what happened to me..."\n2. SETTING: Time and place\n "It was a Tuesday evening in downtown São Paulo..."\n3. CHARACTERS: Who is involved\n4. CONFLICT/TENSION: The problem or challenge\n5. CLIMAX: The peak of tension\n6. RESOLUTION: How it ends\n\nUseful storytelling language:\n• "So there I was..." / "Out of nowhere..."\n• "Just when I thought..." / "Suddenly..."\n• "Long story short..." / "To cut a long story short..."\n• "You'll never guess what happened next..."`,
+        questions:[
+          {q:'"You won\'t believe what happened to me!" is used as:',options:['The resolution','The setting','A hook to grab attention','The climax'],answer:2},
+          {q:'"Long story short..." means:',options:['Tell the whole story','Skip to the main point','Start from the beginning','Add more details'],answer:1},
+          {q:'The CLIMAX of a story is:',options:['The beginning','The setting','The moment of highest tension','The introduction of characters'],answer:2},
+          {q:'"Suddenly, the lights went out!" creates:',options:['Resolution','Background information','Tension and surprise','The hook'],answer:2},
+        ]
+      },
+      { id:'rb1_13', title:'Past Participle — Grammar', level:'B1', type:'multiple_choice', lesson:'The Participle', phase:'post',
+        text:`PAST PARTICIPLE — forms and uses\n\nFORMING PAST PARTICIPLE:\nRegular verbs: verb + -ed (walk → walked, finish → finished)\nIrregular verbs: must be memorised!\n• go → gone / eat → eaten / write → written\n• see → seen / speak → spoken / break → broken\n• give → given / take → taken / know → known\n\nUSES:\n1. Present perfect: "I have never eaten sushi."\n2. Passive voice: "The report was written by Ana."\n3. Adjective: "a broken window" / "a spoken language"\n4. Participle phrase: "Having finished his work, he left."\n\nTip: Don't confuse with simple past!\n• "She wrote the email." (simple past)\n• "She has written the email." (present perfect with past participle)`,
+        questions:[
+          {q:'Past participle of "speak":',options:['speaked','spoke','spoken','speaking'],answer:2},
+          {q:'"The car was stolen" uses past participle in:',options:['Present perfect','Passive voice','Adjective form','Participle phrase'],answer:1},
+          {q:'"Having eaten dinner, they watched a film." — "having eaten" is:',options:['Simple past','Present participle','Past participle phrase','Future form'],answer:2},
+          {q:'Which uses past participle CORRECTLY?',options:['"She has wrote the report."','"He have eaten lunch."','"They have gone home."','"I has seen the film."'],answer:2},
+        ]
+      },
+      { id:'rb1_14', title:'Present Perfect — Grammar', level:'B1', type:'multiple_choice', lesson:'Have You Ever...?', phase:'post',
+        text:`PRESENT PERFECT — connecting past to present\n\nFORMULA: HAVE/HAS + past participle\n\nUSE 1 — Life experiences (unspecified time):\n"Have you ever been to Japan?" / "I've never tried sushi."\n\nUSE 2 — Recent past with present relevance:\n"I've lost my keys!" / "She's just arrived."\n\nUSE 3 — With yet, already, still, just:\n"Have you eaten yet?" / "I've already seen that film."\n"She's just called." / "He still hasn't replied."\n\nIMPORTANT: For specific past times, use SIMPLE PAST:\n"Have you been to Japan?" → "Yes! I went in 2019."\n• Been to Japan ✓ (present perfect — experience)\n• Went in 2019 ✓ (simple past — specific time)`,
+        questions:[
+          {q:'"Have you ever eaten escargot?" asks about:',options:['A specific time in the past','A life experience','A future plan','A current action'],answer:1},
+          {q:'Complete: "I ___ never ___ to Australia."',options:['have / been','has / gone','have / went','did / go'],answer:0},
+          {q:'After saying "Yes, I have" to a present perfect question, you use ___ for details:',options:['Present perfect again','Simple past','Future tense','Present simple'],answer:1},
+          {q:'"She has just arrived" means:',options:['She arrived a long time ago','She arrived very recently','She will arrive soon','She is arriving now'],answer:1},
+        ]
+      },
+
+      // ── L46: ALREADY / YET — Reading (post) ──────────────────────────
+      { id:'rb1_15', title:'Already / Yet — Reading', level:'B1', type:'multiple_choice', lesson:'Already / Yet', phase:'post',
+        text:`ALREADY and YET with Present Perfect\n\nALREADY — something happened sooner than expected:\n• "I've already eaten, thanks." (sooner than expected)\n• "She's already finished the project!" (impressive/surprising)\n• Position: between have and past participle, or at end\n\nYET — used in negatives and questions:\n• "Have you called him yet?" (question — has it happened?)\n• "I haven't seen that film yet." (negative — hasn't happened)\n• "Not yet." (short answer)\n• Position: at the end of the sentence\n\nMEMORY TIP:\n• ALREADY = yes, it happened (positive — surprising timing)\n• YET = no, it hasn't happened / has it happened? (negative/question)`,
+        questions:[
+          {q:'"I\'ve already booked the tickets!" suggests:',options:['The speaker hasn\'t booked yet','The speaker booked sooner than expected','The speaker will book later','The speaker forgot to book'],answer:1},
+          {q:'"Have you finished yet?" is used in:',options:['A positive statement','An affirmative sentence','A question expecting "yes" or "not yet"','A past tense sentence'],answer:2},
+          {q:'Complete: "She hasn\'t replied to my email ___."',options:['already','yet','just','ever'],answer:1},
+          {q:'Complete: "Don\'t buy it — I\'ve ___ got one at home."',options:['yet','never','already','still'],answer:2},
+        ]
+      },
+
+      // ── L47: FINAL REVIEW B1 ─────────────────────────────────────────
+      { id:'rb1_16', title:'B1 Final Review — Pre-class', level:'B1', type:'multiple_choice', lesson:'Final Review B1', phase:'pre',
+        text:`B1 FINAL REVIEW — Test your knowledge!\n\nThis review covers the main grammar points from B1:\n• Comparatives and superlatives\n• Will and going to (future)\n• First and second conditional\n• Present perfect (yet/already/ever/never)\n• Past participle\n• Phrasal verbs\n• Giving opinions\n\nRead each question carefully and choose the best answer.`,
+        questions:[
+          {q:'Complete with COMPARATIVE: "This exercise is ___ than the last one."',options:['the most difficult','more difficult','most difficultier','difficulter'],answer:1},
+          {q:'Which sentence uses FIRST CONDITIONAL correctly?',options:['"If she would study, she passes."','"If it rains, I will stay home."','"If he will come, I stay."','"If they went, they would enjoy."'],answer:1},
+          {q:'Complete with PRESENT PERFECT: "Have you ___ tried sushi?"',options:['ever','already','yet','still'],answer:0},
+          {q:'Complete: "If I ___ more money, I ___ travel more." (second conditional)',options:['have / will','had / would','would have / travel','have / would'],answer:1},
+          {q:'Phrasal verb: "I need to ___ early tomorrow for work." (wake up)',options:['get over','get away','get up','get on'],answer:2},
+        ]
+      },
+      { id:'rb1_17', title:'B1 Final Review — Post-class', level:'B1', type:'multiple_choice', lesson:'Final Review B1', phase:'post',
+        text:`B1 FINAL REVIEW — Post-class consolidation\n\nReview and consolidate everything from B1 with these final questions.`,
+        questions:[
+          {q:'Complete with SUPERLATIVE: "That was ___ film I\'ve ever seen!"',options:['more interesting','the most interesting','the interestingest','most interesting'],answer:1},
+          {q:'Which uses WILL correctly (spontaneous decision)?',options:['"I\'m going to answer — I planned it."','"I\'ll answer the door!" (deciding now)','I am answer the door."','"I would answer it."'],answer:1},
+          {q:'Complete: "She ___ already ___ her homework." (present perfect)',options:['has / finished','have / finished','had / finished','is / finished'],answer:0},
+          {q:'Which is correct PAST PARTICIPLE usage?',options:['"I have wrote the email."','"She has spoke to him."','"They have gone home."','"He have eaten lunch."'],answer:2},
+          {q:'"I\'ve already seen that film, but I haven\'t read the book ___."',options:['already','ever','yet','never'],answer:2},
+        ]
+      },
     ]
   },
   listening: {
     label: 'Listening', icon: '🎧', color: '#378add',
     activities: [
       // ── L1 ──────────────────────────────────────────────────────────
-      { id:'l0', title:'American Sounds — Listen & Learn', level:'A1', type:'listening_video', lesson:'The American Pronunciation', phase:'pre',
-        youtubeId:'dIgLLScXbhU', startTime:0, endTime:180,
-        instruction:'Listen carefully to American English sounds! Pay attention to how each vowel and consonant is pronounced. Then answer the questions!',
-        audioText:`Teacher: Today we learn about American English pronunciation.\nThe American R: right, red, really, river. The tongue curls back — never touches!\nThe TH sound: the, this, three, think. Tongue between teeth!\nPractice: "The red rabbit ran really rapidly."`,
+      { id:'l0', title:'Learn the Alphabet — American English', level:'A1', type:'listening_video', lesson:'The American Pronunciation', phase:'pre',
+        youtubeId:'PWBt0e0o00o', startTime:0, endTime:180,
+        instruction:'Watch and learn the American English alphabet! Pay attention to how each letter is pronounced. This will help you spell your name and understand others when they spell words. Then answer the questions!',
+        audioText:`A B C D E F G H I J K L M N O P Q R S T U V W X Y Z. Now let's practice: How do you spell your name? My name is Sarah — S-A-R-A-H. The letter H sounds like "aitch" in American English.`,
         questions:[
-          {q:'For the R sound, where does the tongue go?',options:['Touches the top','Curls back and never touches','Goes forward','Stays flat'],answer:1},
-          {q:'For TH, where does the tongue go?',options:['Behind the teeth','Between the teeth','At the back','Under the tongue'],answer:1},
-          {q:'Which does NOT have the TH sound?',options:['the','think','three','right'],answer:3},
-          {q:'Practice sentence:',options:['"Really red river runs"','"The red rabbit ran really rapidly"','"Run rabbit run"','"Red runs really fast"'],answer:1},
+          {q:'How many letters are in the English alphabet?',options:['24','25','26','27'],answer:2},
+          {q:'How do you spell the name "John"?',options:['J-O-N','J-H-O-N','J-O-H-N','G-O-H-N'],answer:2},
+          {q:'Which letter sounds like "double-u"?',options:['V','U','Y','W'],answer:3},
+          {q:'How do you ask someone to spell their name?',options:['"What is your name?"','"Can you spell that?"','"How do you write?"','"What letter?"'],answer:1},
         ]
       },
       // ── L2 ──────────────────────────────────────────────────────────
@@ -542,6 +703,162 @@ const SKILLS = {
           {q:'Correct past simple question:',options:['"Did you went?"','"Did she go?"','"She did go?"','"Went she?"'],answer:1},
         ]
       },
+
+      // ── B1 ───────────────────────────────────────────────────────────────
+      { id:'lb1_1', title:'The Elevator Incident — Listening', level:'B1', type:'listening_video', lesson:'The Elevator Incident', phase:'pre',
+        youtubeId:'ccwhI-jsibk', startTime:0, endTime:180,
+        instruction:'Watch this argument scene in English! Pay attention to how people express frustration, defend themselves and resolve conflicts. Then answer the questions!',
+        audioText:`Two people argue in an elevator about a misunderstanding. They use strong emotional language, then gradually calm down and find common ground.`,
+        questions:[
+          {q:'What is the main emotion at the start of the conversation?',options:['Happiness','Frustration and anger','Boredom','Excitement'],answer:1},
+          {q:'Which phrase is used to defend oneself in an argument?',options:['"That\'s not what I meant!"','"Whatever."','"I agree completely."','"Let\'s change the subject."'],answer:0},
+          {q:'How do the people resolve the conflict?',options:['They ignore each other','They apologize and explain','They call someone for help','They leave immediately'],answer:1},
+          {q:'What tone do they use by the end?',options:['Still angry','Calm and understanding','Sarcastic','Confused'],answer:1},
+        ]
+      },
+      { id:'lb1_2', title:'Best Thing I Never Had — Listening', level:'B1', type:'listening_video', lesson:'Best Thing I Never Had', phase:'pre',
+        youtubeId:'5VGtCbFclgk', startTime:0, endTime:180,
+        instruction:'Watch this discussion about superlatives! Pay attention to how people compare experiences using the best, the worst, the most. Then answer the questions!',
+        audioText:`People discuss the best and worst experiences of their lives using superlatives naturally in conversation.`,
+        questions:[
+          {q:'Superlatives are used to compare:',options:['Two things equally','One thing against all others','Things in the past only','Future possibilities'],answer:1},
+          {q:'"The best thing I never had" means:',options:['Something I had and loved','Something I missed out on but am grateful I did','The worst experience','Something I want in the future'],answer:1},
+          {q:'Which is a correct superlative?',options:['more beautiful','the most beautiful','beautifulest','most beautifuler'],answer:1},
+          {q:'Complete: "That was ___ day of my life!"',options:['the worse','the worst','the baddest','most bad'],answer:1},
+        ]
+      },
+      { id:'lb1_3', title:'My Milkshake Is Better Than Yours! — Listening', level:'B1', type:'listening_video', lesson:'My Milkshake Is Better Than Yours!', phase:'pre',
+        youtubeId:'PBHo2WwIngU', startTime:0, endTime:180,
+        instruction:'Watch this conversation using comparatives! Pay attention to -er than and more... than structures. Then answer the questions!',
+        audioText:`Two people compare their food, music taste and lifestyle preferences using comparative adjectives naturally.`,
+        questions:[
+          {q:'Comparatives are used to compare:',options:['One thing to all others','Two things to each other','Things equally','Only negative things'],answer:1},
+          {q:'Which is CORRECT?',options:['"My coffee is more better."','"Your milkshake is gooder."','"This is more expensive than that."','"She is taller more than him."'],answer:2},
+          {q:'Short adjectives use:',options:['more + adjective','-er + than','the most','as...as only'],answer:1},
+          {q:'Complete: "This film is ___ than the last one."',options:['more bored','boringer','more boring','most boring'],answer:2},
+        ]
+      },
+      { id:'lb1_4', title:'What Will You Do Tonight? — Listening', level:'B1', type:'listening_video', lesson:'What Will You Do Tonight?', phase:'pre',
+        youtubeId:'1057714958', startTime:0, endTime:180, isVimeo:true,
+        instruction:'Watch this conversation about future plans! Pay attention to the use of "will" for spontaneous decisions and predictions. Then answer the questions!',
+        audioText:`Two friends discuss their evening plans. They use will for spontaneous decisions and going to for pre-planned events.`,
+        questions:[
+          {q:'"Will" is used for:',options:['Pre-planned events only','Spontaneous decisions and predictions','Past habits','Ongoing actions'],answer:1},
+          {q:'"I\'m going to visit my sister tonight" suggests:',options:['A spontaneous decision','A pre-planned event','A wish','A command'],answer:1},
+          {q:'Complete: "It\'s cold. I ___ close the window."',options:['am going to','going to','will','would'],answer:2},
+          {q:'Which sentence uses WILL correctly?',options:['"Tomorrow I will going to the gym."','"I will call you later!"','"She will went yesterday."','"They will be go home."'],answer:1},
+        ]
+      },
+      { id:'lb1_5', title:'Before Leaving the House — Listening', level:'B1', type:'listening_video', lesson:'Before Leaving the House', phase:'pre',
+        youtubeId:'uMKRD3Mci5w', startTime:0, endTime:60,
+        instruction:'Watch this short video about things to do before leaving the house! Pay attention to imperatives and useful daily vocabulary. Then answer the questions!',
+        audioText:`A checklist of important things to do before leaving home — keys, phone, wallet, turning off appliances.`,
+        questions:[
+          {q:'What is the MOST important thing mentioned first?',options:['Charging your phone','Checking your keys','Turning off the TV','Having breakfast'],answer:1},
+          {q:'Imperative sentences are used to:',options:['Ask questions','Give instructions or advice','Describe the past','Express feelings'],answer:1},
+          {q:'"Don\'t forget your keys!" is an example of:',options:['Affirmative imperative','Negative imperative','Future tense','Past tense'],answer:1},
+          {q:'Which is a correct imperative?',options:['"You should check."','"He check it."','"Check your bag!"','"Checking now."'],answer:2},
+        ]
+      },
+      { id:'lb1_6', title:'First Conditional — Listening', level:'B1', type:'listening_video', lesson:'First Conditional', phase:'pre',
+        youtubeId:'581378227', startTime:0, endTime:180, isVimeo:true,
+        instruction:'Watch this conversation using first conditional sentences! Pay attention to IF + present simple + will. Then answer the questions!',
+        audioText:`People discuss real future possibilities using first conditional: If it rains, we'll stay home. If you study hard, you'll pass.`,
+        questions:[
+          {q:'First conditional is used for:',options:['Impossible situations','Real/possible future situations','Past habits','General truths only'],answer:1},
+          {q:'Complete: "If it rains, we ___ stay home."',options:['would','will','are','were'],answer:1},
+          {q:'Which is a correct first conditional?',options:['"If she studies, she would pass."','"If he will come, I\'ll be happy."','"If you practice, your English will improve."','"If they went, we will see them."'],answer:2},
+          {q:'The IF clause uses:',options:['will + verb','present simple','past simple','would + verb'],answer:1},
+        ]
+      },
+      { id:'lb1_7', title:'Second Conditional — Listening', level:'B1', type:'listening_video', lesson:'Second Conditional', phase:'pre',
+        youtubeId:'vLo5XMjIJD8', startTime:0, endTime:180,
+        instruction:'Watch this discussion about hypothetical situations! Pay attention to IF + past simple + would. Then answer the questions!',
+        audioText:`People discuss imaginary situations: If I were rich, I would travel. If she knew the answer, she would tell us.`,
+        questions:[
+          {q:'Second conditional is used for:',options:['Real future plans','Imaginary or unlikely situations','Past regrets','Present habits'],answer:1},
+          {q:'Complete: "If I ___ a car, I would drive to work."',options:['have','had','will have','would have'],answer:1},
+          {q:'Which is correct second conditional?',options:['"If I am rich, I would travel."','"If she had time, she would help."','"If they will come, we\'d be happy."','"If he has studied, he would pass."'],answer:1},
+          {q:'Why do we use "were" instead of "was" in second conditional?',options:['It\'s a grammar mistake','Formal/subjunctive mood for hypothetical situations','It only works with "I"','It\'s optional and informal'],answer:1},
+        ]
+      },
+      { id:'lb1_8', title:'What If? — Listening', level:'B1', type:'listening_video', lesson:'What If?', phase:'pre',
+        youtubeId:'vLo5XMjIJD8', startTime:0, endTime:180,
+        instruction:'Watch this discussion about hypothetical "what if" scenarios! Pay attention to how people speculate and imagine possibilities. Then answer the questions!',
+        audioText:`A discussion exploring hypothetical scenarios using what if questions and conditional responses.`,
+        questions:[
+          {q:'"What if you won the lottery?" is an example of:',options:['First conditional','Second conditional (hypothetical)','A direct question','A command'],answer:1},
+          {q:'Complete: "What if she ___ the truth?"',options:['knows','knew','will know','has known'],answer:1},
+          {q:'Which response fits "What if you could fly?"',options:['"I flew yesterday."','"I will fly tomorrow."','"I would travel everywhere!"','"I am flying now."'],answer:2},
+          {q:'"Imagine you were invisible..." continues with:',options:['...what did you do?','...what would you do?','...what will you do?','...what do you do?'],answer:1},
+        ]
+      },
+      { id:'lb1_9', title:'Giving Opinions — Listening', level:'B1', type:'listening_video', lesson:'Opinions', phase:'pre',
+        youtubeId:'LmDOQbwwlhw', startTime:0, endTime:180,
+        instruction:'Watch people sharing and responding to opinions! Pay attention to how they introduce, support and disagree with ideas politely. Then answer the questions!',
+        audioText:`A group discusses different topics, each person sharing their view using opinion language naturally.`,
+        questions:[
+          {q:'Which phrase introduces an opinion?',options:['"That happened yesterday."','"In my opinion, we should..."','"What time is it?"','"She went to work."'],answer:1},
+          {q:'"I see your point, but..." is used to:',options:['Agree completely','Change the subject','Partially disagree politely','Ask for clarification'],answer:2},
+          {q:'Which is the most polite way to disagree?',options:['"You\'re wrong!"','"That\'s stupid."','"I respectfully disagree because..."','"No way!"'],answer:2},
+          {q:'"From my perspective..." is used to:',options:['Report news','Share a personal viewpoint','Ask a question','Give a command'],answer:1},
+        ]
+      },
+      { id:'lb1_10', title:'Brazilian Culture — Listening', level:'B1', type:'listening_video', lesson:'Brazilian Culture', phase:'pre',
+        youtubeId:'fpmoOLydLTo', startTime:0, endTime:180,
+        instruction:'Watch this video about Brazilian culture! Pay attention to cultural vocabulary and how to describe traditions, food and lifestyle in English. Then answer the questions!',
+        audioText:`An overview of Brazilian culture covering food, music, festivals, family values and regional diversity.`,
+        questions:[
+          {q:'Brazilian culture is best described as:',options:['Uniform and simple','Diverse and vibrant','Reserved and formal','Cold and distant'],answer:1},
+          {q:'Which is NOT typically associated with Brazilian culture?',options:['Carnival','Feijoada','Samba','Flamenco'],answer:3},
+          {q:'When talking about your culture in English, you should:',options:['Use only technical terms','Use simple clear language with specific examples','Avoid giving opinions','Only mention food'],answer:1},
+          {q:'"Brazil is known for its diversity" — what type of sentence is this?',options:['Opinion statement','Factual statement','Conditional sentence','Imperative'],answer:1},
+        ]
+      },
+      { id:'lb1_11', title:'Phrasal Verbs GET — Listening', level:'B1', type:'listening_video', lesson:'Phrasal Verbs 1', phase:'pre',
+        youtubeId:'XnGKaajUaxg', startTime:0, endTime:180,
+        instruction:'Watch this video about phrasal verbs with GET! Pay attention to how meaning changes with different particles. Then answer the questions!',
+        audioText:`Examples of phrasal verbs with GET: get up, get on, get off, get over, get along, get out, get back, get away with.`,
+        questions:[
+          {q:'"Get over" an illness means:',options:['Get more sick','Recover from it','Start a new illness','Go to the doctor'],answer:1},
+          {q:'"We get along well" means:',options:['We argue often','We have a good relationship','We work together','We live nearby'],answer:1},
+          {q:'"Get away with something" means:',options:['Travel somewhere','Escape doing something wrong without consequences','Get something for free','Leave in a hurry'],answer:1},
+          {q:'Complete: "I need to ___ early tomorrow for work."',options:['get up','get over','get away','get along'],answer:0},
+        ]
+      },
+      { id:'lb1_12', title:'Storytelling — Listening', level:'B1', type:'listening_video', lesson:'Storytelling', phase:'pre',
+        youtubeId:'Jl61xGyk-pc', startTime:775, endTime:960,
+        instruction:'Watch this section on storytelling techniques! Pay attention to how stories are structured and told in English. Then answer the questions!',
+        audioText:`Storytelling techniques: setting the scene, building tension, using descriptive language, and creating a satisfying conclusion.`,
+        questions:[
+          {q:'Good storytelling starts by:',options:['Giving the ending first','Setting the scene and context','Listing facts quickly','Using technical language'],answer:1},
+          {q:'Which phrase sets the scene in a story?',options:['"In conclusion..."','"Therefore..."','"It was a dark and stormy night..."','"However..."'],answer:2},
+          {q:'To build tension in a story, you use:',options:['Short, quick sentences','Very long explanations','Only past tense','Questions only'],answer:0},
+          {q:'"Suddenly..." is used in stories to:',options:['End the story','Introduce an unexpected event','Give background information','Start a new topic'],answer:1},
+        ]
+      },
+      { id:'lb1_13', title:'The Participle — Listening', level:'B1', type:'listening_video', lesson:'The Participle', phase:'pre',
+        youtubeId:'1057773366', startTime:0, endTime:180, isVimeo:true,
+        instruction:'Watch this explanation of participles! Pay attention to past and present participle forms and how they are used. Then answer the questions!',
+        audioText:`Explanation of past participles (gone, eaten, written) and present participles (going, eating, writing) with examples in context.`,
+        questions:[
+          {q:'The past participle of "write" is:',options:['wrote','written','writing','writed'],answer:1},
+          {q:'Present participle ends in:',options:['-ed','-s','-ing','-er'],answer:2},
+          {q:'"Having finished his work, he went home." — "having finished" is:',options:['Past simple','Present participle phrase','Future tense','Passive voice'],answer:1},
+          {q:'Which is a correct use of past participle?',options:['"She has ate lunch."','"He has written the report."','"They have go home."','"I have see the film."'],answer:1},
+        ]
+      },
+      { id:'lb1_14', title:'Have You Ever...? — Listening', level:'B1', type:'listening_video', lesson:'Have You Ever...?', phase:'pre',
+        youtubeId:'1057774571', startTime:0, endTime:180, isVimeo:true,
+        instruction:'Watch people talking about life experiences using present perfect! Pay attention to "Have you ever...?" questions and responses. Then answer the questions!',
+        audioText:`People share experiences using have you ever, I have/haven't, I've never, and follow up with simple past for details.`,
+        questions:[
+          {q:'Present perfect is used here to talk about:',options:['Specific times in the past','Life experiences (unspecified time)','Future plans','Daily routines'],answer:1},
+          {q:'"Have you ever been to Japan?" — correct response:',options:['"Yes, I went last year." (using past simple for details)','Yes, I have been yesterday.','Yes, I go there.','Yes, I was going.'],answer:0},
+          {q:'Complete: "I have never ___ sushi before."',options:['eat','ate','eating','eaten'],answer:3},
+          {q:'"I\'ve never tried it" uses:',options:['Past simple','Present perfect with never','Future tense','Past continuous'],answer:1},
+        ]
+      },
     ]
   },
   writing: {
@@ -631,10 +948,16 @@ const SKILLS = {
     label: 'Speaking', icon: '🎙️', color: '#d4537e',
     activities: [
       // ── L1 ──────────────────────────────────────────────────────────
-      { id:'s0', title:'Pronunciation Practice!', level:'A1', type:'speaking', lesson:'The American Pronunciation', phase:'post',
-        prompt:'Practice your American pronunciation! Record yourself:\n1. The R sound: "right", "really", "river", "red"\n2. The TH sound: "the", "this", "three", "think"\n3. Say: "The red rabbit ran really rapidly"\n4. Your name in American English\n5. Where you are from',
-        tips:['R sound: curl your tongue back — never touches anything!','TH sound: tongue BETWEEN your teeth and blow','Record 2-3 times and listen back!'],
-        phrases:['Right!','Really?','Red river','The / This / Three / Think','The red rabbit ran really rapidly','My name is...','I am from...']
+      { id:'s0', title:'Spell It Out! 🔤', level:'A1', type:'speaking', lesson:'The American Pronunciation', phase:'post',
+        prompt:'Record yourself spelling the following information clearly in English:\n\n1. Your full name — letter by letter\n2. The city where you live\n3. Your state\n4. Your mother\'s first name\n\nSpeak slowly and clearly. Say each letter one at a time!\n\nExample: "My name is Ana Costa — A-N-A  C-O-S-T-A"',
+        tips:[
+          'Speak slowly — one letter at a time!',
+          '"My name is ___ — " then spell each letter',
+          '"I live in ___ — " then spell the city',
+          '"My state is ___ — " then spell it',
+          '"My mother\'s name is ___ — " then spell it',
+        ],
+        phrases:['My name is... —','I live in... —','My state is... —','My mother\'s name is... —','A, B, C, D, E, F, G...']
       },
       // ── L2 ──────────────────────────────────────────────────────────
       { id:'s1', title:'Introduce Yourself!', level:'A1', type:'speaking', lesson:'The Greetings', phase:'pre',
