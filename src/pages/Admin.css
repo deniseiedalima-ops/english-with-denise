@@ -1,0 +1,71 @@
+.admin-page { min-height: 100vh; background: #f0ede8; }
+.admin-content { max-width: 980px; margin: 0 auto; padding: 24px 16px 80px; }
+
+/* Header */
+.admin-badge { display: inline-block; background: #111; color: #fff; font-size: 11px; font-weight: 700; padding: 4px 12px; border-radius: 20px; letter-spacing: 1px; margin-bottom: 8px; }
+.admin-title { font-family: 'DM Serif Display', serif; font-size: 28px; color: #111; font-weight: 400; margin-bottom: 4px; }
+.admin-sub { font-size: 13px; color: #888; }
+.admin-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 20px; gap: 12px; flex-wrap: wrap; }
+.admin-refresh-btn { background: #fff; border: 0.5px solid #e0dbd4; border-radius: 10px; padding: 10px 16px; font-size: 13px; font-weight: 500; color: #666; cursor: pointer; font-family: 'DM Sans', sans-serif; -webkit-tap-highlight-color: transparent; }
+.admin-refresh-btn:active { background: #f0ede8; }
+
+/* Stats */
+.admin-stats-row { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
+.admin-stat-card { background: #fff; border: 0.5px solid #e0dbd4; border-top: 3px solid #e0dbd4; border-radius: 12px; padding: 12px 16px; min-width: 80px; text-align: center; }
+.admin-stat-num { font-family: 'DM Serif Display', serif; font-size: 26px; color: #111; line-height: 1; margin-bottom: 3px; }
+.admin-stat-label { font-size: 11px; color: #888; font-weight: 500; }
+
+/* Search */
+.admin-search-wrap { margin-bottom: 16px; }
+.admin-search { width: 100%; border: 0.5px solid #e0dbd4; border-radius: 12px; padding: 12px 16px; font-size: 14px; font-family: 'DM Sans', sans-serif; background: #fff; outline: none; box-sizing: border-box; -webkit-appearance: none; }
+.admin-search:focus { border-color: #ff6a00; }
+
+/* Loading / empty */
+.admin-loading { text-align: center; padding: 40px; color: #888; font-size: 14px; }
+.admin-empty { text-align: center; padding: 40px; color: #aaa; font-size: 14px; }
+
+/* Students grid */
+.admin-students-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 10px; }
+
+/* Student card */
+.admin-student-card { background: #fff; border: 0.5px solid #e0dbd4; border-radius: 14px; padding: 14px 16px; cursor: pointer; transition: box-shadow .15s, border-color .15s; }
+.admin-student-card:active { background: #faf8f6; }
+.admin-student-card.selected { border-color: #ff6a00; box-shadow: 0 0 0 3px rgba(255,106,0,0.1); }
+
+.admin-student-top { display: flex; align-items: center; gap: 12px; }
+.admin-student-avatar { width: 38px; height: 38px; border-radius: 50%; background: #ff6a00; color: #fff; font-size: 16px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.admin-student-info { flex: 1; min-width: 0; }
+.admin-student-name { font-size: 14px; font-weight: 600; color: #111; margin-bottom: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.admin-student-email { font-size: 11px; color: #aaa; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.admin-student-nivel { font-size: 10px; font-weight: 700; color: #fff; padding: 3px 9px; border-radius: 20px; white-space: nowrap; flex-shrink: 0; }
+
+/* Expanded details */
+.admin-detail-divider { height: 0.5px; background: #f0ede8; margin: 12px 0; }
+.admin-detail-section { margin-bottom: 12px; }
+.admin-detail-title { font-size: 11px; font-weight: 700; color: #888; text-transform: uppercase; letter-spacing: .5px; margin-bottom: 8px; }
+.admin-detail-block { border-radius: 8px; padding: 9px 12px; margin-bottom: 6px; border-left: 3px solid; }
+.admin-detail-block.green { background: #e1f5ee; border-color: #1d9e75; }
+.admin-detail-block.blue  { background: #e6f1fb; border-color: #378add; }
+.admin-detail-block.orange { background: #fff1e8; border-color: #ff6a00; }
+.admin-detail-label { font-size: 10px; font-weight: 700; color: #555; text-transform: uppercase; letter-spacing: .4px; margin-bottom: 3px; }
+.admin-detail-text { font-size: 13px; color: #333; line-height: 1.5; }
+.admin-detail-empty { font-size: 12px; color: #bbb; padding: 4px 0; }
+
+/* Links */
+.admin-detail-links { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.admin-link-btn { display: inline-flex; align-items: center; gap: 4px; font-size: 12px; font-weight: 600; padding: 6px 12px; border-radius: 8px; text-decoration: none; cursor: pointer; border: none; font-family: 'DM Sans', sans-serif; -webkit-tap-highlight-color: transparent; }
+.admin-link-btn.meet     { background: #e8f0fe; color: #1a73e8; }
+.admin-link-btn.classroom { background: #e8f5e9; color: #2e7d32; }
+.admin-link-btn.notion   { background: #f0ede8; color: #555; }
+.admin-link-btn.preview  { background: #111; color: #fff; }
+.admin-link-btn:active   { opacity: 0.8; }
+
+/* Mobile */
+@media (max-width: 600px) {
+  .admin-content { padding: 14px 12px 80px; }
+  .admin-title { font-size: 22px; }
+  .admin-students-grid { grid-template-columns: 1fr; }
+  .admin-stats-row { gap: 6px; }
+  .admin-stat-card { min-width: 60px; padding: 10px 12px; }
+  .admin-stat-num { font-size: 22px; }
+}

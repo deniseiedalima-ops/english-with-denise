@@ -5,6 +5,10 @@ import Dashboard from './pages/Dashboard';
 import Practice from './pages/Practice';
 import PracticeHub from './pages/PracticeHub';
 import PracticeHubP1 from './pages/PracticeHubP1';
+import Admin from './pages/Admin';
+import AdminPreview from './pages/AdminPreview';
+
+export const ADMIN_EMAIL = 'englishwithdenise.idiomas@gmail.com';
 
 export const NOTION_TOKEN = process.env.REACT_APP_NOTION_TOKEN || '';
 export const STUDENTS_DB  = '368628bb387c80259882da13d7e2ed1d';
@@ -56,6 +60,16 @@ export default function App() {
         } />
         <Route path="/practice/:skill" element={
           user ? <Practice user={user} student={student} onLogout={handleLogout} /> : <Navigate to="/login" replace />
+        } />
+        <Route path="/admin" element={
+          user?.email === ADMIN_EMAIL
+            ? <Admin user={user} onLogout={handleLogout} />
+            : <Navigate to="/" replace />
+        } />
+        <Route path="/admin/preview/:studentEmail" element={
+          user?.email === ADMIN_EMAIL
+            ? <AdminPreview user={user} onLogout={handleLogout} />
+            : <Navigate to="/" replace />
         } />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>

@@ -2,12 +2,20 @@ import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import './Navbar.css';
 
+const ADMIN_EMAIL = 'englishwithdenise.idiomas@gmail.com';
+
 export default function Navbar({ user, student, onLogout }) {
   const navigate = useNavigate();
   const location = useLocation();
   const [menuOpen, setMenuOpen] = useState(false);
 
   const initials = (user?.name || 'U').split(' ').map(n => n[0]).slice(0, 2).join('');
+
+  const links = [
+    { label: 'Dashboard', path: '/' },
+    { label: 'Practice Hub', path: '/hub' },
+    ...(user?.email === ADMIN_EMAIL ? [{ label: '👑 Admin', path: '/admin' }] : []),
+  ];
 
   return (
     <nav className="navbar">
@@ -18,10 +26,7 @@ export default function Navbar({ user, student, onLogout }) {
         </div>
 
         <div className="navbar-links">
-          {[
-            { label: 'Dashboard', path: '/' },
-            { label: 'Practice Hub', path: '/hub' },
-          ].map(l => (
+          {links.map(l => (
             <div key={l.path}
               className={`navbar-link ${location.pathname === l.path ? 'active' : ''}`}
               onClick={() => navigate(l.path)}>
