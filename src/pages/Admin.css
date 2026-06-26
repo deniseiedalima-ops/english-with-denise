@@ -55,6 +55,7 @@
 .admin-detail-links { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
 .admin-link-btn { display: inline-flex; align-items: center; gap: 4px; font-size: 12px; font-weight: 600; padding: 6px 12px; border-radius: 8px; text-decoration: none; cursor: pointer; border: none; font-family: 'DM Sans', sans-serif; -webkit-tap-highlight-color: transparent; }
 .admin-link-btn.meet     { background: #e8f0fe; color: #1a73e8; }
+.admin-link-btn.kami     { background: #fff1e8; color: #ff6a00; }
 .admin-link-btn.classroom { background: #e8f5e9; color: #2e7d32; }
 .admin-link-btn.notion   { background: #f0ede8; color: #555; }
 .admin-link-btn.preview  { background: #111; color: #fff; }

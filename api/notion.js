@@ -57,6 +57,7 @@ export default async function handler(req, res) {
         nivel: props['Nível']?.select?.name || '',
         genero: props['Gênero']?.select?.name || '',
         classroomLink: props['Link Classroom']?.url || '',
+        kamiLink: props['Link KAMI']?.url || '',
         meetLink: props['Link Google Meet']?.url || '',
         codigo: props['Código']?.number || null,
         dataProximaAula: props['Data da Próxima Aula']?.date?.start || null,

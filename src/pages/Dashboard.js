@@ -272,13 +272,13 @@ export default function Dashboard({ user, student, onLogout }) {
         {/* Bottom grid */}
         <div className="bottom-grid fade-up fade-up-5">
           <div className="bottom-col">
-            {student?.classroomLink && (
+            {student?.kamiLink && (
               <div className="card classroom-card">
-                <div className="card-title">🎓 Google Classroom</div>
-                <a href={student.classroomLink} target="_blank" rel="noreferrer" className="classroom-btn">Open my Classroom ↗</a>
+                <div className="card-title">📚 Material de Estudo (KAMI)</div>
+                <a href={student.kamiLink} target="_blank" rel="noreferrer" className="classroom-btn">Open my Study Materials ↗</a>
                 <div className="classroom-desc-box">
-                  <div className="classroom-desc-item">📄 PDF do material para imprimir ou usar no tablet</div>
-                  <div className="classroom-desc-item">🎥 Gravações das aulas</div>
+                  <div className="classroom-desc-item">📄 PDFs de estudo organizados por aula</div>
+                  <div className="classroom-desc-item">✏️ Anote e estude direto no app do KAMI</div>
                 </div>
               </div>
             )}
@@ -318,6 +318,19 @@ export default function Dashboard({ user, student, onLogout }) {
                 <div className="website-arrow">↗</div>
               </div>
             </a>
+
+            {student?.classroomLink && (
+              <a href={student.classroomLink} target="_blank" rel="noreferrer" className="card manual-card">
+                <div className="manual-card-inner">
+                  <div className="manual-icon-wrap" style={{ background: '#e8f5e9' }}>🎓</div>
+                  <div className="manual-text">
+                    <div className="manual-title">Google Classroom</div>
+                    <div className="manual-sub">Gravações das aulas</div>
+                  </div>
+                  <div className="manual-arrow">↗</div>
+                </div>
+              </a>
+            )}
 
             <a href="https://polydactyl-melon-224.notion.site/MANUAL-DE-COMO-APRENDER-INGL-S-POR-CONTA-PR-PRIA-32d628bb387c80698ddfd1c290166b32" target="_blank" rel="noreferrer" className="card manual-card">
               <div className="manual-card-inner">

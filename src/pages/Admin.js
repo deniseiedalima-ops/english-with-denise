@@ -4,8 +4,6 @@ import Navbar from '../components/Navbar';
 import './Admin.css';
 
 const ADMIN_EMAIL = 'englishwithdenise.idiomas@gmail.com';
-const NOTION_TOKEN = process.env.REACT_APP_NOTION_TOKEN || '';
-const STUDENTS_DB = '368628bb387c80259882da13d7e2ed1d';
 
 const LEVEL_COLORS = {
   'A1': '#ff6a00', 'A1→A2': '#ff9a3c', 'A2': '#1d9e75',
@@ -34,37 +32,9 @@ export default function Admin({ user, onLogout }) {
   const loadStudents = async () => {
     setLoading(true);
     try {
-      const res = await fetch(`https://api.notion.com/v1/databases/${STUDENTS_DB}/query`, {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${NOTION_TOKEN}`,
-          'Notion-Version': '2022-06-28',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          sorts: [{ property: 'Nome', direction: 'ascending' }],
-          page_size: 100,
-        }),
-      });
+      const res = await fetch('/api/students');
       const data = await res.json();
-      const list = (data.results || []).map(page => {
-        const p = page.properties;
-        return {
-          id: page.id,
-          nome: p['Nome']?.title?.[0]?.plain_text || '—',
-          email: p['E-mail']?.email || '—',
-          nivel: p['Nível']?.select?.name || '—',
-          codigo: p['Código']?.number || '—',
-          tarefaPersonalizada: p['Tarefa Personalizada']?.rich_text?.[0]?.plain_text || '',
-          paginasDoLivro: p['Páginas do Livro']?.rich_text?.[0]?.plain_text || '',
-          tarefaDaSemana: p['Tarefa da Semana']?.rich_text?.[0]?.plain_text || '',
-          meetLink: p['Link Google Meet']?.url || '',
-          classroomLink: p['Link Classroom']?.url || '',
-          reposicoes: p['Reposições']?.number ?? null,
-          dataReposicao: p['Data Reposição']?.date?.start || null,
-        };
-      });
-      setStudents(list);
+      setStudents(data.students || []);
     } catch (err) {
       console.error('Error loading students:', err);
     }
@@ -198,6 +168,11 @@ export default function Admin({ user, onLogout }) {
                       {student.meetLink && (
                         <a href={student.meetLink} target="_blank" rel="noreferrer" className="admin-link-btn meet">
                           📹 Meet
+                        </a>
+                      )}
+                      {student.kamiLink && (
+                        <a href={student.kamiLink} target="_blank" rel="noreferrer" className="admin-link-btn kami">
+                          📚 KAMI
                         </a>
                       )}
                       {student.classroomLink && (
