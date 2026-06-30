@@ -243,7 +243,7 @@ export default function Dashboard({ user, student, onLogout }) {
           {/* Tarefa da semana */}
           {student?.tarefaDaSemana && (
             <div className="agenda-section-block week">
-              <div className="agenda-section-label">🗓️ This week's task</div>
+              <div className="agenda-section-label">🗓️ Agenda</div>
               <div className="agenda-section-text">{student.tarefaDaSemana}</div>
             </div>
           )}
