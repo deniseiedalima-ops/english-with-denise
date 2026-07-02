@@ -41,15 +41,20 @@ export default function App() {
     localStorage.removeItem('ewd_student');
   };
 
+  // Redirect root "/" based on who's logged in
+  const homeElement = () => {
+    if (!user) return <Navigate to="/login" replace />;
+    if (user.email === ADMIN_EMAIL) return <Navigate to="/admin" replace />;
+    return <Dashboard user={user} student={student} onLogout={handleLogout} />;
+  };
+
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/login" element={
           !user ? <Login onLogin={handleLogin} /> : <Navigate to="/" replace />
         } />
-        <Route path="/" element={
-          user ? <Dashboard user={user} student={student} onLogout={handleLogout} /> : <Navigate to="/login" replace />
-        } />
+        <Route path="/" element={homeElement()} />
         <Route path="/hub" element={
           user ? <PracticeHub user={user} student={student} onLogout={handleLogout} /> : <Navigate to="/login" replace />
         } />
@@ -76,4 +81,3 @@ export default function App() {
     </BrowserRouter>
   );
 }
-

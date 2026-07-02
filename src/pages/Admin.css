@@ -70,3 +70,63 @@
   .admin-stat-card { min-width: 60px; padding: 10px 12px; }
   .admin-stat-num { font-size: 22px; }
 }
+/* Adicionar ao final do Admin.css existente */
+
+/* ── Tab: Agenda ──────────────────────────────────────────────────────────── */
+.tab-agenda { display: flex; flex-direction: column; gap: 12px; }
+
+.cal-controls {
+  display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+  background: #fff; border: 0.5px solid #e0dbd4; border-radius: 14px; padding: 12px 16px;
+}
+.cal-nav { display: flex; align-items: center; gap: 4px; }
+.cal-nav-btn { background: #f0ede8; border: none; border-radius: 8px; width: 32px; height: 32px; font-size: 18px; cursor: pointer; display: flex; align-items: center; justify-content: center; color: #555; }
+.cal-nav-btn:hover { background: #e0dbd4; }
+.cal-today-btn { background: #fff; border: 0.5px solid #e0dbd4; border-radius: 8px; padding: 6px 12px; font-size: 13px; font-weight: 500; cursor: pointer; font-family: 'DM Sans', sans-serif; }
+.cal-today-btn:hover { border-color: #ff6a00; color: #ff6a00; }
+.cal-date-label { flex: 1; font-size: 14px; font-weight: 600; color: #111; text-align: center; min-width: 160px; }
+.cal-view-toggle { display: flex; gap: 4px; }
+.cal-view-btn { background: #f0ede8; border: none; border-radius: 8px; padding: 6px 12px; font-size: 12px; font-weight: 600; cursor: pointer; font-family: 'DM Sans', sans-serif; color: #666; }
+.cal-view-btn.active { background: #ff6a00; color: #fff; }
+.cal-refresh-btn { background: none; border: none; font-size: 18px; cursor: pointer; color: #aaa; padding: 4px; }
+.cal-refresh-btn:hover { color: #ff6a00; }
+
+.cal-summary { display: flex; gap: 8px; flex-wrap: wrap; }
+.cal-chip { font-size: 12px; font-weight: 600; padding: 5px 12px; border-radius: 20px; }
+.cal-chip.total { background: #f0ede8; color: #555; }
+.cal-chip.aulas { background: #fff1e8; color: #ff6a00; }
+.cal-chip.reps { background: #fdeaea; color: #e53935; }
+
+.cal-loading { text-align: center; padding: 32px; color: #888; font-size: 14px; }
+.cal-empty { text-align: center; padding: 32px; color: #bbb; font-size: 14px; }
+.cal-inline-error { background: #fdeaea; border-radius: 10px; padding: 12px 16px; font-size: 13px; color: #c62828; }
+
+/* Day view */
+.cal-day-list { display: flex; flex-direction: column; gap: 6px; }
+.cal-event {
+  background: #fff; border: 0.5px solid #e0dbd4; border-left: 3px solid #e0dbd4;
+  border-radius: 10px; padding: 10px 14px; display: flex; flex-wrap: wrap; align-items: flex-start; gap: 6px;
+}
+.cal-event.compact { padding: 7px 10px; }
+.cal-event-time { font-size: 12px; color: #888; font-weight: 500; min-width: 110px; }
+.cal-event-title { font-size: 14px; font-weight: 600; flex: 1; min-width: 0; }
+.cal-event-loc { font-size: 12px; color: #aaa; width: 100%; margin-top: 2px; }
+.cal-event-tag { font-size: 10px; font-weight: 800; padding: 2px 8px; border-radius: 20px; letter-spacing: .5px; }
+.cal-event-tag.rep { background: #fdeaea; color: #e53935; }
+.cal-event-tag.pres { background: #f3e8fd; color: #9c27b0; }
+
+/* Week view */
+.cal-week { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px; }
+.cal-week-day { background: #fff; border: 0.5px solid #e0dbd4; border-radius: 12px; overflow: hidden; }
+.cal-week-day-header { background: #f0ede8; padding: 8px 12px; font-size: 12px; font-weight: 700; color: #555; display: flex; align-items: center; justify-content: space-between; }
+.cal-week-count { background: #ff6a00; color: #fff; font-size: 10px; font-weight: 700; padding: 1px 7px; border-radius: 20px; }
+.cal-week-day .cal-event { border-radius: 0; border-left-width: 3px; border-top: none; border-right: none; border-bottom: 0.5px solid #f0ede8; }
+.cal-week-day .cal-event:last-child { border-bottom: none; }
+
+/* Error box */
+.cal-error-box { background: #fff; border: 0.5px solid #e0dbd4; border-radius: 14px; padding: 32px; text-align: center; }
+.cal-error-icon { font-size: 40px; margin-bottom: 12px; }
+.cal-error-title { font-size: 17px; font-weight: 700; color: #111; margin-bottom: 8px; }
+.cal-error-text { font-size: 14px; color: #888; margin-bottom: 20px; line-height: 1.5; }
+.cal-reauth-btn { background: #ff6a00; color: #fff; border: none; border-radius: 12px; padding: 12px 24px; font-size: 14px; font-weight: 600; cursor: pointer; font-family: 'DM Sans', sans-serif; }
+.cal-reauth-btn:hover { background: #e05a00; }
