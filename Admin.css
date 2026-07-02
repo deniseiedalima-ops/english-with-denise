@@ -1,0 +1,141 @@
+/* ── Base ─────────────────────────────────────────────────────────────────── */
+.admin-page { min-height: 100vh; background: #f0ede8; }
+.admin-content { max-width: 960px; margin: 0 auto; padding: 24px 16px 100px; }
+
+/* ── Header ───────────────────────────────────────────────────────────────── */
+.admin-badge { display: inline-block; background: #111; color: #fff; font-size: 11px; font-weight: 700; padding: 4px 12px; border-radius: 20px; letter-spacing: 1px; margin-bottom: 8px; }
+.admin-title { font-family: 'DM Serif Display', serif; font-size: 28px; color: #111; font-weight: 400; margin: 0 0 4px; }
+.admin-sub { font-size: 13px; color: #888; margin: 0; }
+.admin-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 20px; gap: 12px; flex-wrap: wrap; }
+.admin-date-badge { font-size: 12px; color: #888; background: #fff; border: 0.5px solid #e0dbd4; border-radius: 10px; padding: 8px 14px; white-space: nowrap; }
+
+/* ── Tabs ─────────────────────────────────────────────────────────────────── */
+.admin-tabs { display: flex; gap: 6px; margin-bottom: 20px; overflow-x: auto; padding-bottom: 2px; }
+.admin-tab-btn { display: flex; align-items: center; gap: 6px; background: #fff; border: 0.5px solid #e0dbd4; border-radius: 12px; padding: 10px 16px; font-size: 13px; font-weight: 500; color: #666; cursor: pointer; white-space: nowrap; font-family: 'DM Sans', sans-serif; transition: all .15s; -webkit-tap-highlight-color: transparent; }
+.admin-tab-btn:hover { border-color: #ff6a00; color: #ff6a00; }
+.admin-tab-btn.active { background: #ff6a00; border-color: #ff6a00; color: #fff; }
+.tab-icon { font-size: 15px; }
+.tab-label { font-size: 13px; }
+
+/* ── Shared ───────────────────────────────────────────────────────────────── */
+.admin-search { width: 100%; border: 0.5px solid #e0dbd4; border-radius: 12px; padding: 12px 16px; font-size: 14px; font-family: 'DM Sans', sans-serif; background: #fff; outline: none; box-sizing: border-box; -webkit-appearance: none; }
+.admin-search:focus { border-color: #ff6a00; }
+.admin-loading { text-align: center; padding: 40px; color: #888; font-size: 14px; }
+
+.filter-chips { display: flex; gap: 6px; flex-wrap: wrap; }
+.chip { background: #fff; border: 0.5px solid #e0dbd4; border-radius: 20px; padding: 6px 14px; font-size: 12px; font-weight: 500; color: #666; cursor: pointer; font-family: 'DM Sans', sans-serif; }
+.chip.active { background: #111; border-color: #111; color: #fff; }
+
+/* ── Tab: Presença ────────────────────────────────────────────────────────── */
+.presenca-summary { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
+.presenca-stat { background: #fff; border: 0.5px solid #e0dbd4; border-radius: 12px; padding: 10px 14px; text-align: center; min-width: 70px; }
+.presenca-stat span { display: block; font-family: 'DM Serif Display', serif; font-size: 22px; color: #111; line-height: 1; margin-bottom: 2px; }
+.presenca-stat small { font-size: 10px; color: #888; font-weight: 500; }
+.presenca-stat.green span { color: #1d9e75; }
+.presenca-stat.red span { color: #e53935; }
+.presenca-stat.orange span { color: #ff6a00; }
+.presenca-stat.purple span { color: #5c6bc0; }
+.presenca-stat.yellow span { color: #f9a825; }
+.presenca-stat.gray span { color: #aaa; }
+
+.presenca-filters { display: flex; flex-direction: column; gap: 10px; margin-bottom: 16px; }
+
+.presenca-list { display: flex; flex-direction: column; gap: 8px; }
+.presenca-row { background: #fff; border: 0.5px solid #e0dbd4; border-radius: 14px; padding: 12px 14px; display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.presenca-row.presente { border-left: 3px solid #1d9e75; }
+.presenca-row.falta { border-left: 3px solid #e53935; }
+.presenca-row.rep_pendente { border-left: 3px solid #ff6a00; }
+.presenca-row.rep_feita { border-left: 3px solid #5c6bc0; }
+.presenca-row.rep_falta { border-left: 3px solid #f9a825; }
+
+.presenca-info { display: flex; align-items: center; gap: 10px; min-width: 0; flex: 1; }
+.presenca-avatar { width: 36px; height: 36px; border-radius: 50%; color: #fff; font-size: 15px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.presenca-nome { font-size: 14px; font-weight: 600; color: #111; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 200px; }
+.presenca-nivel { display: flex; align-items: center; gap: 6px; margin-top: 3px; }
+.nivel-badge { font-size: 10px; font-weight: 700; color: #fff; padding: 2px 8px; border-radius: 20px; }
+.status-label { font-size: 11px; font-weight: 500; }
+
+.presenca-actions { display: flex; gap: 5px; flex-wrap: wrap; justify-content: flex-end; }
+.presenca-btn { background: #f0ede8; border: 0.5px solid #e0dbd4; border-radius: 8px; padding: 7px 10px; font-size: 14px; cursor: pointer; transition: all .12s; -webkit-tap-highlight-color: transparent; }
+.presenca-btn:active { opacity: .7; }
+.presenca-btn.active { box-shadow: 0 2px 8px rgba(0,0,0,.15); }
+.presenca-btn.view-btn { background: #fff; }
+
+/* ── Tab: Financeiro ──────────────────────────────────────────────────────── */
+.fin-top-bar { margin-bottom: 14px; }
+.fin-mes-sel { border: 0.5px solid #e0dbd4; border-radius: 10px; padding: 8px 12px; font-size: 14px; font-weight: 500; background: #fff; font-family: 'DM Sans', sans-serif; cursor: pointer; }
+.fin-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 10px; margin-bottom: 14px; }
+.fin-stat { background: #fff; border: 0.5px solid #e0dbd4; border-radius: 12px; padding: 12px 14px; text-align: center; }
+.fin-val { display: block; font-size: 20px; font-weight: 600; color: #111; margin-bottom: 3px; }
+.fin-val.green { color: #1d9e75; }
+.fin-val.red { color: #e53935; }
+.fin-stat small { font-size: 11px; color: #888; }
+
+.fin-list { display: flex; flex-direction: column; gap: 7px; }
+.fin-row { background: #fff; border: 0.5px solid #e0dbd4; border-radius: 12px; padding: 11px 14px; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.fin-info { flex: 1; min-width: 0; }
+.fin-nome { font-size: 14px; font-weight: 600; margin-bottom: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.fin-detalhe { font-size: 12px; color: #888; }
+.fin-btns { display: flex; gap: 6px; flex-shrink: 0; }
+.fin-btn { border-radius: 8px; padding: 6px 12px; font-size: 12px; font-weight: 600; cursor: pointer; border: 1px solid; font-family: 'DM Sans', sans-serif; }
+.fin-btn.pay { color: #1d9e75; border-color: #a8e0c8; background: #f0faf5; }
+.fin-btn.pay:hover { background: #1d9e75; color: #fff; }
+.fin-btn.wait { color: #f9a825; border-color: #fce4a0; background: #fefcf0; }
+.fin-btn.undo { color: #888; border-color: #e0dbd4; background: #f0ede8; }
+
+/* ── Tab: Notas ───────────────────────────────────────────────────────────── */
+.notas-list { display: flex; flex-direction: column; gap: 8px; }
+.nota-card { background: #fff; border: 0.5px solid #e0dbd4; border-radius: 14px; overflow: hidden; }
+.nota-card.open { border-color: #B19CD9; box-shadow: 0 0 0 3px rgba(177,156,217,.12); }
+.nota-header { display: flex; align-items: center; gap: 10px; padding: 12px 14px; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.nota-avatar { width: 34px; height: 34px; border-radius: 50%; color: #fff; font-size: 14px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.nota-name-wrap { flex: 1; min-width: 0; }
+.nota-nome { font-size: 14px; font-weight: 600; color: #111; }
+.nota-preview { font-size: 12px; color: #aaa; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 2px; }
+.nota-chevron { font-size: 10px; color: #aaa; flex-shrink: 0; }
+.nota-body { padding: 0 14px 14px; border-top: 0.5px solid #f0ede8; }
+.nota-textarea { width: 100%; border: 0.5px solid #e0dbd4; border-radius: 10px; padding: 10px 12px; font-size: 13px; font-family: 'DM Sans', sans-serif; resize: vertical; outline: none; margin-top: 12px; box-sizing: border-box; background: #fdfcfb; }
+.nota-textarea:focus { border-color: #B19CD9; }
+.nota-notion-info { margin-top: 10px; display: flex; flex-direction: column; gap: 6px; }
+.notion-field { border-radius: 8px; padding: 8px 12px; font-size: 12px; border-left: 3px solid; }
+.notion-field.green { background: #e1f5ee; border-color: #1d9e75; color: #1d5e3a; }
+.notion-field.orange { background: #fff1e8; border-color: #ff6a00; color: #7a3200; }
+.notion-field.blue { background: #e6f1fb; border-color: #2e86c1; color: #14406b; }
+.nota-links { display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap; }
+.nota-link { font-size: 12px; font-weight: 600; padding: 5px 12px; border-radius: 8px; text-decoration: none; }
+.nota-link.meet { background: #e1f5ee; color: #1d9e75; }
+.nota-link.kami { background: #e6f1fb; color: #2e86c1; }
+.nota-link.classroom { background: #fff1e8; color: #ff6a00; }
+
+/* ── Tab: Empresa ─────────────────────────────────────────────────────────── */
+.tab-empresa { display: flex; flex-direction: column; gap: 16px; }
+.empresa-section { background: #fff; border: 0.5px solid #e0dbd4; border-radius: 14px; padding: 16px; }
+.empresa-section-title { font-size: 13px; font-weight: 700; color: #555; text-transform: uppercase; letter-spacing: .5px; margin-bottom: 12px; }
+.empresa-textarea { width: 100%; border: 0.5px solid #e0dbd4; border-radius: 10px; padding: 10px 12px; font-size: 13px; font-family: 'DM Sans', sans-serif; resize: vertical; outline: none; box-sizing: border-box; background: #fdfcfb; }
+.empresa-textarea:focus { border-color: #ff6a00; }
+
+.task-list { display: flex; flex-direction: column; gap: 6px; }
+.task-add-row { display: flex; gap: 6px; margin-bottom: 6px; }
+.task-cat-sel { border: 0.5px solid #e0dbd4; border-radius: 8px; padding: 7px 8px; font-size: 12px; font-family: 'DM Sans', sans-serif; background: #f0ede8; cursor: pointer; }
+.task-input { flex: 1; border: 0.5px solid #e0dbd4; border-radius: 8px; padding: 7px 10px; font-size: 13px; font-family: 'DM Sans', sans-serif; outline: none; background: #fdfcfb; }
+.task-input:focus { border-color: #ff6a00; }
+.task-add-btn { background: #ff6a00; color: #fff; border: none; border-radius: 8px; padding: 7px 14px; font-size: 18px; font-weight: 700; cursor: pointer; }
+.task-item { display: flex; align-items: center; gap: 8px; background: #f0ede8; border-radius: 8px; padding: 8px 10px; }
+.task-item.done .task-text { text-decoration: line-through; color: #aaa; }
+.task-check { background: none; border: none; font-size: 16px; cursor: pointer; padding: 0; flex-shrink: 0; }
+.task-cat-badge { font-size: 10px; font-weight: 700; color: #fff; padding: 2px 8px; border-radius: 20px; white-space: nowrap; flex-shrink: 0; }
+.task-text { font-size: 13px; color: #333; flex: 1; min-width: 0; }
+.task-del { background: none; border: none; font-size: 12px; color: #bbb; cursor: pointer; padding: 0 2px; flex-shrink: 0; }
+.task-del:hover { color: #e53935; }
+.task-empty { font-size: 13px; color: #bbb; text-align: center; padding: 12px 0; }
+
+/* ── Mobile ───────────────────────────────────────────────────────────────── */
+@media (max-width: 600px) {
+  .admin-content { padding: 16px 12px 100px; }
+  .presenca-nome { max-width: 140px; }
+  .presenca-actions { gap: 4px; }
+  .presenca-btn { padding: 6px 8px; font-size: 13px; }
+  .fin-stats { grid-template-columns: repeat(2, 1fr); }
+  .tab-label { display: none; }
+  .admin-tab-btn { padding: 10px 12px; }
+}
