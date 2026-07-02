@@ -8,7 +8,7 @@ import PracticeHubP1 from './pages/PracticeHubP1';
 import Admin from './pages/Admin';
 import AdminPreview from './pages/AdminPreview';
 
-export const ADMIN_EMAIL = 'englishwithdenise.idiomas@gmail.com';
+export const ADMIN_EMAIL = 'denise.ieda.lima@gmail.com';
 
 export const NOTION_TOKEN = process.env.REACT_APP_NOTION_TOKEN || '';
 export const STUDENTS_DB  = '368628bb387c80259882da13d7e2ed1d';

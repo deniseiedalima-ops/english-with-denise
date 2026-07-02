@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { getStudentByEmail, addToWaitlist } from '../notion';
 import './Login.css';
 
-export const ADMIN_EMAIL = 'englishwithdenise.idiomas@gmail.com';
+export const ADMIN_EMAIL = 'denise.ieda.lima@gmail.com';
 
 // Scopes: openid + email + profile + calendar (read-only)
 const SCOPES = [

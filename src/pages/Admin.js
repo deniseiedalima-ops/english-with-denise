@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import './Admin.css';
 
-const ADMIN_EMAIL = 'englishwithdenise.idiomas@gmail.com';
+const ADMIN_EMAIL = 'denise.ieda.lima@gmail.com';
 
 const LEVEL_COLORS = {
   'A1': '#ff6a00', 'A1→A2': '#ff9a3c', 'A2': '#1d9e75',
