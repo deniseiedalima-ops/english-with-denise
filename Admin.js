@@ -28,16 +28,9 @@ const ALUNOS_FINANCEIRO = [
   ['Júlio Magre Guerra',0,15],['Alex Campos',320,10],['Lucinara Cunha',320,10],
 ];
 
-// ─── Storage helpers ───────────────────────────────────────────────────────────
 const SK = 'ewd_admin_v1';
-function loadLocal() {
-  try { return JSON.parse(localStorage.getItem(SK)) || {}; } catch { return {}; }
-}
-function saveLocal(data) {
-  localStorage.setItem(SK, JSON.stringify(data));
-}
-
-// ─── Helpers ──────────────────────────────────────────────────────────────────
+function loadLocal() { try { return JSON.parse(localStorage.getItem(SK)) || {}; } catch { return {}; } }
+function saveLocal(data) { localStorage.setItem(SK, JSON.stringify(data)); }
 function todayKey() { return new Date().toISOString().slice(0, 10); }
 function fmtMoney(v) { return (v || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2 }); }
 function fmtDate(iso) { if (!iso) return ''; const [, m, d] = iso.split('-'); return `${d}/${m}`; }
@@ -52,18 +45,19 @@ function getFinStatus(nome, venc, mesIdx, pagStore) {
   return new Date().getDate() > venc ? 'atrasado' : 'aguardando';
 }
 
-// ─── TABS ─────────────────────────────────────────────────────────────────────
+function getCalToken() { return localStorage.getItem('ewd_gcal_token') || ''; }
+
 const TABS = [
+  { id: 'agenda', label: '📅 Agenda', icon: '📅' },
   { id: 'presenca', label: '📋 Presença', icon: '📋' },
   { id: 'financeiro', label: '💰 Financeiro', icon: '💰' },
   { id: 'notas', label: '📝 Notas', icon: '📝' },
   { id: 'empresa', label: '🏫 Empresa', icon: '🏫' },
 ];
 
-// ══════════════════════════════════════════════════════════════════════════════
 export default function Admin({ user, onLogout }) {
   const navigate = useNavigate();
-  const [activeTab, setActiveTab] = useState('presenca');
+  const [activeTab, setActiveTab] = useState('agenda');
   const [students, setStudents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [local, setLocal] = useState(loadLocal);
@@ -94,17 +88,17 @@ export default function Admin({ user, onLogout }) {
       <Navbar user={user} student={null} onLogout={onLogout} />
       <main className="admin-content">
 
-        {/* Header */}
         <div className="admin-header">
           <div>
             <div className="admin-badge">👑 Admin</div>
             <h1 className="admin-title">English With Denise</h1>
             <p className="admin-sub">Painel de Gestão da Escola</p>
           </div>
-          <div className="admin-date-badge">{new Date().toLocaleDateString('pt-BR', { weekday: 'long', day: 'numeric', month: 'long' })}</div>
+          <div className="admin-date-badge">
+            {new Date().toLocaleDateString('pt-BR', { weekday: 'long', day: 'numeric', month: 'long' })}
+          </div>
         </div>
 
-        {/* Tab bar */}
         <div className="admin-tabs">
           {TABS.map(t => (
             <button
@@ -118,21 +112,209 @@ export default function Admin({ user, onLogout }) {
           ))}
         </div>
 
-        {/* Tab content */}
-        {activeTab === 'presenca' && (
-          <TabPresenca students={students} loading={loading} local={local} persist={persist} navigate={navigate} />
-        )}
-        {activeTab === 'financeiro' && (
-          <TabFinanceiro local={local} persist={persist} />
-        )}
-        {activeTab === 'notas' && (
-          <TabNotas students={students} loading={loading} local={local} persist={persist} />
-        )}
-        {activeTab === 'empresa' && (
-          <TabEmpresa local={local} persist={persist} />
-        )}
+        {activeTab === 'agenda'     && <TabAgenda />}
+        {activeTab === 'presenca'   && <TabPresenca students={students} loading={loading} local={local} persist={persist} navigate={navigate} />}
+        {activeTab === 'financeiro' && <TabFinanceiro local={local} persist={persist} />}
+        {activeTab === 'notas'      && <TabNotas students={students} loading={loading} local={local} persist={persist} />}
+        {activeTab === 'empresa'    && <TabEmpresa local={local} persist={persist} />}
 
       </main>
+    </div>
+  );
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// TAB 0 — AGENDA (Google Calendar)
+// ══════════════════════════════════════════════════════════════════════════════
+function TabAgenda() {
+  const [events, setEvents] = useState([]);
+  const [calLoading, setCalLoading] = useState(false);
+  const [calError, setCalError] = useState('');
+  const [selectedDate, setSelectedDate] = useState(todayKey());
+  const [view, setView] = useState('day'); // 'day' | 'week'
+
+  const fetchEvents = useCallback(async (dateStr) => {
+    const token = getCalToken();
+    if (!token) { setCalError('no_token'); return; }
+
+    setCalLoading(true);
+    setCalError('');
+    try {
+      const date = new Date(dateStr + 'T00:00:00');
+      let timeMin, timeMax;
+
+      if (view === 'week') {
+        const day = date.getDay();
+        const mon = new Date(date); mon.setDate(date.getDate() - (day === 0 ? 6 : day - 1));
+        const sun = new Date(mon); sun.setDate(mon.getDate() + 6);
+        timeMin = mon.toISOString();
+        timeMax = new Date(sun.setHours(23,59,59,999)).toISOString();
+      } else {
+        timeMin = new Date(date.setHours(0,0,0,0)).toISOString();
+        timeMax = new Date(date.setHours(23,59,59,999)).toISOString();
+      }
+
+      const res = await fetch('/api/calendar', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+        body: JSON.stringify({ timeMin, timeMax }),
+      });
+
+      if (res.status === 401) { setCalError('expired'); return; }
+      const data = await res.json();
+      if (data.error) { setCalError(data.error); return; }
+      setEvents(data.events || []);
+    } catch (e) {
+      setCalError(e.message);
+    } finally {
+      setCalLoading(false);
+    }
+  }, [view]);
+
+  useEffect(() => { fetchEvents(selectedDate); }, [selectedDate, view]);
+
+  const reauth = () => {
+    if (window._gCalClient) window._gCalClient.requestAccessToken();
+    else setCalError('Recarregue a página e faça login novamente.');
+  };
+
+  const changeDay = (delta) => {
+    const d = new Date(selectedDate + 'T12:00:00');
+    d.setDate(d.getDate() + delta);
+    setSelectedDate(d.toISOString().slice(0, 10));
+  };
+
+  const formatEventTime = (ev) => {
+    if (ev.start?.date) return 'Dia inteiro';
+    const s = ev.start?.dateTime ? new Date(ev.start.dateTime) : null;
+    const e = ev.end?.dateTime ? new Date(ev.end.dateTime) : null;
+    if (!s) return '';
+    const fmt = t => t.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+    return e ? `${fmt(s)} – ${fmt(e)}` : fmt(s);
+  };
+
+  const isClass = (title = '') => title.toLowerCase().includes('english class') || title.toLowerCase().includes('(rep)');
+  const isRep = (title = '') => title.toLowerCase().includes('(rep)');
+  const isPres = (title = '') => title.toLowerCase().includes('(pres)');
+
+  // Group by date for week view
+  const groupedByDate = events.reduce((acc, ev) => {
+    const d = (ev.start?.dateTime || ev.start?.date || '').slice(0, 10);
+    if (!acc[d]) acc[d] = [];
+    acc[d].push(ev);
+    return acc;
+  }, {});
+
+  const selectedDateFmt = new Date(selectedDate + 'T12:00:00').toLocaleDateString('pt-BR', {
+    weekday: 'long', day: 'numeric', month: 'long'
+  });
+
+  if (calError === 'no_token' || calError === 'expired') {
+    return (
+      <div className="cal-error-box">
+        <div className="cal-error-icon">🔐</div>
+        <div className="cal-error-title">
+          {calError === 'expired' ? 'Sessão do Calendar expirada' : 'Agenda não conectada'}
+        </div>
+        <p className="cal-error-text">
+          {calError === 'expired'
+            ? 'Seu acesso ao Google Calendar expirou. Clique abaixo para reconectar.'
+            : 'Para ver sua agenda, faça logout e login novamente — o sistema pedirá acesso ao Google Calendar.'}
+        </p>
+        <button className="cal-reauth-btn" onClick={reauth}>🔄 Reconectar Calendar</button>
+      </div>
+    );
+  }
+
+  return (
+    <div className="tab-agenda">
+      {/* Controls */}
+      <div className="cal-controls">
+        <div className="cal-nav">
+          <button className="cal-nav-btn" onClick={() => changeDay(view === 'week' ? -7 : -1)}>‹</button>
+          <button className="cal-today-btn" onClick={() => setSelectedDate(todayKey())}>Hoje</button>
+          <button className="cal-nav-btn" onClick={() => changeDay(view === 'week' ? 7 : 1)}>›</button>
+        </div>
+        <div className="cal-date-label">{selectedDateFmt}</div>
+        <div className="cal-view-toggle">
+          <button className={`cal-view-btn ${view === 'day' ? 'active' : ''}`} onClick={() => setView('day')}>Dia</button>
+          <button className={`cal-view-btn ${view === 'week' ? 'active' : ''}`} onClick={() => setView('week')}>Semana</button>
+        </div>
+        <button className="cal-refresh-btn" onClick={() => fetchEvents(selectedDate)}>↻</button>
+      </div>
+
+      {/* Summary chips */}
+      {!calLoading && events.length > 0 && (
+        <div className="cal-summary">
+          <span className="cal-chip total">{events.length} eventos</span>
+          <span className="cal-chip aulas">{events.filter(e => isClass(e.summary)).length} aulas</span>
+          <span className="cal-chip reps">{events.filter(e => isRep(e.summary)).length} reposições</span>
+        </div>
+      )}
+
+      {/* Loading */}
+      {calLoading && <div className="cal-loading">Carregando agenda... 📅</div>}
+
+      {/* Error */}
+      {calError && !calLoading && calError !== 'no_token' && calError !== 'expired' && (
+        <div className="cal-inline-error">⚠️ {calError}</div>
+      )}
+
+      {/* Day view */}
+      {!calLoading && view === 'day' && (
+        <div className="cal-day-list">
+          {events.length === 0 && <div className="cal-empty">Nenhum evento para este dia 🎉</div>}
+          {events.map(ev => (
+            <EventCard key={ev.id} ev={ev} formatTime={formatEventTime} isClass={isClass} isRep={isRep} isPres={isPres} />
+          ))}
+        </div>
+      )}
+
+      {/* Week view */}
+      {!calLoading && view === 'week' && (
+        <div className="cal-week">
+          {Object.entries(groupedByDate).sort().map(([date, evs]) => (
+            <div key={date} className="cal-week-day">
+              <div className="cal-week-day-header">
+                {new Date(date + 'T12:00:00').toLocaleDateString('pt-BR', { weekday: 'short', day: 'numeric', month: 'short' })}
+                <span className="cal-week-count">{evs.length}</span>
+              </div>
+              {evs.map(ev => (
+                <EventCard key={ev.id} ev={ev} formatTime={formatEventTime} isClass={isClass} isRep={isRep} isPres={isPres} compact />
+              ))}
+            </div>
+          ))}
+          {Object.keys(groupedByDate).length === 0 && <div className="cal-empty">Sem eventos esta semana 🎉</div>}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function EventCard({ ev, formatTime, isClass, isRep, isPres, compact }) {
+  const title = ev.summary || '(sem título)';
+  const time = formatTime(ev);
+  const rep = isRep(title);
+  const pres = isPres(title);
+  const cls = isClass(title);
+
+  let accent = '#e0dbd4';
+  if (rep)  accent = '#e53935';
+  else if (pres) accent = '#9c27b0';
+  else if (cls)  accent = '#ff6a00';
+
+  return (
+    <div className={`cal-event ${compact ? 'compact' : ''}`} style={{ borderLeftColor: accent }}>
+      <div className="cal-event-time">{time}</div>
+      <div className="cal-event-title" style={{ color: rep ? '#e53935' : pres ? '#9c27b0' : cls ? '#ff6a00' : '#111' }}>
+        {title}
+      </div>
+      {ev.location && !compact && <div className="cal-event-loc">📍 {ev.location}</div>}
+      {rep  && <span className="cal-event-tag rep">REP</span>}
+      {pres && <span className="cal-event-tag pres">PRES</span>}
     </div>
   );
 }
@@ -146,34 +328,29 @@ function TabPresenca({ students, loading, local, persist, navigate }) {
   const today = todayKey();
 
   const getStatus = (id) => local.presenca?.[today]?.[id] || null;
-
   const setStatus = (id, status) => {
     persist(prev => ({
       ...prev,
-      presenca: {
-        ...prev.presenca,
-        [today]: { ...(prev.presenca?.[today] || {}), [id]: status },
-      },
+      presenca: { ...prev.presenca, [today]: { ...(prev.presenca?.[today] || {}), [id]: status } },
     }));
   };
 
   const STATUS_BTNS = [
-    { key: 'presente', label: '✅ Presente', color: '#1d9e75' },
-    { key: 'falta', label: '❌ Falta', color: '#e53935' },
-    { key: 'rep_pendente', label: '🔄 Rep. Pendente', color: '#ff6a00' },
-    { key: 'rep_feita', label: '✔️ Rep. Feita', color: '#5c6bc0' },
-    { key: 'rep_falta', label: '⚠️ Rep. c/ Falta', color: '#f9a825' },
+    { key: 'presente',    label: '✅ Presente',      color: '#1d9e75' },
+    { key: 'falta',       label: '❌ Falta',          color: '#e53935' },
+    { key: 'rep_pendente',label: '🔄 Rep. Pendente',  color: '#ff6a00' },
+    { key: 'rep_feita',   label: '✔️ Rep. Feita',     color: '#5c6bc0' },
+    { key: 'rep_falta',   label: '⚠️ Rep. c/ Falta',  color: '#f9a825' },
   ];
 
   const filtered = students.filter(s => {
-    const matchSearch = s.nome.toLowerCase().includes(search.toLowerCase());
-    if (!matchSearch) return false;
+    const match = s.nome.toLowerCase().includes(search.toLowerCase());
+    if (!match) return false;
     if (filterStatus === 'todos') return true;
     if (filterStatus === 'sem_registro') return !getStatus(s.id);
     return getStatus(s.id) === filterStatus;
   });
 
-  // Summary counts
   const counts = students.reduce((acc, s) => {
     const st = getStatus(s.id) || 'sem_registro';
     acc[st] = (acc[st] || 0) + 1;
@@ -184,7 +361,6 @@ function TabPresenca({ students, loading, local, persist, navigate }) {
 
   return (
     <div className="tab-presenca">
-      {/* Summary cards */}
       <div className="presenca-summary">
         <div className="presenca-stat green"><span>{counts.presente || 0}</span><small>Presentes</small></div>
         <div className="presenca-stat red"><span>{counts.falta || 0}</span><small>Faltas</small></div>
@@ -194,32 +370,15 @@ function TabPresenca({ students, loading, local, persist, navigate }) {
         <div className="presenca-stat gray"><span>{counts.sem_registro || 0}</span><small>Sem registro</small></div>
       </div>
 
-      {/* Filters */}
       <div className="presenca-filters">
-        <input
-          className="admin-search"
-          placeholder="🔍 Buscar aluno..."
-          value={search}
-          onChange={e => setSearch(e.target.value)}
-        />
+        <input className="admin-search" placeholder="🔍 Buscar aluno..." value={search} onChange={e => setSearch(e.target.value)} />
         <div className="filter-chips">
-          {[
-            ['todos', 'Todos'],
-            ['sem_registro', '⬜ Sem registro'],
-            ['presente', '✅ Presentes'],
-            ['falta', '❌ Faltas'],
-            ['rep_pendente', '🔄 Rep.'],
-          ].map(([key, label]) => (
-            <button
-              key={key}
-              className={`chip ${filterStatus === key ? 'active' : ''}`}
-              onClick={() => setFilterStatus(key)}
-            >{label}</button>
+          {[['todos','Todos'],['sem_registro','⬜ Sem registro'],['presente','✅ Presentes'],['falta','❌ Faltas'],['rep_pendente','🔄 Rep.']].map(([key, label]) => (
+            <button key={key} className={`chip ${filterStatus === key ? 'active' : ''}`} onClick={() => setFilterStatus(key)}>{label}</button>
           ))}
         </div>
       </div>
 
-      {/* Student list */}
       <div className="presenca-list">
         {filtered.map(s => {
           const st = getStatus(s.id);
@@ -227,9 +386,7 @@ function TabPresenca({ students, loading, local, persist, navigate }) {
           return (
             <div key={s.id} className={`presenca-row ${st || 'sem-registro'}`}>
               <div className="presenca-info">
-                <div className="presenca-avatar" style={{ background: LEVEL_COLORS[s.nivel] || '#aaa' }}>
-                  {s.nome[0]}
-                </div>
+                <div className="presenca-avatar" style={{ background: LEVEL_COLORS[s.nivel] || '#aaa' }}>{s.nome[0]}</div>
                 <div>
                   <div className="presenca-nome">{s.nome}</div>
                   <div className="presenca-nivel">
@@ -246,15 +403,9 @@ function TabPresenca({ students, loading, local, persist, navigate }) {
                     style={st === btn.key ? { background: btn.color, color: '#fff', borderColor: btn.color } : {}}
                     onClick={() => setStatus(s.id, st === btn.key ? null : btn.key)}
                     title={btn.label}
-                  >
-                    {btn.label.split(' ')[0]}
-                  </button>
+                  >{btn.label.split(' ')[0]}</button>
                 ))}
-                <button
-                  className="presenca-btn view-btn"
-                  onClick={() => navigate(`/admin/preview/${s.email}`)}
-                  title="Ver como aluno"
-                >👁️</button>
+                <button className="presenca-btn view-btn" onClick={() => navigate(`/admin/preview/${s.email}`)} title="Ver como aluno">👁️</button>
               </div>
             </div>
           );
@@ -291,10 +442,7 @@ function TabFinanceiro({ local, persist }) {
   }));
 
   const filtered = filter === 'todos' ? rows : rows.filter(r => r.st === filter);
-  filtered.sort((a, b) => {
-    const o = { atrasado: 0, aguardando: 1, futuro: 2, pago: 3 };
-    return o[a.st] - o[b.st] || a.nome.localeCompare(b.nome);
-  });
+  filtered.sort((a, b) => { const o = { atrasado:0, aguardando:1, futuro:2, pago:3 }; return o[a.st]-o[b.st] || a.nome.localeCompare(b.nome); });
 
   const totalRecebido = rows.filter(r => r.st === 'pago').reduce((s, r) => s + r.valor, 0);
   const totalEsperado = rows.reduce((s, r) => s + r.valor, 0);
@@ -302,10 +450,10 @@ function TabFinanceiro({ local, persist }) {
   const atrasados = rows.filter(r => r.st === 'atrasado').length;
 
   const ST_META = {
-    pago: { label: '🟢 Em dia', color: '#1d9e75' },
-    atrasado: { label: '🔴 Inadimplente', color: '#e53935' },
-    aguardando: { label: '🟡 Aguardando', color: '#f9a825' },
-    futuro: { label: '⬜ Mês futuro', color: '#aaa' },
+    pago:      { label: '🟢 Em dia',        color: '#1d9e75' },
+    atrasado:  { label: '🔴 Inadimplente',   color: '#e53935' },
+    aguardando:{ label: '🟡 Aguardando',     color: '#f9a825' },
+    futuro:    { label: '⬜ Mês futuro',     color: '#aaa' },
   };
 
   return (
@@ -315,20 +463,17 @@ function TabFinanceiro({ local, persist }) {
           {MESES.map(m => <option key={m} value={m}>{m}/2026</option>)}
         </select>
       </div>
-
       <div className="fin-stats">
         <div className="fin-stat"><span className="fin-val green">R$ {fmtMoney(totalRecebido)}</span><small>Recebido</small></div>
         <div className="fin-stat"><span className="fin-val">R$ {fmtMoney(totalEsperado)}</span><small>Esperado</small></div>
         <div className="fin-stat"><span className="fin-val green">{pagos}</span><small>Em dia</small></div>
         <div className="fin-stat"><span className="fin-val red">{atrasados}</span><small>Inadimplentes</small></div>
       </div>
-
       <div className="filter-chips" style={{ marginBottom: 12 }}>
-        {[['todos','Todos'],['atrasado','🔴 Inadimplentes'],['aguardando','🟡 Aguardando'],['pago','🟢 Em dia']].map(([k, l]) => (
+        {[['todos','Todos'],['atrasado','🔴 Inadimplentes'],['aguardando','🟡 Aguardando'],['pago','🟢 Em dia']].map(([k,l]) => (
           <button key={k} className={`chip ${filter === k ? 'active' : ''}`} onClick={() => setFilter(k)}>{l}</button>
         ))}
       </div>
-
       <div className="fin-list">
         {filtered.map(r => {
           const meta = ST_META[r.st];
@@ -343,9 +488,7 @@ function TabFinanceiro({ local, persist }) {
                   ? <button className="fin-btn undo" onClick={() => setPag(r.nome, 'desfazer')}>✕ Desfazer</button>
                   : <>
                       <button className="fin-btn pay" onClick={() => setPag(r.nome, 'pago')}>✓ Pago</button>
-                      {r.st !== 'aguardando' && (
-                        <button className="fin-btn wait" onClick={() => setPag(r.nome, 'aguardando')}>⏳</button>
-                      )}
+                      {r.st !== 'aguardando' && <button className="fin-btn wait" onClick={() => setPag(r.nome, 'aguardando')}>⏳</button>}
                     </>
                 }
               </div>
@@ -358,35 +501,22 @@ function TabFinanceiro({ local, persist }) {
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
-// TAB 3 — NOTAS POR ALUNO
+// TAB 3 — NOTAS
 // ══════════════════════════════════════════════════════════════════════════════
 function TabNotas({ students, loading, local, persist }) {
   const [search, setSearch] = useState('');
   const [openId, setOpenId] = useState(null);
 
   const getNota = (id) => local.notas?.[id] || '';
-  const setNota = (id, val) => {
-    persist(prev => ({
-      ...prev,
-      notas: { ...(prev.notas || {}), [id]: val },
-    }));
-  };
-
-  const filtered = students.filter(s => s.nome.toLowerCase().includes(search.toLowerCase()));
+  const setNota = (id, val) => persist(prev => ({ ...prev, notas: { ...(prev.notas || {}), [id]: val } }));
 
   if (loading) return <div className="admin-loading">Carregando... ✨</div>;
 
   return (
     <div className="tab-notas">
-      <input
-        className="admin-search"
-        placeholder="🔍 Buscar aluno..."
-        value={search}
-        onChange={e => setSearch(e.target.value)}
-        style={{ marginBottom: 12 }}
-      />
+      <input className="admin-search" placeholder="🔍 Buscar aluno..." value={search} onChange={e => setSearch(e.target.value)} style={{ marginBottom: 12 }} />
       <div className="notas-list">
-        {filtered.map(s => {
+        {students.filter(s => s.nome.toLowerCase().includes(search.toLowerCase())).map(s => {
           const nota = getNota(s.id);
           const open = openId === s.id;
           return (
@@ -401,14 +531,7 @@ function TabNotas({ students, loading, local, persist }) {
               </div>
               {open && (
                 <div className="nota-body">
-                  <textarea
-                    className="nota-textarea"
-                    placeholder="Anotações sobre o aluno: o que precisa fazer, pendências, observações..."
-                    value={nota}
-                    onChange={e => setNota(s.id, e.target.value)}
-                    rows={5}
-                  />
-                  {/* Campos de tarefa do Notion */}
+                  <textarea className="nota-textarea" placeholder="Anotações, pendências, observações..." value={nota} onChange={e => setNota(s.id, e.target.value)} rows={5} />
                   {(s.tarefaPersonalizada || s.tarefaDaSemana || s.paginasDoLivro) && (
                     <div className="nota-notion-info">
                       {s.tarefaPersonalizada && <div className="notion-field green"><b>Before class:</b> {s.tarefaPersonalizada}</div>}
@@ -442,74 +565,29 @@ function TabNotas({ students, loading, local, persist }) {
 // ══════════════════════════════════════════════════════════════════════════════
 function TabEmpresa({ local, persist }) {
   const today = todayKey();
-
   const getTasks = (key) => local.empresa?.[key] || [];
-  const setTasks = (key, val) => {
-    persist(prev => ({
-      ...prev,
-      empresa: { ...(prev.empresa || {}), [key]: val },
-    }));
-  };
-
+  const setTasks = (key, val) => persist(prev => ({ ...prev, empresa: { ...(prev.empresa || {}), [key]: val } }));
   const getDiario = () => local.empresa?.diario?.[today] || '';
-  const setDiario = (val) => {
-    persist(prev => ({
-      ...prev,
-      empresa: {
-        ...(prev.empresa || {}),
-        diario: { ...(prev.empresa?.diario || {}), [today]: val },
-      },
-    }));
-  };
+  const setDiario = (val) => persist(prev => ({ ...prev, empresa: { ...(prev.empresa || {}), diario: { ...(prev.empresa?.diario || {}), [today]: val } } }));
 
   return (
     <div className="tab-empresa">
-
-      {/* Diário do dia */}
       <div className="empresa-section">
         <div className="empresa-section-title">📓 Diário do dia</div>
-        <textarea
-          className="empresa-textarea"
-          placeholder="Anote aqui o que aconteceu hoje, tarefas do dia, o que precisa resolver..."
-          value={getDiario()}
-          onChange={e => setDiario(e.target.value)}
-          rows={4}
-        />
+        <textarea className="empresa-textarea" placeholder="Anote aqui o que aconteceu hoje, tarefas, o que precisa resolver..." value={getDiario()} onChange={e => setDiario(e.target.value)} rows={4} />
       </div>
-
-      {/* Materiais */}
       <div className="empresa-section">
         <div className="empresa-section-title">📚 Materiais</div>
-        <TaskList
-          tasks={getTasks('materiais')}
-          onChange={v => setTasks('materiais', v)}
-          placeholder="Ex: Criar workbook A2 Unit 3..."
-          categories={['Criar', 'Otimizar', 'Remover']}
-        />
+        <TaskList tasks={getTasks('materiais')} onChange={v => setTasks('materiais', v)} placeholder="Ex: Criar workbook A2 Unit 3..." categories={['Criar', 'Otimizar', 'Remover']} />
       </div>
-
-      {/* Metas e projetos */}
       <div className="empresa-section">
         <div className="empresa-section-title">🎯 Metas e Projetos</div>
-        <TaskList
-          tasks={getTasks('metas')}
-          onChange={v => setTasks('metas', v)}
-          placeholder="Ex: Lançar curso intensivo 2027..."
-          categories={['Em andamento', 'Próximo', 'Concluído']}
-        />
+        <TaskList tasks={getTasks('metas')} onChange={v => setTasks('metas', v)} placeholder="Ex: Lançar curso intensivo 2027..." categories={['Em andamento', 'Próximo', 'Concluído']} />
       </div>
-
-      {/* Lembretes gerais */}
       <div className="empresa-section">
         <div className="empresa-section-title">🔔 Lembretes & Pendências</div>
-        <TaskList
-          tasks={getTasks('lembretes')}
-          onChange={v => setTasks('lembretes', v)}
-          placeholder="Ex: Entregar resultados Rafael 07/07..."
-          categories={['Urgente', 'Esta semana', 'Feito']}
-        />
+        <TaskList tasks={getTasks('lembretes')} onChange={v => setTasks('lembretes', v)} placeholder="Ex: Entregar resultados Rafael 07/07..." categories={['Urgente', 'Esta semana', 'Feito']} />
       </div>
-
     </div>
   );
 }
@@ -517,39 +595,15 @@ function TabEmpresa({ local, persist }) {
 function TaskList({ tasks, onChange, placeholder, categories }) {
   const [newText, setNewText] = useState('');
   const [newCat, setNewCat] = useState(categories[0]);
-
-  const add = () => {
-    if (!newText.trim()) return;
-    onChange([...tasks, { id: Date.now(), text: newText.trim(), cat: newCat, done: false }]);
-    setNewText('');
-  };
-
+  const add = () => { if (!newText.trim()) return; onChange([...tasks, { id: Date.now(), text: newText.trim(), cat: newCat, done: false }]); setNewText(''); };
   const toggle = (id) => onChange(tasks.map(t => t.id === id ? { ...t, done: !t.done } : t));
   const remove = (id) => onChange(tasks.filter(t => t.id !== id));
-
-  const CAT_COLORS = {
-    'Criar': '#1d9e75', 'Otimizar': '#2e86c1', 'Remover': '#e53935',
-    'Em andamento': '#ff6a00', 'Próximo': '#5c6bc0', 'Concluído': '#aaa',
-    'Urgente': '#e53935', 'Esta semana': '#ff6a00', 'Feito': '#aaa',
-  };
-
+  const CAT_COLORS = { 'Criar': '#1d9e75', 'Otimizar': '#2e86c1', 'Remover': '#e53935', 'Em andamento': '#ff6a00', 'Próximo': '#5c6bc0', 'Concluído': '#aaa', 'Urgente': '#e53935', 'Esta semana': '#ff6a00', 'Feito': '#aaa' };
   return (
     <div className="task-list">
       <div className="task-add-row">
-        <select
-          className="task-cat-sel"
-          value={newCat}
-          onChange={e => setNewCat(e.target.value)}
-        >
-          {categories.map(c => <option key={c}>{c}</option>)}
-        </select>
-        <input
-          className="task-input"
-          placeholder={placeholder}
-          value={newText}
-          onChange={e => setNewText(e.target.value)}
-          onKeyDown={e => e.key === 'Enter' && add()}
-        />
+        <select className="task-cat-sel" value={newCat} onChange={e => setNewCat(e.target.value)}>{categories.map(c => <option key={c}>{c}</option>)}</select>
+        <input className="task-input" placeholder={placeholder} value={newText} onChange={e => setNewText(e.target.value)} onKeyDown={e => e.key === 'Enter' && add()} />
         <button className="task-add-btn" onClick={add}>+</button>
       </div>
       {tasks.map(t => (
