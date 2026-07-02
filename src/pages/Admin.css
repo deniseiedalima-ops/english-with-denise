@@ -1,132 +1,234 @@
+/* ── Base ─────────────────────────────────────────────────────────────────── */
 .admin-page { min-height: 100vh; background: #f0ede8; }
-.admin-content { max-width: 980px; margin: 0 auto; padding: 24px 16px 80px; }
+.admin-content { max-width: 960px; margin: 0 auto; padding: 24px 16px 100px; }
 
-/* Header */
+/* ── Header ───────────────────────────────────────────────────────────────── */
 .admin-badge { display: inline-block; background: #111; color: #fff; font-size: 11px; font-weight: 700; padding: 4px 12px; border-radius: 20px; letter-spacing: 1px; margin-bottom: 8px; }
-.admin-title { font-family: 'DM Serif Display', serif; font-size: 28px; color: #111; font-weight: 400; margin-bottom: 4px; }
-.admin-sub { font-size: 13px; color: #888; }
+.admin-title { font-family: 'DM Serif Display', serif; font-size: 28px; color: #111; font-weight: 400; margin: 0 0 4px; }
+.admin-sub { font-size: 13px; color: #888; margin: 0; }
 .admin-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 20px; gap: 12px; flex-wrap: wrap; }
-.admin-refresh-btn { background: #fff; border: 0.5px solid #e0dbd4; border-radius: 10px; padding: 10px 16px; font-size: 13px; font-weight: 500; color: #666; cursor: pointer; font-family: 'DM Sans', sans-serif; -webkit-tap-highlight-color: transparent; }
-.admin-refresh-btn:active { background: #f0ede8; }
+.admin-date-badge { font-size: 12px; color: #888; background: #fff; border: 0.5px solid #e0dbd4; border-radius: 10px; padding: 8px 14px; white-space: nowrap; }
 
-/* Stats */
-.admin-stats-row { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
-.admin-stat-card { background: #fff; border: 0.5px solid #e0dbd4; border-top: 3px solid #e0dbd4; border-radius: 12px; padding: 12px 16px; min-width: 80px; text-align: center; }
-.admin-stat-num { font-family: 'DM Serif Display', serif; font-size: 26px; color: #111; line-height: 1; margin-bottom: 3px; }
-.admin-stat-label { font-size: 11px; color: #888; font-weight: 500; }
+/* ── Tabs ─────────────────────────────────────────────────────────────────── */
+.admin-tabs { display: flex; gap: 6px; margin-bottom: 24px; overflow-x: auto; padding-bottom: 2px; }
+.admin-tab-btn { display: flex; align-items: center; gap: 6px; background: #fff; border: 0.5px solid #e0dbd4; border-radius: 12px; padding: 10px 16px; font-size: 13px; font-weight: 500; color: #666; cursor: pointer; white-space: nowrap; font-family: 'DM Sans', sans-serif; transition: all .15s; }
+.admin-tab-btn:hover { border-color: #ff6a00; color: #ff6a00; }
+.admin-tab-btn.active { background: #ff6a00; border-color: #ff6a00; color: #fff; }
+.tab-icon { font-size: 15px; }
 
-/* Search */
-.admin-search-wrap { margin-bottom: 16px; }
-.admin-search { width: 100%; border: 0.5px solid #e0dbd4; border-radius: 12px; padding: 12px 16px; font-size: 14px; font-family: 'DM Sans', sans-serif; background: #fff; outline: none; box-sizing: border-box; -webkit-appearance: none; }
-.admin-search:focus { border-color: #ff6a00; }
-
-/* Loading / empty */
+/* ── Shared ───────────────────────────────────────────────────────────────── */
+.admin-search { width: 100%; border: 0.5px solid #e0dbd4; border-radius: 14px; padding: 14px 18px; font-size: 14px; font-family: 'DM Sans', sans-serif; background: #fff; outline: none; box-sizing: border-box; box-shadow: 0 1px 4px rgba(0,0,0,.04); }
+.admin-search:focus { border-color: #ff6a00; box-shadow: 0 0 0 3px rgba(255,106,0,.1); }
 .admin-loading { text-align: center; padding: 40px; color: #888; font-size: 14px; }
-.admin-empty { text-align: center; padding: 40px; color: #aaa; font-size: 14px; }
 
-/* Students grid */
-.admin-students-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 10px; }
+/* ── Tab: Presença ────────────────────────────────────────────────────────── */
+.tab-presenca { display: flex; flex-direction: column; gap: 20px; }
 
-/* Student card */
-.admin-student-card { background: #fff; border: 0.5px solid #e0dbd4; border-radius: 14px; padding: 14px 16px; cursor: pointer; transition: box-shadow .15s, border-color .15s; }
-.admin-student-card:active { background: #faf8f6; }
-.admin-student-card.selected { border-color: #ff6a00; box-shadow: 0 0 0 3px rgba(255,106,0,0.1); }
+/* Summary cards */
+.presenca-summary { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.presenca-stat { background: #fff; border-radius: 16px; padding: 14px 12px; text-align: center; border: 1px solid transparent; box-shadow: 0 1px 4px rgba(0,0,0,.05); }
+.presenca-stat span { display: block; font-size: 26px; font-weight: 700; line-height: 1; margin-bottom: 4px; }
+.presenca-stat small { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .4px; }
+.presenca-stat.green  { border-color: #b7e0c8; background: #f0faf5; }
+.presenca-stat.green span  { color: #1d9e75; }
+.presenca-stat.green small { color: #1d9e75; }
+.presenca-stat.red    { border-color: #f5b7b7; background: #fdf3f3; }
+.presenca-stat.red span    { color: #e53935; }
+.presenca-stat.red small   { color: #e53935; }
+.presenca-stat.orange { border-color: #ffd4b0; background: #fff6f0; }
+.presenca-stat.orange span { color: #ff6a00; }
+.presenca-stat.orange small{ color: #ff6a00; }
+.presenca-stat.purple { border-color: #ccc8f0; background: #f4f3fc; }
+.presenca-stat.purple span { color: #5c6bc0; }
+.presenca-stat.purple small{ color: #5c6bc0; }
+.presenca-stat.yellow { border-color: #fce4a0; background: #fefcf0; }
+.presenca-stat.yellow span { color: #f9a825; }
+.presenca-stat.yellow small{ color: #f9a825; }
+.presenca-stat.gray   { border-color: #e0dbd4; background: #f8f7f5; }
+.presenca-stat.gray span   { color: #aaa; }
+.presenca-stat.gray small  { color: #aaa; }
 
-.admin-student-top { display: flex; align-items: center; gap: 12px; }
-.admin-student-avatar { width: 38px; height: 38px; border-radius: 50%; background: #ff6a00; color: #fff; font-size: 16px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-.admin-student-info { flex: 1; min-width: 0; }
-.admin-student-name { font-size: 14px; font-weight: 600; color: #111; margin-bottom: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.admin-student-email { font-size: 11px; color: #aaa; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.admin-student-nivel { font-size: 10px; font-weight: 700; color: #fff; padding: 3px 9px; border-radius: 20px; white-space: nowrap; flex-shrink: 0; }
+/* Filter section */
+.presenca-filters { display: flex; flex-direction: column; gap: 10px; }
+.filter-chips { display: flex; gap: 8px; flex-wrap: wrap; }
+.chip { background: #fff; border: 1px solid #e0dbd4; border-radius: 20px; padding: 7px 16px; font-size: 12px; font-weight: 600; color: #666; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all .15s; }
+.chip:hover { border-color: #ff6a00; color: #ff6a00; }
+.chip.active { background: #111; border-color: #111; color: #fff; }
 
-/* Expanded details */
-.admin-detail-divider { height: 0.5px; background: #f0ede8; margin: 12px 0; }
-.admin-detail-section { margin-bottom: 12px; }
-.admin-detail-title { font-size: 11px; font-weight: 700; color: #888; text-transform: uppercase; letter-spacing: .5px; margin-bottom: 8px; }
-.admin-detail-block { border-radius: 8px; padding: 9px 12px; margin-bottom: 6px; border-left: 3px solid; }
-.admin-detail-block.green { background: #e1f5ee; border-color: #1d9e75; }
-.admin-detail-block.blue  { background: #e6f1fb; border-color: #378add; }
-.admin-detail-block.orange { background: #fff1e8; border-color: #ff6a00; }
-.admin-detail-label { font-size: 10px; font-weight: 700; color: #555; text-transform: uppercase; letter-spacing: .4px; margin-bottom: 3px; }
-.admin-detail-text { font-size: 13px; color: #333; line-height: 1.5; }
-.admin-detail-empty { font-size: 12px; color: #bbb; padding: 4px 0; }
-
-/* Links */
-.admin-detail-links { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
-.admin-link-btn { display: inline-flex; align-items: center; gap: 4px; font-size: 12px; font-weight: 600; padding: 6px 12px; border-radius: 8px; text-decoration: none; cursor: pointer; border: none; font-family: 'DM Sans', sans-serif; -webkit-tap-highlight-color: transparent; }
-.admin-link-btn.meet     { background: #e8f0fe; color: #1a73e8; }
-.admin-link-btn.kami     { background: #fff1e8; color: #ff6a00; }
-.admin-link-btn.classroom { background: #e8f5e9; color: #2e7d32; }
-.admin-link-btn.notion   { background: #f0ede8; color: #555; }
-.admin-link-btn.preview  { background: #111; color: #fff; }
-.admin-link-btn:active   { opacity: 0.8; }
-
-/* Mobile */
-@media (max-width: 600px) {
-  .admin-content { padding: 14px 12px 80px; }
-  .admin-title { font-size: 22px; }
-  .admin-students-grid { grid-template-columns: 1fr; }
-  .admin-stats-row { gap: 6px; }
-  .admin-stat-card { min-width: 60px; padding: 10px 12px; }
-  .admin-stat-num { font-size: 22px; }
+/* Student list */
+.presenca-list { display: flex; flex-direction: column; gap: 10px; }
+.presenca-row {
+  background: #fff;
+  border-radius: 16px;
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  box-shadow: 0 1px 4px rgba(0,0,0,.05);
+  border-left: 4px solid #e0dbd4;
+  transition: box-shadow .15s;
 }
-/* Adicionar ao final do Admin.css existente */
+.presenca-row:hover { box-shadow: 0 3px 12px rgba(0,0,0,.08); }
+.presenca-row.presente    { border-left-color: #1d9e75; }
+.presenca-row.falta       { border-left-color: #e53935; }
+.presenca-row.rep_pendente{ border-left-color: #ff6a00; }
+.presenca-row.rep_feita   { border-left-color: #5c6bc0; }
+.presenca-row.rep_falta   { border-left-color: #f9a825; }
+
+.presenca-info { display: flex; align-items: center; gap: 12px; min-width: 0; flex: 1; }
+.presenca-avatar {
+  width: 42px; height: 42px; border-radius: 50%;
+  color: #fff; font-size: 16px; font-weight: 700;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.presenca-nome { font-size: 14px; font-weight: 600; color: #111; margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 220px; }
+.presenca-nivel { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.nivel-badge { font-size: 10px; font-weight: 700; color: #fff; padding: 3px 10px; border-radius: 20px; }
+.status-label { font-size: 11px; font-weight: 600; }
+
+/* Action buttons */
+.presenca-actions { display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; }
+.presenca-btn {
+  background: #f8f7f5;
+  border: 1px solid #e0dbd4;
+  border-radius: 10px;
+  padding: 8px 12px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all .12s;
+  min-width: 40px;
+  text-align: center;
+}
+.presenca-btn:hover { transform: scale(1.1); border-color: #bbb; }
+.presenca-btn.active {
+  box-shadow: 0 2px 8px rgba(0,0,0,.15);
+  transform: scale(1.08);
+}
+.presenca-btn.view-btn { background: #fff; font-size: 14px; }
+
+/* ── Tab: Financeiro ──────────────────────────────────────────────────────── */
+.tab-financeiro { display: flex; flex-direction: column; gap: 16px; }
+.fin-top-bar { margin-bottom: 4px; }
+.fin-mes-sel { border: 1px solid #e0dbd4; border-radius: 12px; padding: 10px 14px; font-size: 14px; font-weight: 500; background: #fff; font-family: 'DM Sans', sans-serif; cursor: pointer; }
+.fin-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 10px; }
+.fin-stat { background: #fff; border: 0.5px solid #e0dbd4; border-radius: 14px; padding: 14px; text-align: center; box-shadow: 0 1px 4px rgba(0,0,0,.04); }
+.fin-val { display: block; font-size: 20px; font-weight: 700; color: #111; margin-bottom: 3px; }
+.fin-val.green { color: #1d9e75; }
+.fin-val.red { color: #e53935; }
+.fin-stat small { font-size: 11px; color: #888; font-weight: 500; }
+.fin-list { display: flex; flex-direction: column; gap: 8px; }
+.fin-row { background: #fff; border: 0.5px solid #e0dbd4; border-radius: 14px; padding: 12px 16px; display: flex; align-items: center; justify-content: space-between; gap: 12px; box-shadow: 0 1px 3px rgba(0,0,0,.04); }
+.fin-info { flex: 1; min-width: 0; }
+.fin-nome { font-size: 14px; font-weight: 600; margin-bottom: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.fin-detalhe { font-size: 12px; color: #888; }
+.fin-btns { display: flex; gap: 6px; flex-shrink: 0; }
+.fin-btn { border-radius: 10px; padding: 7px 14px; font-size: 12px; font-weight: 600; cursor: pointer; border: 1px solid; font-family: 'DM Sans', sans-serif; transition: all .12s; }
+.fin-btn.pay  { color: #1d9e75; border-color: #b7e0c8; background: #f0faf5; }
+.fin-btn.pay:hover { background: #1d9e75; color: #fff; }
+.fin-btn.wait { color: #f9a825; border-color: #fce4a0; background: #fefcf0; }
+.fin-btn.undo { color: #888; border-color: #e0dbd4; background: #f8f7f5; }
+
+/* ── Tab: Notas ───────────────────────────────────────────────────────────── */
+.tab-notas { display: flex; flex-direction: column; gap: 8px; }
+.notas-list { display: flex; flex-direction: column; gap: 8px; }
+.nota-card { background: #fff; border: 0.5px solid #e0dbd4; border-radius: 16px; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,.04); }
+.nota-card.open { border-color: #B19CD9; box-shadow: 0 0 0 3px rgba(177,156,217,.12); }
+.nota-header { display: flex; align-items: center; gap: 10px; padding: 14px 16px; cursor: pointer; }
+.nota-avatar { width: 36px; height: 36px; border-radius: 50%; color: #fff; font-size: 14px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.nota-name-wrap { flex: 1; min-width: 0; }
+.nota-nome { font-size: 14px; font-weight: 600; color: #111; }
+.nota-preview { font-size: 12px; color: #aaa; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 2px; }
+.nota-chevron { font-size: 10px; color: #aaa; flex-shrink: 0; }
+.nota-body { padding: 0 16px 16px; border-top: 0.5px solid #f0ede8; }
+.nota-textarea { width: 100%; border: 0.5px solid #e0dbd4; border-radius: 10px; padding: 10px 12px; font-size: 13px; font-family: 'DM Sans', sans-serif; resize: vertical; outline: none; margin-top: 12px; box-sizing: border-box; background: #fdfcfb; }
+.nota-textarea:focus { border-color: #B19CD9; }
+.nota-notion-info { margin-top: 10px; display: flex; flex-direction: column; gap: 6px; }
+.notion-field { border-radius: 8px; padding: 8px 12px; font-size: 12px; border-left: 3px solid; }
+.notion-field.green  { background: #e1f5ee; border-color: #1d9e75; color: #1d5e3a; }
+.notion-field.orange { background: #fff1e8; border-color: #ff6a00; color: #7a3200; }
+.notion-field.blue   { background: #e6f1fb; border-color: #2e86c1; color: #14406b; }
+.nota-links { display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap; }
+.nota-link { font-size: 12px; font-weight: 600; padding: 5px 12px; border-radius: 8px; text-decoration: none; }
+.nota-link.meet      { background: #e1f5ee; color: #1d9e75; }
+.nota-link.kami      { background: #e6f1fb; color: #2e86c1; }
+.nota-link.classroom { background: #fff1e8; color: #ff6a00; }
+
+/* ── Tab: Empresa ─────────────────────────────────────────────────────────── */
+.tab-empresa { display: flex; flex-direction: column; gap: 16px; }
+.empresa-section { background: #fff; border: 0.5px solid #e0dbd4; border-radius: 16px; padding: 18px; box-shadow: 0 1px 4px rgba(0,0,0,.04); }
+.empresa-section-title { font-size: 12px; font-weight: 700; color: #888; text-transform: uppercase; letter-spacing: .6px; margin-bottom: 12px; }
+.empresa-textarea { width: 100%; border: 0.5px solid #e0dbd4; border-radius: 10px; padding: 10px 12px; font-size: 13px; font-family: 'DM Sans', sans-serif; resize: vertical; outline: none; box-sizing: border-box; background: #fdfcfb; }
+.empresa-textarea:focus { border-color: #ff6a00; }
+.task-list { display: flex; flex-direction: column; gap: 7px; }
+.task-add-row { display: flex; gap: 6px; margin-bottom: 4px; }
+.task-cat-sel { border: 0.5px solid #e0dbd4; border-radius: 8px; padding: 8px 10px; font-size: 12px; font-family: 'DM Sans', sans-serif; background: #f8f7f5; cursor: pointer; }
+.task-input { flex: 1; border: 0.5px solid #e0dbd4; border-radius: 8px; padding: 8px 12px; font-size: 13px; font-family: 'DM Sans', sans-serif; outline: none; background: #fdfcfb; }
+.task-input:focus { border-color: #ff6a00; }
+.task-add-btn { background: #ff6a00; color: #fff; border: none; border-radius: 8px; padding: 8px 16px; font-size: 18px; font-weight: 700; cursor: pointer; }
+.task-item { display: flex; align-items: center; gap: 8px; background: #f8f7f5; border-radius: 10px; padding: 9px 12px; }
+.task-item.done .task-text { text-decoration: line-through; color: #aaa; }
+.task-check { background: none; border: none; font-size: 16px; cursor: pointer; padding: 0; flex-shrink: 0; }
+.task-cat-badge { font-size: 10px; font-weight: 700; color: #fff; padding: 2px 9px; border-radius: 20px; white-space: nowrap; flex-shrink: 0; }
+.task-text { font-size: 13px; color: #333; flex: 1; min-width: 0; }
+.task-del { background: none; border: none; font-size: 12px; color: #ccc; cursor: pointer; padding: 0 2px; flex-shrink: 0; }
+.task-del:hover { color: #e53935; }
+.task-empty { font-size: 13px; color: #ccc; text-align: center; padding: 12px 0; }
 
 /* ── Tab: Agenda ──────────────────────────────────────────────────────────── */
-.tab-agenda { display: flex; flex-direction: column; gap: 12px; }
-
-.cal-controls {
-  display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
-  background: #fff; border: 0.5px solid #e0dbd4; border-radius: 14px; padding: 12px 16px;
-}
+.tab-agenda { display: flex; flex-direction: column; gap: 14px; }
+.cal-controls { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; background: #fff; border: 0.5px solid #e0dbd4; border-radius: 16px; padding: 14px 18px; box-shadow: 0 1px 4px rgba(0,0,0,.04); }
 .cal-nav { display: flex; align-items: center; gap: 4px; }
-.cal-nav-btn { background: #f0ede8; border: none; border-radius: 8px; width: 32px; height: 32px; font-size: 18px; cursor: pointer; display: flex; align-items: center; justify-content: center; color: #555; }
+.cal-nav-btn { background: #f8f7f5; border: none; border-radius: 8px; width: 34px; height: 34px; font-size: 18px; cursor: pointer; display: flex; align-items: center; justify-content: center; color: #555; }
 .cal-nav-btn:hover { background: #e0dbd4; }
-.cal-today-btn { background: #fff; border: 0.5px solid #e0dbd4; border-radius: 8px; padding: 6px 12px; font-size: 13px; font-weight: 500; cursor: pointer; font-family: 'DM Sans', sans-serif; }
+.cal-today-btn { background: #fff; border: 0.5px solid #e0dbd4; border-radius: 8px; padding: 7px 14px; font-size: 13px; font-weight: 500; cursor: pointer; font-family: 'DM Sans', sans-serif; }
 .cal-today-btn:hover { border-color: #ff6a00; color: #ff6a00; }
 .cal-date-label { flex: 1; font-size: 14px; font-weight: 600; color: #111; text-align: center; min-width: 160px; }
 .cal-view-toggle { display: flex; gap: 4px; }
-.cal-view-btn { background: #f0ede8; border: none; border-radius: 8px; padding: 6px 12px; font-size: 12px; font-weight: 600; cursor: pointer; font-family: 'DM Sans', sans-serif; color: #666; }
+.cal-view-btn { background: #f8f7f5; border: none; border-radius: 8px; padding: 7px 14px; font-size: 12px; font-weight: 600; cursor: pointer; font-family: 'DM Sans', sans-serif; color: #666; }
 .cal-view-btn.active { background: #ff6a00; color: #fff; }
 .cal-refresh-btn { background: none; border: none; font-size: 18px; cursor: pointer; color: #aaa; padding: 4px; }
 .cal-refresh-btn:hover { color: #ff6a00; }
-
 .cal-summary { display: flex; gap: 8px; flex-wrap: wrap; }
-.cal-chip { font-size: 12px; font-weight: 600; padding: 5px 12px; border-radius: 20px; }
-.cal-chip.total { background: #f0ede8; color: #555; }
-.cal-chip.aulas { background: #fff1e8; color: #ff6a00; }
-.cal-chip.reps { background: #fdeaea; color: #e53935; }
-
+.cal-chip { font-size: 12px; font-weight: 600; padding: 6px 14px; border-radius: 20px; }
+.cal-chip.total  { background: #f0ede8; color: #555; }
+.cal-chip.aulas  { background: #fff1e8; color: #ff6a00; }
+.cal-chip.reps   { background: #fdeaea; color: #e53935; }
 .cal-loading { text-align: center; padding: 32px; color: #888; font-size: 14px; }
-.cal-empty { text-align: center; padding: 32px; color: #bbb; font-size: 14px; }
+.cal-empty   { text-align: center; padding: 32px; color: #bbb; font-size: 14px; }
 .cal-inline-error { background: #fdeaea; border-radius: 10px; padding: 12px 16px; font-size: 13px; color: #c62828; }
-
-/* Day view */
-.cal-day-list { display: flex; flex-direction: column; gap: 6px; }
-.cal-event {
-  background: #fff; border: 0.5px solid #e0dbd4; border-left: 3px solid #e0dbd4;
-  border-radius: 10px; padding: 10px 14px; display: flex; flex-wrap: wrap; align-items: flex-start; gap: 6px;
-}
-.cal-event.compact { padding: 7px 10px; }
-.cal-event-time { font-size: 12px; color: #888; font-weight: 500; min-width: 110px; }
+.cal-day-list { display: flex; flex-direction: column; gap: 8px; }
+.cal-event { background: #fff; border: 0.5px solid #e0dbd4; border-left: 4px solid #e0dbd4; border-radius: 12px; padding: 12px 16px; display: flex; flex-wrap: wrap; align-items: flex-start; gap: 8px; box-shadow: 0 1px 3px rgba(0,0,0,.04); }
+.cal-event.compact { padding: 8px 12px; }
+.cal-event-time  { font-size: 12px; color: #888; font-weight: 500; min-width: 110px; }
 .cal-event-title { font-size: 14px; font-weight: 600; flex: 1; min-width: 0; }
-.cal-event-loc { font-size: 12px; color: #aaa; width: 100%; margin-top: 2px; }
-.cal-event-tag { font-size: 10px; font-weight: 800; padding: 2px 8px; border-radius: 20px; letter-spacing: .5px; }
-.cal-event-tag.rep { background: #fdeaea; color: #e53935; }
+.cal-event-loc   { font-size: 12px; color: #aaa; width: 100%; margin-top: 2px; }
+.cal-event-tag   { font-size: 10px; font-weight: 800; padding: 2px 9px; border-radius: 20px; letter-spacing: .4px; }
+.cal-event-tag.rep  { background: #fdeaea; color: #e53935; }
 .cal-event-tag.pres { background: #f3e8fd; color: #9c27b0; }
-
-/* Week view */
 .cal-week { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px; }
-.cal-week-day { background: #fff; border: 0.5px solid #e0dbd4; border-radius: 12px; overflow: hidden; }
-.cal-week-day-header { background: #f0ede8; padding: 8px 12px; font-size: 12px; font-weight: 700; color: #555; display: flex; align-items: center; justify-content: space-between; }
-.cal-week-count { background: #ff6a00; color: #fff; font-size: 10px; font-weight: 700; padding: 1px 7px; border-radius: 20px; }
-.cal-week-day .cal-event { border-radius: 0; border-left-width: 3px; border-top: none; border-right: none; border-bottom: 0.5px solid #f0ede8; }
+.cal-week-day { background: #fff; border: 0.5px solid #e0dbd4; border-radius: 14px; overflow: hidden; }
+.cal-week-day-header { background: #f8f7f5; padding: 9px 14px; font-size: 12px; font-weight: 700; color: #555; display: flex; align-items: center; justify-content: space-between; }
+.cal-week-count { background: #ff6a00; color: #fff; font-size: 10px; font-weight: 700; padding: 1px 8px; border-radius: 20px; }
+.cal-week-day .cal-event { border-radius: 0; border-left-width: 4px; border-top: none; border-right: none; border-bottom: 0.5px solid #f0ede8; box-shadow: none; }
 .cal-week-day .cal-event:last-child { border-bottom: none; }
-
-/* Error box */
-.cal-error-box { background: #fff; border: 0.5px solid #e0dbd4; border-radius: 14px; padding: 32px; text-align: center; }
-.cal-error-icon { font-size: 40px; margin-bottom: 12px; }
+.cal-error-box { background: #fff; border: 0.5px solid #e0dbd4; border-radius: 16px; padding: 40px; text-align: center; }
+.cal-error-icon  { font-size: 40px; margin-bottom: 12px; }
 .cal-error-title { font-size: 17px; font-weight: 700; color: #111; margin-bottom: 8px; }
-.cal-error-text { font-size: 14px; color: #888; margin-bottom: 20px; line-height: 1.5; }
-.cal-reauth-btn { background: #ff6a00; color: #fff; border: none; border-radius: 12px; padding: 12px 24px; font-size: 14px; font-weight: 600; cursor: pointer; font-family: 'DM Sans', sans-serif; }
+.cal-error-text  { font-size: 14px; color: #888; margin-bottom: 20px; line-height: 1.5; }
+.cal-reauth-btn  { background: #ff6a00; color: #fff; border: none; border-radius: 12px; padding: 12px 24px; font-size: 14px; font-weight: 600; cursor: pointer; font-family: 'DM Sans', sans-serif; }
 .cal-reauth-btn:hover { background: #e05a00; }
+
+/* ── Mobile ───────────────────────────────────────────────────────────────── */
+@media (max-width: 600px) {
+  .admin-content { padding: 16px 12px 100px; }
+  .presenca-summary { grid-template-columns: repeat(3, 1fr); }
+  .presenca-nome { max-width: 150px; }
+  .presenca-actions { gap: 5px; }
+  .presenca-btn { padding: 8px 10px; }
+  .fin-stats { grid-template-columns: repeat(2, 1fr); }
+  .tab-label { display: none; }
+  .admin-tab-btn { padding: 10px 12px; }
+  .cal-date-label { font-size: 12px; min-width: 100px; }
+}
