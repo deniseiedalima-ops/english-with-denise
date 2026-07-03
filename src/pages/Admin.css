@@ -1,27 +1,27 @@
-/* â”€â”€ Base â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── Base ─────────────────────────────────────────────────────────────────── */
 .admin-page { min-height: 100vh; background: #f0ede8; }
 .admin-content { max-width: 960px; margin: 0 auto; padding: 24px 16px 100px; }
 
-/* â”€â”€ Header â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── Header ───────────────────────────────────────────────────────────────── */
 .admin-badge { display: inline-block; background: #111; color: #fff; font-size: 11px; font-weight: 700; padding: 4px 12px; border-radius: 20px; letter-spacing: 1px; margin-bottom: 8px; }
 .admin-title { font-family: 'DM Serif Display', serif; font-size: 28px; color: #111; font-weight: 400; margin: 0 0 4px; }
 .admin-sub { font-size: 13px; color: #888; margin: 0; }
 .admin-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 20px; gap: 12px; flex-wrap: wrap; }
 .admin-date-badge { font-size: 12px; color: #888; background: #fff; border: 0.5px solid #e0dbd4; border-radius: 10px; padding: 8px 14px; white-space: nowrap; }
 
-/* â”€â”€ Tabs â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── Tabs ─────────────────────────────────────────────────────────────────── */
 .admin-tabs { display: flex; gap: 6px; margin-bottom: 24px; overflow-x: auto; padding-bottom: 2px; }
 .admin-tab-btn { display: flex; align-items: center; gap: 6px; background: #fff; border: 0.5px solid #e0dbd4; border-radius: 12px; padding: 10px 16px; font-size: 13px; font-weight: 500; color: #666; cursor: pointer; white-space: nowrap; font-family: 'DM Sans', sans-serif; transition: all .15s; }
 .admin-tab-btn:hover { border-color: #ff6a00; color: #ff6a00; }
 .admin-tab-btn.active { background: #ff6a00; border-color: #ff6a00; color: #fff; }
 .tab-icon { font-size: 15px; }
 
-/* â”€â”€ Shared â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── Shared ───────────────────────────────────────────────────────────────── */
 .admin-search { width: 100%; border: 0.5px solid #e0dbd4; border-radius: 14px; padding: 14px 18px; font-size: 14px; font-family: 'DM Sans', sans-serif; background: #fff; outline: none; box-sizing: border-box; box-shadow: 0 1px 4px rgba(0,0,0,.04); }
 .admin-search:focus { border-color: #ff6a00; box-shadow: 0 0 0 3px rgba(255,106,0,.1); }
 .admin-loading { text-align: center; padding: 40px; color: #888; font-size: 14px; }
 
-/* â”€â”€ Tab: PresenÃ§a â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── Tab: Presença ────────────────────────────────────────────────────────── */
 .tab-presenca { display: flex; flex-direction: column; gap: 20px; }
 
 /* Summary cards */
@@ -108,7 +108,7 @@
 }
 .presenca-btn.view-btn { background: #fff; font-size: 14px; }
 
-/* â”€â”€ Tab: Financeiro â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── Tab: Financeiro ──────────────────────────────────────────────────────── */
 .tab-financeiro { display: flex; flex-direction: column; gap: 16px; }
 .fin-top-bar { margin-bottom: 4px; }
 .fin-mes-sel { border: 1px solid #e0dbd4; border-radius: 12px; padding: 10px 14px; font-size: 14px; font-weight: 500; background: #fff; font-family: 'DM Sans', sans-serif; cursor: pointer; }
@@ -130,7 +130,7 @@
 .fin-btn.wait { color: #f9a825; border-color: #fce4a0; background: #fefcf0; }
 .fin-btn.undo { color: #888; border-color: #e0dbd4; background: #f8f7f5; }
 
-/* â”€â”€ Tab: Notas â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── Tab: Notas ───────────────────────────────────────────────────────────── */
 .tab-notas { display: flex; flex-direction: column; gap: 8px; }
 .notas-list { display: flex; flex-direction: column; gap: 8px; }
 .nota-card { background: #fff; border: 0.5px solid #e0dbd4; border-radius: 16px; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,.04); }
@@ -155,7 +155,7 @@
 .nota-link.kami      { background: #e6f1fb; color: #2e86c1; }
 .nota-link.classroom { background: #fff1e8; color: #ff6a00; }
 
-/* â”€â”€ Tab: Empresa â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── Tab: Empresa ─────────────────────────────────────────────────────────── */
 .tab-empresa { display: flex; flex-direction: column; gap: 16px; }
 .empresa-section { background: #fff; border: 0.5px solid #e0dbd4; border-radius: 16px; padding: 18px; box-shadow: 0 1px 4px rgba(0,0,0,.04); }
 .empresa-section-title { font-size: 12px; font-weight: 700; color: #888; text-transform: uppercase; letter-spacing: .6px; margin-bottom: 12px; }
@@ -176,7 +176,7 @@
 .task-del:hover { color: #e53935; }
 .task-empty { font-size: 13px; color: #ccc; text-align: center; padding: 12px 0; }
 
-/* â”€â”€ Tab: Agenda â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── Tab: Agenda ──────────────────────────────────────────────────────────── */
 .tab-agenda { display: flex; flex-direction: column; gap: 14px; }
 .cal-controls { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; background: #fff; border: 0.5px solid #e0dbd4; border-radius: 16px; padding: 14px 18px; box-shadow: 0 1px 4px rgba(0,0,0,.04); }
 .cal-nav { display: flex; align-items: center; gap: 4px; }
@@ -220,7 +220,7 @@
 .cal-reauth-btn  { background: #ff6a00; color: #fff; border: none; border-radius: 12px; padding: 12px 24px; font-size: 14px; font-weight: 600; cursor: pointer; font-family: 'DM Sans', sans-serif; }
 .cal-reauth-btn:hover { background: #e05a00; }
 
-/* â”€â”€ Mobile â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── Mobile ───────────────────────────────────────────────────────────────── */
 @media (max-width: 600px) {
   .admin-content { padding: 16px 12px 100px; }
   .presenca-summary { grid-template-columns: repeat(3, 1fr); }
@@ -233,13 +233,13 @@
   .cal-date-label { font-size: 12px; min-width: 100px; }
 }
 
-/* â”€â”€ PresenÃ§a: toggle hoje/histÃ³rico â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── Presença: toggle hoje/histórico ──────────────────────────────────────── */
 .presenca-view-toggle { display: flex; gap: 8px; margin-bottom: 4px; }
 .pv-btn { flex: 1; background: #fff; border: 1px solid #e0dbd4; border-radius: 14px; padding: 12px 16px; font-size: 14px; font-weight: 600; color: #666; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all .15s; }
 .pv-btn:hover { border-color: #ff6a00; color: #ff6a00; }
 .pv-btn.active { background: #ff6a00; border-color: #ff6a00; color: #fff; }
 
-/* â”€â”€ PresenÃ§a: mini histÃ³rico inline â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── Presença: mini histórico inline ─────────────────────────────────────── */
 .expand-chevron { font-size: 10px; color: #ccc; flex-shrink: 0; margin-left: 4px; }
 .falta-count { font-size: 11px; font-weight: 700; background: #fdeaea; color: #e53935; padding: 2px 8px; border-radius: 20px; }
 .presenca-hist-inline { margin-top: 10px; display: flex; flex-direction: column; gap: 5px; border-top: 0.5px solid #f0ede8; padding-top: 10px; }
@@ -248,7 +248,7 @@
 .hist-badge { font-size: 11px; font-weight: 600; padding: 2px 10px; border-radius: 20px; }
 .hist-empty { font-size: 12px; color: #ccc; font-style: italic; }
 
-/* â”€â”€ HistÃ³rico: painel â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── Histórico: painel ────────────────────────────────────────────────────── */
 .hist-panel { display: flex; flex-direction: column; gap: 16px; }
 .hist-filters { display: flex; align-items: center; gap: 12px; background: #fff; border: 0.5px solid #e0dbd4; border-radius: 16px; padding: 16px 18px; flex-wrap: wrap; box-shadow: 0 1px 4px rgba(0,0,0,.04); }
 .hist-filter-group { display: flex; flex-direction: column; gap: 6px; flex: 1; min-width: 180px; }
@@ -274,7 +274,7 @@
 .hist-item-badge { font-size: 12px; font-weight: 600; padding: 4px 14px; border-radius: 20px; }
 .hist-empty-msg { font-size: 14px; color: #ccc; text-align: center; padding: 24px; }
 
-/* â”€â”€ Legenda de emojis â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── Legenda de emojis ─────────────────────────────────────────────────────── */
 .presenca-legenda {
   display: flex; gap: 10px; flex-wrap: wrap; align-items: center;
   background: #f8f7f5; border: 0.5px solid #e0dbd4; border-radius: 10px;
@@ -286,7 +286,7 @@
 }
 .legenda-item span:first-child { font-size: 14px; }
 
-/* â”€â”€ Tab: DiÃ¡rio â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── Tab: Diário ───────────────────────────────────────────────────────────── */
 .tab-diario { display: flex; flex-direction: column; gap: 16px; }
 
 .diario-nivel-group { display: flex; flex-direction: column; gap: 8px; }
@@ -342,7 +342,7 @@
   .legenda-item { font-size: 10px; }
 }
 
-/* â”€â”€ Financeiro: comprovante e perfil â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── Financeiro: comprovante e perfil ─────────────────────────────────────── */
 .fin-comprovante { display:flex; align-items:center; gap:8px; padding:6px 0 2px; }
 .fin-link-input { flex:1; border:0.5px solid #e0dbd4; border-radius:8px; padding:7px 10px; font-size:12px; font-family:'DM Sans',sans-serif; outline:none; background:#fdfcfb; }
 .fin-link-input:focus { border-color:#1d9e75; }
@@ -379,3 +379,37 @@
   .fin-hist-header span:nth-child(3),.fin-hist-header span:nth-child(4),
   .fin-hist-row .fin-hist-data,.fin-hist-row .fin-hist-link { display:none; }
 }
+
+/* ── Dashboard ────────────────────────────────────────────────────────────── */
+.tab-dashboard { display:flex; flex-direction:column; gap:16px; }
+.dash-greeting { background:#fff; border:0.5px solid #e0dbd4; border-radius:16px; padding:16px 20px; box-shadow:0 1px 4px rgba(0,0,0,.04); }
+.dash-greeting-text { display:flex; flex-direction:column; gap:4px; }
+.dash-ola { font-size:18px; font-weight:600; color:#111; }
+.dash-data { font-size:13px; color:#888; }
+.dash-section-title { font-size:12px; font-weight:700; color:#888; text-transform:uppercase; letter-spacing:.5px; margin-top:4px; }
+.dash-cards { display:grid; grid-template-columns:repeat(auto-fit,minmax(130px,1fr)); gap:10px; }
+.dash-card { background:#fff; border:0.5px solid #e0dbd4; border-radius:14px; padding:14px; display:flex; flex-direction:column; align-items:center; gap:6px; box-shadow:0 1px 4px rgba(0,0,0,.04); text-align:center; }
+.dash-card-icon { width:36px; height:36px; border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:16px; }
+.dash-card-val { font-size:20px; font-weight:700; color:#111; line-height:1; }
+.dash-card-val.green { color:#1d9e75; }
+.dash-card-val.red   { color:#e53935; }
+.dash-card-val.blue  { color:#185FA5; }
+.dash-card-label { font-size:11px; color:#888; font-weight:500; }
+.dash-urgencias { display:flex; flex-direction:column; gap:8px; }
+.dash-urgencia { display:flex; align-items:flex-start; gap:12px; background:#fff; border:0.5px solid #e0dbd4; border-radius:14px; padding:12px 16px; box-shadow:0 1px 4px rgba(0,0,0,.04); border-left:4px solid #e0dbd4; }
+.dash-urgencia.red    { border-left-color:#e53935; background:#fffcfc; }
+.dash-urgencia.orange { border-left-color:#ff6a00; background:#fffaf7; }
+.dash-urgencia.yellow { border-left-color:#f9a825; background:#fffdf5; }
+.dash-urgencia.green  { border-left-color:#1d9e75; background:#f9fffe; }
+.dash-urg-icon { font-size:18px; flex-shrink:0; margin-top:1px; }
+.dash-urg-title { font-size:13px; font-weight:600; color:#111; margin-bottom:2px; }
+.dash-urg-sub   { font-size:12px; color:#888; }
+
+/* ── Despesas ─────────────────────────────────────────────────────────────── */
+.tab-despesas { display:flex; flex-direction:column; gap:16px; }
+.desp-mes-sel { display:flex; gap:8px; }
+.fin-val.orange { color:#ff6a00; }
+.desp-row { display:flex; align-items:center; gap:8px; background:#f8f7f5; border-radius:10px; padding:9px 12px; margin-bottom:6px; }
+.desp-nome { font-size:13px; color:#333; flex:1; min-width:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.desp-valor { font-size:13px; font-weight:600; color:#e53935; flex-shrink:0; }
+.desp-total { font-size:12px; color:#888; text-align:right; margin-top:4px; padding-top:8px; border-top:0.5px solid #f0ede8; }

@@ -143,17 +143,19 @@ const STATUS_META={
 };
 
 const TABS=[
-  {id:'agenda',    label:'📅 Agenda',    icon:'📅'},
-  {id:'presenca',  label:'📋 Presença',  icon:'📋'},
-  {id:'financeiro',label:'💰 Financeiro',icon:'💰'},
-  {id:'diario',    label:'📖 Diário',    icon:'📖'},
-  {id:'notas',     label:'📝 Notas',     icon:'📝'},
-  {id:'empresa',   label:'🏫 Empresa',   icon:'🏫'},
+  {id:'dashboard',  label:'🏠 Dashboard',  icon:'🏠'},
+  {id:'agenda',     label:'📅 Agenda',     icon:'📅'},
+  {id:'presenca',   label:'📋 Presença',   icon:'📋'},
+  {id:'financeiro', label:'💰 Financeiro', icon:'💰'},
+  {id:'despesas',   label:'💸 Despesas',   icon:'💸'},
+  {id:'diario',     label:'📖 Diário',     icon:'📖'},
+  {id:'notas',      label:'📝 Notas',      icon:'📝'},
+  {id:'empresa',    label:'🏫 Empresa',    icon:'🏫'},
 ];
 
 export default function Admin({user,onLogout}){
   const navigate=useNavigate();
-  const [activeTab,setActiveTab]=useState('agenda');
+  const [activeTab,setActiveTab]=useState('dashboard');
   const [students,setStudents]=useState([]);
   const [loading,setLoading]=useState(true);
   const [local,setLocal]=useState(loadLocal);
@@ -191,9 +193,11 @@ export default function Admin({user,onLogout}){
             </button>
           ))}
         </div>
+        {activeTab==='dashboard'  && <TabDashboard students={students} loading={loading} local={local}/>}
         {activeTab==='agenda'     && <TabAgenda/>}
         {activeTab==='presenca'   && <TabPresenca students={students} loading={loading} local={local} persist={persist} navigate={navigate}/>}
         {activeTab==='financeiro' && <TabFinanceiro local={local} persist={persist}/>}
+        {activeTab==='despesas'   && <TabDespesas local={local} persist={persist}/>}
         {activeTab==='diario'     && <TabDiario students={students} loading={loading} local={local} persist={persist}/>}
         {activeTab==='notas'      && <TabNotas students={students} loading={loading} local={local} persist={persist}/>}
         {activeTab==='empresa'    && <TabEmpresa local={local} persist={persist}/>}
@@ -1008,6 +1012,293 @@ function TaskList({tasks,onChange,placeholder,categories}){
         </div>
       ))}
       {tasks.length===0&&<div className="task-empty">Nenhum item ainda.</div>}
+    </div>
+  );
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// TAB: DASHBOARD
+// ══════════════════════════════════════════════════════════════════════════════
+function TabDashboard({students,loading,local}){
+  const today=todayKey();
+  const now=new Date();
+  const mesAtual=MESES[now.getMonth()];
+  const pagStore=local.pagamentos||{};
+  const presStore=local.presenca||{};
+  const despStore=local.despesas||{};
+
+  // ── Financeiro ──
+  const rows=ALUNOS_FINANCEIRO.map(([nome,valor,venc])=>({nome,valor,st:getFinStatus(nome,venc,now.getMonth(),pagStore)}));
+  const recebido=rows.filter(r=>r.st==='pago').reduce((s,r)=>s+r.valor,0);
+  const esperado=rows.reduce((s,r)=>s+r.valor,0);
+  const inadimplentes=rows.filter(r=>r.st==='atrasado');
+
+  // ── Despesas do mês ──
+  const despMes=(despStore.fixas||[]).reduce((s,d)=>s+Number(d.valor),0)+
+    (despStore.avulsas||[]).filter(d=>d.mes===mesAtual&&d.ano===String(now.getFullYear())).reduce((s,d)=>s+Number(d.valor),0);
+  const lucro=recebido-despMes;
+
+  // ── Alunos por nível ──
+  const porNivel=students.reduce((acc,s)=>{acc[s.nivel]=(acc[s.nivel]||0)+1;return acc;},{});
+
+  // ── Presença hoje ──
+  const semRegistro=students.filter(s=>!presStore[today]?.[s.id]).length;
+  const faltasHoje=students.filter(s=>presStore[today]?.[s.id]==='falta').length;
+
+  // ── Reposições pendentes ──
+  const repPendentes=students.filter(s=>{
+    const datas=Object.keys(presStore);
+    return datas.some(d=>presStore[d]?.[s.id]==='rep_pendente');
+  }).length;
+
+  // ── Dias desta semana com aula ──
+  const getDiasUteisRestantes=()=>{
+    const dias=[];
+    const d=new Date(now);
+    while(d.getDay()!==0){
+      if(d.getDay()!==6)dias.push(new Date(d).toISOString().slice(0,10));
+      d.setDate(d.getDate()+1);
+    }
+    return dias;
+  };
+
+  if(loading)return<div className="admin-loading">Carregando dashboard... ✨</div>;
+
+  return(
+    <div className="tab-dashboard">
+      {/* Saudação */}
+      <div className="dash-greeting">
+        <div className="dash-greeting-text">
+          <span className="dash-ola">
+            {now.getHours()<12?'Bom dia':now.getHours()<18?'Boa tarde':'Boa noite'}, Denise! 👋
+          </span>
+          <span className="dash-data">{now.toLocaleDateString('pt-BR',{weekday:'long',day:'numeric',month:'long',year:'numeric'})}</span>
+        </div>
+      </div>
+
+      {/* ── Financeiro do mês ── */}
+      <div className="dash-section-title">💰 Financeiro — {mesAtual}/{now.getFullYear()}</div>
+      <div className="dash-cards">
+        <div className="dash-card">
+          <div className="dash-card-icon" style={{background:'#f0faf5'}}>💵</div>
+          <div className="dash-card-val green">R$ {fmtMoney(recebido)}</div>
+          <div className="dash-card-label">Recebido</div>
+        </div>
+        <div className="dash-card">
+          <div className="dash-card-icon" style={{background:'#f8f7f5'}}>📋</div>
+          <div className="dash-card-val">R$ {fmtMoney(esperado)}</div>
+          <div className="dash-card-label">Esperado</div>
+        </div>
+        <div className="dash-card">
+          <div className="dash-card-icon" style={{background:'#fdf3f3'}}>💸</div>
+          <div className="dash-card-val red">R$ {fmtMoney(despMes)}</div>
+          <div className="dash-card-label">Despesas</div>
+        </div>
+        <div className="dash-card" style={{borderColor:lucro>=0?'#b7e0c8':'#f5b7b7'}}>
+          <div className="dash-card-icon" style={{background:lucro>=0?'#f0faf5':'#fdf3f3'}}>📈</div>
+          <div className="dash-card-val" style={{color:lucro>=0?'#1d9e75':'#e53935'}}>R$ {fmtMoney(lucro)}</div>
+          <div className="dash-card-label">Lucro líquido</div>
+        </div>
+      </div>
+
+      {/* ── Alunos ── */}
+      <div className="dash-section-title">👥 Alunos ativos</div>
+      <div className="dash-cards">
+        <div className="dash-card">
+          <div className="dash-card-icon" style={{background:'#f8f7f5'}}>🎓</div>
+          <div className="dash-card-val blue">{students.length}</div>
+          <div className="dash-card-label">Total de alunos</div>
+        </div>
+        {Object.entries(porNivel).sort().map(([nivel,qtd])=>(
+          <div key={nivel} className="dash-card">
+            <div className="dash-card-icon" style={{background:LEVEL_COLORS[nivel]+'22'}}>
+              <span style={{fontSize:12,fontWeight:700,color:LEVEL_COLORS[nivel]||'#aaa'}}>{nivel}</span>
+            </div>
+            <div className="dash-card-val" style={{color:LEVEL_COLORS[nivel]||'#aaa'}}>{qtd}</div>
+            <div className="dash-card-label">aluno{qtd!==1?'s':''}</div>
+          </div>
+        ))}
+      </div>
+
+      {/* ── Urgências ── */}
+      <div className="dash-section-title">⚠️ Urgências da semana</div>
+      <div className="dash-urgencias">
+        {inadimplentes.length>0&&(
+          <div className="dash-urgencia red">
+            <span className="dash-urg-icon">🔴</span>
+            <div>
+              <div className="dash-urg-title">{inadimplentes.length} aluno{inadimplentes.length!==1?'s':''} inadimplente{inadimplentes.length!==1?'s':''}</div>
+              <div className="dash-urg-sub">{inadimplentes.slice(0,3).map(r=>r.nome.split(' ')[0]).join(', ')}{inadimplentes.length>3?` +${inadimplentes.length-3}`:''}</div>
+            </div>
+          </div>
+        )}
+        {repPendentes>0&&(
+          <div className="dash-urgencia orange">
+            <span className="dash-urg-icon">🔄</span>
+            <div>
+              <div className="dash-urg-title">{repPendentes} reposição{repPendentes!==1?'ões':''} pendente{repPendentes!==1?'s':''}</div>
+              <div className="dash-urg-sub">Acesse Presença → Histórico para ver detalhes</div>
+            </div>
+          </div>
+        )}
+        {semRegistro>0&&(
+          <div className="dash-urgencia yellow">
+            <span className="dash-urg-icon">⬜</span>
+            <div>
+              <div className="dash-urg-title">{semRegistro} aluno{semRegistro!==1?'s':''} sem registro hoje</div>
+              <div className="dash-urg-sub">Registre a presença na aba Presença</div>
+            </div>
+          </div>
+        )}
+        {faltasHoje>0&&(
+          <div className="dash-urgencia red">
+            <span className="dash-urg-icon">❌</span>
+            <div>
+              <div className="dash-urg-title">{faltasHoje} falta{faltasHoje!==1?'s':''} hoje</div>
+              <div className="dash-urg-sub">Verifique se precisam de reposição</div>
+            </div>
+          </div>
+        )}
+        {inadimplentes.length===0&&repPendentes===0&&semRegistro===0&&faltasHoje===0&&(
+          <div className="dash-urgencia green">
+            <span className="dash-urg-icon">✅</span>
+            <div>
+              <div className="dash-urg-title">Tudo em ordem!</div>
+              <div className="dash-urg-sub">Sem urgências para hoje</div>
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* ── Lembretes da empresa ── */}
+      {(local.empresa?.lembretes||[]).filter(l=>!l.done&&l.cat==='Urgente').length>0&&(
+        <>
+          <div className="dash-section-title">🔔 Lembretes urgentes</div>
+          <div className="dash-urgencias">
+            {(local.empresa?.lembretes||[]).filter(l=>!l.done&&l.cat==='Urgente').map(l=>(
+              <div key={l.id} className="dash-urgencia orange">
+                <span className="dash-urg-icon">🔔</span>
+                <div><div className="dash-urg-title">{l.text}</div></div>
+              </div>
+            ))}
+          </div>
+        </>
+      )}
+    </div>
+  );
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// TAB: DESPESAS
+// ══════════════════════════════════════════════════════════════════════════════
+function TabDespesas({local,persist}){
+  const now=new Date();
+  const [mesSel,setMesSel]=useState(MESES[now.getMonth()]);
+  const [anoSel,setAnoSel]=useState(String(now.getFullYear()));
+  const [novaFixa,setNovaFixa]=useState({nome:'',valor:'',categoria:'Assinatura'});
+  const [novaAvulsa,setNovaAvulsa]=useState({nome:'',valor:'',categoria:'Material'});
+  const despStore=local.despesas||{fixas:[],avulsas:[]};
+
+  const persist2=(updater)=>persist(prev=>({...prev,despesas:updater(prev.despesas||{fixas:[],avulsas:[]})}));
+
+  const addFixa=()=>{
+    if(!novaFixa.nome||!novaFixa.valor)return;
+    persist2(d=>({...d,fixas:[...(d.fixas||[]),{id:Date.now(),...novaFixa,valor:Number(novaFixa.valor)}]}));
+    setNovaFixa({nome:'',valor:'',categoria:'Assinatura'});
+  };
+
+  const removeFixa=(id)=>persist2(d=>({...d,fixas:(d.fixas||[]).filter(f=>f.id!==id)}));
+
+  const addAvulsa=()=>{
+    if(!novaAvulsa.nome||!novaAvulsa.valor)return;
+    persist2(d=>({...d,avulsas:[...(d.avulsas||[]),{id:Date.now(),...novaAvulsa,valor:Number(novaAvulsa.valor),mes:mesSel,ano:anoSel}]}));
+    setNovaAvulsa({nome:'',valor:'',categoria:'Material'});
+  };
+
+  const removeAvulsa=(id)=>persist2(d=>({...d,avulsas:(d.avulsas||[]).filter(a=>a.id!==id)}));
+
+  const fixas=despStore.fixas||[];
+  const avulsasMes=(despStore.avulsas||[]).filter(a=>a.mes===mesSel&&a.ano===anoSel);
+  const totalFixas=fixas.reduce((s,f)=>s+Number(f.valor),0);
+  const totalAvulsas=avulsasMes.reduce((s,a)=>s+Number(a.valor),0);
+  const totalMes=totalFixas+totalAvulsas;
+
+  const CATS_FIXA=['Assinatura','Ferramenta','Outro'];
+  const CATS_AVULSA=['Material','Livro','Curso','Marketing','Equipamento','Outro'];
+
+  const CAT_COLOR={
+    'Assinatura':'#185FA5','Ferramenta':'#534AB7','Material':'#ff6a00',
+    'Livro':'#1d9e75','Curso':'#D4537E','Marketing':'#f9a825',
+    'Equipamento':'#888','Outro':'#aaa',
+  };
+
+  return(
+    <div className="tab-despesas">
+      {/* Resumo do mês */}
+      <div className="desp-mes-sel">
+        <select className="fin-mes-sel" value={mesSel} onChange={e=>setMesSel(e.target.value)}>
+          {MESES.map(m=><option key={m} value={m}>{m}</option>)}
+        </select>
+        <select className="fin-mes-sel" value={anoSel} onChange={e=>setAnoSel(e.target.value)}>
+          {[2024,2025,2026,2027].map(y=><option key={y} value={y}>{y}</option>)}
+        </select>
+      </div>
+
+      <div className="fin-stats">
+        <div className="fin-stat"><span className="fin-val red">R$ {fmtMoney(totalFixas)}</span><small>Fixas/mês</small></div>
+        <div className="fin-stat"><span className="fin-val orange">R$ {fmtMoney(totalAvulsas)}</span><small>Avulsas ({mesSel})</small></div>
+        <div className="fin-stat"><span className="fin-val red">R$ {fmtMoney(totalMes)}</span><small>Total {mesSel}</small></div>
+      </div>
+
+      {/* ── DESPESAS FIXAS ── */}
+      <div className="empresa-section">
+        <div className="empresa-section-title">📌 Despesas fixas mensais</div>
+        <div className="task-add-row" style={{marginBottom:10}}>
+          <select className="task-cat-sel" value={novaFixa.categoria} onChange={e=>setNovaFixa(p=>({...p,categoria:e.target.value}))}>
+            {CATS_FIXA.map(c=><option key={c}>{c}</option>)}
+          </select>
+          <input className="task-input" placeholder="Nome (ex: Notion)" value={novaFixa.nome} onChange={e=>setNovaFixa(p=>({...p,nome:e.target.value}))}/>
+          <input className="task-input" placeholder="R$" type="number" style={{width:80,flexShrink:0}} value={novaFixa.valor} onChange={e=>setNovaFixa(p=>({...p,valor:e.target.value}))}/>
+          <button className="task-add-btn" onClick={addFixa}>+</button>
+        </div>
+        {fixas.length===0&&<div className="task-empty">Nenhuma despesa fixa cadastrada.</div>}
+        {fixas.map(f=>(
+          <div key={f.id} className="desp-row">
+            <span className="task-cat-badge" style={{background:CAT_COLOR[f.categoria]||'#aaa'}}>{f.categoria}</span>
+            <span className="desp-nome">{f.nome}</span>
+            <span className="desp-valor">R$ {fmtMoney(f.valor)}</span>
+            <button className="task-del" onClick={()=>removeFixa(f.id)}>✕</button>
+          </div>
+        ))}
+        {fixas.length>0&&(
+          <div className="desp-total">Total fixo/mês: <strong>R$ {fmtMoney(totalFixas)}</strong></div>
+        )}
+      </div>
+
+      {/* ── DESPESAS AVULSAS ── */}
+      <div className="empresa-section">
+        <div className="empresa-section-title">🛒 Despesas avulsas — {mesSel}/{anoSel}</div>
+        <div className="task-add-row" style={{marginBottom:10}}>
+          <select className="task-cat-sel" value={novaAvulsa.categoria} onChange={e=>setNovaAvulsa(p=>({...p,categoria:e.target.value}))}>
+            {CATS_AVULSA.map(c=><option key={c}>{c}</option>)}
+          </select>
+          <input className="task-input" placeholder="Descrição (ex: Livro A2)" value={novaAvulsa.nome} onChange={e=>setNovaAvulsa(p=>({...p,nome:e.target.value}))}/>
+          <input className="task-input" placeholder="R$" type="number" style={{width:80,flexShrink:0}} value={novaAvulsa.valor} onChange={e=>setNovaAvulsa(p=>({...p,valor:e.target.value}))}/>
+          <button className="task-add-btn" onClick={addAvulsa}>+</button>
+        </div>
+        {avulsasMes.length===0&&<div className="task-empty">Nenhuma despesa avulsa em {mesSel}/{anoSel}.</div>}
+        {avulsasMes.map(a=>(
+          <div key={a.id} className="desp-row">
+            <span className="task-cat-badge" style={{background:CAT_COLOR[a.categoria]||'#aaa'}}>{a.categoria}</span>
+            <span className="desp-nome">{a.nome}</span>
+            <span className="desp-valor">R$ {fmtMoney(a.valor)}</span>
+            <button className="task-del" onClick={()=>removeAvulsa(a.id)}>✕</button>
+          </div>
+        ))}
+        {avulsasMes.length>0&&(
+          <div className="desp-total">Total avulso {mesSel}: <strong>R$ {fmtMoney(totalAvulsas)}</strong></div>
+        )}
+      </div>
     </div>
   );
 }
