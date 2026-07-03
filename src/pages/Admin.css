@@ -273,3 +273,71 @@
 .hist-item-date { font-size: 13px; font-weight: 500; color: #555; }
 .hist-item-badge { font-size: 12px; font-weight: 600; padding: 4px 14px; border-radius: 20px; }
 .hist-empty-msg { font-size: 14px; color: #ccc; text-align: center; padding: 24px; }
+
+/* ── Legenda de emojis ─────────────────────────────────────────────────────── */
+.presenca-legenda {
+  display: flex; gap: 10px; flex-wrap: wrap; align-items: center;
+  background: #f8f7f5; border: 0.5px solid #e0dbd4; border-radius: 10px;
+  padding: 8px 14px; margin-bottom: 4px;
+}
+.legenda-item {
+  display: flex; align-items: center; gap: 4px;
+  font-size: 11px; font-weight: 500; color: #666; white-space: nowrap;
+}
+.legenda-item span:first-child { font-size: 14px; }
+
+/* ── Tab: Diário ───────────────────────────────────────────────────────────── */
+.tab-diario { display: flex; flex-direction: column; gap: 16px; }
+
+.diario-nivel-group { display: flex; flex-direction: column; gap: 8px; }
+.diario-nivel-header { display: flex; align-items: center; gap: 10px; margin-bottom: 4px; }
+.diario-nivel-badge { font-size: 11px; font-weight: 800; color: #fff; padding: 4px 12px; border-radius: 20px; letter-spacing: .5px; }
+.diario-nivel-label { font-size: 12px; color: #888; font-weight: 500; }
+
+.diario-card { background: #fff; border: 0.5px solid #e0dbd4; border-radius: 16px; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,.04); }
+.diario-card.open { border-color: #B19CD9; box-shadow: 0 0 0 3px rgba(177,156,217,.1); }
+.diario-card-header { display: flex; align-items: center; gap: 12px; padding: 14px 16px; cursor: pointer; }
+.diario-card-header:hover { background: #fdfcfb; }
+
+.diario-info { flex: 1; min-width: 0; }
+.diario-nome { font-size: 14px; font-weight: 600; color: #111; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.diario-sub { font-size: 12px; color: #888; margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+.diario-progress-wrap { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+.diario-progress-bar { width: 80px; height: 6px; background: #f0ede8; border-radius: 99px; overflow: hidden; }
+.diario-progress-fill { height: 100%; border-radius: 99px; transition: width .3s; }
+.diario-progress-pct { font-size: 11px; font-weight: 700; color: #888; min-width: 30px; text-align: right; }
+
+.diario-body { padding: 0 16px 16px; border-top: 0.5px solid #f0ede8; display: flex; flex-direction: column; gap: 12px; }
+
+.diario-prox { background: #f8f7f5; border-radius: 10px; padding: 10px 14px; display: flex; flex-direction: column; gap: 3px; margin-top: 12px; border-left: 3px solid #B19CD9; }
+.diario-prox-label { font-size: 11px; font-weight: 700; color: #B19CD9; text-transform: uppercase; letter-spacing: .4px; }
+.diario-prox-lesson { font-size: 13px; color: #333; font-weight: 500; }
+
+.diario-field { display: flex; flex-direction: column; gap: 6px; }
+.diario-label { font-size: 11px; font-weight: 700; color: #888; text-transform: uppercase; letter-spacing: .4px; }
+
+.diario-select { border: 0.5px solid #e0dbd4; border-radius: 10px; padding: 10px 12px; font-size: 13px; font-family: 'DM Sans', sans-serif; background: #fdfcfb; outline: none; cursor: pointer; }
+.diario-select:focus { border-color: #B19CD9; }
+
+.diario-licoes { display: flex; gap: 8px; }
+.diario-licao-btn { width: 44px; height: 44px; border-radius: 12px; border: 1.5px solid #e0dbd4; background: #f8f7f5; font-size: 15px; font-weight: 700; cursor: pointer; color: #666; transition: all .12s; }
+.diario-licao-btn:hover { border-color: #B19CD9; color: #B19CD9; }
+.diario-licao-btn.active { background: #B19CD9; border-color: #B19CD9; color: #fff; box-shadow: 0 2px 8px rgba(177,156,217,.4); }
+
+.diario-save-btn { background: #ff6a00; color: #fff; border: none; border-radius: 12px; padding: 12px 20px; font-size: 14px; font-weight: 600; cursor: pointer; font-family: 'DM Sans', sans-serif; align-self: flex-start; }
+.diario-save-btn:hover { background: #e05a00; }
+
+.diario-hist { border-top: 0.5px solid #f0ede8; padding-top: 12px; display: flex; flex-direction: column; gap: 6px; }
+.diario-hist-title { font-size: 11px; font-weight: 700; color: #888; text-transform: uppercase; letter-spacing: .4px; margin-bottom: 4px; }
+.diario-hist-row { background: #f8f7f5; border-radius: 8px; padding: 8px 12px; display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.diario-hist-date { font-size: 11px; font-weight: 700; color: #888; min-width: 60px; }
+.diario-hist-lesson { font-size: 12px; color: #333; flex: 1; min-width: 0; }
+.diario-hist-obs { font-size: 11px; color: #aaa; width: 100%; font-style: italic; }
+
+@media (max-width: 600px) {
+  .diario-progress-bar { width: 50px; }
+  .diario-progress-pct { display: none; }
+  .presenca-legenda { gap: 6px; }
+  .legenda-item { font-size: 10px; }
+}
