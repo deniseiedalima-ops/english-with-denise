@@ -581,8 +581,13 @@ function TabFinanceiro({local,persist}){
     const inicio=contratosStore[nome];
     if(!inicio)return[];
     const parts=inicio.split('/');
-    if(parts.length!==3)return[];
-    const start=new Date(parseInt(parts[2]),parseInt(parts[1])-1,1);
+    if(parts.length!==2)return[];
+    const mesNomeInicio=parts[0];
+    const anoInicio=parseInt(parts[1]);
+    if(!mesNomeInicio||isNaN(anoInicio))return[];
+    const mesIdxInicio=['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'].indexOf(mesNomeInicio);
+    if(mesIdxInicio===-1)return[];
+    const start=new Date(anoInicio,mesIdxInicio,1);
     const now=new Date();
     const meses=[];
     let cur=new Date(start);
@@ -697,11 +702,32 @@ function TabFinanceiro({local,persist}){
               </div>
               <div className="fin-field" style={{marginTop:12}}>
                 <label className="diario-label">Início do contrato</label>
-                <div style={{display:'flex',gap:8,alignItems:'center'}}>
-                  <input className="hist-date-input" type="text" placeholder="DD/MM/AAAA"
-                    value={contratoEdit[alunoSel]??contratosStore[alunoSel]??''} style={{flex:1}}
-                    onChange={e=>setContratoEdit(p=>({...p,[alunoSel]:e.target.value}))}/>
-                  <button className="fin-btn pay" onClick={()=>{saveContrato(alunoSel,contratoEdit[alunoSel]||contratosStore[alunoSel]||'');setContratoEdit(p=>({...p,[alunoSel]:undefined}));}}>Salvar</button>
+                <div style={{display:'flex',gap:8,alignItems:'center',flexWrap:'wrap'}}>
+                  <select className="fin-mes-sel" style={{flex:1}}
+                    value={(contratoEdit[alunoSel]||contratosStore[alunoSel]||'').split('/')[0]||''}
+                    onChange={e=>{
+                      const cur=contratoEdit[alunoSel]||contratosStore[alunoSel]||'/';
+                      const parts=cur.split('/');
+                      setContratoEdit(p=>({...p,[alunoSel]:`${e.target.value}/${parts[1]||new Date().getFullYear()}`}));
+                    }}>
+                    <option value="">Mês</option>
+                    {['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'].map(m=><option key={m} value={m}>{m}</option>)}
+                  </select>
+                  <select className="fin-mes-sel" style={{flex:1}}
+                    value={(contratoEdit[alunoSel]||contratosStore[alunoSel]||'').split('/')[1]||''}
+                    onChange={e=>{
+                      const cur=contratoEdit[alunoSel]||contratosStore[alunoSel]||'/';
+                      const parts=cur.split('/');
+                      setContratoEdit(p=>({...p,[alunoSel]:`${parts[0]||'Jan'}/${e.target.value}`}));
+                    }}>
+                    <option value="">Ano</option>
+                    {[2024,2025,2026,2027].map(y=><option key={y} value={y}>{y}</option>)}
+                  </select>
+                  <button className="fin-btn pay" onClick={()=>{
+                    const val=contratoEdit[alunoSel]||contratosStore[alunoSel]||'';
+                    if(val.includes('/'))saveContrato(alunoSel,val);
+                    setContratoEdit(p=>({...p,[alunoSel]:undefined}));
+                  }}>Salvar</button>
                 </div>
               </div>
             </div>
