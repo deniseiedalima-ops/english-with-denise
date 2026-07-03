@@ -145,7 +145,7 @@ const STATUS_META={
 const TABS=[
   {id:'dashboard',  label:'🏠 Dashboard',  icon:'🏠'},
   {id:'agenda',     label:'📅 Agenda',     icon:'📅'},
-  {id:'presenca',   label:'📋 Presença',   icon:'📋'},
+  {id:'presenca',   label:'👥 Alunos',      icon:'👥'},
   {id:'financeiro', label:'💰 Financeiro', icon:'💰'},
   {id:'despesas',   label:'💸 Despesas',   icon:'💸'},
   {id:'diario',     label:'📖 Diário',     icon:'📖'},
@@ -1030,7 +1030,8 @@ function TabDashboard({students,loading,local}){
   // ── Financeiro ──
   const rows=ALUNOS_FINANCEIRO.map(([nome,valor,venc])=>({nome,valor,st:getFinStatus(nome,venc,now.getMonth(),pagStore)}));
   const recebido=rows.filter(r=>r.st==='pago').reduce((s,r)=>s+r.valor,0);
-  const esperado=rows.reduce((s,r)=>s+r.valor,0);
+  // Receita bruta = soma de todas as mensalidades de todos os alunos cadastrados
+  const receitaBruta=ALUNOS_FINANCEIRO.reduce((s,[,v])=>s+v,0);
   const inadimplentes=rows.filter(r=>r.st==='atrasado');
 
   // ── Despesas do mês ──
@@ -1085,9 +1086,9 @@ function TabDashboard({students,loading,local}){
           <div className="dash-card-label">Recebido</div>
         </div>
         <div className="dash-card">
-          <div className="dash-card-icon" style={{background:'#f8f7f5'}}>📋</div>
-          <div className="dash-card-val">R$ {fmtMoney(esperado)}</div>
-          <div className="dash-card-label">Esperado</div>
+          <div className="dash-card-icon" style={{background:'#f0f4ff'}}>📊</div>
+          <div className="dash-card-val blue">R$ {fmtMoney(receitaBruta)}</div>
+          <div className="dash-card-label">Receita bruta</div>
         </div>
         <div className="dash-card">
           <div className="dash-card-icon" style={{background:'#fdf3f3'}}>💸</div>
@@ -1169,6 +1170,21 @@ function TabDashboard({students,loading,local}){
           </div>
         )}
       </div>
+
+      {/* ── Metas ── */}
+      {(local.empresa?.metas||[]).filter(m=>!m.done).length>0&&(
+        <>
+          <div className="dash-section-title">🎯 Metas em andamento</div>
+          <div className="dash-metas">
+            {(local.empresa?.metas||[]).filter(m=>!m.done).map(m=>(
+              <div key={m.id} className="dash-meta-item">
+                <span className="dash-meta-cat" style={{background:{'Em andamento':'#ff6a00','Próximo':'#5c6bc0','Concluído':'#aaa'}[m.cat]||'#aaa'}}>{m.cat}</span>
+                <span className="dash-meta-text">{m.text}</span>
+              </div>
+            ))}
+          </div>
+        </>
+      )}
 
       {/* ── Lembretes da empresa ── */}
       {(local.empresa?.lembretes||[]).filter(l=>!l.done&&l.cat==='Urgente').length>0&&(

@@ -413,3 +413,9 @@
 .desp-nome { font-size:13px; color:#333; flex:1; min-width:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
 .desp-valor { font-size:13px; font-weight:600; color:#e53935; flex-shrink:0; }
 .desp-total { font-size:12px; color:#888; text-align:right; margin-top:4px; padding-top:8px; border-top:0.5px solid #f0ede8; }
+
+/* ── Dashboard: metas ─────────────────────────────────────────────────────── */
+.dash-metas { display:flex; flex-direction:column; gap:6px; }
+.dash-meta-item { display:flex; align-items:center; gap:10px; background:#fff; border:0.5px solid #e0dbd4; border-radius:12px; padding:10px 14px; box-shadow:0 1px 3px rgba(0,0,0,.04); }
+.dash-meta-cat { font-size:10px; font-weight:700; color:#fff; padding:3px 10px; border-radius:20px; flex-shrink:0; }
+.dash-meta-text { font-size:13px; color:#333; flex:1; }
