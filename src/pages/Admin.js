@@ -549,56 +549,197 @@ function TabPresenca({students,loading,local,persist,navigate}){
 // TAB: FINANCEIRO
 // ══════════════════════════════════════════════════════════════════════════════
 function TabFinanceiro({local,persist}){
+  const [viewMode,setViewMode]=useState('geral');
   const [mesSel,setMesSel]=useState(MESES[MES_ATUAL_IDX]);
   const [filter,setFilter]=useState('todos');
+  const [alunoSel,setAlunoSel]=useState('');
+  const [linkInput,setLinkInput]=useState({});
+  const [contratoEdit,setContratoEdit]=useState({});
   const pagStore=local.pagamentos||{};
+  const contratosStore=local.contratos||{};
   const mesIdx=MESES.indexOf(mesSel);
-  const setPag=(nome,action)=>{
+  const ST_META={pago:{label:'🟢 Em dia',color:'#1d9e75'},atrasado:{label:'🔴 Inadimplente',color:'#e53935'},aguardando:{label:'🟡 Aguardando',color:'#f9a825'},futuro:{label:'⬜ Futuro',color:'#aaa'}};
+
+  const setPag=(nome,action,link='',mesPag=null)=>{
+    const m=mesPag||mesSel;
     persist(prev=>{
-      const pg={...(prev.pagamentos||{})};if(!pg[mesSel])pg[mesSel]={};
-      if(action==='pago')pg[mesSel][nome]={dataPgto:todayKey()};
-      else if(action==='aguardando')pg[mesSel][nome]={manualAguardando:true};
-      else delete pg[mesSel][nome];
+      const pg={...(prev.pagamentos||{})};
+      if(!pg[m])pg[m]={};
+      if(action==='pago')pg[m][nome]={dataPgto:todayKey(),link:link||''};
+      else if(action==='aguardando')pg[m][nome]={manualAguardando:true};
+      else if(action==='link')pg[m][nome]={...pg[m][nome],link};
+      else delete pg[m][nome];
       return{...prev,pagamentos:pg};
     });
   };
-  const rows=ALUNOS_FINANCEIRO.map(([nome,valor,venc])=>({nome,valor,venc,st:getFinStatus(nome,venc,mesIdx,pagStore),dataPgto:pagStore[mesSel]?.[nome]?.dataPgto||null}));
+
+  const saveContrato=(nome,dataInicio)=>{
+    persist(prev=>({...prev,contratos:{...(prev.contratos||{}),[nome]:dataInicio}}));
+  };
+
+  const getMesesContrato=(nome)=>{
+    const inicio=contratosStore[nome];
+    if(!inicio)return[];
+    const parts=inicio.split('/');
+    if(parts.length!==3)return[];
+    const start=new Date(parseInt(parts[2]),parseInt(parts[1])-1,1);
+    const now=new Date();
+    const meses=[];
+    let cur=new Date(start);
+    while(cur<=now){
+      const mesNome=MESES[cur.getMonth()];
+      const ano=cur.getFullYear();
+      const key=`${mesNome}/${ano}`;
+      const rec=pagStore[mesNome]?.[nome];
+      let st='nao_pago';
+      if(rec?.dataPgto)st='pago';
+      else if(rec?.manualAguardando)st='aguardando';
+      meses.push({mes:mesNome,ano,key,st,dataPgto:rec?.dataPgto||null,link:rec?.link||''});
+      cur.setMonth(cur.getMonth()+1);
+    }
+    return meses.reverse();
+  };
+
+  const rows=ALUNOS_FINANCEIRO.map(([nome,valor,venc])=>({nome,valor,venc,st:getFinStatus(nome,venc,mesIdx,pagStore),dataPgto:pagStore[mesSel]?.[nome]?.dataPgto||null,link:pagStore[mesSel]?.[nome]?.link||''}));
   const filtered=filter==='todos'?rows:rows.filter(r=>r.st===filter);
   filtered.sort((a,b)=>{const o={atrasado:0,aguardando:1,futuro:2,pago:3};return o[a.st]-o[b.st]||a.nome.localeCompare(b.nome);});
   const totalRec=rows.filter(r=>r.st==='pago').reduce((s,r)=>s+r.valor,0);
   const totalEsp=rows.reduce((s,r)=>s+r.valor,0);
-  const ST_META={pago:{label:'🟢 Em dia',color:'#1d9e75'},atrasado:{label:'🔴 Inadimplente',color:'#e53935'},aguardando:{label:'🟡 Aguardando',color:'#f9a825'},futuro:{label:'⬜ Mês futuro',color:'#aaa'}};
+  const alunoInfo=alunoSel?ALUNOS_FINANCEIRO.find(([n])=>n===alunoSel):null;
+  const mesesContrato=alunoSel?getMesesContrato(alunoSel):[];
+  const totalPago=mesesContrato.filter(m=>m.st==='pago').length;
+  const totalNaoPago=mesesContrato.filter(m=>m.st==='nao_pago').length;
+
   return(
     <div className="tab-financeiro">
-      <div className="fin-top-bar"><select className="fin-mes-sel" value={mesSel} onChange={e=>setMesSel(e.target.value)}>{MESES.map(m=><option key={m} value={m}>{m}/2026</option>)}</select></div>
-      <div className="fin-stats">
-        <div className="fin-stat"><span className="fin-val green">R$ {fmtMoney(totalRec)}</span><small>Recebido</small></div>
-        <div className="fin-stat"><span className="fin-val">R$ {fmtMoney(totalEsp)}</span><small>Esperado</small></div>
-        <div className="fin-stat"><span className="fin-val green">{rows.filter(r=>r.st==='pago').length}</span><small>Em dia</small></div>
-        <div className="fin-stat"><span className="fin-val red">{rows.filter(r=>r.st==='atrasado').length}</span><small>Inadimplentes</small></div>
+      <div className="presenca-view-toggle" style={{marginBottom:14}}>
+        <button className={`pv-btn ${viewMode==='geral'?'active':''}`} onClick={()=>setViewMode('geral')}>📊 Visão Geral</button>
+        <button className={`pv-btn ${viewMode==='aluno'?'active':''}`} onClick={()=>setViewMode('aluno')}>👤 Perfil do Aluno</button>
       </div>
-      <div className="filter-chips" style={{marginBottom:12}}>
-        {[['todos','Todos'],['atrasado','🔴 Inadimplentes'],['aguardando','🟡 Aguardando'],['pago','🟢 Em dia']].map(([k,l])=>(
-          <button key={k} className={`chip ${filter===k?'active':''}`} onClick={()=>setFilter(k)}>{l}</button>
-        ))}
-      </div>
-      <div className="fin-list">
-        {filtered.map(r=>{const meta=ST_META[r.st];return(
-          <div key={r.nome} className="fin-row">
-            <div className="fin-info">
-              <div className="fin-nome" style={{color:meta.color}}>{r.nome}</div>
-              <div className="fin-detalhe">R$ {fmtMoney(r.valor)} · vence dia {r.venc}{r.dataPgto?` · pago ${fmtDate(r.dataPgto)}`:''}</div>
-            </div>
-            <div className="fin-btns">
-              {r.st==='pago'
-                ?<button className="fin-btn undo" onClick={()=>setPag(r.nome,'desfazer')}>✕ Desfazer</button>
-                :<><button className="fin-btn pay" onClick={()=>setPag(r.nome,'pago')}>✓ Pago</button>
-                  {r.st!=='aguardando'&&<button className="fin-btn wait" onClick={()=>setPag(r.nome,'aguardando')}>⏳</button>}</>
-              }
-            </div>
+
+      {viewMode==='geral'&&(<>
+        <div className="fin-top-bar">
+          <select className="fin-mes-sel" value={mesSel} onChange={e=>setMesSel(e.target.value)}>
+            {MESES.map(m=><option key={m} value={m}>{m}/{new Date().getFullYear()}</option>)}
+          </select>
+        </div>
+        <div className="fin-stats">
+          <div className="fin-stat"><span className="fin-val green">R$ {fmtMoney(totalRec)}</span><small>Recebido</small></div>
+          <div className="fin-stat"><span className="fin-val">R$ {fmtMoney(totalEsp)}</span><small>Esperado</small></div>
+          <div className="fin-stat"><span className="fin-val green">{rows.filter(r=>r.st==='pago').length}</span><small>Em dia</small></div>
+          <div className="fin-stat"><span className="fin-val red">{rows.filter(r=>r.st==='atrasado').length}</span><small>Inadimplentes</small></div>
+        </div>
+        <div className="filter-chips" style={{marginBottom:12}}>
+          {[['todos','Todos'],['atrasado','🔴 Inadimplentes'],['aguardando','🟡 Aguardando'],['pago','🟢 Em dia']].map(([k,l])=>(
+            <button key={k} className={`chip ${filter===k?'active':''}`} onClick={()=>setFilter(k)}>{l}</button>
+          ))}
+        </div>
+        <div className="fin-list">
+          {filtered.map(r=>{
+            const meta=ST_META[r.st];
+            const lKey=r.nome;
+            return(
+              <div key={r.nome} className="fin-row" style={{flexDirection:'column',alignItems:'stretch',gap:8}}>
+                <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',gap:12,flexWrap:'wrap'}}>
+                  <div className="fin-info" style={{cursor:'pointer'}} onClick={()=>{setAlunoSel(r.nome);setViewMode('aluno');}}>
+                    <div className="fin-nome" style={{color:meta.color}}>{r.nome} <span style={{fontSize:10,color:'#aaa',fontWeight:400}}>→ ver perfil</span></div>
+                    <div className="fin-detalhe">R$ {fmtMoney(r.valor)} · vence dia {r.venc}{r.dataPgto?` · pago ${fmtDate(r.dataPgto)}`:''}</div>
+                  </div>
+                  <div className="fin-btns">
+                    {r.st==='pago'
+                      ?<button className="fin-btn undo" onClick={()=>setPag(r.nome,'desfazer')}>✕ Desfazer</button>
+                      :<>
+                        <button className="fin-btn pay" onClick={()=>setPag(r.nome,'pago',linkInput[lKey]||'')}>✓ Pago</button>
+                        {r.st!=='aguardando'&&<button className="fin-btn wait" onClick={()=>setPag(r.nome,'aguardando')}>⏳</button>}
+                      </>
+                    }
+                  </div>
+                </div>
+                {r.st==='pago'&&(
+                  <div className="fin-comprovante">
+                    {r.link
+                      ?<><a href={r.link} target="_blank" rel="noreferrer" className="fin-link-badge">🔗 Ver comprovante</a>
+                        <button className="fin-link-remove" onClick={()=>setPag(r.nome,'link','')}>✕</button></>
+                      :<div style={{display:'flex',gap:6}}>
+                        <input className="fin-link-input" placeholder="Cole o link do comprovante..." value={linkInput[lKey]||''} onChange={e=>setLinkInput(p=>({...p,[lKey]:e.target.value}))}/>
+                        <button className="fin-btn pay" style={{whiteSpace:'nowrap'}} onClick={()=>{setPag(r.nome,'link',linkInput[lKey]||'');setLinkInput(p=>({...p,[lKey]:''}));}}>Salvar</button>
+                      </div>
+                    }
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      </>)}
+
+      {viewMode==='aluno'&&(
+        <div className="fin-perfil">
+          <div className="fin-field">
+            <label className="diario-label">Selecionar aluno</label>
+            <select className="diario-select" value={alunoSel} onChange={e=>setAlunoSel(e.target.value)}>
+              <option value="">Selecione...</option>
+              {ALUNOS_FINANCEIRO.map(([n])=><option key={n} value={n}>{n}</option>)}
+            </select>
           </div>
-        );})}
-      </div>
+          {alunoSel&&alunoInfo&&(<>
+            <div className="fin-contrato-card">
+              <div className="fin-contrato-row">
+                <div>
+                  <div className="fin-nome" style={{color:'#111',marginBottom:4}}>{alunoSel}</div>
+                  <div className="fin-detalhe">R$ {fmtMoney(alunoInfo[1])}/mês · vence dia {alunoInfo[2]}</div>
+                </div>
+                <div className="fin-contrato-stats">
+                  <div className="fin-mini-stat green">{totalPago} pago{totalPago!==1?'s':''}</div>
+                  <div className="fin-mini-stat red">{totalNaoPago} em aberto</div>
+                  <div className="fin-mini-stat gray">{mesesContrato.length} mes{mesesContrato.length!==1?'es':''}</div>
+                </div>
+              </div>
+              <div className="fin-field" style={{marginTop:12}}>
+                <label className="diario-label">Início do contrato</label>
+                <div style={{display:'flex',gap:8,alignItems:'center'}}>
+                  <input className="hist-date-input" type="text" placeholder="DD/MM/AAAA"
+                    value={contratoEdit[alunoSel]??contratosStore[alunoSel]??''} style={{flex:1}}
+                    onChange={e=>setContratoEdit(p=>({...p,[alunoSel]:e.target.value}))}/>
+                  <button className="fin-btn pay" onClick={()=>{saveContrato(alunoSel,contratoEdit[alunoSel]||contratosStore[alunoSel]||'');setContratoEdit(p=>({...p,[alunoSel]:undefined}));}}>Salvar</button>
+                </div>
+              </div>
+            </div>
+            {mesesContrato.length>0?(
+              <div className="fin-hist-table">
+                <div className="fin-hist-header">
+                  <span>Mês</span><span>Status</span><span>Data pgto</span><span>Comprovante</span>
+                </div>
+                {mesesContrato.map(m=>{
+                  const lKey=`${alunoSel}_${m.key}`;
+                  const isPago=m.st==='pago';
+                  return(
+                    <div key={m.key} className={`fin-hist-row ${m.st}`}>
+                      <span className="fin-hist-mes">{m.mes}/{m.ano}</span>
+                      <span className="fin-hist-st">{isPago?'🟢 Pago':m.st==='aguardando'?'🟡 Aguardando':'🔴 Em aberto'}</span>
+                      <span className="fin-hist-data">{m.dataPgto?fmtDate(m.dataPgto):'—'}</span>
+                      <span className="fin-hist-link">
+                        {m.link
+                          ?<a href={m.link} target="_blank" rel="noreferrer" className="fin-link-badge">🔗 Ver</a>
+                          :isPago
+                            ?<div style={{display:'flex',gap:4}}>
+                              <input className="fin-link-input" placeholder="Cole o link..." value={linkInput[lKey]||''} onChange={e=>setLinkInput(p=>({...p,[lKey]:e.target.value}))} style={{width:120,fontSize:11}}/>
+                              <button className="fin-btn pay" style={{padding:'4px 8px',fontSize:11}} onClick={()=>{
+                                persist(prev=>{const pg={...(prev.pagamentos||{})};if(!pg[m.mes])pg[m.mes]={};pg[m.mes][alunoSel]={...pg[m.mes][alunoSel],link:linkInput[lKey]||''};return{...prev,pagamentos:pg};});
+                                setLinkInput(p=>({...p,[lKey]:''}));
+                              }}>+</button>
+                            </div>
+                            :'—'
+                        }
+                      </span>
+                    </div>
+                  );
+                })}
+              </div>
+            ):<div className="hist-empty-msg">Insira a data de início do contrato para ver o histórico.</div>}
+          </>)}
+        </div>
+      )}
     </div>
   );
 }
@@ -690,12 +831,7 @@ function TabDiario({students,loading,local,persist}){
 
                   {open&&(
                     <div className="diario-body">
-                      {proxAula&&(
-                        <div className="diario-prox">
-                          <span className="diario-prox-label">📌 Próxima sugerida:</span>
-                          <span className="diario-prox-lesson">Aula {proxNum} — {proxAula.lesson}</span>
-                        </div>
-                      )}
+
 
                       <div className="diario-field">
                         <label className="diario-label">Aula dada hoje</label>
