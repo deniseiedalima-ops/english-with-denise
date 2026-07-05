@@ -1474,6 +1474,43 @@ function TabDashboard({students,loading,local}){
         ))}
       </div>
 
+      {/* ── Next Classes ── */}
+      {(() => {
+        const comAula = students
+          .filter(s => s.dataProximaAula)
+          .sort((a, b) => new Date(a.dataProximaAula) - new Date(b.dataProximaAula));
+        const hoje = now.toISOString().slice(0, 10);
+        const proximos7 = comAula.filter(s => s.dataProximaAula >= hoje && s.dataProximaAula <= new Date(now.getTime() + 7*24*60*60*1000).toISOString().slice(0,10));
+        if (proximos7.length === 0) return null;
+        return (
+          <>
+            <div className="dash-section-title">📅 Next Classes — próximos 7 dias</div>
+            <div className="dash-next-classes">
+              {proximos7.map(s => {
+                const d = new Date(s.dataProximaAula + 'T12:00:00');
+                const isHoje = s.dataProximaAula === hoje;
+                return (
+                  <div key={s.id} className={`dash-next-item ${isHoje ? 'hoje' : ''}`}>
+                    <div className="dash-next-date">
+                      <div className="dash-next-day">{d.getDate()}</div>
+                      <div className="dash-next-mon">{d.toLocaleString('pt-BR', { month: 'short' })}</div>
+                    </div>
+                    <div className="dash-next-info">
+                      <div className="dash-next-name">{s.nome}</div>
+                      <div className="dash-next-lesson">{s.proximaAulaTitulo || '—'}</div>
+                    </div>
+                    <span className="dash-next-nivel" style={{ background: LEVEL_COLORS[s.nivel] || '#aaa', color: '#fff' }}>
+                      {s.nivel}
+                    </span>
+                    {isHoje && <span className="dash-next-hoje-badge">Hoje</span>}
+                  </div>
+                );
+              })}
+            </div>
+          </>
+        );
+      })()}
+
       {/* ── Urgências ── */}
       <div className="dash-section-title">⚠️ Urgências da semana</div>
       <div className="dash-urgencias">
