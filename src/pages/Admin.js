@@ -334,8 +334,6 @@ function TabAlunos({ students, loading, navigate }) {
   if (loading) return <div className="admin-loading">Carregando... ✨</div>;
 
   const BULK_FIELD_LABELS = [
-    { key: 'tituloProximaAula', label: '🗓️ Título da próxima aula', type: 'input', ph: 'Ex: Unit 2 — 2A: We had an adventure' },
-    { key: 'dataProximaAula',   label: '📆 Data da próxima aula',   type: 'input', ph: 'AAAA-MM-DD' },
     { key: 'tarefaDaSemana',    label: '📅 Agenda da semana',       type: 'textarea' },
     { key: 'paginasDoLivro',    label: '📖 Páginas do livro',        type: 'input', ph: 'Ex: p.10-13' },
     { key: 'tarefaPersonalizada',label: '✅ Tarefa personalizada',   type: 'input', ph: 'Ex: Leia o diálogo antes da aula' },
@@ -416,18 +414,11 @@ function TabAlunos({ students, loading, navigate }) {
                 </div>
               </div>
 
-
               <div className="alunos-section">
                 <div className="alunos-section-title">🗓️ Next Class</div>
-                <div className="alunos-grid2">
-                  <div className="alunos-field">
-                    <label className="alunos-label">Título da próxima aula</label>
-                    <input className="alunos-input" value={form.tituloProximaAula} onChange={e => setForm(f => ({ ...f, tituloProximaAula: e.target.value }))} placeholder="Ex: Unit 2 — 2A: We had an adventure" />
-                  </div>
-                  <div className="alunos-field">
-                    <label className="alunos-label">Data da próxima aula</label>
-                    <input className="alunos-input" type="date" value={form.dataProximaAula} onChange={e => setForm(f => ({ ...f, dataProximaAula: e.target.value }))} />
-                  </div>
+                <div style={{ background:'#f7f4f0', borderRadius:8, padding:'10px 14px', fontSize:13, color:'#888', lineHeight:1.6 }}>
+                  📋 Selecione a próxima aula diretamente no <strong style={{color:'#111'}}>Notion</strong> — campo <strong style={{color:'#111'}}>"Próxima Aula"</strong> na ficha do aluno.<br/>
+                  O app busca automaticamente o título e a data de lá.
                 </div>
               </div>
               <div className="alunos-section">

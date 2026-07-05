@@ -69,8 +69,9 @@ export default function Dashboard({ user, student, onLogout, isPreview, refreshi
   const [newBadge, setNewBadge] = useState(null);
 
   const nivel = student?.nivel || 'A1';
-  const dataAula = student?.dataProximaAula;
-  const tituloAula = student?.tituloProximaAula || student?.proximaAula?.titulo || '';
+  const proximaAula = student?.proximaAula;
+  const dataAula = student?.dataProximaAula || proximaAula?.dataAula;
+  const tituloAula = proximaAula?.titulo || student?.tituloProximaAula || '';
 
   const formatDate = (d) => {
     if (!d) return null;
