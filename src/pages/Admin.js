@@ -258,7 +258,7 @@ function TabAlunos({ students, loading, navigate }) {
       reposicoes: s.reposicoes ?? 0, dataReposicao: s.dataReposicao || '',
       horarioReposicao: s.horarioReposicao || '', nivel: s.nivel || 'A1',
     });
-    setBadges(JSON.parse(localStorage.getItem(`ewd_badges_${s.email}`) || '[]'));
+    setBadges(JSON.parse(s.badges || '[]').filter(Boolean));
   };
 
   const toggleCheck = (id) => {
@@ -282,7 +282,7 @@ function TabAlunos({ students, loading, navigate }) {
       localStorage.setItem(`ewd_badges_${selected.email}`, JSON.stringify(badges));
       const r = await fetch('/api/update-student', {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ pageId: selected.id, fields: form }),
+        body: JSON.stringify({ pageId: selected.id, fields: { ...form, badges: JSON.stringify(badges) } }),
       });
       const d = await r.json();
       if (d.success) showToast('✅ Salvo com sucesso!');

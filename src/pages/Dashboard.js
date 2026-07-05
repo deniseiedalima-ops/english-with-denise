@@ -53,7 +53,14 @@ export default function Dashboard({ user, student, onLogout, isPreview }) {
 
   const [xp, setXp] = useState(() => getItem(email, 'xp', 0));
   const [streak, setStreak] = useState(() => getItem(email, 'streak', 0));
-  const [unlockedIds, setUnlockedIds] = useState(() => getItem(email, 'achievements', []));
+  const [unlockedIds, setUnlockedIds] = useState(() => {
+    // First try Notion badges (from student data), then fall back to localStorage
+    try {
+      const notionBadges = JSON.parse(student?.badges || '[]');
+      if (notionBadges.length > 0) return notionBadges;
+    } catch {}
+    return getItem(email, 'achievements', []);
+  });
   const [showAchievements, setShowAchievements] = useState(false);
   const [pixCopied, setPixCopied] = useState(false);
   const [newBadge, setNewBadge] = useState(null);
@@ -73,10 +80,30 @@ export default function Dashboard({ user, student, onLogout, isPreview }) {
   };
   const date = formatDate(dataAula);
 
+  // Pull-to-refresh
+  useEffect(() => {
+    let startY = 0;
+    let pulling = false;
+
+    const onTouchStart = (e) => { startY = e.touches[0].clientY; };
+    const onTouchEnd = (e) => {
+      const diff = e.changedTouches[0].clientY - startY;
+      if (diff > 80 && window.scrollY === 0) {
+        window.location.reload();
+      }
+    };
+
+    document.addEventListener('touchstart', onTouchStart, { passive: true });
+    document.addEventListener('touchend', onTouchEnd, { passive: true });
+    return () => {
+      document.removeEventListener('touchstart', onTouchStart);
+      document.removeEventListener('touchend', onTouchEnd);
+    };
+  }, []);
+
   useEffect(() => {
     const s = updateStreak(email);
     setStreak(s);
-    // Check auto achievements
     if (s >= 7 && !unlockedIds.includes('on_fire')) {
       const updated = [...unlockedIds, 'on_fire'];
       setUnlockedIds(updated);
@@ -173,6 +200,7 @@ export default function Dashboard({ user, student, onLogout, isPreview }) {
       )}
 
       <main className="dash-content">
+        <div className="pull-hint">↓ Puxe para atualizar</div>
 
         {/* ── WELCOME ─────────────────────────────────── */}
         <div className="welcome-row">

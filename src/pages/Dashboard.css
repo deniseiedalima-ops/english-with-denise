@@ -109,3 +109,10 @@
   .welcome-name { font-size:28px; }
   .fin-pix-right { justify-content:flex-start; width:100%; }
 }
+
+/* Pull to refresh hint */
+.pull-hint {
+  text-align: center; font-size: 11px; color: #ccc;
+  padding: 0 0 4px; letter-spacing: .3px;
+  user-select: none; -webkit-user-select: none;
+}
