@@ -23,6 +23,8 @@ export default async function handler(req, res) {
   if (fields.kamiLink         !== undefined) props['Link KAMI']            = { url: fields.kamiLink || null };
   if (fields.valorMensalidade !== undefined) props['Valor Mensalidade']    = { rich_text: [{ text: { content: fields.valorMensalidade || '' } }] };
   if (fields.dataVencimento   !== undefined) props['Data Vencimento']      = { rich_text: [{ text: { content: fields.dataVencimento || '' } }] };
+  if (fields.tituloProximaAula !== undefined) props['Título da Próxima Aula'] = { rich_text: [{ text: { content: fields.tituloProximaAula || '' } }] };
+  if (fields.dataProximaAula   !== undefined) props['Data da Próxima Aula']   = fields.dataProximaAula ? { date: { start: fields.dataProximaAula } } : { date: null };
   if (fields.asaasLink !== undefined) props['Link ASAAS'] = { url: fields.asaasLink || null };
   if (fields.badges    !== undefined) props['Badges']     = { rich_text: [{ text: { content: fields.badges || '' } }] };
   if (fields.horarioReposicao !== undefined) props['Horário Reposição']    = { rich_text: [{ text: { content: fields.horarioReposicao || '' } }] };

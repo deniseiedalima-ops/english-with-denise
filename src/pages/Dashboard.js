@@ -69,8 +69,8 @@ export default function Dashboard({ user, student, onLogout, isPreview, refreshi
   const [newBadge, setNewBadge] = useState(null);
 
   const nivel = student?.nivel || 'A1';
-  const agenda = student?.proximaAula;
-  const dataAula = student?.dataProximaAula || agenda?.dataAula;
+  const dataAula = student?.dataProximaAula;
+  const tituloAula = student?.tituloProximaAula || student?.proximaAula?.titulo || '';
 
   const formatDate = (d) => {
     if (!d) return null;
@@ -238,9 +238,9 @@ export default function Dashboard({ user, student, onLogout, isPreview, refreshi
               </div>
             )}
             <div className="nc-info">
-              <div className="nc-title">{agenda?.titulo || 'A ser confirmada'}</div>
+              <div className="nc-title">{tituloAula || 'A ser confirmada'}</div>
               <div className="nc-sub">
-                {agenda ? `✦ Aula ${agenda.numero} · ${nivel}` : 'Denise vai atualizar em breve'}
+                {tituloAula ? `✦ ${nivel}` : 'Denise vai atualizar em breve'}
                 {date && ` · ${date.weekday}`}
               </div>
             </div>

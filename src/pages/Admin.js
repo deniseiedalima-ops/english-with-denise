@@ -233,10 +233,12 @@ function TabAlunos({ students, loading, navigate }) {
   const [search, setSearch] = useState('');
   const [form, setForm] = useState({});
   const [bulkForm, setBulkForm] = useState({
+    tituloProximaAula: '', dataProximaAula: '',
     tarefaDaSemana: '', paginasDoLivro: '', tarefaPersonalizada: '',
     meetLink: '', valorMensalidade: '', dataVencimento: '',
   });
   const [bulkFields, setBulkFields] = useState({
+    tituloProximaAula: false, dataProximaAula: false,
     tarefaDaSemana: false, paginasDoLivro: false, tarefaPersonalizada: false,
     meetLink: false, valorMensalidade: false, dataVencimento: false,
   });
@@ -252,6 +254,8 @@ function TabAlunos({ students, loading, navigate }) {
     setForm({
       tarefaDaSemana: s.tarefaDaSemana || '', paginasDoLivro: s.paginasDoLivro || '',
       tarefaPersonalizada: s.tarefaPersonalizada || '', meetLink: s.meetLink || '',
+      tituloProximaAula:   s.tituloProximaAula || '',
+      dataProximaAula:     s.dataProximaAula || '',
       classroomLink: s.classroomLink || '', driveLink: s.driveLink || '',
       kamiLink: s.kamiLink || '', valorMensalidade: s.valorMensalidade || '',
       dataVencimento: s.dataVencimento || '', asaasLink: s.asaasLink || '',
@@ -330,12 +334,14 @@ function TabAlunos({ students, loading, navigate }) {
   if (loading) return <div className="admin-loading">Carregando... ✨</div>;
 
   const BULK_FIELD_LABELS = [
-    { key: 'tarefaDaSemana',    label: '📅 Agenda da semana',      type: 'textarea' },
-    { key: 'paginasDoLivro',    label: '📖 Páginas do livro',       type: 'input', ph: 'Ex: p.10-13' },
-    { key: 'tarefaPersonalizada',label: '✅ Tarefa personalizada',  type: 'input', ph: 'Ex: Leia o diálogo antes da aula' },
-    { key: 'meetLink',          label: '📹 Link Google Meet',       type: 'input', ph: 'https://meet.google.com/...' },
-    { key: 'valorMensalidade',  label: '💰 Valor mensalidade',      type: 'input', ph: 'Ex: 220,00' },
-    { key: 'dataVencimento',    label: '📆 Vencimento',             type: 'input', ph: 'Ex: 20 de julho' },
+    { key: 'tituloProximaAula', label: '🗓️ Título da próxima aula', type: 'input', ph: 'Ex: Unit 2 — 2A: We had an adventure' },
+    { key: 'dataProximaAula',   label: '📆 Data da próxima aula',   type: 'input', ph: 'AAAA-MM-DD' },
+    { key: 'tarefaDaSemana',    label: '📅 Agenda da semana',       type: 'textarea' },
+    { key: 'paginasDoLivro',    label: '📖 Páginas do livro',        type: 'input', ph: 'Ex: p.10-13' },
+    { key: 'tarefaPersonalizada',label: '✅ Tarefa personalizada',   type: 'input', ph: 'Ex: Leia o diálogo antes da aula' },
+    { key: 'meetLink',          label: '📹 Link Google Meet',        type: 'input', ph: 'https://meet.google.com/...' },
+    { key: 'valorMensalidade',  label: '💰 Valor mensalidade',       type: 'input', ph: 'Ex: 220,00' },
+    { key: 'dataVencimento',    label: '📆 Vencimento',              type: 'input', ph: 'Ex: 20 de julho' },
   ];
 
   return (
@@ -410,6 +416,20 @@ function TabAlunos({ students, loading, navigate }) {
                 </div>
               </div>
 
+
+              <div className="alunos-section">
+                <div className="alunos-section-title">🗓️ Next Class</div>
+                <div className="alunos-grid2">
+                  <div className="alunos-field">
+                    <label className="alunos-label">Título da próxima aula</label>
+                    <input className="alunos-input" value={form.tituloProximaAula} onChange={e => setForm(f => ({ ...f, tituloProximaAula: e.target.value }))} placeholder="Ex: Unit 2 — 2A: We had an adventure" />
+                  </div>
+                  <div className="alunos-field">
+                    <label className="alunos-label">Data da próxima aula</label>
+                    <input className="alunos-input" type="date" value={form.dataProximaAula} onChange={e => setForm(f => ({ ...f, dataProximaAula: e.target.value }))} />
+                  </div>
+                </div>
+              </div>
               <div className="alunos-section">
                 <div className="alunos-section-title">📅 Agenda da semana</div>
                 <div className="alunos-field">
