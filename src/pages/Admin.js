@@ -279,7 +279,6 @@ function TabAlunos({ students, loading, navigate }) {
     if (!selected) return;
     setSaving(true);
     try {
-      localStorage.setItem(`ewd_badges_${selected.email}`, JSON.stringify(badges));
       const r = await fetch('/api/update-student', {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ pageId: selected.id, fields: { ...form, badges: JSON.stringify(badges) } }),

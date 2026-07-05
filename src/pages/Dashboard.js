@@ -53,14 +53,17 @@ export default function Dashboard({ user, student, onLogout, isPreview, refreshi
 
   const [xp, setXp] = useState(() => getItem(email, 'xp', 0));
   const [streak, setStreak] = useState(() => getItem(email, 'streak', 0));
-  const [unlockedIds, setUnlockedIds] = useState(() => {
-    // First try Notion badges (from student data), then fall back to localStorage
+  const [unlockedIds, setUnlockedIds] = useState([]);
+
+  // Update badges whenever student data changes (from Notion refresh)
+  useEffect(() => {
     try {
-      const notionBadges = JSON.parse(student?.badges || '[]');
-      if (notionBadges.length > 0) return notionBadges;
-    } catch {}
-    return getItem(email, 'achievements', []);
-  });
+      const notionBadges = JSON.parse(student?.badges || '[]').filter(Boolean);
+      setUnlockedIds(notionBadges);
+    } catch {
+      setUnlockedIds([]);
+    }
+  }, [student?.badges]);
   const [showAchievements, setShowAchievements] = useState(false);
   const [pixCopied, setPixCopied] = useState(false);
   const [newBadge, setNewBadge] = useState(null);

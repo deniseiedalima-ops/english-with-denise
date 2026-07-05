@@ -42,6 +42,8 @@ export default async function handler(req, res) {
         meetLink:           p['Link Google Meet']?.url || '',
         classroomLink:      p['Link Classroom']?.url || '',
         kamiLink:           p['Link KAMI']?.url || '',
+        asaasLink:          p['Link ASAAS']?.url || '',
+        badges:             p['Badges']?.rich_text?.[0]?.plain_text || '',
         reposicoes:         p['Reposições']?.number ?? null,
         dataReposicao:      p['Data Reposição']?.date?.start || null,
         horarioReposicao:   p['Horário Reposição']?.rich_text?.[0]?.plain_text || null,
