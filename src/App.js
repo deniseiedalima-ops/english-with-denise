@@ -5,7 +5,7 @@ import Dashboard from './pages/Dashboard';
 import Admin from './pages/Admin';
 import AdminPreview from './pages/AdminPreview';
 
-export const ADMIN_EMAIL = 'englishwithdenise.idiomas@gmail.com';
+export const ADMIN_EMAIL = 'denise.ieda.lima@gmail.com';
 export const P1_EMAILS = ['yaraandrade19912@gmail.com'];
 
 export default function App() {

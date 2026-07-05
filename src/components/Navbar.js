@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import './Navbar.css';
 
-const ADMIN_EMAIL = 'englishwithdenise.idiomas@gmail.com';
+const ADMIN_EMAIL = 'denise.ieda.lima@gmail.com';
 
 export default function Navbar({ user, student, onLogout }) {
   const navigate = useNavigate();

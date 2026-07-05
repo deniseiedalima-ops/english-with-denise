@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import Dashboard from './Dashboard';
 
-const ADMIN_EMAIL = 'englishwithdenise.idiomas@gmail.com';
+const ADMIN_EMAIL = 'denise.ieda.lima@gmail.com';
 
 export default function AdminPreview({ user, onLogout }) {
   const { studentEmail } = useParams();
