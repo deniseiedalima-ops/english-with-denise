@@ -163,7 +163,7 @@ export default function Admin({user,onLogout}){
 
   useEffect(()=>{if(user?.email!==ADMIN_EMAIL)navigate('/');},[user]);
   useEffect(()=>{
-    fetch('/api/students').then(r=>r.json()).then(d=>setStudents(d.students||[])).finally(()=>setLoading(false));
+    fetch('/api/index?route=students').then(r=>r.json()).then(d=>setStudents(d.students||[])).finally(()=>setLoading(false));
   },[]);
 
   const persist=useCallback((updater)=>{
@@ -220,7 +220,7 @@ function AulaPicker({ currentAulaId, currentTitulo, onSelect }) {
   useEffect(() => {
     if (!open || aulas.length > 0) return;
     setLoading(true);
-    fetch('/api/data?type=aulas')
+    fetch('/api/index?route=aulas')
       .then(r => r.json())
       .then(d => setAulas(d.aulas || []))
       .catch(() => {})
@@ -360,7 +360,7 @@ function TabAlunos({ students, loading, navigate }) {
     if (!selected) return;
     setSaving(true);
     try {
-      const r = await fetch('/api/update-student', {
+      const r = await fetch('/api/index?route=update-student', {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ pageId: selected.id, fields: { ...form, badges: JSON.stringify(badges) } }),
       });
@@ -386,7 +386,7 @@ function TabAlunos({ students, loading, navigate }) {
     let done = 0; const errors = [];
     for (const s of targets) {
       try {
-        const r = await fetch('/api/update-student', {
+        const r = await fetch('/api/index?route=update-student', {
           method: 'POST', headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ pageId: s.id, fields: payload }),
         });
@@ -677,7 +677,7 @@ function TabAgenda(){
         timeMin=new Date(date.setHours(0,0,0,0)).toISOString();
         timeMax=new Date(date.setHours(23,59,59,999)).toISOString();
       }
-      const res=await fetch('/api/calendar',{method:'POST',headers:{'Content-Type':'application/json','Authorization':`Bearer ${token}`},body:JSON.stringify({timeMin,timeMax})});
+      const res=await fetch('/api/index?route=calendar',{method:'POST',headers:{'Content-Type':'application/json','Authorization':`Bearer ${token}`},body:JSON.stringify({timeMin,timeMax})});
       if(res.status===401){setCalError('expired');return;}
       const data=await res.json();
       if(data.error){setCalError(data.error);return;}

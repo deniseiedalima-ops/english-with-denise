@@ -1,10 +1,6 @@
 {
   "rewrites": [
-    { "source": "/api/notion", "destination": "/api/notion" },
-    { "source": "/api/transcribe", "destination": "/api/transcribe" },
-    { "source": "/api/speaking-feedback", "destination": "/api/speaking-feedback" },
-    { "source": "/api/writing-feedback", "destination": "/api/writing-feedback" },
-    { "source": "/api/notifications", "destination": "/api/notifications" },
+    { "source": "/api/(.*)", "destination": "/api/index" },
     { "source": "/(.*)", "destination": "/index.html" }
   ]
 }

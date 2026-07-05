@@ -1134,7 +1134,7 @@ export default function Practice({ user, student, onLogout }) {
 
     try {
       // Send raw binary with correct content-type — works on all platforms
-      const res = await fetch('/api/transcribe', {
+      const res = await fetch('/api/index?route=transcribe', {
         method: 'POST',
         headers: { 'Content-Type': blob.type || 'audio/webm' },
         body: blob,
@@ -1210,7 +1210,7 @@ export default function Practice({ user, student, onLogout }) {
 
   const getFeedback = async (text) => {
     try {
-      const res = await fetch('/api/speaking-feedback', {
+      const res = await fetch('/api/index?route=speaking-feedback', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -1284,7 +1284,7 @@ export default function Practice({ user, student, onLogout }) {
         return;
       }
       try {
-        const fbRes = await fetch('/api/writing-feedback', {
+        const fbRes = await fetch('/api/index?route=writing-feedback', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ text: writingText, prompt: activity.prompt, level: student?.nivel || 'A1' })

@@ -93,7 +93,7 @@ export default function Community({ user, student, onLogout }) {
     try {
       // Upload via server-side API (avoids CORS issues)
       const arrayBuffer = await photo.arrayBuffer();
-      const upRes = await fetch('/api/upload-image', {
+      const upRes = await fetch('/api/index?route=upload-image', {
         method: 'POST',
         headers: { 'Content-Type': photo.type || 'image/jpeg' },
         body: arrayBuffer,
@@ -103,7 +103,7 @@ export default function Community({ user, student, onLogout }) {
 
       // Save to Notion via API
       const nome = `${user?.name?.split(' ').slice(0, 2).join(' ')}` || 'Student';
-      const postRes = await fetch('/api/community', {
+      const postRes = await fetch('/api/index?route=community', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -139,7 +139,7 @@ export default function Community({ user, student, onLogout }) {
       : p
     ));
 
-    await fetch('/api/community', {
+    await fetch('/api/index?route=community', {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ postId, emoji }),

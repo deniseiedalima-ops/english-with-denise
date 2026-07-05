@@ -65,7 +65,7 @@ export default function App() {
     if (!email) return;
     setRefreshing(true);
     try {
-      const res = await fetch(`/api/notion?email=${encodeURIComponent(email)}&t=${Date.now()}`);
+      const res = await fetch(`/api/index?route=notion&email=${encodeURIComponent(email)}&t=${Date.now()}`);
       const data = await res.json();
       if (data.student) {
         setStudent(data.student);
