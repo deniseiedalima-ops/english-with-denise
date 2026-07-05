@@ -209,6 +209,83 @@ export default function Admin({user,onLogout}){
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
+// AULA PICKER — search and select from Agenda de Aulas
+// ══════════════════════════════════════════════════════════════════════════════
+function AulaPicker({ currentAulaId, currentTitulo, onSelect }) {
+  const [aulas, setAulas] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [search, setSearch] = useState('');
+  const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    if (!open || aulas.length > 0) return;
+    setLoading(true);
+    fetch('/api/aulas')
+      .then(r => r.json())
+      .then(d => setAulas(d.aulas || []))
+      .catch(() => {})
+      .finally(() => setLoading(false));
+  }, [open]);
+
+  const filtered = aulas.filter(a =>
+    a.titulo.toLowerCase().includes(search.toLowerCase()) ||
+    (a.nivel || '').toLowerCase().includes(search.toLowerCase()) ||
+    String(a.numero).includes(search)
+  );
+
+  return (
+    <div className="aula-picker">
+      {/* Current selection */}
+      <div className="aula-picker-current" onClick={() => setOpen(!open)}>
+        {currentTitulo
+          ? <><span className="aula-picker-check">✓</span><span className="aula-picker-sel-title">{currentTitulo}</span></>
+          : <span className="aula-picker-placeholder">Selecionar aula...</span>
+        }
+        <span className="aula-picker-chevron">{open ? '▲' : '▼'}</span>
+      </div>
+
+      {/* Dropdown */}
+      {open && (
+        <div className="aula-picker-dropdown">
+          <input
+            className="aula-picker-search"
+            placeholder="🔍 Buscar aula..."
+            value={search}
+            onChange={e => setSearch(e.target.value)}
+            autoFocus
+          />
+          {loading && <div className="aula-picker-loading">Carregando aulas...</div>}
+          <div className="aula-picker-list">
+            {filtered.map(a => (
+              <div
+                key={a.id}
+                className={`aula-picker-item ${currentAulaId === a.id ? 'active' : ''}`}
+                onClick={() => { onSelect(a); setOpen(false); setSearch(''); }}
+              >
+                <span className="aula-picker-num">#{a.numero}</span>
+                <div className="aula-picker-info">
+                  <div className="aula-picker-title">{a.titulo}</div>
+                  {a.dataAula && (
+                    <div className="aula-picker-date">
+                      {new Date(a.dataAula + 'T12:00:00').toLocaleDateString('pt-BR', { weekday:'short', day:'numeric', month:'short' })}
+                    </div>
+                  )}
+                </div>
+                {a.nivel && <span className="aula-picker-nivel" style={{ background: LEVEL_COLORS[a.nivel]||'#aaa', color:'#fff' }}>{a.nivel}</span>}
+                {currentAulaId === a.id && <span style={{ color:'#ff6a00', fontWeight:700 }}>✓</span>}
+              </div>
+            ))}
+            {!loading && filtered.length === 0 && (
+              <div className="aula-picker-loading">Nenhuma aula encontrada</div>
+            )}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
 // TAB: ALUNOS — edita dados via Notion
 // ══════════════════════════════════════════════════════════════════════════════
 const ALL_BADGES_ADM = [
@@ -416,10 +493,14 @@ function TabAlunos({ students, loading, navigate }) {
 
               <div className="alunos-section">
                 <div className="alunos-section-title">🗓️ Next Class</div>
-                <div style={{ background:'#f7f4f0', borderRadius:8, padding:'10px 14px', fontSize:13, color:'#888', lineHeight:1.6 }}>
-                  📋 Selecione a próxima aula diretamente no <strong style={{color:'#111'}}>Notion</strong> — campo <strong style={{color:'#111'}}>"Próxima Aula"</strong> na ficha do aluno.<br/>
-                  O app busca automaticamente o título e a data de lá.
-                </div>
+                <AulaPicker
+                  currentAulaId={selected?.proximaAula?.id || ''}
+                  currentTitulo={selected?.proximaAula?.titulo || ''}
+                  onSelect={(aula) => {
+                    setForm(f => ({ ...f, proximaAulaId: aula.id, dataProximaAula: aula.dataAula || '' }));
+                    setSelected(s => ({ ...s, proximaAula: aula }));
+                  }}
+                />
               </div>
               <div className="alunos-section">
                 <div className="alunos-section-title">📅 Agenda da semana</div>

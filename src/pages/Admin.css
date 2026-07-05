@@ -517,3 +517,25 @@
 .dash-next-lesson { font-size:11px; color:#aaa; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
 .dash-next-nivel { font-size:9px; font-weight:700; padding:3px 8px; border-radius:20px; flex-shrink:0; }
 .dash-next-hoje-badge { position:absolute; top:8px; right:8px; font-size:9px; font-weight:700; background:#ff6a00; color:#fff; padding:2px 8px; border-radius:20px; }
+
+/* ── AULA PICKER ──────────────────────────────────────────────────────────── */
+.aula-picker { position:relative; }
+.aula-picker-current { display:flex; align-items:center; gap:8px; border:0.5px solid #e0dbd4; border-radius:8px; padding:9px 12px; cursor:pointer; background:#fff; min-height:38px; }
+.aula-picker-current:hover { border-color:#ff6a00; }
+.aula-picker-check { color:#ff6a00; font-weight:700; font-size:14px; flex-shrink:0; }
+.aula-picker-sel-title { font-size:13px; color:#111; flex:1; }
+.aula-picker-placeholder { font-size:13px; color:#bbb; flex:1; }
+.aula-picker-chevron { font-size:10px; color:#aaa; flex-shrink:0; }
+.aula-picker-dropdown { position:absolute; top:calc(100% + 4px); left:0; right:0; background:#fff; border:0.5px solid #e0dbd4; border-radius:10px; box-shadow:0 8px 24px rgba(0,0,0,0.1); z-index:200; overflow:hidden; }
+.aula-picker-search { width:100%; border:none; border-bottom:0.5px solid #f0ede8; padding:10px 12px; font-size:13px; font-family:'DM Sans',sans-serif; outline:none; box-sizing:border-box; }
+.aula-picker-loading { padding:14px 12px; font-size:13px; color:#aaa; text-align:center; }
+.aula-picker-list { max-height:260px; overflow-y:auto; }
+.aula-picker-item { display:flex; align-items:center; gap:10px; padding:10px 12px; cursor:pointer; border-bottom:0.5px solid #f7f4f0; }
+.aula-picker-item:last-child { border-bottom:none; }
+.aula-picker-item:hover { background:#fff8f4; }
+.aula-picker-item.active { background:#fff1e8; }
+.aula-picker-num { font-size:11px; font-weight:700; color:#aaa; width:22px; flex-shrink:0; }
+.aula-picker-info { flex:1; min-width:0; }
+.aula-picker-title { font-size:12px; font-weight:500; color:#111; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.aula-picker-date { font-size:11px; color:#aaa; margin-top:1px; }
+.aula-picker-nivel { font-size:9px; font-weight:700; padding:2px 7px; border-radius:10px; flex-shrink:0; }
