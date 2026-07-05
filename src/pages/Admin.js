@@ -220,7 +220,7 @@ function AulaPicker({ currentAulaId, currentTitulo, onSelect }) {
   useEffect(() => {
     if (!open || aulas.length > 0) return;
     setLoading(true);
-    fetch('/api/aulas')
+    fetch('/api/data?type=aulas')
       .then(r => r.json())
       .then(d => setAulas(d.aulas || []))
       .catch(() => {})
