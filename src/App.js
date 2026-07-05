@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
@@ -18,35 +18,50 @@ export default function App() {
     catch { return null; }
   });
   const [refreshing, setRefreshing] = useState(false);
+  const [lastRefresh, setLastRefresh] = useState(0);
 
-  // CRITICAL: Every time the app opens (including from bookmark/PWA),
-  // re-fetch fresh student data from Notion via API
-  useEffect(() => {
-    if (!user?.email) return;
-    refreshStudent(user.email);
-  }, [user?.email]);
-
-  const refreshStudent = async (email) => {
+  const refreshStudent = useCallback(async (email) => {
+    if (!email) return;
     setRefreshing(true);
     try {
-      const res = await fetch(`/api/notion?email=${encodeURIComponent(email)}`);
+      const res = await fetch(`/api/notion?email=${encodeURIComponent(email)}&t=${Date.now()}`);
       const data = await res.json();
       if (data.student) {
+        // Directly update state — Dashboard re-renders automatically
         setStudent(data.student);
         localStorage.setItem('ewd_student', JSON.stringify(data.student));
+        setLastRefresh(Date.now());
       }
     } catch (e) {
-      // Offline — use cached student from localStorage, already loaded
-      console.log('Using cached student data (offline)');
+      console.log('Offline — using cached data');
     }
     setRefreshing(false);
-  };
+  }, []);
+
+  // Refresh on mount (covers PWA/bookmark open)
+  useEffect(() => {
+    if (user?.email) refreshStudent(user.email);
+  }, [user?.email]);
+
+  // Refresh when tab/app becomes visible again (user switches back)
+  useEffect(() => {
+    if (!user?.email) return;
+    const onVisible = () => {
+      if (document.visibilityState === 'visible') {
+        refreshStudent(user.email);
+      }
+    };
+    document.addEventListener('visibilitychange', onVisible);
+    return () => document.removeEventListener('visibilitychange', onVisible);
+  }, [user?.email, refreshStudent]);
 
   const handleLogin = (googleUser, studentData) => {
     setUser(googleUser);
     setStudent(studentData);
     localStorage.setItem('ewd_user', JSON.stringify(googleUser));
     localStorage.setItem('ewd_student', JSON.stringify(studentData));
+    // Fetch fresh data immediately after login too
+    refreshStudent(googleUser.email);
   };
 
   const handleLogout = () => {
@@ -65,6 +80,7 @@ export default function App() {
         <Route path="/" element={
           user
             ? <Dashboard
+                key={lastRefresh} // Forces full re-render when data updates
                 user={user}
                 student={student}
                 onLogout={handleLogout}
