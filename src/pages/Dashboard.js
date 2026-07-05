@@ -47,7 +47,7 @@ function updateStreak(email) {
   return streak;
 }
 
-export default function Dashboard({ user, student, onLogout, isPreview }) {
+export default function Dashboard({ user, student, onLogout, isPreview, refreshing, onRefresh }) {
   const navigate = useNavigate();
   const email = user?.email || '';
 
@@ -88,8 +88,8 @@ export default function Dashboard({ user, student, onLogout, isPreview }) {
     const onTouchStart = (e) => { startY = e.touches[0].clientY; };
     const onTouchEnd = (e) => {
       const diff = e.changedTouches[0].clientY - startY;
-      if (diff > 80 && window.scrollY === 0) {
-        window.location.reload();
+      if (diff > 80 && window.scrollY === 0 && onRefresh) {
+        onRefresh();
       }
     };
 
@@ -200,7 +200,9 @@ export default function Dashboard({ user, student, onLogout, isPreview }) {
       )}
 
       <main className="dash-content">
-        <div className="pull-hint">↓ Puxe para atualizar</div>
+        <div className="pull-hint" onClick={onRefresh} style={{ cursor: 'pointer' }}>
+          {refreshing ? '⟳ Atualizando...' : '↓ Toque para atualizar'}
+        </div>
 
         {/* ── WELCOME ─────────────────────────────────── */}
         <div className="welcome-row">

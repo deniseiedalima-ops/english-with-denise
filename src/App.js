@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
@@ -17,6 +17,30 @@ export default function App() {
     try { return JSON.parse(localStorage.getItem('ewd_student')) || null; }
     catch { return null; }
   });
+  const [refreshing, setRefreshing] = useState(false);
+
+  // CRITICAL: Every time the app opens (including from bookmark/PWA),
+  // re-fetch fresh student data from Notion via API
+  useEffect(() => {
+    if (!user?.email) return;
+    refreshStudent(user.email);
+  }, [user?.email]);
+
+  const refreshStudent = async (email) => {
+    setRefreshing(true);
+    try {
+      const res = await fetch(`/api/notion?email=${encodeURIComponent(email)}`);
+      const data = await res.json();
+      if (data.student) {
+        setStudent(data.student);
+        localStorage.setItem('ewd_student', JSON.stringify(data.student));
+      }
+    } catch (e) {
+      // Offline — use cached student from localStorage, already loaded
+      console.log('Using cached student data (offline)');
+    }
+    setRefreshing(false);
+  };
 
   const handleLogin = (googleUser, studentData) => {
     setUser(googleUser);
@@ -39,7 +63,15 @@ export default function App() {
           !user ? <Login onLogin={handleLogin} /> : <Navigate to="/" replace />
         } />
         <Route path="/" element={
-          user ? <Dashboard user={user} student={student} onLogout={handleLogout} /> : <Navigate to="/login" replace />
+          user
+            ? <Dashboard
+                user={user}
+                student={student}
+                onLogout={handleLogout}
+                refreshing={refreshing}
+                onRefresh={() => refreshStudent(user.email)}
+              />
+            : <Navigate to="/login" replace />
         } />
         <Route path="/admin" element={
           user?.email === ADMIN_EMAIL

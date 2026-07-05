@@ -112,7 +112,9 @@
 
 /* Pull to refresh hint */
 .pull-hint {
-  text-align: center; font-size: 11px; color: #ccc;
-  padding: 0 0 4px; letter-spacing: .3px;
+  text-align: center; font-size: 11px; color: #bbb;
+  padding: 0 0 6px; letter-spacing: .3px;
   user-select: none; -webkit-user-select: none;
+  transition: color .2s;
 }
+.pull-hint:active { color: #ff6a00; }
