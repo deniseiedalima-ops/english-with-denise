@@ -6,9 +6,7 @@ import './PracticeHub.css';
 
 const LEVEL_ACCESS = {
   'A1':           ['A1'],
-  'A1→A2':        ['A1'],
   'A2':           ['A1', 'A2'],
-  'B1 iniciante': ['A1', 'A2'],
   'B1':           ['A1', 'A2', 'B1'],
   'B2':           ['A1', 'A2', 'B1', 'B2'],
 };

@@ -23,6 +23,7 @@ export default async function handler(req, res) {
   if (fields.kamiLink         !== undefined) props['Link KAMI']            = { url: fields.kamiLink || null };
   if (fields.valorMensalidade !== undefined) props['Valor Mensalidade']    = { rich_text: [{ text: { content: fields.valorMensalidade || '' } }] };
   if (fields.dataVencimento   !== undefined) props['Data Vencimento']      = { rich_text: [{ text: { content: fields.dataVencimento || '' } }] };
+  if (fields.asaasLink        !== undefined) props['Link ASAAS']           = { url: fields.asaasLink || null };
   if (fields.horarioReposicao !== undefined) props['Horário Reposição']    = { rich_text: [{ text: { content: fields.horarioReposicao || '' } }] };
   if (fields.reposicoes       !== undefined) props['Reposições']           = { number: Number(fields.reposicoes) || 0 };
   if (fields.dataReposicao    !== undefined) props['Data Reposição']       = fields.dataReposicao ? { date: { start: fields.dataReposicao } } : { date: null };

@@ -31,7 +31,7 @@ const TIER_STYLE = {
   special: { bg:'#fff1e8', color:'#c85000', label:'Especial' },
 };
 
-const LEVEL_ORDER = ['A1','A1→A2','A2','B1 iniciante','B1','B2','P1'];
+const LEVEL_ORDER = ['A1','A2','B1','B2','P1'];
 
 function updateStreak(email) {
   const today = new Date().toDateString();
@@ -262,7 +262,7 @@ export default function Dashboard({ user, student, onLogout, isPreview }) {
                 {new Date(student.dataReposicao + 'T12:00:00').toLocaleDateString('pt-BR', { weekday: 'long', day: 'numeric', month: 'long' })}
                 {student.horarioReposicao && ` às ${student.horarioReposicao}`}
               </div>
-              <div className="repos-sched-warn">⚠️ Cancele com pelo menos 12h de antecedência</div>
+              <div className="repos-sched-warn">⚠️ Se precisar cancelar a reposição, é possível somente com 12h de antecedência. Caso contrário, a aula consta como dada.</div>
             </div>
           </div>
         )}
@@ -295,7 +295,7 @@ export default function Dashboard({ user, student, onLogout, isPreview }) {
                 </button>
               </div>
             </div>
-            <a href={ASAAS_LINK} target="_blank" rel="noreferrer" className="fin-pay-btn">
+            <a href={student?.asaasLink || ASAAS_LINK} target="_blank" rel="noreferrer" className="fin-pay-btn">
               <span>💰</span> Pagar via link de pagamento
             </a>
           </div>

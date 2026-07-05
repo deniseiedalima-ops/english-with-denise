@@ -6,8 +6,8 @@ import './Admin.css';
 const ADMIN_EMAIL = 'denise.ieda.lima@gmail.com';
 
 const LEVEL_COLORS = {
-  'A1': '#ff6a00', 'A1→A2': '#ff9a3c', 'A2': '#1d9e75',
-  'B1 iniciante': '#2e86c1', 'B1': '#2e86c1', 'B2': '#7f77dd', 'P1': '#d4537e',
+  'A1': '#ff6a00', 'A2': '#1d9e75',
+  'B1': '#2e86c1', 'B2': '#7f77dd', 'P1': '#d4537e',
 };
 
 const NIVEL_BG = { A1:'#ff6a00', A2:'#1d9e75', B1:'#2e86c1', B2:'#7f77dd' };
@@ -227,52 +227,100 @@ const ALL_BADGES_ADM = [
 ];
 
 function TabAlunos({ students, loading, navigate }) {
+  const [mode, setMode] = useState('individual'); // 'individual' | 'lote'
   const [selected, setSelected] = useState(null);
+  const [checked, setChecked] = useState(new Set());
   const [search, setSearch] = useState('');
   const [form, setForm] = useState({});
+  const [bulkForm, setBulkForm] = useState({
+    tarefaDaSemana: '', paginasDoLivro: '', tarefaPersonalizada: '',
+    meetLink: '', valorMensalidade: '', dataVencimento: '',
+  });
+  const [bulkFields, setBulkFields] = useState({
+    tarefaDaSemana: false, paginasDoLivro: false, tarefaPersonalizada: false,
+    meetLink: false, valorMensalidade: false, dataVencimento: false,
+  });
   const [badges, setBadges] = useState([]);
   const [saving, setSaving] = useState(false);
+  const [bulkProgress, setBulkProgress] = useState(null); // {done, total}
   const [toast, setToast] = useState('');
+
+  const showToast = (msg) => { setToast(msg); setTimeout(() => setToast(''), 3500); };
 
   const selectStudent = (s) => {
     setSelected(s);
     setForm({
-      tarefaDaSemana:      s.tarefaDaSemana || '',
-      paginasDoLivro:      s.paginasDoLivro || '',
-      tarefaPersonalizada: s.tarefaPersonalizada || '',
-      meetLink:            s.meetLink || '',
-      classroomLink:       s.classroomLink || '',
-      driveLink:           s.driveLink || '',
-      kamiLink:            s.kamiLink || '',
-      valorMensalidade:    s.valorMensalidade || '',
-      dataVencimento:      s.dataVencimento || '',
-      reposicoes:          s.reposicoes ?? 0,
-      dataReposicao:       s.dataReposicao || '',
-      horarioReposicao:    s.horarioReposicao || '',
-      nivel:               s.nivel || 'A1',
+      tarefaDaSemana: s.tarefaDaSemana || '', paginasDoLivro: s.paginasDoLivro || '',
+      tarefaPersonalizada: s.tarefaPersonalizada || '', meetLink: s.meetLink || '',
+      classroomLink: s.classroomLink || '', driveLink: s.driveLink || '',
+      kamiLink: s.kamiLink || '', valorMensalidade: s.valorMensalidade || '',
+      dataVencimento: s.dataVencimento || '', asaasLink: s.asaasLink || '',
+      reposicoes: s.reposicoes ?? 0, dataReposicao: s.dataReposicao || '',
+      horarioReposicao: s.horarioReposicao || '', nivel: s.nivel || 'A1',
     });
-    const stored = JSON.parse(localStorage.getItem(`ewd_badges_${s.email}`) || '[]');
-    setBadges(stored);
+    setBadges(JSON.parse(localStorage.getItem(`ewd_badges_${s.email}`) || '[]'));
   };
 
+  const toggleCheck = (id) => {
+    setChecked(prev => {
+      const n = new Set(prev);
+      n.has(id) ? n.delete(id) : n.add(id);
+      return n;
+    });
+  };
+
+  const toggleAll = () => {
+    if (checked.size === filtered.length) setChecked(new Set());
+    else setChecked(new Set(filtered.map(s => s.id)));
+  };
+
+  // Save individual
   const save = async () => {
     if (!selected) return;
     setSaving(true);
     try {
-      // Save badges locally (per student email)
       localStorage.setItem(`ewd_badges_${selected.email}`, JSON.stringify(badges));
-      // Save fields to Notion
       const r = await fetch('/api/update-student', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ pageId: selected.id, fields: form }),
       });
       const d = await r.json();
-      if (d.success) setToast('✅ Salvo com sucesso!');
-      else setToast('⚠️ Erro: ' + (d.error || 'tente novamente'));
-    } catch { setToast('⚠️ Erro de conexão'); }
+      if (d.success) showToast('✅ Salvo com sucesso!');
+      else showToast('⚠️ Erro: ' + (d.error || 'tente novamente'));
+    } catch { showToast('⚠️ Erro de conexão'); }
     setSaving(false);
-    setTimeout(() => setToast(''), 3000);
+  };
+
+  // Save bulk — only checked fields
+  const saveBulk = async () => {
+    const targets = students.filter(s => checked.has(s.id));
+    if (targets.length === 0) { showToast('⚠️ Selecione pelo menos um aluno'); return; }
+    const activeFields = Object.entries(bulkFields).filter(([, v]) => v).map(([k]) => k);
+    if (activeFields.length === 0) { showToast('⚠️ Ative pelo menos um campo para enviar'); return; }
+
+    const payload = {};
+    activeFields.forEach(k => { payload[k] = bulkForm[k]; });
+
+    setSaving(true);
+    setBulkProgress({ done: 0, total: targets.length });
+    let done = 0; const errors = [];
+    for (const s of targets) {
+      try {
+        const r = await fetch('/api/update-student', {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ pageId: s.id, fields: payload }),
+        });
+        const d = await r.json();
+        if (!d.success) errors.push(s.nome);
+      } catch { errors.push(s.nome); }
+      done++;
+      setBulkProgress({ done, total: targets.length });
+      await new Promise(r => setTimeout(r, 300)); // avoid rate limiting
+    }
+    setSaving(false);
+    setBulkProgress(null);
+    if (errors.length === 0) showToast(`✅ ${targets.length} aluno${targets.length > 1 ? 's' : ''} atualizado${targets.length > 1 ? 's' : ''}!`);
+    else showToast(`⚠️ Erro em: ${errors.join(', ')}`);
   };
 
   const filtered = students.filter(s =>
@@ -282,155 +330,231 @@ function TabAlunos({ students, loading, navigate }) {
 
   if (loading) return <div className="admin-loading">Carregando... ✨</div>;
 
+  const BULK_FIELD_LABELS = [
+    { key: 'tarefaDaSemana',    label: '📅 Agenda da semana',      type: 'textarea' },
+    { key: 'paginasDoLivro',    label: '📖 Páginas do livro',       type: 'input', ph: 'Ex: p.10-13' },
+    { key: 'tarefaPersonalizada',label: '✅ Tarefa personalizada',  type: 'input', ph: 'Ex: Leia o diálogo antes da aula' },
+    { key: 'meetLink',          label: '📹 Link Google Meet',       type: 'input', ph: 'https://meet.google.com/...' },
+    { key: 'valorMensalidade',  label: '💰 Valor mensalidade',      type: 'input', ph: 'Ex: 220,00' },
+    { key: 'dataVencimento',    label: '📆 Vencimento',             type: 'input', ph: 'Ex: 20 de julho' },
+  ];
+
   return (
     <div className="tab-alunos">
       {toast && <div className="alunos-toast">{toast}</div>}
 
+      {/* Mode toggle */}
+      <div className="alunos-mode-toggle">
+        <button className={`alunos-mode-btn ${mode === 'individual' ? 'active' : ''}`} onClick={() => { setMode('individual'); setChecked(new Set()); }}>
+          👤 Individual
+        </button>
+        <button className={`alunos-mode-btn ${mode === 'lote' ? 'active' : ''}`} onClick={() => { setMode('lote'); setSelected(null); }}>
+          📢 Envio em Lote
+        </button>
+      </div>
+
       <div className="alunos-layout">
-        {/* Lista de alunos */}
+
+        {/* Sidebar — shared between modes */}
         <div className="alunos-sidebar">
-          <input className="admin-search" placeholder="🔍 Buscar..." value={search} onChange={e => setSearch(e.target.value)} style={{ marginBottom: 10 }} />
+          <input className="admin-search" placeholder="🔍 Buscar..." value={search} onChange={e => setSearch(e.target.value)} style={{ marginBottom: 8 }} />
+
+          {mode === 'lote' && (
+            <div className="lote-select-all" onClick={toggleAll}>
+              <input type="checkbox" readOnly checked={checked.size === filtered.length && filtered.length > 0} style={{ marginRight: 6 }} />
+              <span style={{ fontSize: 12, color: '#555' }}>Selecionar todos ({filtered.length})</span>
+            </div>
+          )}
+
           <div className="alunos-list">
             {filtered.map(s => (
-              <div key={s.id} className={`aluno-item ${selected?.id === s.id ? 'active' : ''}`} onClick={() => selectStudent(s)}>
-                <div className="presenca-avatar" style={{ background: LEVEL_COLORS[s.nivel] || '#aaa', width: 32, height: 32, fontSize: 13, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontWeight: 700, flexShrink: 0 }}>{s.nome[0]}</div>
+              <div key={s.id}
+                className={`aluno-item ${mode === 'individual' && selected?.id === s.id ? 'active' : ''} ${mode === 'lote' && checked.has(s.id) ? 'checked' : ''}`}
+                onClick={() => mode === 'individual' ? selectStudent(s) : toggleCheck(s.id)}
+              >
+                {mode === 'lote' && (
+                  <input type="checkbox" readOnly checked={checked.has(s.id)} style={{ marginRight: 4, flexShrink: 0 }} />
+                )}
+                <div className="presenca-avatar" style={{ background: LEVEL_COLORS[s.nivel] || '#aaa', width: 28, height: 28, fontSize: 12, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontWeight: 700, flexShrink: 0 }}>{s.nome[0]}</div>
                 <div style={{ flex: 1, minWidth: 0 }}>
                   <div className="aluno-nome">{s.nome}</div>
-                  <div className="aluno-email">{s.email}</div>
+                  <div className="aluno-email">{s.nivel}</div>
                 </div>
-                <span className="nivel-badge" style={{ background: LEVEL_COLORS[s.nivel] || '#aaa', color: '#fff', fontSize: 9 }}>{s.nivel}</span>
               </div>
             ))}
           </div>
         </div>
 
-        {/* Formulário */}
-        {selected ? (
+        {/* ── INDIVIDUAL MODE ── */}
+        {mode === 'individual' && (
+          selected ? (
+            <div className="alunos-form">
+              <div className="alunos-form-header">
+                <div>
+                  <div className="alunos-form-title">{selected.nome}</div>
+                  <div className="alunos-form-sub">{selected.email}</div>
+                </div>
+                <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+                  <button className="adm-preview-small" onClick={() => navigate(`/admin/preview/${selected.email}`)}>👁️ Ver como aluno</button>
+                  <button className="adm-save-small" onClick={save} disabled={saving}>{saving ? 'Salvando...' : '💾 Salvar'}</button>
+                </div>
+              </div>
+
+              <div className="alunos-section">
+                <div className="alunos-section-title">🎓 Nível</div>
+                <div className="level-row">
+                  {['A1','A2','B1','B2','P1'].map(lvl => (
+                    <button key={lvl} className={`level-pill-btn ${form.nivel === lvl ? 'active' : ''}`}
+                      style={form.nivel === lvl ? { background: LEVEL_COLORS[lvl], color: '#fff', borderColor: LEVEL_COLORS[lvl] } : {}}
+                      onClick={() => setForm(f => ({ ...f, nivel: lvl }))}>{lvl}</button>
+                  ))}
+                </div>
+              </div>
+
+              <div className="alunos-section">
+                <div className="alunos-section-title">📅 Agenda da semana</div>
+                <div className="alunos-field">
+                  <label className="alunos-label">Itens <span style={{ color: '#aaa', fontWeight: 400 }}>— um por linha</span></label>
+                  <textarea className="alunos-textarea" rows={4} value={form.tarefaDaSemana} onChange={e => setForm(f => ({ ...f, tarefaDaSemana: e.target.value }))} placeholder="Ex: Unit 2 — 2A: We had an adventure&#10;Rever vocabulário Unit 1" />
+                </div>
+                <div className="alunos-grid2">
+                  <div className="alunos-field">
+                    <label className="alunos-label">Páginas do livro</label>
+                    <input className="alunos-input" value={form.paginasDoLivro} onChange={e => setForm(f => ({ ...f, paginasDoLivro: e.target.value }))} placeholder="Ex: p.10-13" />
+                  </div>
+                  <div className="alunos-field">
+                    <label className="alunos-label">Tarefa personalizada</label>
+                    <input className="alunos-input" value={form.tarefaPersonalizada} onChange={e => setForm(f => ({ ...f, tarefaPersonalizada: e.target.value }))} placeholder="Ex: Leia o diálogo antes da aula" />
+                  </div>
+                </div>
+              </div>
+
+              <div className="alunos-section">
+                <div className="alunos-section-title">🔗 Links</div>
+                <div className="alunos-grid2">
+                  {[['meetLink','Google Meet','https://meet.google.com/...'],['driveLink','Google Drive','https://drive.google.com/...'],['classroomLink','Classroom','https://classroom.google.com/...'],['kamiLink','KAMI','https://app.kami.com/...']].map(([key, label, ph]) => (
+                    <div key={key} className="alunos-field">
+                      <label className="alunos-label">{label}</label>
+                      <input className="alunos-input" value={form[key]} onChange={e => setForm(f => ({ ...f, [key]: e.target.value }))} placeholder={ph} />
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="alunos-section">
+                <div className="alunos-section-title">💳 Financeiro</div>
+                <div className="alunos-grid2">
+                  <div className="alunos-field"><label className="alunos-label">Valor mensalidade</label><input className="alunos-input" value={form.valorMensalidade} onChange={e => setForm(f => ({ ...f, valorMensalidade: e.target.value }))} placeholder="Ex: 220,00" /></div>
+                  <div className="alunos-field"><label className="alunos-label">Vencimento</label><input className="alunos-input" value={form.dataVencimento} onChange={e => setForm(f => ({ ...f, dataVencimento: e.target.value }))} placeholder="Ex: 20 de julho" /></div>
+                </div>
+                <div className="alunos-field" style={{ marginTop: 10 }}>
+                  <label className="alunos-label">Link ASAAS individual</label>
+                  <input className="alunos-input" value={form.asaasLink} onChange={e => setForm(f => ({ ...f, asaasLink: e.target.value }))} placeholder="https://www.asaas.com/c/..." />
+                </div>
+              </div>
+
+              <div className="alunos-section">
+                <div className="alunos-section-title">🔄 Reposição</div>
+                <div className="alunos-grid3">
+                  <div className="alunos-field"><label className="alunos-label">Qtd. pendentes</label><input className="alunos-input" type="number" min="0" value={form.reposicoes} onChange={e => setForm(f => ({ ...f, reposicoes: parseInt(e.target.value) || 0 }))} /></div>
+                  <div className="alunos-field"><label className="alunos-label">Data</label><input className="alunos-input" type="date" value={form.dataReposicao} onChange={e => setForm(f => ({ ...f, dataReposicao: e.target.value }))} /></div>
+                  <div className="alunos-field"><label className="alunos-label">Horário</label><input className="alunos-input" value={form.horarioReposicao} onChange={e => setForm(f => ({ ...f, horarioReposicao: e.target.value }))} placeholder="Ex: 19h30" /></div>
+                </div>
+              </div>
+
+              <div className="alunos-section">
+                <div className="alunos-section-title">🏅 Badges</div>
+                <div className="badges-grid-adm">
+                  {ALL_BADGES_ADM.map(b => {
+                    const on = badges.includes(b.id);
+                    return (
+                      <div key={b.id} className={`badge-toggle-adm ${on ? 'on' : ''}`} onClick={() => setBadges(prev => on ? prev.filter(x => x !== b.id) : [...prev, b.id])}>
+                        <div className="badge-icon-adm" style={{ background: on ? b.bg : '#f0ede8' }}>{b.icon}</div>
+                        <span className="badge-name-adm">{b.name}</span>
+                        <div className={`toggle-adm ${on ? 'on' : ''}`} />
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+
+              <button className="adm-save-bottom-btn" onClick={save} disabled={saving}>{saving ? 'Salvando...' : '💾 Salvar todas as alterações'}</button>
+            </div>
+          ) : (
+            <div className="alunos-empty">
+              <div style={{ fontSize: 40, marginBottom: 12 }}>👈</div>
+              <div style={{ fontWeight: 600, color: '#111', marginBottom: 6 }}>Selecione um aluno</div>
+              <div style={{ color: '#aaa', fontSize: 13 }}>Clique em um aluno para editar agenda, financeiro, links e badges</div>
+            </div>
+          )
+        )}
+
+        {/* ── LOTE MODE ── */}
+        {mode === 'lote' && (
           <div className="alunos-form">
             <div className="alunos-form-header">
               <div>
-                <div className="alunos-form-title">{selected.nome}</div>
-                <div className="alunos-form-sub">{selected.email}</div>
-              </div>
-              <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
-                <button className="adm-preview-small" onClick={() => navigate(`/admin/preview/${selected.email}`)}>👁️ Ver como aluno</button>
-                <button className="adm-save-small" onClick={save} disabled={saving}>{saving ? 'Salvando...' : '💾 Salvar'}</button>
-              </div>
-            </div>
-
-            {/* Nível */}
-            <div className="alunos-section">
-              <div className="alunos-section-title">🎓 Nível</div>
-              <div className="level-row">
-                {['A1','A1→A2','A2','B1 iniciante','B1','B2','P1'].map(lvl => (
-                  <button key={lvl} className={`level-pill-btn ${form.nivel === lvl ? 'active' : ''}`}
-                    style={form.nivel === lvl ? { background: LEVEL_COLORS[lvl], color: '#fff', borderColor: LEVEL_COLORS[lvl] } : {}}
-                    onClick={() => setForm(f => ({ ...f, nivel: lvl }))}>{lvl}</button>
-                ))}
-              </div>
-            </div>
-
-            {/* Agenda */}
-            <div className="alunos-section">
-              <div className="alunos-section-title">📅 Agenda da semana</div>
-              <div className="alunos-field">
-                <label className="alunos-label">Itens <span style={{ color: '#aaa', fontWeight: 400 }}>— um por linha</span></label>
-                <textarea className="alunos-textarea" rows={4} value={form.tarefaDaSemana}
-                  onChange={e => setForm(f => ({ ...f, tarefaDaSemana: e.target.value }))}
-                  placeholder="Ex: Unit 2 — 2A: We had an adventure&#10;Rever vocabulário Unit 1" />
-              </div>
-              <div className="alunos-grid2">
-                <div className="alunos-field">
-                  <label className="alunos-label">Páginas do livro</label>
-                  <input className="alunos-input" value={form.paginasDoLivro} onChange={e => setForm(f => ({ ...f, paginasDoLivro: e.target.value }))} placeholder="Ex: p.10-13" />
-                </div>
-                <div className="alunos-field">
-                  <label className="alunos-label">Tarefa personalizada</label>
-                  <input className="alunos-input" value={form.tarefaPersonalizada} onChange={e => setForm(f => ({ ...f, tarefaPersonalizada: e.target.value }))} placeholder="Ex: Leia o diálogo antes da aula" />
+                <div className="alunos-form-title">Envio em Lote</div>
+                <div className="alunos-form-sub">
+                  {checked.size === 0 ? 'Nenhum aluno selecionado' : `${checked.size} aluno${checked.size > 1 ? 's' : ''} selecionado${checked.size > 1 ? 's' : ''}`}
                 </div>
               </div>
+              <button className="adm-save-small" onClick={saveBulk} disabled={saving || checked.size === 0}>
+                {saving ? `Enviando ${bulkProgress?.done}/${bulkProgress?.total}...` : `📢 Enviar para ${checked.size} aluno${checked.size !== 1 ? 's' : ''}`}
+              </button>
             </div>
 
-            {/* Links */}
-            <div className="alunos-section">
-              <div className="alunos-section-title">🔗 Links</div>
-              <div className="alunos-grid2">
-                {[
-                  ['meetLink', 'Google Meet', 'https://meet.google.com/...'],
-                  ['driveLink', 'Google Drive (material)', 'https://drive.google.com/...'],
-                  ['classroomLink', 'Google Classroom', 'https://classroom.google.com/...'],
-                  ['kamiLink', 'KAMI', 'https://app.kami.com/...'],
-                ].map(([key, label, ph]) => (
-                  <div key={key} className="alunos-field">
-                    <label className="alunos-label">{label}</label>
-                    <input className="alunos-input" value={form[key]} onChange={e => setForm(f => ({ ...f, [key]: e.target.value }))} placeholder={ph} />
-                  </div>
-                ))}
+            {/* Progress bar */}
+            {bulkProgress && (
+              <div className="lote-progress">
+                <div className="lote-progress-bar">
+                  <div className="lote-progress-fill" style={{ width: `${(bulkProgress.done / bulkProgress.total) * 100}%` }} />
+                </div>
+                <span className="lote-progress-label">{bulkProgress.done} de {bulkProgress.total}</span>
               </div>
+            )}
+
+            <div className="lote-hint">
+              <span>💡</span>
+              <span>Ative apenas os campos que deseja atualizar. Os campos desativados não serão alterados nos alunos selecionados.</span>
             </div>
 
-            {/* Financeiro */}
-            <div className="alunos-section">
-              <div className="alunos-section-title">💳 Financeiro (visível ao aluno)</div>
-              <div className="alunos-grid2">
-                <div className="alunos-field">
-                  <label className="alunos-label">Valor mensalidade</label>
-                  <input className="alunos-input" value={form.valorMensalidade} onChange={e => setForm(f => ({ ...f, valorMensalidade: e.target.value }))} placeholder="Ex: 220,00" />
+            {/* Bulk fields with toggle */}
+            {BULK_FIELD_LABELS.map(({ key, label, type, ph }) => (
+              <div key={key} className={`lote-field-block ${bulkFields[key] ? 'active' : ''}`}>
+                <div className="lote-field-header" onClick={() => setBulkFields(f => ({ ...f, [key]: !f[key] }))}>
+                  <div className={`lote-toggle ${bulkFields[key] ? 'on' : ''}`} />
+                  <span className="lote-field-label">{label}</span>
+                  {!bulkFields[key] && <span className="lote-field-off">desativado</span>}
                 </div>
-                <div className="alunos-field">
-                  <label className="alunos-label">Vencimento</label>
-                  <input className="alunos-input" value={form.dataVencimento} onChange={e => setForm(f => ({ ...f, dataVencimento: e.target.value }))} placeholder="Ex: 20 de julho" />
-                </div>
+                {bulkFields[key] && (
+                  type === 'textarea'
+                    ? <textarea className="alunos-textarea" rows={4} value={bulkForm[key]} onChange={e => setBulkForm(f => ({ ...f, [key]: e.target.value }))} placeholder="Ex: Unit 2 — 2A: We had an adventure&#10;Rever vocabulário Unit 1" />
+                    : <input className="alunos-input" value={bulkForm[key]} onChange={e => setBulkForm(f => ({ ...f, [key]: e.target.value }))} placeholder={ph} />
+                )}
               </div>
-            </div>
+            ))}
 
-            {/* Reposição */}
-            <div className="alunos-section">
-              <div className="alunos-section-title">🔄 Reposição</div>
-              <div className="alunos-grid3">
-                <div className="alunos-field">
-                  <label className="alunos-label">Reposições pendentes</label>
-                  <input className="alunos-input" type="number" min="0" value={form.reposicoes} onChange={e => setForm(f => ({ ...f, reposicoes: parseInt(e.target.value) || 0 }))} />
-                </div>
-                <div className="alunos-field">
-                  <label className="alunos-label">Data</label>
-                  <input className="alunos-input" type="date" value={form.dataReposicao} onChange={e => setForm(f => ({ ...f, dataReposicao: e.target.value }))} />
-                </div>
-                <div className="alunos-field">
-                  <label className="alunos-label">Horário</label>
-                  <input className="alunos-input" value={form.horarioReposicao} onChange={e => setForm(f => ({ ...f, horarioReposicao: e.target.value }))} placeholder="Ex: 19h30" />
+            {checked.size > 0 && (
+              <div className="lote-selected-preview">
+                <div className="lote-selected-title">Será enviado para:</div>
+                <div className="lote-selected-names">
+                  {students.filter(s => checked.has(s.id)).map(s => (
+                    <span key={s.id} className="lote-name-chip">
+                      {s.nome.split(' ')[0]}
+                      <span onClick={() => toggleCheck(s.id)} style={{ marginLeft: 4, cursor: 'pointer', opacity: .6 }}>✕</span>
+                    </span>
+                  ))}
                 </div>
               </div>
-            </div>
+            )}
 
-            {/* Badges */}
-            <div className="alunos-section">
-              <div className="alunos-section-title">🏅 Badges <span style={{ color: '#aaa', fontWeight: 400, fontSize: 12 }}>— salvo localmente neste dispositivo</span></div>
-              <div className="badges-grid-adm">
-                {ALL_BADGES_ADM.map(b => {
-                  const on = badges.includes(b.id);
-                  return (
-                    <div key={b.id} className={`badge-toggle-adm ${on ? 'on' : ''}`} onClick={() => setBadges(prev => on ? prev.filter(x => x !== b.id) : [...prev, b.id])}>
-                      <div className="badge-icon-adm" style={{ background: on ? b.bg : '#f0ede8' }}>{b.icon}</div>
-                      <span className="badge-name-adm">{b.name}</span>
-                      <div className={`toggle-adm ${on ? 'on' : ''}`} />
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-
-            <button className="adm-save-bottom-btn" onClick={save} disabled={saving}>
-              {saving ? 'Salvando...' : '💾 Salvar todas as alterações'}
+            <button className="adm-save-bottom-btn" onClick={saveBulk} disabled={saving || checked.size === 0}>
+              {saving ? `Enviando ${bulkProgress?.done || 0}/${bulkProgress?.total || 0}...` : `📢 Enviar para ${checked.size} aluno${checked.size !== 1 ? 's' : ''}`}
             </button>
           </div>
-        ) : (
-          <div className="alunos-empty">
-            <div style={{ fontSize: 40, marginBottom: 12 }}>👈</div>
-            <div style={{ fontWeight: 600, color: '#111', marginBottom: 6 }}>Selecione um aluno</div>
-            <div style={{ color: '#aaa', fontSize: 13 }}>Clique em um aluno para editar agenda, financeiro, links e badges</div>
-          </div>
         )}
+
       </div>
     </div>
   );

@@ -61,6 +61,7 @@ export default async function handler(req, res) {
         driveLink:        props['Link Drive']?.url || '',
         valorMensalidade: props['Valor Mensalidade']?.rich_text?.[0]?.plain_text || '',
         dataVencimento:   props['Data Vencimento']?.rich_text?.[0]?.plain_text || '',
+        asaasLink:        props['Link ASAAS']?.url || '',
         meetLink: props['Link Google Meet']?.url || '',
         codigo: props['Código']?.number || null,
         dataProximaAula: props['Data da Próxima Aula']?.date?.start || null,
