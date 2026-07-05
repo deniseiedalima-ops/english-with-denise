@@ -13,7 +13,7 @@ export default function Navbar({ user, student, onLogout }) {
 
   const links = [
     { label: 'Dashboard', path: '/' },
-    { label: 'Practice Hub', path: '/hub' },
+    
     ...(user?.email === ADMIN_EMAIL ? [{ label: '👑 Admin', path: '/admin' }] : []),
   ];
 

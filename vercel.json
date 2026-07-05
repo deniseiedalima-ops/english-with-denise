@@ -1,12 +1,10 @@
 {
   "rewrites": [
-    { "source": "/api/notion",           "destination": "/api/notion" },
-    { "source": "/api/students",         "destination": "/api/students" },
-    { "source": "/api/calendar",         "destination": "/api/calendar" },
-    { "source": "/api/transcribe",       "destination": "/api/transcribe" },
-    { "source": "/api/speaking-feedback","destination": "/api/speaking-feedback" },
+    { "source": "/api/notion", "destination": "/api/notion" },
+    { "source": "/api/transcribe", "destination": "/api/transcribe" },
+    { "source": "/api/speaking-feedback", "destination": "/api/speaking-feedback" },
     { "source": "/api/writing-feedback", "destination": "/api/writing-feedback" },
-    { "source": "/api/notifications",    "destination": "/api/notifications" },
-    { "source": "/(.*)",                 "destination": "/index.html" }
+    { "source": "/api/notifications", "destination": "/api/notifications" },
+    { "source": "/(.*)", "destination": "/index.html" }
   ]
 }

@@ -2,16 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { getStudentByEmail, addToWaitlist } from '../notion';
 import './Login.css';
 
-export const ADMIN_EMAIL = 'denise.ieda.lima@gmail.com';
-
-// Scopes: openid + email + profile + calendar (read-only)
-const SCOPES = [
-  'openid',
-  'email',
-  'profile',
-  'https://www.googleapis.com/auth/calendar.readonly',
-].join(' ');
-
 export default function Login({ onLogin }) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -34,8 +24,6 @@ export default function Login({ onLogin }) {
 
   const initGoogle = () => {
     if (!window.google) return;
-
-    // Standard id_token login button (for students)
     window.google.accounts.id.initialize({
       client_id: process.env.REACT_APP_GOOGLE_CLIENT_ID,
       callback: handleCredential,
@@ -44,30 +32,16 @@ export default function Login({ onLogin }) {
       document.getElementById('google-btn'),
       { theme: 'outline', size: 'large', width: 300, text: 'signin_with' }
     );
-
-    // OAuth2 token client for admin (requests calendar scope)
-    window._gCalClient = window.google.accounts.oauth2.initTokenClient({
-      client_id: process.env.REACT_APP_GOOGLE_CLIENT_ID,
-      scope: SCOPES,
-      callback: handleAdminToken,
-    });
   };
 
-  // Called when student signs in with ID button
   const handleCredential = async (response) => {
     setLoading(true);
     setError('');
     try {
       const payload = JSON.parse(atob(response.credential.split('.')[1]));
-      const { email, name, picture } = payload;
-
-      // If admin, request calendar access token instead
-      if (email === ADMIN_EMAIL) {
-        // Store id_token info temporarily, then request calendar scope
-        window._pendingAdminUser = { email, name, picture };
-        window._gCalClient.requestAccessToken();
-        return;
-      }
+      const email = payload.email;
+      const name = payload.name;
+      const picture = payload.picture;
 
       const student = await getStudentByEmail(email);
       if (!student) {
@@ -79,32 +53,6 @@ export default function Login({ onLogin }) {
       }
 
       onLogin({ email, name, picture }, student);
-    } catch (err) {
-      setError('Login failed. Please try again.');
-      setLoading(false);
-    }
-  };
-
-  // Called when admin gets calendar access token
-  const handleAdminToken = async (tokenResponse) => {
-    try {
-      if (tokenResponse.error) {
-        setError('Calendar access denied. Please try again.');
-        setLoading(false);
-        return;
-      }
-
-      const pending = window._pendingAdminUser || {};
-      const accessToken = tokenResponse.access_token;
-
-      // Save access token for calendar API calls
-      localStorage.setItem('ewd_gcal_token', accessToken);
-      localStorage.setItem('ewd_gcal_expiry', Date.now() + (tokenResponse.expires_in * 1000));
-
-      onLogin(
-        { email: pending.email, name: pending.name, picture: pending.picture },
-        null // admin has no student profile
-      );
     } catch (err) {
       setError('Login failed. Please try again.');
       setLoading(false);
@@ -149,6 +97,7 @@ export default function Login({ onLogin }) {
 
         <div className="login-divider" />
 
+        {/* WAITLIST SENT */}
         {waitlistSent ? (
           <div className="waitlist-success">
             <div className="waitlist-success-icon">🎉</div>
@@ -161,6 +110,7 @@ export default function Login({ onLogin }) {
             </button>
           </div>
 
+        /* WAITLIST FORM */
         ) : showWaitlist ? (
           <div className="waitlist-form">
             <div className="waitlist-icon">📬</div>
@@ -203,6 +153,7 @@ export default function Login({ onLogin }) {
             </button>
           </div>
 
+        /* NORMAL LOGIN */
         ) : (
           <>
             <h1 className="login-title">Welcome back!</h1>

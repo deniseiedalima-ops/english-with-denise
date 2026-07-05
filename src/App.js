@@ -2,19 +2,10 @@ import React, { useState } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
-import Practice from './pages/Practice';
-import PracticeHub from './pages/PracticeHub';
-import PracticeHubP1 from './pages/PracticeHubP1';
 import Admin from './pages/Admin';
 import AdminPreview from './pages/AdminPreview';
 
-export const ADMIN_EMAIL = 'denise.ieda.lima@gmail.com';
-
-export const NOTION_TOKEN = process.env.REACT_APP_NOTION_TOKEN || '';
-export const STUDENTS_DB  = '368628bb387c80259882da13d7e2ed1d';
-export const AGENDA_DB    = '20d1f53be0104838a9e452246edfa737';
-
-// Emails with P1 access
+export const ADMIN_EMAIL = 'englishwithdenise.idiomas@gmail.com';
 export const P1_EMAILS = ['yaraandrade19912@gmail.com'];
 
 export default function App() {
@@ -41,30 +32,14 @@ export default function App() {
     localStorage.removeItem('ewd_student');
   };
 
-  // Redirect root "/" based on who's logged in
-  const homeElement = () => {
-    if (!user) return <Navigate to="/login" replace />;
-    if (user.email === ADMIN_EMAIL) return <Navigate to="/admin" replace />;
-    return <Dashboard user={user} student={student} onLogout={handleLogout} />;
-  };
-
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/login" element={
           !user ? <Login onLogin={handleLogin} /> : <Navigate to="/" replace />
         } />
-        <Route path="/" element={homeElement()} />
-        <Route path="/hub" element={
-          user ? <PracticeHub user={user} student={student} onLogout={handleLogout} /> : <Navigate to="/login" replace />
-        } />
-        <Route path="/hub-p1" element={
-          user && P1_EMAILS.includes(user.email)
-            ? <PracticeHubP1 user={user} student={student} onLogout={handleLogout} />
-            : <Navigate to="/" replace />
-        } />
-        <Route path="/practice/:skill" element={
-          user ? <Practice user={user} student={student} onLogout={handleLogout} /> : <Navigate to="/login" replace />
+        <Route path="/" element={
+          user ? <Dashboard user={user} student={student} onLogout={handleLogout} /> : <Navigate to="/login" replace />
         } />
         <Route path="/admin" element={
           user?.email === ADMIN_EMAIL
