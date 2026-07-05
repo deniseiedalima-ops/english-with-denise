@@ -1,6 +1,6 @@
 /* ─── BASE ───────────────────────────────────────────────────────────── */
 .dash-page { min-height:100vh; background:#f0ede8; }
-.dash-content { max-width:480px; margin:0 auto; padding:20px 16px 80px; display:flex; flex-direction:column; gap:14px; }
+.dash-content { max-width:480px; margin:0 auto; padding:20px 16px calc(80px + env(safe-area-inset-bottom, 0px)); display:flex; flex-direction:column; gap:14px; }
 
 /* ─── WELCOME ────────────────────────────────────────────────────────── */
 .welcome-row { display:flex; align-items:flex-start; justify-content:space-between; gap:12px; }
@@ -105,7 +105,7 @@
 
 /* ─── MOBILE ─────────────────────────────────────────────────────────── */
 @media (max-width:600px) {
-  .dash-content { padding:16px 12px 80px; gap:12px; }
+  .dash-content { padding:16px 12px calc(80px + env(safe-area-inset-bottom, 0px)); gap:12px; }
   .welcome-name { font-size:28px; }
   .fin-pix-right { justify-content:flex-start; width:100%; }
 }

@@ -1,9 +1,14 @@
 /* ─── NAVBAR ────────────────────────────────────────────────────────────── */
 .navbar {
-  position: sticky; top: 0; z-index: 100;
-  background: #fff; border-bottom: 0.5px solid #e0dbd4;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: #fff;
+  border-bottom: 0.5px solid #e0dbd4;
   -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
+  /* iOS safe area — pushes navbar below status bar in PWA/bookmark mode */
+  padding-top: env(safe-area-inset-top, 0px);
 }
 .navbar-inner {
   max-width: 980px; margin: 0 auto;
