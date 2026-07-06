@@ -6,8 +6,8 @@ import './Admin.css';
 const ADMIN_EMAIL = 'denise.ieda.lima@gmail.com';
 
 const LEVEL_COLORS = {
-  'A1': '#ff6a00', 'A1→A2': '#ff9a3c', 'A2': '#1d9e75',
-  'B1 iniciante': '#2e86c1', 'B1': '#2e86c1', 'B2': '#7f77dd', 'P1': '#d4537e',
+  'A1': '#ff6a00', 'A2': '#1d9e75',
+  'B1': '#2e86c1', 'B2': '#7f77dd', 'P1': '#d4537e',
 };
 
 const NIVEL_BG = { A1:'#ff6a00', A2:'#1d9e75', B1:'#2e86c1', B2:'#7f77dd' };
@@ -143,24 +143,27 @@ const STATUS_META={
 };
 
 const TABS=[
-  {id:'agenda',    label:'📅 Agenda',    icon:'📅'},
-  {id:'presenca',  label:'📋 Presença',  icon:'📋'},
-  {id:'financeiro',label:'💰 Financeiro',icon:'💰'},
-  {id:'diario',    label:'📖 Diário',    icon:'📖'},
-  {id:'notas',     label:'📝 Notas',     icon:'📝'},
-  {id:'empresa',   label:'🏫 Empresa',   icon:'🏫'},
+  {id:'dashboard',  label:'🏠 Dashboard',  icon:'🏠'},
+  {id:'alunos',     label:'👤 Alunos',      icon:'👤'},
+  {id:'agenda',     label:'📅 Agenda',     icon:'📅'},
+  {id:'presenca',   label:'👥 Presença',    icon:'👥'},
+  {id:'financeiro', label:'💰 Financeiro', icon:'💰'},
+  {id:'despesas',   label:'💸 Despesas',   icon:'💸'},
+  {id:'diario',     label:'📖 Diário',     icon:'📖'},
+  {id:'notas',      label:'📝 Notas',      icon:'📝'},
+  {id:'empresa',    label:'🏫 Empresa',    icon:'🏫'},
 ];
 
 export default function Admin({user,onLogout}){
   const navigate=useNavigate();
-  const [activeTab,setActiveTab]=useState('agenda');
+  const [activeTab,setActiveTab]=useState('dashboard');
   const [students,setStudents]=useState([]);
   const [loading,setLoading]=useState(true);
   const [local,setLocal]=useState(loadLocal);
 
   useEffect(()=>{if(user?.email!==ADMIN_EMAIL)navigate('/');},[user]);
   useEffect(()=>{
-    fetch('/api/students').then(r=>r.json()).then(d=>setStudents(d.students||[])).finally(()=>setLoading(false));
+    fetch('/api/index?route=students').then(r=>r.json()).then(d=>setStudents(d.students||[])).finally(()=>setLoading(false));
   },[]);
 
   const persist=useCallback((updater)=>{
@@ -191,13 +194,464 @@ export default function Admin({user,onLogout}){
             </button>
           ))}
         </div>
+        {activeTab==='dashboard'  && <TabDashboard students={students} loading={loading} local={local}/>}
+        {activeTab==='alunos'     && <TabAlunos students={students} loading={loading} navigate={navigate}/>}
         {activeTab==='agenda'     && <TabAgenda/>}
         {activeTab==='presenca'   && <TabPresenca students={students} loading={loading} local={local} persist={persist} navigate={navigate}/>}
         {activeTab==='financeiro' && <TabFinanceiro local={local} persist={persist}/>}
+        {activeTab==='despesas'   && <TabDespesas local={local} persist={persist}/>}
         {activeTab==='diario'     && <TabDiario students={students} loading={loading} local={local} persist={persist}/>}
         {activeTab==='notas'      && <TabNotas students={students} loading={loading} local={local} persist={persist}/>}
         {activeTab==='empresa'    && <TabEmpresa local={local} persist={persist}/>}
       </main>
+    </div>
+  );
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// AULA PICKER — search and select from Agenda de Aulas
+// ══════════════════════════════════════════════════════════════════════════════
+function AulaPicker({ currentAulaId, currentTitulo, onSelect }) {
+  const [aulas, setAulas] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [search, setSearch] = useState('');
+  const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    if (!open || aulas.length > 0) return;
+    setLoading(true);
+    fetch('/api/index?route=aulas')
+      .then(r => r.json())
+      .then(d => setAulas(d.aulas || []))
+      .catch(() => {})
+      .finally(() => setLoading(false));
+  }, [open]);
+
+  const filtered = aulas.filter(a =>
+    a.titulo.toLowerCase().includes(search.toLowerCase()) ||
+    (a.nivel || '').toLowerCase().includes(search.toLowerCase()) ||
+    String(a.numero).includes(search)
+  );
+
+  return (
+    <div className="aula-picker">
+      {/* Current selection */}
+      <div className="aula-picker-current" onClick={() => setOpen(!open)}>
+        {currentTitulo
+          ? <><span className="aula-picker-check">✓</span><span className="aula-picker-sel-title">{currentTitulo}</span></>
+          : <span className="aula-picker-placeholder">Selecionar aula...</span>
+        }
+        <span className="aula-picker-chevron">{open ? '▲' : '▼'}</span>
+      </div>
+
+      {/* Dropdown */}
+      {open && (
+        <div className="aula-picker-dropdown">
+          <input
+            className="aula-picker-search"
+            placeholder="🔍 Buscar aula..."
+            value={search}
+            onChange={e => setSearch(e.target.value)}
+            autoFocus
+          />
+          {loading && <div className="aula-picker-loading">Carregando aulas...</div>}
+          <div className="aula-picker-list">
+            {filtered.map(a => (
+              <div
+                key={a.id}
+                className={`aula-picker-item ${currentAulaId === a.id ? 'active' : ''}`}
+                onClick={() => { onSelect(a); setOpen(false); setSearch(''); }}
+              >
+                <span className="aula-picker-num">#{a.numero}</span>
+                <div className="aula-picker-info">
+                  <div className="aula-picker-title">{a.titulo}</div>
+                  {a.dataAula && (
+                    <div className="aula-picker-date">
+                      {new Date(a.dataAula + 'T12:00:00').toLocaleDateString('pt-BR', { weekday:'short', day:'numeric', month:'short' })}
+                    </div>
+                  )}
+                </div>
+                {a.nivel && <span className="aula-picker-nivel" style={{ background: LEVEL_COLORS[a.nivel]||'#aaa', color:'#fff' }}>{a.nivel}</span>}
+                {currentAulaId === a.id && <span style={{ color:'#ff6a00', fontWeight:700 }}>✓</span>}
+              </div>
+            ))}
+            {!loading && filtered.length === 0 && (
+              <div className="aula-picker-loading">Nenhuma aula encontrada</div>
+            )}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// TAB: ALUNOS — edita dados via Notion
+// ══════════════════════════════════════════════════════════════════════════════
+const ALL_BADGES_ADM = [
+  { id:'spectacular_attendance', name:'Spectacular Attendance', icon:'⭐', bg:'#fff3cd' },
+  { id:'always_there',           name:'Always There',           icon:'🎯', bg:'#f0f0f0' },
+  { id:'on_time',                name:'On Time, Every Time',    icon:'📅', bg:'#f5ede6' },
+  { id:'homework_champion',      name:'Homework Champion',      icon:'📝', bg:'#fff1e8' },
+  { id:'one_step_ahead',         name:'One Step Ahead',         icon:'⚡', bg:'#fff1e8' },
+  { id:'book_lover',             name:'Book Lover',             icon:'📖', bg:'#e1f5ee' },
+  { id:'no_shame',               name:'No Shame!',              icon:'🎙️', bg:'#fbeaf0' },
+  { id:'lion_heart',             name:'Lion Heart',             icon:'🦁', bg:'#fbeaf0' },
+  { id:'titanium_mind',          name:'Titanium Mind',          icon:'🧠', bg:'#e6f1fb' },
+  { id:'level_up',               name:'Level Up!',              icon:'🏅', bg:'#fff3cd' },
+  { id:'on_fire',                name:'On Fire',                icon:'🔥', bg:'#fff1e8' },
+  { id:'rat_of_month',           name:'Rat of the Month',       icon:'💜', bg:'#eeedfe' },
+];
+
+function TabAlunos({ students, loading, navigate }) {
+  const [mode, setMode] = useState('individual'); // 'individual' | 'lote'
+  const [selected, setSelected] = useState(null);
+  const [checked, setChecked] = useState(new Set());
+  const [search, setSearch] = useState('');
+  const [form, setForm] = useState({});
+  const [bulkForm, setBulkForm] = useState({
+    tituloProximaAula: '', dataProximaAula: '',
+    tarefaDaSemana: '', paginasDoLivro: '', tarefaPersonalizada: '',
+    meetLink: '', valorMensalidade: '', dataVencimento: '',
+    reposicoes: '', dataReposicao: '', horarioReposicao: '',
+  });
+  const [bulkFields, setBulkFields] = useState({
+    tituloProximaAula: false, dataProximaAula: false,
+    tarefaDaSemana: false, paginasDoLivro: false, tarefaPersonalizada: false,
+    meetLink: false, valorMensalidade: false, dataVencimento: false,
+    reposicoes: false, dataReposicao: false, horarioReposicao: false,
+  });
+  const [badges, setBadges] = useState([]);
+  const [saving, setSaving] = useState(false);
+  const [bulkProgress, setBulkProgress] = useState(null); // {done, total}
+  const [toast, setToast] = useState('');
+
+  const showToast = (msg) => { setToast(msg); setTimeout(() => setToast(''), 3500); };
+
+  const selectStudent = (s) => {
+    setSelected(s);
+    setForm({
+      tarefaDaSemana: s.tarefaDaSemana || '', paginasDoLivro: s.paginasDoLivro || '',
+      tarefaPersonalizada: s.tarefaPersonalizada || '', meetLink: s.meetLink || '',
+      tituloProximaAula:   s.tituloProximaAula || '',
+      dataProximaAula:     s.dataProximaAula || '',
+      classroomLink: s.classroomLink || '', driveLink: s.driveLink || '',
+      kamiLink: s.kamiLink || '', valorMensalidade: s.valorMensalidade || '',
+      dataVencimento: s.dataVencimento || '', asaasLink: s.asaasLink || '',
+      reposicoes: s.reposicoes ?? 0, dataReposicao: s.dataReposicao || '',
+      horarioReposicao: s.horarioReposicao || '', nivel: s.nivel || 'A1',
+    });
+    setBadges(JSON.parse(s.badges || '[]').filter(Boolean));
+  };
+
+  const toggleCheck = (id) => {
+    setChecked(prev => {
+      const n = new Set(prev);
+      n.has(id) ? n.delete(id) : n.add(id);
+      return n;
+    });
+  };
+
+  const toggleAll = () => {
+    if (checked.size === filtered.length) setChecked(new Set());
+    else setChecked(new Set(filtered.map(s => s.id)));
+  };
+
+  // Save individual
+  const save = async () => {
+    if (!selected) return;
+    setSaving(true);
+    try {
+      const r = await fetch('/api/index?route=update-student', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ pageId: selected.id, fields: { ...form, badges: JSON.stringify(badges) } }),
+      });
+      const d = await r.json();
+      if (d.success) showToast('✅ Salvo com sucesso!');
+      else showToast('⚠️ Erro: ' + (d.error || 'tente novamente'));
+    } catch { showToast('⚠️ Erro de conexão'); }
+    setSaving(false);
+  };
+
+  // Save bulk — only checked fields
+  const saveBulk = async () => {
+    const targets = students.filter(s => checked.has(s.id));
+    if (targets.length === 0) { showToast('⚠️ Selecione pelo menos um aluno'); return; }
+    const activeFields = Object.entries(bulkFields).filter(([, v]) => v).map(([k]) => k);
+    if (activeFields.length === 0) { showToast('⚠️ Ative pelo menos um campo para enviar'); return; }
+
+    const payload = {};
+    activeFields.forEach(k => { payload[k] = bulkForm[k]; });
+
+    setSaving(true);
+    setBulkProgress({ done: 0, total: targets.length });
+    let done = 0; const errors = [];
+    for (const s of targets) {
+      try {
+        const r = await fetch('/api/index?route=update-student', {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ pageId: s.id, fields: payload }),
+        });
+        const d = await r.json();
+        if (!d.success) errors.push(s.nome);
+      } catch { errors.push(s.nome); }
+      done++;
+      setBulkProgress({ done, total: targets.length });
+      await new Promise(r => setTimeout(r, 300)); // avoid rate limiting
+    }
+    setSaving(false);
+    setBulkProgress(null);
+    if (errors.length === 0) showToast(`✅ ${targets.length} aluno${targets.length > 1 ? 's' : ''} atualizado${targets.length > 1 ? 's' : ''}!`);
+    else showToast(`⚠️ Erro em: ${errors.join(', ')}`);
+  };
+
+  const filtered = students.filter(s =>
+    s.nome.toLowerCase().includes(search.toLowerCase()) ||
+    (s.nivel || '').toLowerCase().includes(search.toLowerCase())
+  );
+
+  if (loading) return <div className="admin-loading">Carregando... ✨</div>;
+
+  const BULK_FIELD_LABELS = [
+    { key: 'tarefaDaSemana',    label: '📅 Agenda da semana',       type: 'textarea' },
+    { key: 'paginasDoLivro',    label: '📖 Páginas do livro',        type: 'input', ph: 'Ex: p.10-13' },
+    { key: 'tarefaPersonalizada',label: '✅ Tarefa personalizada',   type: 'input', ph: 'Ex: Leia o diálogo antes da aula' },
+    { key: 'meetLink',          label: '📹 Link Google Meet',        type: 'input', ph: 'https://meet.google.com/...' },
+    { key: 'valorMensalidade',  label: '💰 Valor mensalidade',       type: 'input', ph: 'Ex: 220,00' },
+    { key: 'dataVencimento',    label: '📆 Vencimento',              type: 'input', ph: 'Ex: 20 de julho' },
+    { key: 'reposicoes',        label: '🔄 Qtd. reposições pendentes', type: 'input', ph: 'Ex: 1' },
+    { key: 'dataReposicao',     label: '📅 Data da reposição',       type: 'input', ph: 'Ex: 15/07/2026' },
+    { key: 'horarioReposicao',  label: '⏰ Horário da reposição',    type: 'input', ph: 'Ex: 15h00' },
+  ];
+
+  return (
+    <div className="tab-alunos">
+      {toast && <div className="alunos-toast">{toast}</div>}
+
+      {/* Mode toggle */}
+      <div className="alunos-mode-toggle">
+        <button className={`alunos-mode-btn ${mode === 'individual' ? 'active' : ''}`} onClick={() => { setMode('individual'); setChecked(new Set()); }}>
+          👤 Individual
+        </button>
+        <button className={`alunos-mode-btn ${mode === 'lote' ? 'active' : ''}`} onClick={() => { setMode('lote'); setSelected(null); }}>
+          📢 Envio em Lote
+        </button>
+      </div>
+
+      <div className="alunos-layout">
+
+        {/* Sidebar — shared between modes */}
+        <div className="alunos-sidebar">
+          <input className="admin-search" placeholder="🔍 Buscar..." value={search} onChange={e => setSearch(e.target.value)} style={{ marginBottom: 8 }} />
+
+          {mode === 'lote' && (
+            <div className="lote-select-all" onClick={toggleAll}>
+              <input type="checkbox" readOnly checked={checked.size === filtered.length && filtered.length > 0} style={{ marginRight: 6 }} />
+              <span style={{ fontSize: 12, color: '#555' }}>Selecionar todos ({filtered.length})</span>
+            </div>
+          )}
+
+          <div className="alunos-list">
+            {filtered.map(s => (
+              <div key={s.id}
+                className={`aluno-item ${mode === 'individual' && selected?.id === s.id ? 'active' : ''} ${mode === 'lote' && checked.has(s.id) ? 'checked' : ''}`}
+                onClick={() => mode === 'individual' ? selectStudent(s) : toggleCheck(s.id)}
+              >
+                {mode === 'lote' && (
+                  <input type="checkbox" readOnly checked={checked.has(s.id)} style={{ marginRight: 4, flexShrink: 0 }} />
+                )}
+                <div className="presenca-avatar" style={{ background: LEVEL_COLORS[s.nivel] || '#aaa', width: 28, height: 28, fontSize: 12, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontWeight: 700, flexShrink: 0 }}>{s.nome[0]}</div>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <div className="aluno-nome">{s.nome}</div>
+                  <div className="aluno-email">{s.nivel}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* ── INDIVIDUAL MODE ── */}
+        {mode === 'individual' && (
+          selected ? (
+            <div className="alunos-form">
+              <div className="alunos-form-header">
+                <div>
+                  <div className="alunos-form-title">{selected.nome}</div>
+                  <div className="alunos-form-sub">{selected.email}</div>
+                </div>
+                <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+                  <button className="adm-preview-small" onClick={() => navigate(`/admin/preview/${selected.email}`)}>👁️ Ver como aluno</button>
+                  <button className="adm-save-small" onClick={save} disabled={saving}>{saving ? 'Salvando...' : '💾 Salvar'}</button>
+                </div>
+              </div>
+
+              <div className="alunos-section">
+                <div className="alunos-section-title">🎓 Nível</div>
+                <div className="level-row">
+                  {['A1','A2','B1','B2','P1'].map(lvl => (
+                    <button key={lvl} className={`level-pill-btn ${form.nivel === lvl ? 'active' : ''}`}
+                      style={form.nivel === lvl ? { background: LEVEL_COLORS[lvl], color: '#fff', borderColor: LEVEL_COLORS[lvl] } : {}}
+                      onClick={() => setForm(f => ({ ...f, nivel: lvl }))}>{lvl}</button>
+                  ))}
+                </div>
+              </div>
+
+              <div className="alunos-section">
+                <div className="alunos-section-title">🗓️ Next Class</div>
+                <AulaPicker
+                  currentAulaId={selected?.proximaAula?.id || ''}
+                  currentTitulo={selected?.proximaAula?.titulo || ''}
+                  onSelect={(aula) => {
+                    setForm(f => ({ ...f, proximaAulaId: aula.id, dataProximaAula: aula.dataAula || '' }));
+                    setSelected(s => ({ ...s, proximaAula: aula }));
+                  }}
+                />
+              </div>
+              <div className="alunos-section">
+                <div className="alunos-section-title">📅 Agenda da semana</div>
+                <div className="alunos-field">
+                  <label className="alunos-label">Itens <span style={{ color: '#aaa', fontWeight: 400 }}>— um por linha</span></label>
+                  <textarea className="alunos-textarea" rows={4} value={form.tarefaDaSemana} onChange={e => setForm(f => ({ ...f, tarefaDaSemana: e.target.value }))} placeholder="Ex: Unit 2 — 2A: We had an adventure&#10;Rever vocabulário Unit 1" />
+                </div>
+                <div className="alunos-grid2">
+                  <div className="alunos-field">
+                    <label className="alunos-label">Páginas do livro</label>
+                    <input className="alunos-input" value={form.paginasDoLivro} onChange={e => setForm(f => ({ ...f, paginasDoLivro: e.target.value }))} placeholder="Ex: p.10-13" />
+                  </div>
+                  <div className="alunos-field">
+                    <label className="alunos-label">Tarefa personalizada</label>
+                    <input className="alunos-input" value={form.tarefaPersonalizada} onChange={e => setForm(f => ({ ...f, tarefaPersonalizada: e.target.value }))} placeholder="Ex: Leia o diálogo antes da aula" />
+                  </div>
+                </div>
+              </div>
+
+              <div className="alunos-section">
+                <div className="alunos-section-title">🔗 Links</div>
+                <div className="alunos-grid2">
+                  {[['meetLink','Google Meet','https://meet.google.com/...'],['driveLink','Google Drive','https://drive.google.com/...'],['classroomLink','Classroom','https://classroom.google.com/...'],['kamiLink','KAMI','https://app.kami.com/...']].map(([key, label, ph]) => (
+                    <div key={key} className="alunos-field">
+                      <label className="alunos-label">{label}</label>
+                      <input className="alunos-input" value={form[key]} onChange={e => setForm(f => ({ ...f, [key]: e.target.value }))} placeholder={ph} />
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="alunos-section">
+                <div className="alunos-section-title">💳 Financeiro</div>
+                <div className="alunos-grid2">
+                  <div className="alunos-field"><label className="alunos-label">Valor mensalidade</label><input className="alunos-input" value={form.valorMensalidade} onChange={e => setForm(f => ({ ...f, valorMensalidade: e.target.value }))} placeholder="Ex: 220,00" /></div>
+                  <div className="alunos-field"><label className="alunos-label">Vencimento</label><input className="alunos-input" value={form.dataVencimento} onChange={e => setForm(f => ({ ...f, dataVencimento: e.target.value }))} placeholder="Ex: 20 de julho" /></div>
+                </div>
+                <div className="alunos-field" style={{ marginTop: 10 }}>
+                  <label className="alunos-label">Link ASAAS individual</label>
+                  <input className="alunos-input" value={form.asaasLink} onChange={e => setForm(f => ({ ...f, asaasLink: e.target.value }))} placeholder="https://www.asaas.com/c/..." />
+                </div>
+              </div>
+
+              <div className="alunos-section">
+                <div className="alunos-section-title">🔄 Reposição</div>
+                <div className="alunos-grid3">
+                  <div className="alunos-field"><label className="alunos-label">Qtd. pendentes</label><input className="alunos-input" type="number" min="0" value={form.reposicoes} onChange={e => setForm(f => ({ ...f, reposicoes: parseInt(e.target.value) || 0 }))} /></div>
+                  <div className="alunos-field"><label className="alunos-label">Data</label><input className="alunos-input" type="date" value={form.dataReposicao} onChange={e => setForm(f => ({ ...f, dataReposicao: e.target.value }))} /></div>
+                  <div className="alunos-field"><label className="alunos-label">Horário</label><input className="alunos-input" value={form.horarioReposicao} onChange={e => setForm(f => ({ ...f, horarioReposicao: e.target.value }))} placeholder="Ex: 19h30" /></div>
+                </div>
+              </div>
+
+              <div className="alunos-section">
+                <div className="alunos-section-title">🏅 Badges</div>
+                <div className="badges-grid-adm">
+                  {ALL_BADGES_ADM.map(b => {
+                    const on = badges.includes(b.id);
+                    return (
+                      <div key={b.id} className={`badge-toggle-adm ${on ? 'on' : ''}`} onClick={() => setBadges(prev => on ? prev.filter(x => x !== b.id) : [...prev, b.id])}>
+                        <div className="badge-icon-adm" style={{ background: on ? b.bg : '#f0ede8' }}>{b.icon}</div>
+                        <span className="badge-name-adm">{b.name}</span>
+                        <div className={`toggle-adm ${on ? 'on' : ''}`} />
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+
+              <button className="adm-save-bottom-btn" onClick={save} disabled={saving}>{saving ? 'Salvando...' : '💾 Salvar todas as alterações'}</button>
+            </div>
+          ) : (
+            <div className="alunos-empty">
+              <div style={{ fontSize: 40, marginBottom: 12 }}>👈</div>
+              <div style={{ fontWeight: 600, color: '#111', marginBottom: 6 }}>Selecione um aluno</div>
+              <div style={{ color: '#aaa', fontSize: 13 }}>Clique em um aluno para editar agenda, financeiro, links e badges</div>
+            </div>
+          )
+        )}
+
+        {/* ── LOTE MODE ── */}
+        {mode === 'lote' && (
+          <div className="alunos-form">
+            <div className="alunos-form-header">
+              <div>
+                <div className="alunos-form-title">Envio em Lote</div>
+                <div className="alunos-form-sub">
+                  {checked.size === 0 ? 'Nenhum aluno selecionado' : `${checked.size} aluno${checked.size > 1 ? 's' : ''} selecionado${checked.size > 1 ? 's' : ''}`}
+                </div>
+              </div>
+              <button className="adm-save-small" onClick={saveBulk} disabled={saving || checked.size === 0}>
+                {saving ? `Enviando ${bulkProgress?.done}/${bulkProgress?.total}...` : `📢 Enviar para ${checked.size} aluno${checked.size !== 1 ? 's' : ''}`}
+              </button>
+            </div>
+
+            {/* Progress bar */}
+            {bulkProgress && (
+              <div className="lote-progress">
+                <div className="lote-progress-bar">
+                  <div className="lote-progress-fill" style={{ width: `${(bulkProgress.done / bulkProgress.total) * 100}%` }} />
+                </div>
+                <span className="lote-progress-label">{bulkProgress.done} de {bulkProgress.total}</span>
+              </div>
+            )}
+
+            <div className="lote-hint">
+              <span>💡</span>
+              <span>Ative apenas os campos que deseja atualizar. Os campos desativados não serão alterados nos alunos selecionados.</span>
+            </div>
+
+            {/* Bulk fields with toggle */}
+            {BULK_FIELD_LABELS.map(({ key, label, type, ph }) => (
+              <div key={key} className={`lote-field-block ${bulkFields[key] ? 'active' : ''}`}>
+                <div className="lote-field-header" onClick={() => setBulkFields(f => ({ ...f, [key]: !f[key] }))}>
+                  <div className={`lote-toggle ${bulkFields[key] ? 'on' : ''}`} />
+                  <span className="lote-field-label">{label}</span>
+                  {!bulkFields[key] && <span className="lote-field-off">desativado</span>}
+                </div>
+                {bulkFields[key] && (
+                  type === 'textarea'
+                    ? <textarea className="alunos-textarea" rows={4} value={bulkForm[key]} onChange={e => setBulkForm(f => ({ ...f, [key]: e.target.value }))} placeholder="Ex: Unit 2 — 2A: We had an adventure&#10;Rever vocabulário Unit 1" />
+                    : <input className="alunos-input" value={bulkForm[key]} onChange={e => setBulkForm(f => ({ ...f, [key]: e.target.value }))} placeholder={ph} />
+                )}
+              </div>
+            ))}
+
+            {checked.size > 0 && (
+              <div className="lote-selected-preview">
+                <div className="lote-selected-title">Será enviado para:</div>
+                <div className="lote-selected-names">
+                  {students.filter(s => checked.has(s.id)).map(s => (
+                    <span key={s.id} className="lote-name-chip">
+                      {s.nome.split(' ')[0]}
+                      <span onClick={() => toggleCheck(s.id)} style={{ marginLeft: 4, cursor: 'pointer', opacity: .6 }}>✕</span>
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            <button className="adm-save-bottom-btn" onClick={saveBulk} disabled={saving || checked.size === 0}>
+              {saving ? `Enviando ${bulkProgress?.done || 0}/${bulkProgress?.total || 0}...` : `📢 Enviar para ${checked.size} aluno${checked.size !== 1 ? 's' : ''}`}
+            </button>
+          </div>
+        )}
+
+      </div>
     </div>
   );
 }
@@ -228,7 +682,7 @@ function TabAgenda(){
         timeMin=new Date(date.setHours(0,0,0,0)).toISOString();
         timeMax=new Date(date.setHours(23,59,59,999)).toISOString();
       }
-      const res=await fetch('/api/calendar',{method:'POST',headers:{'Content-Type':'application/json','Authorization':`Bearer ${token}`},body:JSON.stringify({timeMin,timeMax})});
+      const res=await fetch('/api/index?route=calendar',{method:'POST',headers:{'Content-Type':'application/json','Authorization':`Bearer ${token}`},body:JSON.stringify({timeMin,timeMax})});
       if(res.status===401){setCalError('expired');return;}
       const data=await res.json();
       if(data.error){setCalError(data.error);return;}
@@ -581,8 +1035,13 @@ function TabFinanceiro({local,persist}){
     const inicio=contratosStore[nome];
     if(!inicio)return[];
     const parts=inicio.split('/');
-    if(parts.length!==3)return[];
-    const start=new Date(parseInt(parts[2]),parseInt(parts[1])-1,1);
+    if(parts.length!==2)return[];
+    const mesNomeInicio=parts[0];
+    const anoInicio=parseInt(parts[1]);
+    if(!mesNomeInicio||isNaN(anoInicio))return[];
+    const mesIdxInicio=['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'].indexOf(mesNomeInicio);
+    if(mesIdxInicio===-1)return[];
+    const start=new Date(anoInicio,mesIdxInicio,1);
     const now=new Date();
     const meses=[];
     let cur=new Date(start);
@@ -697,11 +1156,32 @@ function TabFinanceiro({local,persist}){
               </div>
               <div className="fin-field" style={{marginTop:12}}>
                 <label className="diario-label">Início do contrato</label>
-                <div style={{display:'flex',gap:8,alignItems:'center'}}>
-                  <input className="hist-date-input" type="text" placeholder="DD/MM/AAAA"
-                    value={contratoEdit[alunoSel]??contratosStore[alunoSel]??''} style={{flex:1}}
-                    onChange={e=>setContratoEdit(p=>({...p,[alunoSel]:e.target.value}))}/>
-                  <button className="fin-btn pay" onClick={()=>{saveContrato(alunoSel,contratoEdit[alunoSel]||contratosStore[alunoSel]||'');setContratoEdit(p=>({...p,[alunoSel]:undefined}));}}>Salvar</button>
+                <div style={{display:'flex',gap:8,alignItems:'center',flexWrap:'wrap'}}>
+                  <select className="fin-mes-sel" style={{flex:1}}
+                    value={(contratoEdit[alunoSel]||contratosStore[alunoSel]||'').split('/')[0]||''}
+                    onChange={e=>{
+                      const cur=contratoEdit[alunoSel]||contratosStore[alunoSel]||'/';
+                      const parts=cur.split('/');
+                      setContratoEdit(p=>({...p,[alunoSel]:`${e.target.value}/${parts[1]||new Date().getFullYear()}`}));
+                    }}>
+                    <option value="">Mês</option>
+                    {['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'].map(m=><option key={m} value={m}>{m}</option>)}
+                  </select>
+                  <select className="fin-mes-sel" style={{flex:1}}
+                    value={(contratoEdit[alunoSel]||contratosStore[alunoSel]||'').split('/')[1]||''}
+                    onChange={e=>{
+                      const cur=contratoEdit[alunoSel]||contratosStore[alunoSel]||'/';
+                      const parts=cur.split('/');
+                      setContratoEdit(p=>({...p,[alunoSel]:`${parts[0]||'Jan'}/${e.target.value}`}));
+                    }}>
+                    <option value="">Ano</option>
+                    {[2024,2025,2026,2027].map(y=><option key={y} value={y}>{y}</option>)}
+                  </select>
+                  <button className="fin-btn pay" onClick={()=>{
+                    const val=contratoEdit[alunoSel]||contratosStore[alunoSel]||'';
+                    if(val.includes('/'))saveContrato(alunoSel,val);
+                    setContratoEdit(p=>({...p,[alunoSel]:undefined}));
+                  }}>Salvar</button>
                 </div>
               </div>
             </div>
@@ -982,6 +1462,346 @@ function TaskList({tasks,onChange,placeholder,categories}){
         </div>
       ))}
       {tasks.length===0&&<div className="task-empty">Nenhum item ainda.</div>}
+    </div>
+  );
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// TAB: DASHBOARD
+// ══════════════════════════════════════════════════════════════════════════════
+function TabDashboard({students,loading,local}){
+  const today=todayKey();
+  const now=new Date();
+  const mesAtual=MESES[now.getMonth()];
+  const pagStore=local.pagamentos||{};
+  const presStore=local.presenca||{};
+  const despStore=local.despesas||{};
+
+  // ── Financeiro ──
+  const rows=ALUNOS_FINANCEIRO.map(([nome,valor,venc])=>({nome,valor,st:getFinStatus(nome,venc,now.getMonth(),pagStore)}));
+  const recebido=rows.filter(r=>r.st==='pago').reduce((s,r)=>s+r.valor,0);
+  // Receita bruta = soma de todas as mensalidades de todos os alunos cadastrados
+  const receitaBruta=ALUNOS_FINANCEIRO.reduce((s,[,v])=>s+v,0);
+  const inadimplentes=rows.filter(r=>r.st==='atrasado');
+
+  // ── Despesas do mês ──
+  const despMes=(despStore.fixas||[]).reduce((s,d)=>s+Number(d.valor),0)+
+    (despStore.avulsas||[]).filter(d=>d.mes===mesAtual&&d.ano===String(now.getFullYear())).reduce((s,d)=>s+Number(d.valor),0);
+  const lucro=recebido-despMes;
+
+  // ── Alunos por nível ──
+  const porNivel=students.reduce((acc,s)=>{acc[s.nivel]=(acc[s.nivel]||0)+1;return acc;},{});
+
+  // ── Presença hoje ──
+  const semRegistro=students.filter(s=>!presStore[today]?.[s.id]).length;
+  const faltasHoje=students.filter(s=>presStore[today]?.[s.id]==='falta').length;
+
+  // ── Reposições pendentes ──
+  const repPendentes=students.filter(s=>{
+    const datas=Object.keys(presStore);
+    return datas.some(d=>presStore[d]?.[s.id]==='rep_pendente');
+  }).length;
+
+  // ── Dias desta semana com aula ──
+  const getDiasUteisRestantes=()=>{
+    const dias=[];
+    const d=new Date(now);
+    while(d.getDay()!==0){
+      if(d.getDay()!==6)dias.push(new Date(d).toISOString().slice(0,10));
+      d.setDate(d.getDate()+1);
+    }
+    return dias;
+  };
+
+  if(loading)return<div className="admin-loading">Carregando dashboard... ✨</div>;
+
+  return(
+    <div className="tab-dashboard">
+      {/* Saudação */}
+      <div className="dash-greeting">
+        <div className="dash-greeting-text">
+          <span className="dash-ola">
+            {now.getHours()<12?'Bom dia':now.getHours()<18?'Boa tarde':'Boa noite'}, Denise! 👋
+          </span>
+          <span className="dash-data">{now.toLocaleDateString('pt-BR',{weekday:'long',day:'numeric',month:'long',year:'numeric'})}</span>
+        </div>
+      </div>
+
+      {/* ── Financeiro do mês ── */}
+      <div className="dash-section-title">💰 Financeiro — {mesAtual}/{now.getFullYear()}</div>
+      <div className="dash-cards">
+        <div className="dash-card">
+          <div className="dash-card-icon" style={{background:'#f0faf5'}}>💵</div>
+          <div className="dash-card-val green">R$ {fmtMoney(recebido)}</div>
+          <div className="dash-card-label">Recebido</div>
+        </div>
+        <div className="dash-card">
+          <div className="dash-card-icon" style={{background:'#f0f4ff'}}>📊</div>
+          <div className="dash-card-val blue">R$ {fmtMoney(receitaBruta)}</div>
+          <div className="dash-card-label">Receita bruta</div>
+        </div>
+        <div className="dash-card">
+          <div className="dash-card-icon" style={{background:'#fdf3f3'}}>💸</div>
+          <div className="dash-card-val red">R$ {fmtMoney(despMes)}</div>
+          <div className="dash-card-label">Despesas</div>
+        </div>
+        <div className="dash-card" style={{borderColor:lucro>=0?'#b7e0c8':'#f5b7b7'}}>
+          <div className="dash-card-icon" style={{background:lucro>=0?'#f0faf5':'#fdf3f3'}}>📈</div>
+          <div className="dash-card-val" style={{color:lucro>=0?'#1d9e75':'#e53935'}}>R$ {fmtMoney(lucro)}</div>
+          <div className="dash-card-label">Lucro líquido</div>
+        </div>
+      </div>
+
+      {/* ── Alunos ── */}
+      <div className="dash-section-title">👥 Alunos ativos</div>
+      <div className="dash-cards">
+        <div className="dash-card">
+          <div className="dash-card-icon" style={{background:'#f8f7f5'}}>🎓</div>
+          <div className="dash-card-val blue">{students.length}</div>
+          <div className="dash-card-label">Total de alunos</div>
+        </div>
+        {Object.entries(porNivel).sort().map(([nivel,qtd])=>(
+          <div key={nivel} className="dash-card">
+            <div className="dash-card-icon" style={{background:LEVEL_COLORS[nivel]+'22'}}>
+              <span style={{fontSize:12,fontWeight:700,color:LEVEL_COLORS[nivel]||'#aaa'}}>{nivel}</span>
+            </div>
+            <div className="dash-card-val" style={{color:LEVEL_COLORS[nivel]||'#aaa'}}>{qtd}</div>
+            <div className="dash-card-label">aluno{qtd!==1?'s':''}</div>
+          </div>
+        ))}
+      </div>
+
+      {/* ── Next Classes ── */}
+      {(() => {
+        const comAula = students
+          .filter(s => s.dataProximaAula)
+          .sort((a, b) => new Date(a.dataProximaAula) - new Date(b.dataProximaAula));
+        const hoje = now.toISOString().slice(0, 10);
+        const proximos7 = comAula.filter(s => s.dataProximaAula >= hoje && s.dataProximaAula <= new Date(now.getTime() + 7*24*60*60*1000).toISOString().slice(0,10));
+        if (proximos7.length === 0) return null;
+        return (
+          <>
+            <div className="dash-section-title">📅 Next Classes — próximos 7 dias</div>
+            <div className="dash-next-classes">
+              {proximos7.map(s => {
+                const d = new Date(s.dataProximaAula + 'T12:00:00');
+                const isHoje = s.dataProximaAula === hoje;
+                return (
+                  <div key={s.id} className={`dash-next-item ${isHoje ? 'hoje' : ''}`}>
+                    <div className="dash-next-date">
+                      <div className="dash-next-day">{d.getDate()}</div>
+                      <div className="dash-next-mon">{d.toLocaleString('pt-BR', { month: 'short' })}</div>
+                    </div>
+                    <div className="dash-next-info">
+                      <div className="dash-next-name">{s.nome}</div>
+                      <div className="dash-next-lesson">{s.proximaAulaTitulo || '—'}</div>
+                    </div>
+                    <span className="dash-next-nivel" style={{ background: LEVEL_COLORS[s.nivel] || '#aaa', color: '#fff' }}>
+                      {s.nivel}
+                    </span>
+                    {isHoje && <span className="dash-next-hoje-badge">Hoje</span>}
+                  </div>
+                );
+              })}
+            </div>
+          </>
+        );
+      })()}
+
+      {/* ── Urgências ── */}
+      <div className="dash-section-title">⚠️ Urgências da semana</div>
+      <div className="dash-urgencias">
+        {inadimplentes.length>0&&(
+          <div className="dash-urgencia red">
+            <span className="dash-urg-icon">🔴</span>
+            <div>
+              <div className="dash-urg-title">{inadimplentes.length} aluno{inadimplentes.length!==1?'s':''} inadimplente{inadimplentes.length!==1?'s':''}</div>
+              <div className="dash-urg-sub">{inadimplentes.slice(0,3).map(r=>r.nome.split(' ')[0]).join(', ')}{inadimplentes.length>3?` +${inadimplentes.length-3}`:''}</div>
+            </div>
+          </div>
+        )}
+        {repPendentes>0&&(
+          <div className="dash-urgencia orange">
+            <span className="dash-urg-icon">🔄</span>
+            <div>
+              <div className="dash-urg-title">{repPendentes} reposição{repPendentes!==1?'ões':''} pendente{repPendentes!==1?'s':''}</div>
+              <div className="dash-urg-sub">Acesse Presença → Histórico para ver detalhes</div>
+            </div>
+          </div>
+        )}
+        {semRegistro>0&&(
+          <div className="dash-urgencia yellow">
+            <span className="dash-urg-icon">⬜</span>
+            <div>
+              <div className="dash-urg-title">{semRegistro} aluno{semRegistro!==1?'s':''} sem registro hoje</div>
+              <div className="dash-urg-sub">Registre a presença na aba Presença</div>
+            </div>
+          </div>
+        )}
+        {faltasHoje>0&&(
+          <div className="dash-urgencia red">
+            <span className="dash-urg-icon">❌</span>
+            <div>
+              <div className="dash-urg-title">{faltasHoje} falta{faltasHoje!==1?'s':''} hoje</div>
+              <div className="dash-urg-sub">Verifique se precisam de reposição</div>
+            </div>
+          </div>
+        )}
+        {inadimplentes.length===0&&repPendentes===0&&semRegistro===0&&faltasHoje===0&&(
+          <div className="dash-urgencia green">
+            <span className="dash-urg-icon">✅</span>
+            <div>
+              <div className="dash-urg-title">Tudo em ordem!</div>
+              <div className="dash-urg-sub">Sem urgências para hoje</div>
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* ── Metas ── */}
+      {(local.empresa?.metas||[]).filter(m=>!m.done).length>0&&(
+        <>
+          <div className="dash-section-title">🎯 Metas em andamento</div>
+          <div className="dash-metas">
+            {(local.empresa?.metas||[]).filter(m=>!m.done).map(m=>(
+              <div key={m.id} className="dash-meta-item">
+                <span className="dash-meta-cat" style={{background:{'Em andamento':'#ff6a00','Próximo':'#5c6bc0','Concluído':'#aaa'}[m.cat]||'#aaa'}}>{m.cat}</span>
+                <span className="dash-meta-text">{m.text}</span>
+              </div>
+            ))}
+          </div>
+        </>
+      )}
+
+      {/* ── Lembretes da empresa ── */}
+      {(local.empresa?.lembretes||[]).filter(l=>!l.done&&l.cat==='Urgente').length>0&&(
+        <>
+          <div className="dash-section-title">🔔 Lembretes urgentes</div>
+          <div className="dash-urgencias">
+            {(local.empresa?.lembretes||[]).filter(l=>!l.done&&l.cat==='Urgente').map(l=>(
+              <div key={l.id} className="dash-urgencia orange">
+                <span className="dash-urg-icon">🔔</span>
+                <div><div className="dash-urg-title">{l.text}</div></div>
+              </div>
+            ))}
+          </div>
+        </>
+      )}
+    </div>
+  );
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// TAB: DESPESAS
+// ══════════════════════════════════════════════════════════════════════════════
+function TabDespesas({local,persist}){
+  const now=new Date();
+  const [mesSel,setMesSel]=useState(MESES[now.getMonth()]);
+  const [anoSel,setAnoSel]=useState(String(now.getFullYear()));
+  const [novaFixa,setNovaFixa]=useState({nome:'',valor:'',categoria:'Assinatura'});
+  const [novaAvulsa,setNovaAvulsa]=useState({nome:'',valor:'',categoria:'Material'});
+  const despStore=local.despesas||{fixas:[],avulsas:[]};
+
+  const persist2=(updater)=>persist(prev=>({...prev,despesas:updater(prev.despesas||{fixas:[],avulsas:[]})}));
+
+  const addFixa=()=>{
+    if(!novaFixa.nome||!novaFixa.valor)return;
+    persist2(d=>({...d,fixas:[...(d.fixas||[]),{id:Date.now(),...novaFixa,valor:Number(novaFixa.valor)}]}));
+    setNovaFixa({nome:'',valor:'',categoria:'Assinatura'});
+  };
+
+  const removeFixa=(id)=>persist2(d=>({...d,fixas:(d.fixas||[]).filter(f=>f.id!==id)}));
+
+  const addAvulsa=()=>{
+    if(!novaAvulsa.nome||!novaAvulsa.valor)return;
+    persist2(d=>({...d,avulsas:[...(d.avulsas||[]),{id:Date.now(),...novaAvulsa,valor:Number(novaAvulsa.valor),mes:mesSel,ano:anoSel}]}));
+    setNovaAvulsa({nome:'',valor:'',categoria:'Material'});
+  };
+
+  const removeAvulsa=(id)=>persist2(d=>({...d,avulsas:(d.avulsas||[]).filter(a=>a.id!==id)}));
+
+  const fixas=despStore.fixas||[];
+  const avulsasMes=(despStore.avulsas||[]).filter(a=>a.mes===mesSel&&a.ano===anoSel);
+  const totalFixas=fixas.reduce((s,f)=>s+Number(f.valor),0);
+  const totalAvulsas=avulsasMes.reduce((s,a)=>s+Number(a.valor),0);
+  const totalMes=totalFixas+totalAvulsas;
+
+  const CATS_FIXA=['Assinatura','Ferramenta','Outro'];
+  const CATS_AVULSA=['Material','Livro','Curso','Marketing','Equipamento','Outro'];
+
+  const CAT_COLOR={
+    'Assinatura':'#185FA5','Ferramenta':'#534AB7','Material':'#ff6a00',
+    'Livro':'#1d9e75','Curso':'#D4537E','Marketing':'#f9a825',
+    'Equipamento':'#888','Outro':'#aaa',
+  };
+
+  return(
+    <div className="tab-despesas">
+      {/* Resumo do mês */}
+      <div className="desp-mes-sel">
+        <select className="fin-mes-sel" value={mesSel} onChange={e=>setMesSel(e.target.value)}>
+          {MESES.map(m=><option key={m} value={m}>{m}</option>)}
+        </select>
+        <select className="fin-mes-sel" value={anoSel} onChange={e=>setAnoSel(e.target.value)}>
+          {[2024,2025,2026,2027].map(y=><option key={y} value={y}>{y}</option>)}
+        </select>
+      </div>
+
+      <div className="fin-stats">
+        <div className="fin-stat"><span className="fin-val red">R$ {fmtMoney(totalFixas)}</span><small>Fixas/mês</small></div>
+        <div className="fin-stat"><span className="fin-val orange">R$ {fmtMoney(totalAvulsas)}</span><small>Avulsas ({mesSel})</small></div>
+        <div className="fin-stat"><span className="fin-val red">R$ {fmtMoney(totalMes)}</span><small>Total {mesSel}</small></div>
+      </div>
+
+      {/* ── DESPESAS FIXAS ── */}
+      <div className="empresa-section">
+        <div className="empresa-section-title">📌 Despesas fixas mensais</div>
+        <div className="task-add-row" style={{marginBottom:10}}>
+          <select className="task-cat-sel" value={novaFixa.categoria} onChange={e=>setNovaFixa(p=>({...p,categoria:e.target.value}))}>
+            {CATS_FIXA.map(c=><option key={c}>{c}</option>)}
+          </select>
+          <input className="task-input" placeholder="Nome (ex: Notion)" value={novaFixa.nome} onChange={e=>setNovaFixa(p=>({...p,nome:e.target.value}))}/>
+          <input className="task-input" placeholder="R$" type="number" style={{width:80,flexShrink:0}} value={novaFixa.valor} onChange={e=>setNovaFixa(p=>({...p,valor:e.target.value}))}/>
+          <button className="task-add-btn" onClick={addFixa}>+</button>
+        </div>
+        {fixas.length===0&&<div className="task-empty">Nenhuma despesa fixa cadastrada.</div>}
+        {fixas.map(f=>(
+          <div key={f.id} className="desp-row">
+            <span className="task-cat-badge" style={{background:CAT_COLOR[f.categoria]||'#aaa'}}>{f.categoria}</span>
+            <span className="desp-nome">{f.nome}</span>
+            <span className="desp-valor">R$ {fmtMoney(f.valor)}</span>
+            <button className="task-del" onClick={()=>removeFixa(f.id)}>✕</button>
+          </div>
+        ))}
+        {fixas.length>0&&(
+          <div className="desp-total">Total fixo/mês: <strong>R$ {fmtMoney(totalFixas)}</strong></div>
+        )}
+      </div>
+
+      {/* ── DESPESAS AVULSAS ── */}
+      <div className="empresa-section">
+        <div className="empresa-section-title">🛒 Despesas avulsas — {mesSel}/{anoSel}</div>
+        <div className="task-add-row" style={{marginBottom:10}}>
+          <select className="task-cat-sel" value={novaAvulsa.categoria} onChange={e=>setNovaAvulsa(p=>({...p,categoria:e.target.value}))}>
+            {CATS_AVULSA.map(c=><option key={c}>{c}</option>)}
+          </select>
+          <input className="task-input" placeholder="Descrição (ex: Livro A2)" value={novaAvulsa.nome} onChange={e=>setNovaAvulsa(p=>({...p,nome:e.target.value}))}/>
+          <input className="task-input" placeholder="R$" type="number" style={{width:80,flexShrink:0}} value={novaAvulsa.valor} onChange={e=>setNovaAvulsa(p=>({...p,valor:e.target.value}))}/>
+          <button className="task-add-btn" onClick={addAvulsa}>+</button>
+        </div>
+        {avulsasMes.length===0&&<div className="task-empty">Nenhuma despesa avulsa em {mesSel}/{anoSel}.</div>}
+        {avulsasMes.map(a=>(
+          <div key={a.id} className="desp-row">
+            <span className="task-cat-badge" style={{background:CAT_COLOR[a.categoria]||'#aaa'}}>{a.categoria}</span>
+            <span className="desp-nome">{a.nome}</span>
+            <span className="desp-valor">R$ {fmtMoney(a.valor)}</span>
+            <button className="task-del" onClick={()=>removeAvulsa(a.id)}>✕</button>
+          </div>
+        ))}
+        {avulsasMes.length>0&&(
+          <div className="desp-total">Total avulso {mesSel}: <strong>R$ {fmtMoney(totalAvulsas)}</strong></div>
+        )}
+      </div>
     </div>
   );
 }
