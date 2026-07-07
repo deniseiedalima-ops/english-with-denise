@@ -135,10 +135,13 @@ export default function Dashboard({ user, student, onLogout, isPreview, refreshi
   const isQueen = student?.genero === 'F';
 
   // Agenda items from tarefaDaSemana — split by newline or semicolon
-  const agendaItems = (student?.tarefaDaSemana || '')
-    .split(/[\n;]+/)
-    .map(s => s.trim())
-    .filter(Boolean);
+  // Agenda items — combine tarefaDaSemana + tarefaPersonalizada
+  const agendaItems = [
+    ...(student?.tarefaDaSemana || '').split(/[\n;]+/).map(s => s.trim()).filter(Boolean),
+    ...(student?.tarefaPersonalizada
+      ? (student.tarefaPersonalizada).split(/[\n;]+/).map(s => s.trim()).filter(Boolean)
+      : []),
+  ];
 
   if (showAchievements) {
     return (

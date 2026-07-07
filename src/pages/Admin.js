@@ -494,11 +494,16 @@ function TabAlunos({ students, loading, navigate }) {
               <div className="alunos-section">
                 <div className="alunos-section-title">🗓️ Next Class</div>
                 <AulaPicker
-                  currentAulaId={selected?.proximaAula?.id || ''}
-                  currentTitulo={selected?.proximaAula?.titulo || ''}
+                  currentAulaId={form.proximaAulaId || selected?.proximaAulaId || ''}
+                  currentTitulo={form.proximaAulaTitulo || selected?.proximaAula?.titulo || selected?.tituloProximaAula || ''}
                   onSelect={(aula) => {
-                    setForm(f => ({ ...f, proximaAulaId: aula.id, dataProximaAula: aula.dataAula || '' }));
-                    setSelected(s => ({ ...s, proximaAula: aula }));
+                    setForm(f => ({
+                      ...f,
+                      proximaAulaId: aula.id,
+                      proximaAulaTitulo: aula.titulo,
+                      dataProximaAula: aula.dataAula || '',
+                    }));
+                    setSelected(s => ({ ...s, proximaAula: aula, tituloProximaAula: aula.titulo }));
                   }}
                 />
               </div>

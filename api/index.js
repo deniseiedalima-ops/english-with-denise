@@ -1,9 +1,7 @@
 // ═══════════════════════════════════════════════════════════════════════════
 // SINGLE API FILE — all routes in one function (Vercel Hobby limit workaround)
-// Route via: /api?route=notion | students | update | community | data | etc.
+// Route via: /api/index?route=notion | students | update-student | etc.
 // ═══════════════════════════════════════════════════════════════════════════
-import formidable from 'formidable';
-import { createReadStream } from 'fs';
 
 const NOTION_API = 'https://api.notion.com/v1';
 const STUDENTS_DB = '368628bb387c80259882da13d7e2ed1d';
@@ -121,6 +119,9 @@ export default async function handler(req, res) {
 
       const students = (data.results || []).map(page => {
         const p = page.properties;
+        // Get the relation ID so AulaPicker can show current selection
+        const aulaRelation = p['Próxima Aula']?.relation || [];
+        const proximaAulaId = aulaRelation.length > 0 ? aulaRelation[0].id : null;
         return {
           id: page.id,
           nome:             p['Nome']?.title?.[0]?.plain_text || '—',
@@ -143,7 +144,8 @@ export default async function handler(req, res) {
           horarioReposicao: p['Horário Reposição']?.rich_text?.[0]?.plain_text || null,
           dataProximaAula:  p['Data da Próxima Aula']?.date?.start || null,
           tituloProximaAula:p['Título da Próxima Aula']?.rich_text?.[0]?.plain_text || '',
-          proximaAula:      null,
+          proximaAulaId,
+          proximaAula: proximaAulaId ? { id: proximaAulaId, titulo: p['Título da Próxima Aula']?.rich_text?.[0]?.plain_text || '' } : null,
         };
       });
       return res.json({ students });
@@ -171,7 +173,8 @@ export default async function handler(req, res) {
       if (fields.dataReposicao     !== undefined) props['Data Reposição']         = fields.dataReposicao ? { date: { start: fields.dataReposicao } } : { date: null };
       if (fields.dataProximaAula   !== undefined) props['Data da Próxima Aula']   = fields.dataProximaAula ? { date: { start: fields.dataProximaAula } } : { date: null };
       if (fields.proximaAulaId     !== undefined) props['Próxima Aula']           = fields.proximaAulaId ? { relation: [{ id: fields.proximaAulaId }] } : { relation: [] };
-      if (fields.nivel             !== undefined) props['Nível']                  = { select: { name: fields.nivel } };
+      if (fields.proximaAulaTitulo !== undefined) props['Título da Próxima Aula']  = { rich_text: [{ text: { content: fields.proximaAulaTitulo || '' } }] };
+      if (fields.nivel             !== undefined) props['Nível']                   = { select: { name: fields.nivel } };
 
       const r = await fetch(`${NOTION_API}/pages/${pageId}`, {
         method: 'PATCH', headers: nHeaders(),
