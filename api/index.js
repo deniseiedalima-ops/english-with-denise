@@ -7,6 +7,9 @@ const NOTION_API = 'https://api.notion.com/v1';
 const STUDENTS_DB = '368628bb387c80259882da13d7e2ed1d';
 const AULAS_DB    = 'ba15709d-e9bf-43c8-a124-60c39a087b9b';
 const POSTS_DB    = 'dbe7ae1a-6bf8-4610-bc11-ffb585acaf5c';
+const TEAP_SIMULADOS_DB  = '429c0015-e3ce-4fc6-a7e5-8381cfd1523e'; // TEAP Simulados Cadastrados
+const TEAP_QUESTOES_DB   = '7b311cba-32cd-4b88-97fd-bc38c0785df7'; // TEAP Questões
+const TEAP_RESULTADOS_DB = '6ab6517f-3004-44fc-aa77-157b5a9c166c'; // TEAP Resultados
 const TOKEN = () => process.env.NOTION_TOKEN || process.env.REACT_APP_NOTION_TOKEN || '';
 const OPENAI_KEY = () => process.env.OPENAI_API_KEY || '';
 const CLOUD_NAME = 'dbkrebqs0';
@@ -211,21 +214,203 @@ export default async function handler(req, res) {
       return res.json({ aulas });
     }
 
-    // ── TEAP: student dashboard data (simulados, categorias, vocabulário) ──
-    // NOTE: stubbed until the 3 Notion DBs (TEAP Simulados, TEAP Respostas
-    // por Categoria, TEAP Banco de Palavras) are created. Set their IDs as
-    // env vars (TEAP_SIMULADOS_DB, TEAP_RESPOSTAS_DB, TEAP_VOCAB_DB) and
-    // replace the block below with real queries — same pattern as `aulas`.
+    // ── TEAP: student dashboard data (simulados, categorias, radar) ────────
+    // Categorias vêm agregadas de "Categorias JSON" (salvo no momento do
+    // submit). Radar é um mapeamento heurístico das categorias — ainda não
+    // existe uma fonte de dados própria para as 9 competências do radar.
     if (route === 'teap-dashboard') {
       const email = req.query.email || body.email;
       if (!email) return res.status(400).json({ error: 'Missing email' });
-      if (!process.env.TEAP_SIMULADOS_DB) {
-        return res.json({ configured: false });
+
+      const r = await fetch(`${NOTION_API}/databases/${TEAP_RESULTADOS_DB}/query`, {
+        method: 'POST', headers: nHeaders(),
+        body: JSON.stringify({
+          filter: { property: 'E-mail Aluno', email: { equals: email } },
+          sorts: [{ property: 'Data', direction: 'ascending' }],
+        }),
+      });
+      const data = await r.json();
+      const rows = data.results || [];
+      if (!rows.length) return res.json({ configured: true, simulados: [] });
+
+      const simulados = rows.map(page => {
+        const p = page.properties;
+        const d = p['Data']?.date?.start;
+        return {
+          data: d ? new Date(d + 'T12:00:00').toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' }) : '',
+          nota: p['Nota']?.number ?? 0,
+          tempoMedio: p['Tempo Médio (s)']?.number ?? 0,
+          tempoTotal: p['Tempo Total (min)']?.number ?? 0,
+        };
+      });
+
+      // Agrega "Categorias JSON" de todas as tentativas
+      const catTotals = {};
+      rows.forEach(page => {
+        let cats = {};
+        try { cats = JSON.parse(page.properties['Categorias JSON']?.rich_text?.[0]?.plain_text || '{}'); } catch {}
+        Object.entries(cats).forEach(([nome, v]) => {
+          if (!catTotals[nome]) catTotals[nome] = { acertos: 0, total: 0 };
+          catTotals[nome].acertos += v.acertos || 0;
+          catTotals[nome].total += v.total || 0;
+        });
+      });
+      const categorias = Object.entries(catTotals).map(([nome, v]) => ({
+        nome, acerto: v.total ? Math.round((v.acertos / v.total) * 100) : 0,
+      }));
+
+      const catMap = Object.fromEntries(categorias.map(c => [c.nome, c.acerto]));
+      const ultimoTempo = simulados[simulados.length - 1]?.tempoMedio || 60;
+      const radar = [
+        { nome: 'Reading Speed', valor: Math.max(0, Math.min(100, Math.round(100 - (ultimoTempo - 40) * 1.5))) },
+        { nome: 'Scanning', valor: catMap['Localização'] ?? 0 },
+        { nome: 'Skimming', valor: catMap['Ideia Central'] ?? 0 },
+        { nome: 'Vocabulary', valor: catMap['Vocabulário'] ?? 0 },
+        { nome: 'Pronoun Ref.', valor: catMap['Referência Pronominal'] ?? 0 },
+        { nome: 'Main Idea', valor: catMap['Ideia Central'] ?? 0 },
+        { nome: 'Inference', valor: catMap['Compreensão de Parágrafo'] ?? 0 },
+        { nome: 'Sentence Mng.', valor: catMap['Compreensão de Sentença'] ?? 0 },
+        { nome: 'Paragraph Mng.', valor: catMap['Compreensão de Parágrafo'] ?? 0 },
+      ];
+
+      return res.json({ configured: true, simulados, categorias, radar });
+    }
+
+    // ── TEAP: list active simulados + status for this student ──────────────
+    if (route === 'teap-simulados-list') {
+      const email = req.query.email || body.email;
+      if (!email) return res.status(400).json({ error: 'Missing email' });
+
+      const [simR, resR] = await Promise.all([
+        fetch(`${NOTION_API}/databases/${TEAP_SIMULADOS_DB}/query`, {
+          method: 'POST', headers: nHeaders(),
+          body: JSON.stringify({ filter: { property: 'Ativo', checkbox: { equals: true } } }),
+        }).then(r => r.json()),
+        fetch(`${NOTION_API}/databases/${TEAP_RESULTADOS_DB}/query`, {
+          method: 'POST', headers: nHeaders(),
+          body: JSON.stringify({ filter: { property: 'E-mail Aluno', email: { equals: email } } }),
+        }).then(r => r.json()),
+      ]);
+
+      const resultsBySimuladoId = {};
+      (resR.results || []).forEach(page => {
+        const p = page.properties;
+        const simId = p['Simulado']?.relation?.[0]?.id;
+        const nota = p['Nota']?.number ?? 0;
+        if (simId && (!resultsBySimuladoId[simId] || nota > resultsBySimuladoId[simId])) {
+          resultsBySimuladoId[simId] = nota;
+        }
+      });
+
+      const simulados = (simR.results || []).map(page => {
+        const p = page.properties;
+        const nota = resultsBySimuladoId[page.id];
+        return {
+          id: page.id,
+          titulo: p['Título']?.title?.[0]?.plain_text || '',
+          area: p['Área TEAP']?.select?.name || '',
+          status: nota !== undefined ? 'concluido' : 'nao_iniciado',
+          nota: nota ?? null,
+        };
+      }).filter(s => s.titulo && !s.titulo.startsWith('EXEMPLO'));
+
+      return res.json({ simulados });
+    }
+
+    // ── TEAP: fetch a simulado's texts + questions (sem gabarito!) ──────────
+    if (route === 'teap-simulado-detail') {
+      const id = req.query.id || body.id;
+      if (!id) return res.status(400).json({ error: 'Missing id' });
+
+      const [simRes, qRes] = await Promise.all([
+        fetch(`${NOTION_API}/pages/${id}`, { headers: nHeaders() }).then(r => r.json()),
+        fetch(`${NOTION_API}/databases/${TEAP_QUESTOES_DB}/query`, {
+          method: 'POST', headers: nHeaders(),
+          body: JSON.stringify({
+            filter: { property: 'Simulado', relation: { contains: id } },
+            sorts: [{ property: 'Número', direction: 'ascending' }],
+          }),
+        }).then(r => r.json()),
+      ]);
+
+      const sp = simRes.properties;
+      const questoes = (qRes.results || []).map(page => {
+        const p = page.properties;
+        return {
+          numero: p['Número']?.number ?? 0,
+          enunciado: p['Enunciado']?.title?.[0]?.plain_text || '',
+          textoReferencia: p['Texto Referência']?.select?.name || 'Texto 1',
+          // Resposta Certa é DE PROPÓSITO omitida — só volta no submit.
+        };
+      });
+
+      return res.json({
+        id,
+        titulo: sp['Título']?.title?.[0]?.plain_text || '',
+        texto1: sp['Texto 1']?.rich_text?.[0]?.plain_text || '',
+        texto2: sp['Texto 2']?.rich_text?.[0]?.plain_text || '',
+        questoes,
+      });
+    }
+
+    // ── TEAP: submit answers, grade server-side, save result ───────────────
+    if (route === 'teap-simulado-submit') {
+      const { email, simuladoId, respostas, tempoTotalMin, tempoMedioSeg } = body;
+      if (!email || !simuladoId || !respostas) return res.status(400).json({ error: 'Missing fields' });
+
+      const qRes = await fetch(`${NOTION_API}/databases/${TEAP_QUESTOES_DB}/query`, {
+        method: 'POST', headers: nHeaders(),
+        body: JSON.stringify({
+          filter: { property: 'Simulado', relation: { contains: simuladoId } },
+          sorts: [{ property: 'Número', direction: 'ascending' }],
+        }),
+      });
+      const qData = await qRes.json();
+      const questoes = qData.results || [];
+      if (!questoes.length) return res.status(404).json({ error: 'Simulado sem questões cadastradas' });
+
+      let acertos = 0;
+      const catTotals = {};
+      const gabarito = questoes.map(page => {
+        const p = page.properties;
+        const numero = p['Número']?.number ?? 0;
+        const certa = p['Resposta Certa']?.select?.name || 'Certo';
+        const categoria = p['Categoria']?.select?.name || 'Geral';
+        const dada = respostas[numero] || respostas[String(numero)] || null;
+        const correta = dada === certa;
+        if (correta) acertos++;
+        if (!catTotals[categoria]) catTotals[categoria] = { acertos: 0, total: 0 };
+        catTotals[categoria].total++;
+        if (correta) catTotals[categoria].acertos++;
+        return { numero, enunciado: p['Enunciado']?.title?.[0]?.plain_text || '', respostaAluno: dada, respostaCerta: certa, correta };
+      });
+
+      const total = questoes.length;
+      const nota = Math.round((acertos / total) * 100);
+
+      const createRes = await fetch(`${NOTION_API}/pages`, {
+        method: 'POST', headers: nHeaders(),
+        body: JSON.stringify({
+          parent: { database_id: TEAP_RESULTADOS_DB },
+          properties: {
+            'Título': { title: [{ text: { content: `${email} — ${new Date().toLocaleDateString('pt-BR')}` } }] },
+            'E-mail Aluno': { email },
+            'Simulado': { relation: [{ id: simuladoId }] },
+            'Data': { date: { start: new Date().toISOString().slice(0, 10) } },
+            'Nota': { number: nota },
+            'Tempo Total (min)': { number: Number(tempoTotalMin) || 0 },
+            'Tempo Médio (s)': { number: Number(tempoMedioSeg) || 0 },
+            'Respostas JSON': { rich_text: [{ text: { content: JSON.stringify(respostas) } }] },
+            'Categorias JSON': { rich_text: [{ text: { content: JSON.stringify(catTotals) } }] },
+          },
+        }),
+      });
+      if (!createRes.ok) {
+        const err = await createRes.json();
+        return res.status(500).json({ error: err?.message || 'Erro ao salvar resultado' });
       }
-      // TODO (fase 2): query TEAP_SIMULADOS_DB / TEAP_RESPOSTAS_DB / TEAP_VOCAB_DB
-      // filtering by student email, map to { simulados, categorias, vocabulario }
-      // and compute readiness server-side with the same formula used in Teap.js.
-      return res.json({ configured: false });
+
+      return res.json({ nota, acertos, total, gabarito });
     }
 
     // ── COMMUNITY: feed / posts / reactions ───────────────────────────────

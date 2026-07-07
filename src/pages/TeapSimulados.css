@@ -1,0 +1,13 @@
+.tsim-page { min-height:100vh; background:#f0ede8; }
+.tsim-content { max-width:480px; margin:0 auto; padding:20px 16px calc(80px + env(safe-area-inset-bottom, 0px)); display:flex; flex-direction:column; gap:10px; }
+.tsim-back { align-self:flex-start; background:none; border:none; font-size:13px; color:#888; cursor:pointer; font-family:'DM Sans',sans-serif; padding:0 0 4px; -webkit-tap-highlight-color:transparent; }
+.tsim-title { font-family:'DM Serif Display',serif; font-size:26px; color:#111; font-weight:400; margin:0 0 8px; }
+.tsim-empty { font-size:13px; color:#888; padding:20px 0; text-align:center; }
+
+.tsim-card { display:flex; justify-content:space-between; align-items:center; background:#fff; border:0.5px solid #e0dbd4; border-radius:12px; padding:14px 16px; cursor:pointer; -webkit-tap-highlight-color:transparent; }
+.tsim-card:active { background:#faf8f6; }
+.tsim-card-title { font-size:15px; font-weight:600; color:#111; }
+.tsim-card-sub { font-size:11.5px; color:#aaa; margin-top:2px; }
+.tsim-badge { font-size:11px; font-weight:700; padding:5px 12px; border-radius:20px; flex-shrink:0; }
+.tsim-badge-done { background:#e1f5ee; color:#0f6e56; }
+.tsim-badge-start { background:#ff6a00; color:#fff; }

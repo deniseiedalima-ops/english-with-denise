@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import './Teap.css';
 
@@ -48,12 +49,6 @@ const MOCK = {
     { palavra: 'underlying', significado: 'subjacente, de base', pronuncia: '/ˌʌn.dəˈlaɪ.ɪŋ/', frase: 'The underlying cause was never addressed.', status: 'nova' },
     { palavra: 'yield', significado: 'produzir, render', pronuncia: '/jiːld/', frase: 'The experiment yielded unexpected data.', status: 'dominada' },
     { palavra: 'albeit', significado: 'embora, ainda que', pronuncia: '/ɔːlˈbiː.ɪt/', frase: 'The plan worked, albeit slowly.', status: 'aprendendo' },
-  ],
-  badges: [
-    { nome: 'Primeira Meta', desc: 'Nota acima de 70 em um simulado', conquistado: true },
-    { nome: 'Consistência', desc: '3 simulados seguidos sem queda de nota', conquistado: true },
-    { nome: 'Sprint Reading', desc: 'Tempo médio abaixo de 60s por questão', conquistado: true },
-    { nome: 'Domínio Total', desc: 'Todas as categorias acima de 80%', conquistado: false },
   ],
 };
 
@@ -228,6 +223,7 @@ function VocabCard({ item }) {
 }
 
 export default function Teap({ user, student, onLogout }) {
+  const navigate = useNavigate();
   const [data, setData] = useState(null);
   const [usingMock, setUsingMock] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -239,12 +235,12 @@ export default function Teap({ user, student, onLogout }) {
         const res = await fetch(`/api/index?route=teap-dashboard&email=${encodeURIComponent(user?.email || '')}`);
         const json = await res.json();
         if (!active) return;
-        if (json.configured === false) {
+        if (json.configured && json.simulados && json.simulados.length > 0) {
+          setData({ ...json, vocabulario: MOCK.vocabulario });
+          setUsingMock(false);
+        } else {
           setData(MOCK);
           setUsingMock(true);
-        } else {
-          setData(json);
-          setUsingMock(false);
         }
       } catch {
         if (active) { setData(MOCK); setUsingMock(true); }
@@ -278,105 +274,96 @@ export default function Teap({ user, student, onLogout }) {
 
         {usingMock && (
           <div className="teap-mock-banner">
-            📊 Dados de exemplo — conecte os bancos do Notion para ver seus simulados reais.
+            📊 Dados de exemplo — faça seu primeiro simulado para ver suas métricas reais.
           </div>
         )}
 
-        {/* ── HEADER ─────────────────────────────────── */}
-        <div className="teap-header-card">
-          <div className="teap-header-eyebrow">TEAP · {student?.areaTeap || 'Painel de Prontidão'}</div>
-          <div className="teap-header-title">Sua prontidão</div>
-          {student?.objetivoTeap && <div className="teap-header-sub">{student.objetivoTeap}</div>}
-          <ReadinessDial score={score} />
-        </div>
-
-        {/* ── QUICK STATS ────────────────────────────── */}
-        <div className="teap-stats-grid">
-          <div className="teap-stat-card">
-            <div className="teap-stat-value">{ultimo.nota}%</div>
-            <div className="teap-stat-label">Última nota</div>
+        {/* ── ENTRADA: SIMULADOS ─────────────────────── */}
+        <div className="teap-simulados-entry" onClick={() => navigate('/teap/simulados')}>
+          <div className="teap-simulados-entry-icon">📝</div>
+          <div style={{ flex: 1 }}>
+            <div className="teap-simulados-entry-title">Simulados</div>
+            <div className="teap-simulados-entry-sub">Responda e receba o gabarito na hora</div>
           </div>
-          <div className="teap-stat-card">
-            <div className="teap-stat-value">{ultimo.tempoMedio}s</div>
-            <div className="teap-stat-label">Tempo/questão</div>
-          </div>
-          <div className="teap-stat-card">
-            <div className="teap-stat-value">{data.simulados.length}</div>
-            <div className="teap-stat-label">Simulados</div>
-          </div>
+          <div className="teap-simulados-entry-arrow">›</div>
         </div>
 
-        {/* ── EVOLUÇÃO ───────────────────────────────── */}
-        <div className="teap-card">
-          <div className="teap-card-title">📈 Evolução dos Simulados</div>
-          <EvolutionChart simulados={data.simulados} />
-          <div className="teap-evo-labels">
-            {data.simulados.map(s => <span key={s.data}>{s.data}</span>)}
-          </div>
-        </div>
-
-        {/* ── CATEGORIAS ─────────────────────────────── */}
-        <div className="teap-card">
-          <div className="teap-card-title">🎯 Desempenho por Categoria</div>
-          {data.categorias.map(c => <CategoryRow key={c.nome} {...c} />)}
-        </div>
-
-        {/* ── RADAR ──────────────────────────────────── */}
-        <div className="teap-card">
-          <div className="teap-card-title">🧠 Radar de Competências</div>
-          <RadarChart data={data.radar} />
-        </div>
-
-        {/* ── RECOMENDAÇÕES ──────────────────────────── */}
-        <div className="teap-card">
-          <div className="teap-card-title">💡 Recomendações</div>
-          <div className="teap-reco-grid">
-            <div className="teap-reco-box tone-low">
-              <div className="teap-reco-label">Ponto fraco</div>
-              <div className="teap-reco-value">{pontoFraco.nome}</div>
-            </div>
-            <div className="teap-reco-box tone-good">
-              <div className="teap-reco-label">Ponto forte</div>
-              <div className="teap-reco-value">{pontoForte.nome}</div>
-            </div>
-          </div>
-          <p className="teap-reco-text">
-            Foque esta semana em <strong>{pontoFraco.nome}</strong> antes do próximo simulado.
-            {ganhoTempo > 0 && <> Seu tempo por questão já melhorou {ganhoTempo}s desde o início — continue treinando cronometrado.</>}
-          </p>
-        </div>
-
-        {/* ── CONQUISTAS ─────────────────────────────── */}
-        <div className="teap-card">
-          <div className="teap-card-title">🏅 Conquistas</div>
-          {data.badges.map(b => (
-            <div key={b.nome} className={`teap-badge-row ${b.conquistado ? 'unlocked' : 'locked'}`}>
-              <span className="teap-badge-icon">{b.conquistado ? '✅' : '🔒'}</span>
-              <div>
-                <div className="teap-badge-name">{b.nome}</div>
-                <div className="teap-badge-desc">{b.desc}</div>
+        {/* ── PONTUAÇÃO + EVOLUÇÃO (lado a lado) ─────── */}
+        <div className="teap-grid">
+          <div className="teap-score-card">
+            <div className="teap-header-eyebrow">TEAP · {student?.areaTeap || 'Prontidão'}</div>
+            <ReadinessDial score={score} />
+            <div className="teap-score-stats">
+              <div className="teap-score-stat">
+                <div className="teap-score-stat-value">{ultimo.nota}%</div>
+                <div className="teap-score-stat-label">Última nota</div>
+              </div>
+              <div className="teap-score-stat">
+                <div className="teap-score-stat-value">{ultimo.tempoMedio}s</div>
+                <div className="teap-score-stat-label">Tempo/questão</div>
+              </div>
+              <div className="teap-score-stat">
+                <div className="teap-score-stat-value">{data.simulados.length}</div>
+                <div className="teap-score-stat-label">Simulados</div>
               </div>
             </div>
-          ))}
-        </div>
+          </div>
 
-        {/* ── HISTÓRICO ──────────────────────────────── */}
-        <div className="teap-card">
-          <div className="teap-card-title">🕓 Histórico de Simulados</div>
-          {data.simulados.slice().reverse().map((s, i) => (
-            <div key={i} className="teap-hist-row">
-              <span className="teap-hist-date">{s.data}</span>
-              <span className="teap-hist-nota">{s.nota}%</span>
-              <span className="teap-hist-tempo">{s.tempoTotal} min</span>
+          <div className="teap-card">
+            <div className="teap-card-title">Evolução</div>
+            <EvolutionChart simulados={data.simulados} />
+            <div className="teap-evo-labels">
+              {data.simulados.map(s => <span key={s.data}>{s.data}</span>)}
             </div>
-          ))}
-        </div>
+          </div>
 
-        {/* ── VOCABULÁRIO ────────────────────────────── */}
-        <div className="teap-card">
-          <div className="teap-card-title">📖 Banco de Palavras</div>
-          <div className="teap-vocab-grid">
-            {data.vocabulario.map(v => <VocabCard key={v.palavra} item={v} />)}
+          {/* ── CATEGORIAS + RADAR ────────────────────── */}
+          <div className="teap-card">
+            <div className="teap-card-title">Categorias</div>
+            {data.categorias.map(c => <CategoryRow key={c.nome} {...c} />)}
+          </div>
+
+          <div className="teap-card">
+            <div className="teap-card-title">Radar</div>
+            <RadarChart data={data.radar} />
+          </div>
+
+          {/* ── RECOMENDAÇÕES + HISTÓRICO ─────────────── */}
+          <div className="teap-card">
+            <div className="teap-card-title">Recomendações</div>
+            <div className="teap-reco-grid">
+              <div className="teap-reco-box tone-low">
+                <div className="teap-reco-label">Fraco</div>
+                <div className="teap-reco-value">{pontoFraco.nome}</div>
+              </div>
+              <div className="teap-reco-box tone-good">
+                <div className="teap-reco-label">Forte</div>
+                <div className="teap-reco-value">{pontoForte.nome}</div>
+              </div>
+            </div>
+            <p className="teap-reco-text">
+              Foque em <strong>{pontoFraco.nome}</strong> antes do próximo simulado.
+              {ganhoTempo > 0 && <> Tempo/questão já melhorou {ganhoTempo}s.</>}
+            </p>
+          </div>
+
+          <div className="teap-card">
+            <div className="teap-card-title">Histórico</div>
+            {data.simulados.slice().reverse().map((s, i) => (
+              <div key={i} className="teap-hist-row">
+                <span className="teap-hist-date">{s.data}</span>
+                <span className="teap-hist-nota">{s.nota}%</span>
+                <span className="teap-hist-tempo">{s.tempoTotal} min</span>
+              </div>
+            ))}
+          </div>
+
+          {/* ── VOCABULÁRIO (largura total) ───────────── */}
+          <div className="teap-card teap-grid-full">
+            <div className="teap-card-title">Banco de Palavras</div>
+            <div className="teap-vocab-grid">
+              {data.vocabulario.map(v => <VocabCard key={v.palavra} item={v} />)}
+            </div>
           </div>
         </div>
 
