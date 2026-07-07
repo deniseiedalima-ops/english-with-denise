@@ -1,0 +1,90 @@
+.teap-page { min-height:100vh; background:#f0ede8; }
+.teap-content { max-width:480px; margin:0 auto; padding:20px 16px calc(80px + env(safe-area-inset-bottom, 0px)); display:flex; flex-direction:column; gap:14px; }
+.teap-loading { text-align:center; color:#888; font-size:13px; padding:40px 0; }
+
+.teap-mock-banner { background:#fffbf0; border:0.5px solid #e8c84a; border-radius:12px; padding:10px 14px; font-size:12px; color:#7a6200; }
+
+/* ── HEADER ─────────────────────────────────────────────────────────── */
+.teap-header-card { background:#111; border-radius:16px; padding:20px 18px; position:relative; overflow:hidden; text-align:center; }
+.teap-header-card::before { content:''; position:absolute; top:-24px; right:-24px; width:90px; height:90px; background:rgba(255,106,0,0.12); border-radius:50%; }
+.teap-header-eyebrow { font-size:11px; font-weight:600; color:#ff6a00; letter-spacing:1px; text-transform:uppercase; margin-bottom:8px; }
+.teap-header-title { font-family:'DM Serif Display',serif; font-size:24px; color:#fff; font-weight:400; margin-bottom:4px; }
+.teap-header-sub { font-size:12px; color:rgba(255,255,255,0.5); margin-bottom:8px; }
+
+.teap-dial-wrap { display:flex; flex-direction:column; align-items:center; margin-top:4px; }
+.teap-dial-score { font-family:'DM Serif Display',serif; font-size:30px; color:#fff; margin-top:-30px; }
+.teap-dial-pill { margin-top:6px; padding:4px 14px; border-radius:20px; font-size:12px; font-weight:600; }
+.teap-dial-pill.tone-good { background:rgba(15,110,86,0.2); color:#4fd6ac; }
+.teap-dial-pill.tone-mid  { background:rgba(255,106,0,0.18); color:#ff9a4d; }
+.teap-dial-pill.tone-low  { background:rgba(192,57,43,0.2); color:#ff8a7a; }
+
+/* ── QUICK STATS ────────────────────────────────────────────────────── */
+.teap-stats-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; }
+.teap-stat-card { background:#fff; border:0.5px solid #e0dbd4; border-radius:12px; padding:14px 8px; text-align:center; }
+.teap-stat-value { font-family:'DM Serif Display',serif; font-size:20px; color:#111; }
+.teap-stat-label { font-size:10px; color:#aaa; margin-top:2px; text-transform:uppercase; letter-spacing:.4px; }
+
+/* ── GENERIC CARD ───────────────────────────────────────────────────── */
+.teap-card { background:#fff; border:0.5px solid #e0dbd4; border-radius:14px; padding:16px; }
+.teap-card-title { font-size:13px; font-weight:700; color:#111; margin-bottom:12px; }
+
+/* ── EVOLUTION ──────────────────────────────────────────────────────── */
+.teap-evo-labels { display:flex; justify-content:space-between; margin-top:4px; }
+.teap-evo-labels span { font-size:9px; color:#bbb; }
+
+/* ── CATEGORY ROWS ──────────────────────────────────────────────────── */
+.teap-cat-row { margin-bottom:12px; }
+.teap-cat-row:last-child { margin-bottom:0; }
+.teap-cat-top { display:flex; justify-content:space-between; margin-bottom:4px; }
+.teap-cat-name { font-size:12.5px; color:#444; }
+.teap-cat-pct { font-size:12.5px; font-weight:700; }
+.teap-cat-pct.tone-good, .teap-cat-fill.tone-good { color:#0f6e56; }
+.teap-cat-pct.tone-mid,  .teap-cat-fill.tone-mid  { color:#ff6a00; }
+.teap-cat-pct.tone-low,  .teap-cat-fill.tone-low  { color:#c0392b; }
+.teap-cat-track { height:6px; background:#f0ede8; border-radius:4px; overflow:hidden; }
+.teap-cat-fill { height:100%; border-radius:4px; }
+.teap-cat-fill.tone-good { background:#0f6e56; }
+.teap-cat-fill.tone-mid  { background:#ff6a00; }
+.teap-cat-fill.tone-low  { background:#c0392b; }
+
+/* ── RECOMMENDATIONS ────────────────────────────────────────────────── */
+.teap-reco-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:12px; }
+.teap-reco-box { border-radius:10px; padding:12px; }
+.teap-reco-box.tone-low  { background:#fbeceb; }
+.teap-reco-box.tone-good { background:#e1f5ee; }
+.teap-reco-label { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.4px; margin-bottom:2px; }
+.teap-reco-box.tone-low .teap-reco-label  { color:#c0392b; }
+.teap-reco-box.tone-good .teap-reco-label { color:#0f6e56; }
+.teap-reco-value { font-size:13px; font-weight:600; color:#111; }
+.teap-reco-text { font-size:12.5px; color:#555; line-height:1.6; }
+
+/* ── BADGES (segue o padrão de .ach-row do Dashboard) ──────────────── */
+.teap-badge-row { display:flex; align-items:flex-start; gap:10px; padding:9px 0; border-bottom:0.5px solid #f5f2ee; }
+.teap-badge-row:last-child { border-bottom:none; padding-bottom:0; }
+.teap-badge-row.locked { opacity:.45; }
+.teap-badge-icon { font-size:16px; flex-shrink:0; margin-top:1px; }
+.teap-badge-name { font-size:13px; font-weight:600; color:#111; }
+.teap-badge-desc { font-size:11px; color:#aaa; margin-top:1px; line-height:1.4; }
+
+/* ── HISTORY ────────────────────────────────────────────────────────── */
+.teap-hist-row { display:flex; justify-content:space-between; align-items:center; padding:8px 0; border-bottom:0.5px solid #f5f2ee; }
+.teap-hist-row:last-child { border-bottom:none; padding-bottom:0; }
+.teap-hist-date { font-size:12px; color:#aaa; }
+.teap-hist-nota { font-size:13px; font-weight:700; color:#111; }
+.teap-hist-tempo { font-size:11.5px; color:#aaa; }
+
+/* ── VOCAB FLASHCARDS ───────────────────────────────────────────────── */
+.teap-vocab-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.teap-vocab-card { background:#f0ede8; border-radius:10px; padding:12px; min-height:92px; cursor:pointer; display:flex; flex-direction:column; justify-content:space-between; -webkit-tap-highlight-color:transparent; }
+.teap-vocab-word { font-size:14px; font-weight:600; color:#111; }
+.teap-vocab-pron { font-size:11px; color:#aaa; margin-top:2px; }
+.teap-vocab-status { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.3px; margin-top:8px; }
+.teap-vocab-status.status-nova { color:#888; }
+.teap-vocab-status.status-aprendendo { color:#ff6a00; }
+.teap-vocab-status.status-dominada { color:#0f6e56; }
+.teap-vocab-meaning { font-size:12px; color:#111; font-weight:500; }
+.teap-vocab-example { font-size:10.5px; color:#888; font-style:italic; margin-top:6px; line-height:1.4; }
+
+@media (max-width:600px) {
+  .teap-content { padding:16px 12px calc(80px + env(safe-area-inset-bottom, 0px)); gap:12px; }
+}

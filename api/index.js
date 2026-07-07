@@ -88,6 +88,9 @@ export default async function handler(req, res) {
         email: props['E-mail']?.email || '',
         nivel: props['Nível']?.select?.name || '',
         genero: props['Gênero']?.select?.name || '',
+        programa: props['Programa']?.select?.name || '',
+        areaTeap: props['Área TEAP']?.select?.name || '',
+        objetivoTeap: props['Objetivo']?.rich_text?.[0]?.plain_text || '',
         classroomLink:    props['Link Classroom']?.url || '',
         kamiLink:         props['Link KAMI']?.url || '',
         driveLink:        props['Link Drive']?.url || '',
@@ -206,6 +209,23 @@ export default async function handler(req, res) {
         };
       }).filter(a => a.titulo);
       return res.json({ aulas });
+    }
+
+    // ── TEAP: student dashboard data (simulados, categorias, vocabulário) ──
+    // NOTE: stubbed until the 3 Notion DBs (TEAP Simulados, TEAP Respostas
+    // por Categoria, TEAP Banco de Palavras) are created. Set their IDs as
+    // env vars (TEAP_SIMULADOS_DB, TEAP_RESPOSTAS_DB, TEAP_VOCAB_DB) and
+    // replace the block below with real queries — same pattern as `aulas`.
+    if (route === 'teap-dashboard') {
+      const email = req.query.email || body.email;
+      if (!email) return res.status(400).json({ error: 'Missing email' });
+      if (!process.env.TEAP_SIMULADOS_DB) {
+        return res.json({ configured: false });
+      }
+      // TODO (fase 2): query TEAP_SIMULADOS_DB / TEAP_RESPOSTAS_DB / TEAP_VOCAB_DB
+      // filtering by student email, map to { simulados, categorias, vocabulario }
+      // and compute readiness server-side with the same formula used in Teap.js.
+      return res.json({ configured: false });
     }
 
     // ── COMMUNITY: feed / posts / reactions ───────────────────────────────
