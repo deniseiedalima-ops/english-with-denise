@@ -127,6 +127,44 @@ function fmtMoney(v){return(v||0).toLocaleString('pt-BR',{minimumFractionDigits:
 function fmtDate(iso){if(!iso)return'';const[,m,d]=iso.split('-');return`${d}/${m}`;}
 function fmtDateFull(iso){if(!iso)return'';return new Date(iso+'T12:00:00').toLocaleDateString('pt-BR',{weekday:'short',day:'numeric',month:'short'});}
 function getCalToken(){return localStorage.getItem('ewd_gcal_token')||'';}
+function setCalToken(t){localStorage.setItem('ewd_gcal_token',t);}
+
+// Initialize Google Calendar OAuth client
+function initGCalClient(callback){
+  const CLIENT_ID = process.env.REACT_APP_GOOGLE_CLIENT_ID || '';
+  if(!window.google?.accounts?.oauth2){
+    // Load Google Identity Services script
+    const existing = document.getElementById('gsi-script');
+    if(!existing){
+      const s = document.createElement('script');
+      s.id = 'gsi-script';
+      s.src = 'https://accounts.google.com/gsi/client';
+      s.onload = () => initGCalClient(callback);
+      document.head.appendChild(s);
+    }
+    return;
+  }
+  if(window._gCalClient){ callback && callback(); return; }
+  window._gCalClient = window.google.accounts.oauth2.initTokenClient({
+    client_id: CLIENT_ID,
+    scope: 'https://www.googleapis.com/auth/calendar.readonly',
+    callback: (resp) => {
+      if(resp.access_token){
+        setCalToken(resp.access_token);
+        // Store expiry time
+        localStorage.setItem('ewd_gcal_expiry', Date.now() + (resp.expires_in * 1000));
+        window.location.reload();
+      }
+    },
+  });
+  callback && callback();
+}
+
+function isCalTokenValid(){
+  const token = getCalToken();
+  const expiry = parseInt(localStorage.getItem('ewd_gcal_expiry') || '0');
+  return token && Date.now() < expiry;
+}
 function getFinStatus(nome,venc,mesIdx,pagStore){
   const mes=MESES[mesIdx];const rec=pagStore[mes]?.[nome];
   if(rec?.dataPgto)return'pago';if(rec?.manualAguardando)return'aguardando';
@@ -665,10 +703,15 @@ function TabAgenda(){
   const [calError,setCalError]=useState('');
   const [selectedDate,setSelectedDate]=useState(todayKey());
   const [view,setView]=useState('day');
+  const [clientReady,setClientReady]=useState(false);
+
+  useEffect(()=>{
+    initGCalClient(()=>setClientReady(true));
+  },[]);
 
   const fetchEvents=useCallback(async(dateStr)=>{
+    if(!isCalTokenValid()){setCalError('no_token');return;}
     const token=getCalToken();
-    if(!token){setCalError('no_token');return;}
     setCalLoading(true);setCalError('');
     try{
       const date=new Date(dateStr+'T00:00:00');
@@ -683,7 +726,11 @@ function TabAgenda(){
         timeMax=new Date(date.setHours(23,59,59,999)).toISOString();
       }
       const res=await fetch('/api/index?route=calendar',{method:'POST',headers:{'Content-Type':'application/json','Authorization':`Bearer ${token}`},body:JSON.stringify({timeMin,timeMax})});
-      if(res.status===401){setCalError('expired');return;}
+      if(res.status===401){
+        localStorage.removeItem('ewd_gcal_token');
+        localStorage.removeItem('ewd_gcal_expiry');
+        setCalError('expired');return;
+      }
       const data=await res.json();
       if(data.error){setCalError(data.error);return;}
       setEvents(data.events||[]);
@@ -691,7 +738,18 @@ function TabAgenda(){
     finally{setCalLoading(false);}
   },[view]);
 
-  useEffect(()=>{fetchEvents(selectedDate);},[selectedDate,view]);
+  useEffect(()=>{
+    if(isCalTokenValid()) fetchEvents(selectedDate);
+    else setCalError('no_token');
+  },[selectedDate,view]);
+
+  const connectCalendar=()=>{
+    if(!window._gCalClient){
+      initGCalClient(()=>{ setTimeout(()=>window._gCalClient?.requestAccessToken(),500); });
+    } else {
+      window._gCalClient.requestAccessToken();
+    }
+  };
 
   const changeDay=(delta)=>{
     const d=new Date(selectedDate+'T12:00:00');d.setDate(d.getDate()+delta);
@@ -711,10 +769,16 @@ function TabAgenda(){
 
   if(calError==='no_token'||calError==='expired')return(
     <div className="cal-error-box">
-      <div className="cal-error-icon">🔐</div>
-      <div className="cal-error-title">{calError==='expired'?'Sessão expirada':'Agenda não conectada'}</div>
-      <p className="cal-error-text">{calError==='expired'?'Clique abaixo para reconectar.':'Faça logout e login novamente.'}</p>
-      <button className="cal-reauth-btn" onClick={()=>window._gCalClient?.requestAccessToken()}>🔄 Reconectar</button>
+      <div className="cal-error-icon">📅</div>
+      <div className="cal-error-title">{calError==='expired'?'Sessão expirada':'Google Calendar não conectado'}</div>
+      <p className="cal-error-text">
+        {calError==='expired'
+          ? 'Seu acesso ao Google Calendar expirou. Clique abaixo para reconectar.'
+          : 'Conecte seu Google Calendar para ver suas aulas de hoje.'}
+      </p>
+      <button className="cal-reauth-btn" onClick={connectCalendar}>
+        🔗 Conectar Google Calendar
+      </button>
     </div>
   );
 
