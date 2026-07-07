@@ -90,23 +90,48 @@ function readinessStatus(score) {
 
 function ReadinessDial({ score }) {
   const { label, tone } = readinessStatus(score);
-  const cx = 100, cy = 92, r = 72;
-  const angle = -90 + (score / 100) * 180;
+  const cx = 100, cy = 100, r = 70;
+  // score 0 -> needle points left (180°); score 100 -> needle points right (0°);
+  // score 50 -> straight up (-90°). Sweeping through -180..0 keeps this aligned
+  // with the semicircle path below (which visually spans left -> top -> right).
+  const angle = -180 + (score / 100) * 180;
   const rad = (angle * Math.PI) / 180;
   const needleX = cx + r * Math.cos(rad);
   const needleY = cy + r * Math.sin(rad);
 
+  const ticks = Array.from({ length: 11 }, (_, i) => {
+    const a = -180 + (i / 10) * 180;
+    const ra = (a * Math.PI) / 180;
+    const isMajor = i % 5 === 0;
+    const rOuter = r;
+    const rInner = isMajor ? r - 10 : r - 6;
+    return {
+      x1: cx + rInner * Math.cos(ra),
+      y1: cy + rInner * Math.sin(ra),
+      x2: cx + rOuter * Math.cos(ra),
+      y2: cy + rOuter * Math.sin(ra),
+      isMajor,
+    };
+  });
+
   return (
     <div className="teap-dial-wrap">
-      <svg viewBox="0 0 200 110" width="200" height="110">
+      <svg viewBox="0 0 200 118" width="200" height="118">
         <path d={`M ${cx - r} ${cy} A ${r} ${r} 0 0 1 ${cx + r} ${cy}`}
           fill="none" stroke="rgba(255,255,255,0.12)" strokeWidth="9" strokeLinecap="round" />
         <path d={`M ${cx - r} ${cy} A ${r} ${r} 0 0 1 ${needleX} ${needleY}`}
           fill="none" stroke="#ff6a00" strokeWidth="9" strokeLinecap="round" />
+        {ticks.map((t, i) => (
+          <line key={i} x1={t.x1} y1={t.y1} x2={t.x2} y2={t.y2}
+            stroke="rgba(255,255,255,0.25)" strokeWidth={t.isMajor ? 1.5 : 1} />
+        ))}
+        <text x={cx} y={cy - 26} textAnchor="middle"
+          style={{ fontFamily: "'DM Serif Display', serif", fontSize: '30px', fill: '#fff' }}>
+          {score}
+        </text>
         <circle cx={cx} cy={cy} r="4" fill="#fff" />
         <line x1={cx} y1={cy} x2={needleX} y2={needleY} stroke="#fff" strokeWidth="2" />
       </svg>
-      <div className="teap-dial-score">{score}</div>
       <div className={`teap-dial-pill tone-${tone}`}>{label}</div>
     </div>
   );
