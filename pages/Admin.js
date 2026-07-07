@@ -6,8 +6,8 @@ import './Admin.css';
 const ADMIN_EMAIL = 'denise.ieda.lima@gmail.com';
 
 const LEVEL_COLORS = {
-  'A1': '#ff6a00', 'A1→A2': '#ff9a3c', 'A2': '#1d9e75',
-  'B1 iniciante': '#2e86c1', 'B1': '#2e86c1', 'B2': '#7f77dd', 'P1': '#d4537e',
+  'A1': '#ff6a00', 'A2': '#1d9e75',
+  'B1': '#2e86c1', 'B2': '#7f77dd', 'P1': '#d4537e',
 };
 
 const NIVEL_BG = { A1:'#ff6a00', A2:'#1d9e75', B1:'#2e86c1', B2:'#7f77dd' };
@@ -144,8 +144,9 @@ const STATUS_META={
 
 const TABS=[
   {id:'dashboard',  label:'🏠 Dashboard',  icon:'🏠'},
+  {id:'alunos',     label:'👤 Alunos',      icon:'👤'},
   {id:'agenda',     label:'📅 Agenda',     icon:'📅'},
-  {id:'presenca',   label:'👥 Alunos',      icon:'👥'},
+  {id:'presenca',   label:'👥 Presença',    icon:'👥'},
   {id:'financeiro', label:'💰 Financeiro', icon:'💰'},
   {id:'despesas',   label:'💸 Despesas',   icon:'💸'},
   {id:'diario',     label:'📖 Diário',     icon:'📖'},
@@ -162,7 +163,7 @@ export default function Admin({user,onLogout}){
 
   useEffect(()=>{if(user?.email!==ADMIN_EMAIL)navigate('/');},[user]);
   useEffect(()=>{
-    fetch('/api/students').then(r=>r.json()).then(d=>setStudents(d.students||[])).finally(()=>setLoading(false));
+    fetch('/api/index?route=students').then(r=>r.json()).then(d=>setStudents(d.students||[])).finally(()=>setLoading(false));
   },[]);
 
   const persist=useCallback((updater)=>{
@@ -194,6 +195,7 @@ export default function Admin({user,onLogout}){
           ))}
         </div>
         {activeTab==='dashboard'  && <TabDashboard students={students} loading={loading} local={local}/>}
+        {activeTab==='alunos'     && <TabAlunos students={students} loading={loading} navigate={navigate}/>}
         {activeTab==='agenda'     && <TabAgenda/>}
         {activeTab==='presenca'   && <TabPresenca students={students} loading={loading} local={local} persist={persist} navigate={navigate}/>}
         {activeTab==='financeiro' && <TabFinanceiro local={local} persist={persist}/>}
@@ -202,6 +204,458 @@ export default function Admin({user,onLogout}){
         {activeTab==='notas'      && <TabNotas students={students} loading={loading} local={local} persist={persist}/>}
         {activeTab==='empresa'    && <TabEmpresa local={local} persist={persist}/>}
       </main>
+    </div>
+  );
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// AULA PICKER — search and select from Agenda de Aulas
+// ══════════════════════════════════════════════════════════════════════════════
+function AulaPicker({ currentAulaId, currentTitulo, onSelect, nivel }) {
+  const [search, setSearch] = useState('');
+  const [open, setOpen] = useState(false);
+
+  // Usa cronograma local filtrado pelo nível do aluno
+  const todasAulas = Object.entries(CRONOGRAMAS).flatMap(([nv, aulas]) =>
+    aulas.map(a => ({
+      id: `${nv}-${a.num}`,
+      numero: a.num,
+      titulo: a.lesson,
+      nivel: nv,
+      tipo: a.tipo,
+      dataAula: null,
+    }))
+  );
+
+  // Filtra pelo nível do aluno se disponível, mostra todos caso contrário
+  const aulasNivel = nivel ? todasAulas.filter(a => a.nivel === nivel) : todasAulas;
+
+  const filtered = aulasNivel.filter(a =>
+    a.titulo.toLowerCase().includes(search.toLowerCase()) ||
+    (a.nivel || '').toLowerCase().includes(search.toLowerCase()) ||
+    String(a.numero).includes(search)
+  );
+
+  return (
+    <div className="aula-picker">
+      {/* Current selection */}
+      <div className="aula-picker-current" onClick={() => setOpen(!open)}>
+        {currentTitulo
+          ? <><span className="aula-picker-check">✓</span><span className="aula-picker-sel-title">{currentTitulo}</span></>
+          : <span className="aula-picker-placeholder">Selecionar aula...</span>
+        }
+        <span className="aula-picker-chevron">{open ? '▲' : '▼'}</span>
+      </div>
+
+      {/* Dropdown */}
+      {open && (
+        <div className="aula-picker-dropdown">
+          <input
+            className="aula-picker-search"
+            placeholder="🔍 Buscar aula..."
+            value={search}
+            onChange={e => setSearch(e.target.value)}
+            autoFocus
+          />
+          {loading && <div className="aula-picker-loading">Carregando aulas...</div>}
+          <div className="aula-picker-list">
+            {filtered.map(a => (
+              <div
+                key={a.id}
+                className={`aula-picker-item ${currentAulaId === a.id ? 'active' : ''}`}
+                onClick={() => { onSelect(a); setOpen(false); setSearch(''); }}
+              >
+                <span className="aula-picker-num">#{a.numero}</span>
+                <div className="aula-picker-info">
+                  <div className="aula-picker-title">{a.titulo}</div>
+                  {a.dataAula && (
+                    <div className="aula-picker-date">
+                      {new Date(a.dataAula + 'T12:00:00').toLocaleDateString('pt-BR', { weekday:'short', day:'numeric', month:'short' })}
+                    </div>
+                  )}
+                </div>
+                {a.nivel && <span className="aula-picker-nivel" style={{ background: LEVEL_COLORS[a.nivel]||'#aaa', color:'#fff' }}>{a.nivel}</span>}
+                {currentAulaId === a.id && <span style={{ color:'#ff6a00', fontWeight:700 }}>✓</span>}
+              </div>
+            ))}
+            {!loading && filtered.length === 0 && (
+              <div className="aula-picker-loading">Nenhuma aula encontrada</div>
+            )}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// TAB: ALUNOS — edita dados via Notion
+// ══════════════════════════════════════════════════════════════════════════════
+const ALL_BADGES_ADM = [
+  { id:'spectacular_attendance', name:'Spectacular Attendance', icon:'⭐', bg:'#fff3cd' },
+  { id:'always_there',           name:'Always There',           icon:'🎯', bg:'#f0f0f0' },
+  { id:'on_time',                name:'On Time, Every Time',    icon:'📅', bg:'#f5ede6' },
+  { id:'homework_champion',      name:'Homework Champion',      icon:'📝', bg:'#fff1e8' },
+  { id:'one_step_ahead',         name:'One Step Ahead',         icon:'⚡', bg:'#fff1e8' },
+  { id:'book_lover',             name:'Book Lover',             icon:'📖', bg:'#e1f5ee' },
+  { id:'no_shame',               name:'No Shame!',              icon:'🎙️', bg:'#fbeaf0' },
+  { id:'lion_heart',             name:'Lion Heart',             icon:'🦁', bg:'#fbeaf0' },
+  { id:'titanium_mind',          name:'Titanium Mind',          icon:'🧠', bg:'#e6f1fb' },
+  { id:'level_up',               name:'Level Up!',              icon:'🏅', bg:'#fff3cd' },
+  { id:'on_fire',                name:'On Fire',                icon:'🔥', bg:'#fff1e8' },
+  { id:'rat_of_month',           name:'Rat of the Month',       icon:'💜', bg:'#eeedfe' },
+];
+
+function TabAlunos({ students, loading, navigate }) {
+  const [mode, setMode] = useState('individual'); // 'individual' | 'lote'
+  const [selected, setSelected] = useState(null);
+  const [checked, setChecked] = useState(new Set());
+  const [search, setSearch] = useState('');
+  const [form, setForm] = useState({});
+  const [bulkForm, setBulkForm] = useState({
+    tituloProximaAula: '', dataProximaAula: '',
+    tarefaDaSemana: '', paginasDoLivro: '', tarefaPersonalizada: '',
+    meetLink: '', valorMensalidade: '', dataVencimento: '',
+    reposicoes: '', dataReposicao: '', horarioReposicao: '',
+  });
+  const [bulkFields, setBulkFields] = useState({
+    tituloProximaAula: false, dataProximaAula: false,
+    tarefaDaSemana: false, paginasDoLivro: false, tarefaPersonalizada: false,
+    meetLink: false, valorMensalidade: false, dataVencimento: false,
+    reposicoes: false, dataReposicao: false, horarioReposicao: false,
+  });
+  const [badges, setBadges] = useState([]);
+  const [saving, setSaving] = useState(false);
+  const [bulkProgress, setBulkProgress] = useState(null); // {done, total}
+  const [toast, setToast] = useState('');
+
+  const showToast = (msg) => { setToast(msg); setTimeout(() => setToast(''), 3500); };
+
+  const selectStudent = (s) => {
+    setSelected(s);
+    setForm({
+      tarefaDaSemana: s.tarefaDaSemana || '', paginasDoLivro: s.paginasDoLivro || '',
+      tarefaPersonalizada: s.tarefaPersonalizada || '', meetLink: s.meetLink || '',
+      tituloProximaAula:   s.tituloProximaAula || '',
+      dataProximaAula:     s.dataProximaAula || '',
+      classroomLink: s.classroomLink || '', driveLink: s.driveLink || '',
+      kamiLink: s.kamiLink || '', valorMensalidade: s.valorMensalidade || '',
+      dataVencimento: s.dataVencimento || '', asaasLink: s.asaasLink || '',
+      reposicoes: s.reposicoes ?? 0, dataReposicao: s.dataReposicao || '',
+      horarioReposicao: s.horarioReposicao || '', nivel: s.nivel || 'A1',
+    });
+    setBadges(JSON.parse(s.badges || '[]').filter(Boolean));
+  };
+
+  const toggleCheck = (id) => {
+    setChecked(prev => {
+      const n = new Set(prev);
+      n.has(id) ? n.delete(id) : n.add(id);
+      return n;
+    });
+  };
+
+  const toggleAll = () => {
+    if (checked.size === filtered.length) setChecked(new Set());
+    else setChecked(new Set(filtered.map(s => s.id)));
+  };
+
+  // Save individual
+  const save = async () => {
+    if (!selected) return;
+    setSaving(true);
+    try {
+      const r = await fetch('/api/index?route=update-student', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ pageId: selected.id, fields: { ...form, badges: JSON.stringify(badges) } }),
+      });
+      const d = await r.json();
+      if (d.success) showToast('✅ Salvo com sucesso!');
+      else showToast('⚠️ Erro: ' + (d.error || 'tente novamente'));
+    } catch { showToast('⚠️ Erro de conexão'); }
+    setSaving(false);
+  };
+
+  // Save bulk — only checked fields
+  const saveBulk = async () => {
+    const targets = students.filter(s => checked.has(s.id));
+    if (targets.length === 0) { showToast('⚠️ Selecione pelo menos um aluno'); return; }
+    const activeFields = Object.entries(bulkFields).filter(([, v]) => v).map(([k]) => k);
+    if (activeFields.length === 0) { showToast('⚠️ Ative pelo menos um campo para enviar'); return; }
+
+    const payload = {};
+    activeFields.forEach(k => { payload[k] = bulkForm[k]; });
+
+    setSaving(true);
+    setBulkProgress({ done: 0, total: targets.length });
+    let done = 0; const errors = [];
+    for (const s of targets) {
+      try {
+        const r = await fetch('/api/index?route=update-student', {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ pageId: s.id, fields: payload }),
+        });
+        const d = await r.json();
+        if (!d.success) errors.push(s.nome);
+      } catch { errors.push(s.nome); }
+      done++;
+      setBulkProgress({ done, total: targets.length });
+      await new Promise(r => setTimeout(r, 300)); // avoid rate limiting
+    }
+    setSaving(false);
+    setBulkProgress(null);
+    if (errors.length === 0) showToast(`✅ ${targets.length} aluno${targets.length > 1 ? 's' : ''} atualizado${targets.length > 1 ? 's' : ''}!`);
+    else showToast(`⚠️ Erro em: ${errors.join(', ')}`);
+  };
+
+  const filtered = students.filter(s =>
+    s.nome.toLowerCase().includes(search.toLowerCase()) ||
+    (s.nivel || '').toLowerCase().includes(search.toLowerCase())
+  );
+
+  if (loading) return <div className="admin-loading">Carregando... ✨</div>;
+
+  const BULK_FIELD_LABELS = [
+    { key: 'tarefaDaSemana',    label: '📅 Agenda da semana',       type: 'textarea' },
+    { key: 'paginasDoLivro',    label: '📖 Páginas do livro',        type: 'input', ph: 'Ex: p.10-13' },
+    { key: 'tarefaPersonalizada',label: '✅ Tarefa personalizada',   type: 'input', ph: 'Ex: Leia o diálogo antes da aula' },
+    { key: 'meetLink',          label: '📹 Link Google Meet',        type: 'input', ph: 'https://meet.google.com/...' },
+    { key: 'valorMensalidade',  label: '💰 Valor mensalidade',       type: 'input', ph: 'Ex: 220,00' },
+    { key: 'dataVencimento',    label: '📆 Vencimento',              type: 'input', ph: 'Ex: 20 de julho' },
+    { key: 'reposicoes',        label: '🔄 Qtd. reposições pendentes', type: 'input', ph: 'Ex: 1' },
+    { key: 'dataReposicao',     label: '📅 Data da reposição',       type: 'input', ph: 'Ex: 15/07/2026' },
+    { key: 'horarioReposicao',  label: '⏰ Horário da reposição',    type: 'input', ph: 'Ex: 15h00' },
+  ];
+
+  return (
+    <div className="tab-alunos">
+      {toast && <div className="alunos-toast">{toast}</div>}
+
+      {/* Mode toggle */}
+      <div className="alunos-mode-toggle">
+        <button className={`alunos-mode-btn ${mode === 'individual' ? 'active' : ''}`} onClick={() => { setMode('individual'); setChecked(new Set()); }}>
+          👤 Individual
+        </button>
+        <button className={`alunos-mode-btn ${mode === 'lote' ? 'active' : ''}`} onClick={() => { setMode('lote'); setSelected(null); }}>
+          📢 Envio em Lote
+        </button>
+      </div>
+
+      <div className="alunos-layout">
+
+        {/* Sidebar — shared between modes */}
+        <div className="alunos-sidebar">
+          <input className="admin-search" placeholder="🔍 Buscar..." value={search} onChange={e => setSearch(e.target.value)} style={{ marginBottom: 8 }} />
+
+          {mode === 'lote' && (
+            <div className="lote-select-all" onClick={toggleAll}>
+              <input type="checkbox" readOnly checked={checked.size === filtered.length && filtered.length > 0} style={{ marginRight: 6 }} />
+              <span style={{ fontSize: 12, color: '#555' }}>Selecionar todos ({filtered.length})</span>
+            </div>
+          )}
+
+          <div className="alunos-list">
+            {filtered.map(s => (
+              <div key={s.id}
+                className={`aluno-item ${mode === 'individual' && selected?.id === s.id ? 'active' : ''} ${mode === 'lote' && checked.has(s.id) ? 'checked' : ''}`}
+                onClick={() => mode === 'individual' ? selectStudent(s) : toggleCheck(s.id)}
+              >
+                {mode === 'lote' && (
+                  <input type="checkbox" readOnly checked={checked.has(s.id)} style={{ marginRight: 4, flexShrink: 0 }} />
+                )}
+                <div className="presenca-avatar" style={{ background: LEVEL_COLORS[s.nivel] || '#aaa', width: 28, height: 28, fontSize: 12, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontWeight: 700, flexShrink: 0 }}>{s.nome[0]}</div>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <div className="aluno-nome">{s.nome}</div>
+                  <div className="aluno-email">{s.nivel}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* ── INDIVIDUAL MODE ── */}
+        {mode === 'individual' && (
+          selected ? (
+            <div className="alunos-form">
+              <div className="alunos-form-header">
+                <div>
+                  <div className="alunos-form-title">{selected.nome}</div>
+                  <div className="alunos-form-sub">{selected.email}</div>
+                </div>
+                <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+                  <button className="adm-preview-small" onClick={() => navigate(`/admin/preview/${selected.email}`)}>👁️ Ver como aluno</button>
+                  <button className="adm-save-small" onClick={save} disabled={saving}>{saving ? 'Salvando...' : '💾 Salvar'}</button>
+                </div>
+              </div>
+
+              <div className="alunos-section">
+                <div className="alunos-section-title">🎓 Nível</div>
+                <div className="level-row">
+                  {['A1','A2','B1','B2','P1'].map(lvl => (
+                    <button key={lvl} className={`level-pill-btn ${form.nivel === lvl ? 'active' : ''}`}
+                      style={form.nivel === lvl ? { background: LEVEL_COLORS[lvl], color: '#fff', borderColor: LEVEL_COLORS[lvl] } : {}}
+                      onClick={() => setForm(f => ({ ...f, nivel: lvl }))}>{lvl}</button>
+                  ))}
+                </div>
+              </div>
+
+              <div className="alunos-section">
+                <div className="alunos-section-title">🗓️ Next Class</div>
+                <AulaPicker
+                  currentAulaId={selected?.proximaAula?.id || ''}
+                  currentTitulo={selected?.proximaAula?.titulo || form.tituloProximaAula || ''}
+                  nivel={selected?.nivel || ''}
+                  onSelect={(aula) => {
+                    setForm(f => ({ ...f, proximaAulaId: aula.id, tituloProximaAula: aula.titulo, dataProximaAula: aula.dataAula || '' }));
+                    setSelected(s => ({ ...s, proximaAula: aula }));
+                  }}
+                />
+              </div>
+              <div className="alunos-section">
+                <div className="alunos-section-title">📅 Agenda da semana</div>
+                <div className="alunos-field">
+                  <label className="alunos-label">Itens <span style={{ color: '#aaa', fontWeight: 400 }}>— um por linha</span></label>
+                  <textarea className="alunos-textarea" rows={4} value={form.tarefaDaSemana} onChange={e => setForm(f => ({ ...f, tarefaDaSemana: e.target.value }))} placeholder="Ex: Unit 2 — 2A: We had an adventure&#10;Rever vocabulário Unit 1" />
+                </div>
+                <div className="alunos-grid2">
+                  <div className="alunos-field">
+                    <label className="alunos-label">Páginas do livro</label>
+                    <input className="alunos-input" value={form.paginasDoLivro} onChange={e => setForm(f => ({ ...f, paginasDoLivro: e.target.value }))} placeholder="Ex: p.10-13" />
+                  </div>
+                  <div className="alunos-field">
+                    <label className="alunos-label">Tarefa personalizada</label>
+                    <input className="alunos-input" value={form.tarefaPersonalizada} onChange={e => setForm(f => ({ ...f, tarefaPersonalizada: e.target.value }))} placeholder="Ex: Leia o diálogo antes da aula" />
+                  </div>
+                </div>
+              </div>
+
+              <div className="alunos-section">
+                <div className="alunos-section-title">🔗 Links</div>
+                <div className="alunos-grid2">
+                  {[['meetLink','Google Meet','https://meet.google.com/...'],['driveLink','Google Drive','https://drive.google.com/...'],['classroomLink','Classroom','https://classroom.google.com/...'],['kamiLink','KAMI','https://app.kami.com/...']].map(([key, label, ph]) => (
+                    <div key={key} className="alunos-field">
+                      <label className="alunos-label">{label}</label>
+                      <input className="alunos-input" value={form[key]} onChange={e => setForm(f => ({ ...f, [key]: e.target.value }))} placeholder={ph} />
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="alunos-section">
+                <div className="alunos-section-title">💳 Financeiro</div>
+                <div className="alunos-grid2">
+                  <div className="alunos-field"><label className="alunos-label">Valor mensalidade</label><input className="alunos-input" value={form.valorMensalidade} onChange={e => setForm(f => ({ ...f, valorMensalidade: e.target.value }))} placeholder="Ex: 220,00" /></div>
+                  <div className="alunos-field"><label className="alunos-label">Vencimento</label><input className="alunos-input" value={form.dataVencimento} onChange={e => setForm(f => ({ ...f, dataVencimento: e.target.value }))} placeholder="Ex: 20 de julho" /></div>
+                </div>
+                <div className="alunos-field" style={{ marginTop: 10 }}>
+                  <label className="alunos-label">Link ASAAS individual</label>
+                  <input className="alunos-input" value={form.asaasLink} onChange={e => setForm(f => ({ ...f, asaasLink: e.target.value }))} placeholder="https://www.asaas.com/c/..." />
+                </div>
+              </div>
+
+              <div className="alunos-section">
+                <div className="alunos-section-title">🔄 Reposição</div>
+                <div className="alunos-grid3">
+                  <div className="alunos-field"><label className="alunos-label">Qtd. pendentes</label><input className="alunos-input" type="number" min="0" value={form.reposicoes} onChange={e => setForm(f => ({ ...f, reposicoes: parseInt(e.target.value) || 0 }))} /></div>
+                  <div className="alunos-field"><label className="alunos-label">Data</label><input className="alunos-input" type="date" value={form.dataReposicao} onChange={e => setForm(f => ({ ...f, dataReposicao: e.target.value }))} /></div>
+                  <div className="alunos-field"><label className="alunos-label">Horário</label><input className="alunos-input" value={form.horarioReposicao} onChange={e => setForm(f => ({ ...f, horarioReposicao: e.target.value }))} placeholder="Ex: 19h30" /></div>
+                </div>
+              </div>
+
+              <div className="alunos-section">
+                <div className="alunos-section-title">🏅 Badges</div>
+                <div className="badges-grid-adm">
+                  {ALL_BADGES_ADM.map(b => {
+                    const on = badges.includes(b.id);
+                    return (
+                      <div key={b.id} className={`badge-toggle-adm ${on ? 'on' : ''}`} onClick={() => setBadges(prev => on ? prev.filter(x => x !== b.id) : [...prev, b.id])}>
+                        <div className="badge-icon-adm" style={{ background: on ? b.bg : '#f0ede8' }}>{b.icon}</div>
+                        <span className="badge-name-adm">{b.name}</span>
+                        <div className={`toggle-adm ${on ? 'on' : ''}`} />
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+
+              <button className="adm-save-bottom-btn" onClick={save} disabled={saving}>{saving ? 'Salvando...' : '💾 Salvar todas as alterações'}</button>
+            </div>
+          ) : (
+            <div className="alunos-empty">
+              <div style={{ fontSize: 40, marginBottom: 12 }}>👈</div>
+              <div style={{ fontWeight: 600, color: '#111', marginBottom: 6 }}>Selecione um aluno</div>
+              <div style={{ color: '#aaa', fontSize: 13 }}>Clique em um aluno para editar agenda, financeiro, links e badges</div>
+            </div>
+          )
+        )}
+
+        {/* ── LOTE MODE ── */}
+        {mode === 'lote' && (
+          <div className="alunos-form">
+            <div className="alunos-form-header">
+              <div>
+                <div className="alunos-form-title">Envio em Lote</div>
+                <div className="alunos-form-sub">
+                  {checked.size === 0 ? 'Nenhum aluno selecionado' : `${checked.size} aluno${checked.size > 1 ? 's' : ''} selecionado${checked.size > 1 ? 's' : ''}`}
+                </div>
+              </div>
+              <button className="adm-save-small" onClick={saveBulk} disabled={saving || checked.size === 0}>
+                {saving ? `Enviando ${bulkProgress?.done}/${bulkProgress?.total}...` : `📢 Enviar para ${checked.size} aluno${checked.size !== 1 ? 's' : ''}`}
+              </button>
+            </div>
+
+            {/* Progress bar */}
+            {bulkProgress && (
+              <div className="lote-progress">
+                <div className="lote-progress-bar">
+                  <div className="lote-progress-fill" style={{ width: `${(bulkProgress.done / bulkProgress.total) * 100}%` }} />
+                </div>
+                <span className="lote-progress-label">{bulkProgress.done} de {bulkProgress.total}</span>
+              </div>
+            )}
+
+            <div className="lote-hint">
+              <span>💡</span>
+              <span>Ative apenas os campos que deseja atualizar. Os campos desativados não serão alterados nos alunos selecionados.</span>
+            </div>
+
+            {/* Bulk fields with toggle */}
+            {BULK_FIELD_LABELS.map(({ key, label, type, ph }) => (
+              <div key={key} className={`lote-field-block ${bulkFields[key] ? 'active' : ''}`}>
+                <div className="lote-field-header" onClick={() => setBulkFields(f => ({ ...f, [key]: !f[key] }))}>
+                  <div className={`lote-toggle ${bulkFields[key] ? 'on' : ''}`} />
+                  <span className="lote-field-label">{label}</span>
+                  {!bulkFields[key] && <span className="lote-field-off">desativado</span>}
+                </div>
+                {bulkFields[key] && (
+                  type === 'textarea'
+                    ? <textarea className="alunos-textarea" rows={4} value={bulkForm[key]} onChange={e => setBulkForm(f => ({ ...f, [key]: e.target.value }))} placeholder="Ex: Unit 2 — 2A: We had an adventure&#10;Rever vocabulário Unit 1" />
+                    : <input className="alunos-input" value={bulkForm[key]} onChange={e => setBulkForm(f => ({ ...f, [key]: e.target.value }))} placeholder={ph} />
+                )}
+              </div>
+            ))}
+
+            {checked.size > 0 && (
+              <div className="lote-selected-preview">
+                <div className="lote-selected-title">Será enviado para:</div>
+                <div className="lote-selected-names">
+                  {students.filter(s => checked.has(s.id)).map(s => (
+                    <span key={s.id} className="lote-name-chip">
+                      {s.nome.split(' ')[0]}
+                      <span onClick={() => toggleCheck(s.id)} style={{ marginLeft: 4, cursor: 'pointer', opacity: .6 }}>✕</span>
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            <button className="adm-save-bottom-btn" onClick={saveBulk} disabled={saving || checked.size === 0}>
+              {saving ? `Enviando ${bulkProgress?.done || 0}/${bulkProgress?.total || 0}...` : `📢 Enviar para ${checked.size} aluno${checked.size !== 1 ? 's' : ''}`}
+            </button>
+          </div>
+        )}
+
+      </div>
     </div>
   );
 }
@@ -1030,14 +1484,8 @@ function TabDashboard({students,loading,local}){
   // ── Financeiro ──
   const rows=ALUNOS_FINANCEIRO.map(([nome,valor,venc])=>({nome,valor,st:getFinStatus(nome,venc,now.getMonth(),pagStore)}));
   const recebido=rows.filter(r=>r.st==='pago').reduce((s,r)=>s+r.valor,0);
-  // Receita bruta = soma de todos os pagamentos confirmados em todos os meses registrados
-  const receitaBruta=MESES.reduce((total,mes)=>{
-    const pagosMes=ALUNOS_FINANCEIRO.reduce((s,[nome,valor])=>{
-      const rec=pagStore[mes]?.[nome];
-      return rec?.dataPgto ? s+valor : s;
-    },0);
-    return total+pagosMes;
-  },0);
+  // Receita bruta = soma de todas as mensalidades de todos os alunos cadastrados
+  const receitaBruta=ALUNOS_FINANCEIRO.reduce((s,[,v])=>s+v,0);
   const inadimplentes=rows.filter(r=>r.st==='atrasado');
 
   // ── Despesas do mês ──
@@ -1053,11 +1501,10 @@ function TabDashboard({students,loading,local}){
   const faltasHoje=students.filter(s=>presStore[today]?.[s.id]==='falta').length;
 
   // ── Reposições pendentes ──
-  const alunosRepPendente=students.filter(s=>{
+  const repPendentes=students.filter(s=>{
     const datas=Object.keys(presStore);
     return datas.some(d=>presStore[d]?.[s.id]==='rep_pendente');
-  });
-  const repPendentes=alunosRepPendente.length;
+  }).length;
 
   // ── Dias desta semana com aula ──
   const getDiasUteisRestantes=()=>{
@@ -1128,32 +1575,61 @@ function TabDashboard({students,loading,local}){
         ))}
       </div>
 
+      {/* ── Next Classes ── */}
+      {(() => {
+        const comAula = students
+          .filter(s => s.dataProximaAula)
+          .sort((a, b) => new Date(a.dataProximaAula) - new Date(b.dataProximaAula));
+        const hoje = now.toISOString().slice(0, 10);
+        const proximos7 = comAula.filter(s => s.dataProximaAula >= hoje && s.dataProximaAula <= new Date(now.getTime() + 7*24*60*60*1000).toISOString().slice(0,10));
+        if (proximos7.length === 0) return null;
+        return (
+          <>
+            <div className="dash-section-title">📅 Next Classes — próximos 7 dias</div>
+            <div className="dash-next-classes">
+              {proximos7.map(s => {
+                const d = new Date(s.dataProximaAula + 'T12:00:00');
+                const isHoje = s.dataProximaAula === hoje;
+                return (
+                  <div key={s.id} className={`dash-next-item ${isHoje ? 'hoje' : ''}`}>
+                    <div className="dash-next-date">
+                      <div className="dash-next-day">{d.getDate()}</div>
+                      <div className="dash-next-mon">{d.toLocaleString('pt-BR', { month: 'short' })}</div>
+                    </div>
+                    <div className="dash-next-info">
+                      <div className="dash-next-name">{s.nome}</div>
+                      <div className="dash-next-lesson">{s.proximaAulaTitulo || '—'}</div>
+                    </div>
+                    <span className="dash-next-nivel" style={{ background: LEVEL_COLORS[s.nivel] || '#aaa', color: '#fff' }}>
+                      {s.nivel}
+                    </span>
+                    {isHoje && <span className="dash-next-hoje-badge">Hoje</span>}
+                  </div>
+                );
+              })}
+            </div>
+          </>
+        );
+      })()}
+
       {/* ── Urgências ── */}
       <div className="dash-section-title">⚠️ Urgências da semana</div>
       <div className="dash-urgencias">
         {inadimplentes.length>0&&(
           <div className="dash-urgencia red">
             <span className="dash-urg-icon">🔴</span>
-            <div style={{flex:1}}>
+            <div>
               <div className="dash-urg-title">{inadimplentes.length} aluno{inadimplentes.length!==1?'s':''} inadimplente{inadimplentes.length!==1?'s':''}</div>
-              <div className="dash-urg-chips">
-                {inadimplentes.map(r=>(
-                  <span key={r.nome} className="dash-urg-chip red">{r.nome.split(' ')[0]}</span>
-                ))}
-              </div>
+              <div className="dash-urg-sub">{inadimplentes.slice(0,3).map(r=>r.nome.split(' ')[0]).join(', ')}{inadimplentes.length>3?` +${inadimplentes.length-3}`:''}</div>
             </div>
           </div>
         )}
         {repPendentes>0&&(
           <div className="dash-urgencia orange">
             <span className="dash-urg-icon">🔄</span>
-            <div style={{flex:1}}>
+            <div>
               <div className="dash-urg-title">{repPendentes} reposição{repPendentes!==1?'ões':''} pendente{repPendentes!==1?'s':''}</div>
-              <div className="dash-urg-chips">
-                {alunosRepPendente.map(s=>(
-                  <span key={s.id} className="dash-urg-chip orange">{s.nome.split(' ')[0]}</span>
-                ))}
-              </div>
+              <div className="dash-urg-sub">Acesse Presença → Histórico para ver detalhes</div>
             </div>
           </div>
         )}
