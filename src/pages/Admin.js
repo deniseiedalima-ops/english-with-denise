@@ -364,13 +364,15 @@ function TabAlunos({ students, loading, navigate }) {
 
   const showToast = (msg) => { setToast(msg); setTimeout(() => setToast(''), 3500); };
 
-  const selectStudent = (s) => {
+  const selectStudent = async (s) => {
+    // Set basic data immediately so UI shows fast
     setSelected(s);
     setForm({
       tarefaDaSemana: s.tarefaDaSemana || '', paginasDoLivro: s.paginasDoLivro || '',
       tarefaPersonalizada: s.tarefaPersonalizada || '', meetLink: s.meetLink || '',
-      tituloProximaAula:   s.tituloProximaAula || '',
-      dataProximaAula:     s.dataProximaAula || '',
+      tituloProximaAula: s.tituloProximaAula || '',
+      dataProximaAula: s.dataProximaAula || '',
+      proximaAulaId: s.proximaAulaId || '',
       classroomLink: s.classroomLink || '', driveLink: s.driveLink || '',
       kamiLink: s.kamiLink || '', valorMensalidade: s.valorMensalidade || '',
       dataVencimento: s.dataVencimento || '', asaasLink: s.asaasLink || '',
@@ -378,6 +380,23 @@ function TabAlunos({ students, loading, navigate }) {
       horarioReposicao: s.horarioReposicao || '', nivel: s.nivel || 'A1',
     });
     setBadges(JSON.parse(s.badges || '[]').filter(Boolean));
+
+    // Then fetch full data to get proximaAula relation title
+    try {
+      const r = await fetch(`/api/index?route=notion&email=${encodeURIComponent(s.email)}`);
+      const d = await r.json();
+      if (d.student) {
+        const full = d.student;
+        setSelected(full);
+        setForm(f => ({
+          ...f,
+          tituloProximaAula: full.proximaAula?.titulo || full.tituloProximaAula || f.tituloProximaAula,
+          dataProximaAula: full.dataProximaAula || f.dataProximaAula,
+          proximaAulaId: full.proximaAula?.id || f.proximaAulaId || '',
+        }));
+        setBadges(JSON.parse(full.badges || '[]').filter(Boolean));
+      }
+    } catch {}
   };
 
   const toggleCheck = (id) => {
@@ -532,16 +551,17 @@ function TabAlunos({ students, loading, navigate }) {
               <div className="alunos-section">
                 <div className="alunos-section-title">🗓️ Next Class</div>
                 <AulaPicker
-                  currentAulaId={form.proximaAulaId || selected?.proximaAulaId || ''}
-                  currentTitulo={form.proximaAulaTitulo || selected?.proximaAula?.titulo || selected?.tituloProximaAula || ''}
+                  currentAulaId={form.proximaAulaId || ''}
+                  currentTitulo={form.tituloProximaAula || ''}
                   onSelect={(aula) => {
                     setForm(f => ({
                       ...f,
                       proximaAulaId: aula.id,
                       proximaAulaTitulo: aula.titulo,
+                      tituloProximaAula: aula.titulo,
                       dataProximaAula: aula.dataAula || '',
                     }));
-                    setSelected(s => ({ ...s, proximaAula: aula, tituloProximaAula: aula.titulo }));
+                    setSelected(s => ({ ...s, proximaAula: { id: aula.id, titulo: aula.titulo }, tituloProximaAula: aula.titulo }));
                   }}
                 />
               </div>

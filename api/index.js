@@ -173,7 +173,8 @@ export default async function handler(req, res) {
       if (fields.dataReposicao     !== undefined) props['Data Reposição']         = fields.dataReposicao ? { date: { start: fields.dataReposicao } } : { date: null };
       if (fields.dataProximaAula   !== undefined) props['Data da Próxima Aula']   = fields.dataProximaAula ? { date: { start: fields.dataProximaAula } } : { date: null };
       if (fields.proximaAulaId     !== undefined) props['Próxima Aula']           = fields.proximaAulaId ? { relation: [{ id: fields.proximaAulaId }] } : { relation: [] };
-      if (fields.proximaAulaTitulo !== undefined) props['Título da Próxima Aula']  = { rich_text: [{ text: { content: fields.proximaAulaTitulo || '' } }] };
+      const titulo = fields.proximaAulaTitulo || fields.tituloProximaAula;
+      if (titulo !== undefined) props['Título da Próxima Aula'] = { rich_text: [{ text: { content: titulo || '' } }] };
       if (fields.nivel             !== undefined) props['Nível']                   = { select: { name: fields.nivel } };
 
       const r = await fetch(`${NOTION_API}/pages/${pageId}`, {
