@@ -379,3 +379,49 @@
   .fin-hist-header span:nth-child(3),.fin-hist-header span:nth-child(4),
   .fin-hist-row .fin-hist-data,.fin-hist-row .fin-hist-link { display:none; }
 }
+
+/* ── Dashboard ────────────────────────────────────────────────────────────── */
+.tab-dashboard { display:flex; flex-direction:column; gap:16px; }
+.dash-greeting { background:#fff; border:0.5px solid #e0dbd4; border-radius:16px; padding:16px 20px; box-shadow:0 1px 4px rgba(0,0,0,.04); }
+.dash-greeting-text { display:flex; flex-direction:column; gap:4px; }
+.dash-ola { font-size:18px; font-weight:600; color:#111; }
+.dash-data { font-size:13px; color:#888; }
+.dash-section-title { font-size:12px; font-weight:700; color:#888; text-transform:uppercase; letter-spacing:.5px; margin-top:4px; }
+.dash-cards { display:grid; grid-template-columns:repeat(auto-fit,minmax(130px,1fr)); gap:10px; }
+.dash-card { background:#fff; border:0.5px solid #e0dbd4; border-radius:14px; padding:14px; display:flex; flex-direction:column; align-items:center; gap:6px; box-shadow:0 1px 4px rgba(0,0,0,.04); text-align:center; }
+.dash-card-icon { width:36px; height:36px; border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:16px; }
+.dash-card-val { font-size:20px; font-weight:700; color:#111; line-height:1; }
+.dash-card-val.green { color:#1d9e75; }
+.dash-card-val.red   { color:#e53935; }
+.dash-card-val.blue  { color:#185FA5; }
+.dash-card-label { font-size:11px; color:#888; font-weight:500; }
+.dash-urgencias { display:flex; flex-direction:column; gap:8px; }
+.dash-urgencia { display:flex; align-items:flex-start; gap:12px; background:#fff; border:0.5px solid #e0dbd4; border-radius:14px; padding:12px 16px; box-shadow:0 1px 4px rgba(0,0,0,.04); border-left:4px solid #e0dbd4; }
+.dash-urgencia.red    { border-left-color:#e53935; background:#fffcfc; }
+.dash-urgencia.orange { border-left-color:#ff6a00; background:#fffaf7; }
+.dash-urgencia.yellow { border-left-color:#f9a825; background:#fffdf5; }
+.dash-urgencia.green  { border-left-color:#1d9e75; background:#f9fffe; }
+.dash-urg-icon { font-size:18px; flex-shrink:0; margin-top:1px; }
+.dash-urg-title { font-size:13px; font-weight:600; color:#111; margin-bottom:2px; }
+.dash-urg-sub   { font-size:12px; color:#888; }
+
+/* ── Despesas ─────────────────────────────────────────────────────────────── */
+.tab-despesas { display:flex; flex-direction:column; gap:16px; }
+.desp-mes-sel { display:flex; gap:8px; }
+.fin-val.orange { color:#ff6a00; }
+.desp-row { display:flex; align-items:center; gap:8px; background:#f8f7f5; border-radius:10px; padding:9px 12px; margin-bottom:6px; }
+.desp-nome { font-size:13px; color:#333; flex:1; min-width:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.desp-valor { font-size:13px; font-weight:600; color:#e53935; flex-shrink:0; }
+.desp-total { font-size:12px; color:#888; text-align:right; margin-top:4px; padding-top:8px; border-top:0.5px solid #f0ede8; }
+
+/* ── Dashboard: metas ─────────────────────────────────────────────────────── */
+.dash-metas { display:flex; flex-direction:column; gap:6px; }
+.dash-meta-item { display:flex; align-items:center; gap:10px; background:#fff; border:0.5px solid #e0dbd4; border-radius:12px; padding:10px 14px; box-shadow:0 1px 3px rgba(0,0,0,.04); }
+.dash-meta-cat { font-size:10px; font-weight:700; color:#fff; padding:3px 10px; border-radius:20px; flex-shrink:0; }
+.dash-meta-text { font-size:13px; color:#333; flex:1; }
+
+/* ── Dashboard: chips de urgência ─────────────────────────────────────────── */
+.dash-urg-chips { display:flex; gap:6px; flex-wrap:wrap; margin-top:5px; }
+.dash-urg-chip { font-size:11px; font-weight:600; padding:3px 10px; border-radius:20px; }
+.dash-urg-chip.red    { background:#fdeaea; color:#e53935; }
+.dash-urg-chip.orange { background:#fff1e8; color:#ff6a00; }
