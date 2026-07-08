@@ -336,10 +336,16 @@ export default async function handler(req, res) {
       const sp = simRes.properties;
       const questoes = (qRes.results || []).map(page => {
         const p = page.properties;
+        const alternativas = {};
+        ['A', 'B', 'C', 'D', 'E'].forEach(letra => {
+          const texto = p[`Alternativa ${letra}`]?.rich_text?.[0]?.plain_text || '';
+          if (texto) alternativas[letra] = texto;
+        });
         return {
           numero: p['Número']?.number ?? 0,
           enunciado: p['Enunciado']?.title?.[0]?.plain_text || '',
           textoReferencia: p['Texto Referência']?.select?.name || 'Texto 1',
+          alternativas,
           // Resposta Certa é DE PROPÓSITO omitida — só volta no submit.
         };
       });
@@ -374,7 +380,7 @@ export default async function handler(req, res) {
       const gabarito = questoes.map(page => {
         const p = page.properties;
         const numero = p['Número']?.number ?? 0;
-        const certa = p['Resposta Certa']?.select?.name || 'Certo';
+        const certa = p['Resposta Certa']?.select?.name || 'A';
         const categoria = p['Categoria']?.select?.name || 'Geral';
         const dada = respostas[numero] || respostas[String(numero)] || null;
         const correta = dada === certa;

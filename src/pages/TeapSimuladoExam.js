@@ -149,15 +149,17 @@ export default function TeapSimuladoExam({ user }) {
 
           <div className="texam-question-panel">
             <div className="texam-question-body">{questao.enunciado}</div>
-            <div className="texam-answer-buttons">
-              <button
-                className={`texam-answer certo ${answered === 'Certo' ? 'selected' : ''}`}
-                onClick={() => answer('Certo')}
-              >Certo</button>
-              <button
-                className={`texam-answer errado ${answered === 'Errado' ? 'selected' : ''}`}
-                onClick={() => answer('Errado')}
-              >Errado</button>
+            <div className="texam-answer-list">
+              {Object.entries(questao.alternativas || {}).map(([letra, texto]) => (
+                <button
+                  key={letra}
+                  className={`texam-answer ${answered === letra ? 'selected' : ''}`}
+                  onClick={() => answer(letra)}
+                >
+                  <span className="texam-answer-letter">{letra}</span>
+                  <span className="texam-answer-text">{texto}</span>
+                </button>
+              ))}
             </div>
             <div className="texam-nav">
               <button disabled={current === 0} onClick={() => goTo(current - 1)}>‹ Anterior</button>
