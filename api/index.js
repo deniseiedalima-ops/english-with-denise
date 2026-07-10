@@ -10,6 +10,8 @@ const POSTS_DB    = 'dbe7ae1a-6bf8-4610-bc11-ffb585acaf5c';
 const TEAP_SIMULADOS_DB  = '429c0015-e3ce-4fc6-a7e5-8381cfd1523e'; // TEAP Simulados Cadastrados
 const TEAP_QUESTOES_DB   = '7b311cba-32cd-4b88-97fd-bc38c0785df7'; // TEAP Questões
 const TEAP_RESULTADOS_DB = '6ab6517f-3004-44fc-aa77-157b5a9c166c'; // TEAP Resultados
+const TEAP_VOCAB_DB      = '55584d0b-302e-43f2-aaad-aa3574e6c6e5'; // TEAP Banco de Palavras
+const TEAP_PRATICA_DB    = 'b8b04e6d-78c0-44d7-989b-a2895a11fdf2'; // TEAP Questões de Prática
 const TOKEN = () => process.env.NOTION_TOKEN || process.env.REACT_APP_NOTION_TOKEN || '';
 const OPENAI_KEY = () => process.env.OPENAI_API_KEY || '';
 const CLOUD_NAME = 'dbkrebqs0';
@@ -28,6 +30,44 @@ const cors = (res) => {
 };
 
 export const config = { api: { bodyParser: false } };
+
+// Embaralha de forma determinística por "ciclo de 2 dias" — mesma semente
+// dentro do mesmo ciclo, muda sozinha quando o ciclo vira. Sem cron job.
+function seededShuffle(arr, seed) {
+  const a = [...arr];
+  let s = seed;
+  const rand = () => {
+    s = (s * 1103515245 + 12345) & 0x7fffffff;
+    return s / 0x7fffffff;
+  };
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(rand() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+async function getVocabRotation() {
+  const r = await fetch(`${NOTION_API}/databases/${TEAP_VOCAB_DB}/query`, {
+    method: 'POST', headers: nHeaders(),
+    body: JSON.stringify({ page_size: 100 }),
+  });
+  const data = await r.json();
+  const all = (data.results || []).map(page => {
+    const p = page.properties;
+    return {
+      palavra: p['Palavra']?.title?.[0]?.plain_text || '',
+      significado: p['Significado']?.rich_text?.[0]?.plain_text || '',
+      pronuncia: p['Pronúncia']?.rich_text?.[0]?.plain_text || '',
+      frase: p['Frase']?.rich_text?.[0]?.plain_text || '',
+    };
+  }).filter(w => w.palavra);
+  if (!all.length) return [];
+
+  const cycle = Math.floor(Date.now() / (2 * 24 * 60 * 60 * 1000)); // muda a cada 2 dias
+  const shuffled = seededShuffle(all, cycle);
+  return shuffled.slice(0, 4);
+}
 
 export default async function handler(req, res) {
   cors(res);
@@ -244,7 +284,7 @@ export default async function handler(req, res) {
         };
       });
 
-      // Agrega "Categorias JSON" de todas as tentativas
+      // Agrega "Categorias JSON" de todas as tentativas (progresso geral)
       const catTotals = {};
       rows.forEach(page => {
         let cats = {};
@@ -258,6 +298,17 @@ export default async function handler(req, res) {
       const categorias = Object.entries(catTotals).map(([nome, v]) => ({
         nome, acerto: v.total ? Math.round((v.acertos / v.total) * 100) : 0,
       }));
+
+      // Categorias SÓ do último simulado — usadas nas Recomendações, que
+      // devem reagir ao resultado mais recente, não a uma média histórica.
+      let categoriasUltimoSimulado = categorias;
+      try {
+        const ultimasCats = JSON.parse(rows[rows.length - 1].properties['Categorias JSON']?.rich_text?.[0]?.plain_text || '{}');
+        const parsed = Object.entries(ultimasCats).map(([nome, v]) => ({
+          nome, acerto: v.total ? Math.round((v.acertos / v.total) * 100) : 0,
+        }));
+        if (parsed.length) categoriasUltimoSimulado = parsed;
+      } catch {}
 
       const catMap = Object.fromEntries(categorias.map(c => [c.nome, c.acerto]));
       const ultimoTempo = simulados[simulados.length - 1]?.tempoMedio || 60;
@@ -273,7 +324,46 @@ export default async function handler(req, res) {
         { nome: 'Paragraph Mng.', valor: catMap['Compreensão de Parágrafo'] ?? 0 },
       ];
 
-      return res.json({ configured: true, simulados, categorias, radar });
+      const vocabulario = await getVocabRotation();
+
+      return res.json({ configured: true, simulados, categorias, categoriasUltimoSimulado, radar, vocabulario });
+    }
+
+    // ── TEAP: practice questions filtered by category ───────────────────────
+    // Prática não é avaliada/pontuada — por isso já manda a resposta certa e
+    // a explicação junto (o front só revela depois que o aluno responde).
+    if (route === 'teap-pratica') {
+      const categoria = req.query.categoria || body.categoria;
+      if (!categoria) return res.status(400).json({ error: 'Missing categoria' });
+
+      const r = await fetch(`${NOTION_API}/databases/${TEAP_PRATICA_DB}/query`, {
+        method: 'POST', headers: nHeaders(),
+        body: JSON.stringify({
+          filter: {
+            and: [
+              { property: 'Ativo', checkbox: { equals: true } },
+              { property: 'Categoria', select: { equals: categoria } },
+            ],
+          },
+        }),
+      });
+      const data = await r.json();
+      const questoes = (data.results || []).map(page => {
+        const p = page.properties;
+        const alternativas = {};
+        ['A', 'B', 'C', 'D', 'E'].forEach(letra => {
+          const texto = p[`Alternativa ${letra}`]?.rich_text?.[0]?.plain_text || '';
+          if (texto) alternativas[letra] = texto;
+        });
+        return {
+          enunciado: p['Enunciado']?.title?.[0]?.plain_text || '',
+          alternativas,
+          respostaCerta: p['Resposta Certa']?.select?.name || '',
+          explicacao: p['Explicação']?.rich_text?.[0]?.plain_text || '',
+        };
+      });
+
+      return res.json({ categoria, questoes });
     }
 
     // ── TEAP: list active simulados + status for this student ──────────────

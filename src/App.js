@@ -7,6 +7,7 @@ import AdminPreview from './pages/AdminPreview';
 import Teap from './pages/Teap';
 import TeapSimulados from './pages/TeapSimulados';
 import TeapSimuladoExam from './pages/TeapSimuladoExam';
+import TeapPratica from './pages/TeapPratica';
 
 export const ADMIN_EMAIL = 'denise.ieda.lima@gmail.com';
 export const P1_EMAILS = ['yaraandrade19912@gmail.com'];
@@ -133,6 +134,11 @@ export default function App() {
         <Route path="/teap/simulados/:id" element={
           user && student?.programa === 'TEAP'
             ? <TeapSimuladoExam user={user} student={student} onLogout={handleLogout} />
+            : <Navigate to="/" replace />
+        } />
+        <Route path="/teap/praticar/:categoria" element={
+          user && student?.programa === 'TEAP'
+            ? <TeapPratica user={user} student={student} onLogout={handleLogout} />
             : <Navigate to="/" replace />
         } />
         <Route path="*" element={<Navigate to="/" replace />} />

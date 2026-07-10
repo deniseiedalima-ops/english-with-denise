@@ -65,6 +65,7 @@
 .teap-reco-box.tone-good .teap-reco-label { color:#0f6e56; }
 .teap-reco-value { font-size:12px; font-weight:600; color:#111; }
 .teap-reco-text { font-size:11.5px; color:#555; line-height:1.55; }
+.teap-reco-praticar { display:block; width:100%; margin-top:10px; background:#111; color:#fff; border:none; border-radius:8px; padding:9px; font-size:12px; font-weight:600; cursor:pointer; font-family:'DM Sans',sans-serif; -webkit-tap-highlight-color:transparent; }
 
 /* ── HISTORY ────────────────────────────────────────────────────────── */
 .teap-hist-row { display:flex; justify-content:space-between; align-items:center; padding:6px 0; border-bottom:0.5px solid #f5f2ee; }

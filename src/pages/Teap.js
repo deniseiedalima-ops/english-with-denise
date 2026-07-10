@@ -210,7 +210,6 @@ function VocabCard({ item }) {
         <>
           <div className="teap-vocab-word">{item.palavra}</div>
           <div className="teap-vocab-pron">{item.pronuncia}</div>
-          <div className={`teap-vocab-status status-${item.status}`}>{item.status}</div>
         </>
       ) : (
         <>
@@ -235,8 +234,8 @@ export default function Teap({ user, student, onLogout }) {
         const res = await fetch(`/api/index?route=teap-dashboard&email=${encodeURIComponent(user?.email || '')}`);
         const json = await res.json();
         if (!active) return;
-        if (json.configured && json.simulados && json.simulados.length > 0) {
-          setData({ ...json, vocabulario: MOCK.vocabulario });
+        if (json.configured && json.simulados?.length > 0 && json.categorias?.length > 0) {
+          setData({ ...json, vocabulario: json.vocabulario?.length ? json.vocabulario : MOCK.vocabulario });
           setUsingMock(false);
         } else {
           setData(MOCK);
@@ -250,7 +249,9 @@ export default function Teap({ user, student, onLogout }) {
     return () => { active = false; };
   }, [user?.email]);
 
-  const score = useMemo(() => data ? computeReadiness(data.simulados, data.categorias) : 0, [data]);
+  const score = useMemo(() => (
+    data && data.categorias?.length > 0 ? computeReadiness(data.simulados, data.categorias) : 0
+  ), [data]);
 
   if (loading || !data) {
     return (
@@ -263,8 +264,10 @@ export default function Teap({ user, student, onLogout }) {
 
   const ultimo = data.simulados[data.simulados.length - 1];
   const primeiro = data.simulados[0];
-  const pontoFraco = data.categorias.reduce((min, c) => c.acerto < min.acerto ? c : min, data.categorias[0]);
-  const pontoForte = data.categorias.reduce((max, c) => c.acerto > max.acerto ? c : max, data.categorias[0]);
+  const categoriasReco = data.categoriasUltimoSimulado?.length > 0 ? data.categoriasUltimoSimulado : data.categorias;
+  const categoriasSafe = categoriasReco?.length > 0 ? categoriasReco : [{ nome: '—', acerto: 0 }];
+  const pontoFraco = categoriasSafe.reduce((min, c) => c.acerto < min.acerto ? c : min, categoriasSafe[0]);
+  const pontoForte = categoriasSafe.reduce((max, c) => c.acerto > max.acerto ? c : max, categoriasSafe[0]);
   const ganhoTempo = Math.max(0, primeiro.tempoMedio - ultimo.tempoMedio);
 
   return (
@@ -345,6 +348,11 @@ export default function Teap({ user, student, onLogout }) {
               Foque em <strong>{pontoFraco.nome}</strong> antes do próximo simulado.
               {ganhoTempo > 0 && <> Tempo/questão já melhorou {ganhoTempo}s.</>}
             </p>
+            {pontoFraco.nome !== '—' && (
+              <button className="teap-reco-praticar" onClick={() => navigate(`/teap/praticar/${encodeURIComponent(pontoFraco.nome)}`)}>
+                Praticar {pontoFraco.nome} →
+              </button>
+            )}
           </div>
 
           <div className="teap-card">
