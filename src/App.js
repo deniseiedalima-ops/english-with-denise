@@ -4,10 +4,6 @@ import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
 import Admin from './pages/Admin';
 import AdminPreview from './pages/AdminPreview';
-import Teap from './pages/Teap';
-import TeapSimulados from './pages/TeapSimulados';
-import TeapSimuladoExam from './pages/TeapSimuladoExam';
-import TeapPratica from './pages/TeapPratica';
 
 export const ADMIN_EMAIL = 'denise.ieda.lima@gmail.com';
 export const P1_EMAILS = ['yaraandrade19912@gmail.com'];
@@ -119,26 +115,6 @@ export default function App() {
         <Route path="/admin/preview/:studentEmail" element={
           user?.email === ADMIN_EMAIL
             ? <AdminPreview user={user} onLogout={handleLogout} />
-            : <Navigate to="/" replace />
-        } />
-        <Route path="/teap" element={
-          user && student?.programa === 'TEAP'
-            ? <Teap user={user} student={student} onLogout={handleLogout} />
-            : <Navigate to="/" replace />
-        } />
-        <Route path="/teap/simulados" element={
-          user && student?.programa === 'TEAP'
-            ? <TeapSimulados user={user} student={student} onLogout={handleLogout} />
-            : <Navigate to="/" replace />
-        } />
-        <Route path="/teap/simulados/:id" element={
-          user && student?.programa === 'TEAP'
-            ? <TeapSimuladoExam user={user} student={student} onLogout={handleLogout} />
-            : <Navigate to="/" replace />
-        } />
-        <Route path="/teap/praticar/:categoria" element={
-          user && student?.programa === 'TEAP'
-            ? <TeapPratica user={user} student={student} onLogout={handleLogout} />
             : <Navigate to="/" replace />
         } />
         <Route path="*" element={<Navigate to="/" replace />} />
